@@ -1,0 +1,17 @@
+Root->Initial
+Root:HK_NAV->NavCompound
+Root:HK_TUNER->TunerCompound
+Root:HK_MEDIA->MediaCompound
+NavCompound->NavInitial
+NavInitial->NavMain
+NavCompound:NAV_MAIN->NavMain
+NavCompound:NAV_COUNTRY->NavCountry
+NavCompound:NAV_CITY->NavCity
+NavCompound:NAV_STREET->NavStreet
+NavCompound:NAV_INFO->NavInfo
+TunerCompound->TunerInitial
+TunerInitial->TunerList
+TunerCompound:TUNER_LIST->TunerList
+TunerCompound:TUNER_FREQ->TunerFrequency
+MediaCompound->MediaInitial
+MediaInitial->MediaList

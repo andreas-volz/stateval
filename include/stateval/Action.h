@@ -1,0 +1,19 @@
+#ifndef ACTION_H
+#define ACTION_H
+
+#include <string>
+
+// does something
+class Action
+{
+public:
+  Action () {};
+  Action (const std::string &command);
+
+  virtual void run () const; // = 0 -> later abstract!
+    
+private:
+  std::string mCommand;
+};
+
+#endif // ACTION_H

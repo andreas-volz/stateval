@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@prefix@
+libdir=@exec_prefix@/lib
+includedir=@prefix@/include
+
+Name: @PACKAGE@
+Description: StatEval (State Machine Evaluator)
+Version: @VERSION@
+Requires: gthread-2.0 glibmm-2.4
+Conflicts: 
+Libs: -L${libdir} -lstateval
+Cflags: -I${includedir}
+

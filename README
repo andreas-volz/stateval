@@ -1,0 +1,20 @@
+Edje Animation Spec
+-------------------
+
+Group needs following scripts:
+
+- visible (IN)
+  - signal:visible
+  - source:framework
+
+- invisible (IN)
+  - signal:invisible
+  - source:framework
+
+- visible_signal (OUT)
+  - signal:visible
+  - source:edje
+
+- invisible_signal (OUT)
+  - signal:invisible
+  - source:edje
