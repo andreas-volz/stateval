@@ -14,9 +14,13 @@
 
 using namespace std;
 
-StateMachineThread::StateMachineThread (StateMachine &sm) :
-  mRunning (false),
-  mSM (&sm)
+StateMachineThread::StateMachineThread (StateMachine &sm)
+: Thread()
+, mEventMutex()
+, mEventsInQueue()
+, mSM(&sm)
+, mSignalList()
+, mSignalBroadcast()
 {
 }
 
@@ -30,32 +34,20 @@ StateMachineThread::~StateMachineThread ()
 void StateMachineThread::start ()
 {
   cout << "+StateMachineThread::start ()" << endl;
-  
-  if (!mRunning)
-  {
-    mRunning = true;
-    mThread = Glib::Thread::create (sigc::mem_fun (*this, &StateMachineThread::run), true);
-    cout << "-StateMachineThread::start ()" << endl;
-  }
+    Thread::start();
+  cout << "-StateMachineThread::start ()" << endl;
 }
 
-void StateMachineThread::cancel ()
+void StateMachineThread::signal_cancel() // from thread
 {
-  mRunning = false;
-  
-  mEventsInQueue.signal ();
-}
-
-void StateMachineThread::join ()
-{
-  mThread->join ();
+    mEventsInQueue.signal ();
 }
 
 void StateMachineThread::run ()
 {
   cout << "StateMachineThread::running" << endl;
   
-  while (mRunning)
+  while (isRunning())
   {
     cout << "StateMachineThread::running while" << endl;
 
