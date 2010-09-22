@@ -28,13 +28,12 @@ StateMachineThread::~StateMachineThread ()
 {
   cout << "~StateMachineThread" << endl;
   cancel ();
-  join ();
 }
 
 void StateMachineThread::start ()
 {
   cout << "+StateMachineThread::start ()" << endl;
-    Thread::start();
+  Thread::start();
   cout << "-StateMachineThread::start ()" << endl;
 }
 
@@ -138,6 +137,9 @@ void StateMachineThread::disconnect (int event)
     {
       SignalSignal *signal = (*findResult).second;
       delete signal;
+        
+     // TODO from hdusel: Forget to remove the element from the multimap?
+     // Discuss this with Andreas.
     }
   }
 }
