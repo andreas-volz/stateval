@@ -10,6 +10,10 @@ public:
   static GraphicContext& instance ();
   
   void init (Evasxx::Canvas &evas);
+
+  void setResolution (const Eflxx::Size &resolution);
+
+  const Eflxx::Size getResolution ();
   
   Evasxx::Canvas &getCanvas ();
   
@@ -19,6 +23,7 @@ private:
   virtual ~GraphicContext ();
   
   Evasxx::Canvas *mEvas;
+  Eflxx::Size mResolution;
 };
 
 #endif // GRAPHIC_CONTEXT_H

@@ -5,9 +5,10 @@ bin_PROGRAMS = \
 edje_console_SOURCES = \
 	InputThread.cpp\
 	InputThread.h \
-	main.cpp \
 	searchFile.cpp \
-	searchFile.h
+	searchFile.h \
+	Main.h \
+	Main.cpp
 
 edje_console_LDADD = \
 	$(GLIB_LIBS) \

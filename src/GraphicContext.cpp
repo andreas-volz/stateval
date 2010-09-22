@@ -27,3 +27,13 @@ Evasxx::Canvas &GraphicContext::getCanvas ()
 {
   return *mEvas;
 }
+
+void GraphicContext::setResolution (const Eflxx::Size &resolution)
+{
+  mResolution = resolution;
+}
+
+const Eflxx::Size GraphicContext::getResolution ()
+{
+  return mResolution;
+}

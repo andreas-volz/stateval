@@ -38,14 +38,7 @@ private:
   std::vector <View*> mViewList;
   std::map <std::string, int> mEventList;
 
-  // this container is only used while building up the state machine structure
-  // for later memory optimization of big state machines it could be destroyed
-  // after construction...
   std::map <std::string, unsigned int> mStateNameMapper;
-
-  // this container is only used while building up the state machine structure
-  // for later memory optimization of big state machines it could be destroyed
-  // after construction...
   std::map <std::string, unsigned int> mViewNameMapper;
   
   int eventCounter;

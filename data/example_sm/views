@@ -35,7 +35,7 @@ map:HK_RETURN->NAV_MAIN
 map:Button01#clicked->NAV_MAIN
 
 view:MediaListView:EdjeView:screens.edj:media_list
-map:HK_RETURN->NAV_MAIN
+map:HK_RETURN->HK_NAV
 map:Button01#clicked->HK_NAV
 map:#load->MEDIA_LOAD
 map:Button02#clicked->MEDIA_DECREMENT_TITLE

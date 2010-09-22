@@ -38,7 +38,6 @@ private:
   
   void realizeDispatched (int missedEvents);
   void unrealizeDispatched (int missedEvents);
-  //void allEvent (int missedEvents);
   
   void invisibleFunc (const std::string emmision, const std::string source);
   void visibleFunc (const std::string emmision, const std::string source);
@@ -59,7 +58,6 @@ private:
   
   EcoreDispatcher mRealizeDispatcher;
   EcoreDispatcher mUnrealizeDispatcher;
-  //EcoreDispatcher mAllDispatcher;
   
   Glib::Cond condUnrealize;
   Glib::Mutex mutexUnrealize;

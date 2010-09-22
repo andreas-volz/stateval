@@ -9,8 +9,8 @@
 /* STD */
 #include <iostream>
 
-const int width = 400;
-const int height = 300;
+const int width = 800;
+const int height = 600;
 
 using namespace std;
 
@@ -51,8 +51,7 @@ void EdjeView::realizeDispatched (int missedEvents)
   cout << "EdjeView::realize ()" << endl;
   
   cout << "Filename: '" << mFilename << "', Groupname: " << mGroupname << endl;
-  Eflxx::Size s (width, height);
-    
+      
   mEdje = new Edjexx::Object (*mEvas, mFilename, mGroupname);
   
   // connect visible/invisible handler
@@ -64,11 +63,11 @@ void EdjeView::realizeDispatched (int missedEvents)
   
   mEdje->connect ("*", "*", sigc::mem_fun (this, &EdjeView::allFunc));
 
-  
-  mEdje->resize( s );
+  // TODO: think about resizing to group min/max if available
+  mEdje->resize (mGraphicContext->getResolution ());
 
-  mEdje->setLayer( 0 );
-  mEdje->show();
+  mEdje->setLayer (0);
+  mEdje->show ();
 
   groupState = Realizing;
   mEdje->emit ("visible", "framework");

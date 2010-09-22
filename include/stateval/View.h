@@ -19,7 +19,6 @@ public:
   void mapEvent (int &inOutEvent);
 
 private:
-  std::string mText; // TODO: add Widget hierarchie
   std::map <int, int> mEventMap;
 };
 

@@ -15,6 +15,7 @@ statevaldoc_DATA = \
 	INSTALL\
 	NEWS
 
+ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = $(statevaldoc_DATA)
 

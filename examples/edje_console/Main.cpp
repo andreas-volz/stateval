@@ -10,52 +10,39 @@
 
 /* Project */
 #include <stateval/stateval.h>
-#include <stateval/stateval.h>
 #include "searchFile.h"
 #include "InputThread.h"
+#include "Main.h"
 
 /* EFL */
-#include <ecorexx/Ecorexx.h>
 #include <evasxx/Evasxx.h>
 #include <edjexx/Edjexx.h>
 
 using namespace std;
 
-//Evasxx::Canvas *g_evas = NULL;
+static const Eflxx::Size initialWindowSize (800, 600);
 
-const int width = 800;
-const int height = 600;
-
-//void buidStateMachine (StateMachine &sm, Evasxx::Canvas &evas);
-
-int main (int argc, const char **argv)
+Main::Main (int argc, const char **argv) :
+  mApp (argc, argv, "Simple stateval Test"),
+  mWindow (initialWindowSize),
+  mBackgroundRect (mWindow.getCanvas())
 {
   // initialize Glib thread system
   if(!Glib::thread_supported()) Glib::thread_init();
-  
-  // EFL -->
 
-  // Create the application object
-  Ecorexx::Application app (argc, argv, "Simple Edje Test");
+  mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
+  mWindow.resizeSignal.connect (sigc::mem_fun (this, &Main::resizeWindow));
 
-  Eflxx::Size s (width, height);
-
-  // Create the main window, a window with an embedded canvas
-  Ecorexx::EvasWindowSoftwareX11 mw (s);
-
-  Evasxx::Canvas &evas = mw.getCanvas();
-  //g_evas = &evas;
-
-  // Add a background to the canvas
-  Evasxx::Rectangle er (evas);
-  er.setColor (Eflxx::Color (0, 0, 0));
-  er.resize (s);
-  er.setFocus (true);
-  er.show ();
+  // setup background
+  mBackgroundRect.setColor (Eflxx::Color (0, 0, 0));
+  mBackgroundRect.resize (initialWindowSize);
+  mBackgroundRect.setFocus (true);
+  mBackgroundRect.show ();
     
   // initialize Singleton that holds graphic context
   GraphicContext &graphicContext (GraphicContext::instance ());
-  graphicContext.init (evas);
+  graphicContext.init (mWindow.getCanvas());
+  graphicContext.setResolution (initialWindowSize);
   
   StateMachine sm;
   
@@ -77,14 +64,42 @@ int main (int argc, const char **argv)
   sm.init ();
   
   // inital event
+  // TODO Ecorexx::Job
   stateMachineAccess.pushEvent ("HK_NAV");
 
-  mw.show();
+  mWindow.show();
 
   // Enter the application main loop
-  app.exec();
+  mApp.exec();
 
   // <-- EFL
+}
+
+void Main::quit ()
+{
+  Ecorexx::Application::quit();
+}
+
+void Main::hideWindow (const Ecorexx::EvasWindow &win)
+{
+  cout << "hide" << endl;
+  quit ();
+}
+
+void Main::resizeWindow (const Ecorexx::EvasWindow &win)
+{
+  GraphicContext &graphicContext (GraphicContext::instance ());
+  
+  const Eflxx::Size winSize (mWindow.geometry ().size ());
+  
+  graphicContext.setResolution (winSize);
+  mBackgroundRect.resize (winSize);
+}
+
+/* Main */
+int main (int argc, const char **argv)
+{
+  Main mainobject (argc, argv);
     
   return 0;
 }

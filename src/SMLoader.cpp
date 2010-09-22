@@ -15,9 +15,11 @@
 #include "../include/stateval/HistoryState.h"
 #include "../include/stateval/DecisionState.h"
 #include "../include/stateval/ViewState.h"
+// TODO: Later provide some sort of plugin mechanism...
+#if HAVE_EFL
 #include "../include/stateval/EdjeView.h"
-
-#define MAX_LINE_BUFFER 1024
+#endif
+#include "../include/stateval/TextView.h"
 
 using namespace std;
 
@@ -72,8 +74,11 @@ bool SMLoader::load (const std::string &smDir)
 
   fromTransitionsStream (fileReader);
   fileReader.close ();
-  
-  //unload ();
+
+  // delete temporary data maps after constructing statemachine
+  // as the mapper data isn't needed at runtime
+  mStateNameMapper.clear ();
+  mViewNameMapper.clear ();
   
   cout << "mStateList.size (): " << mStateList.size () << endl;
   cout << "mViewList.size (): " << mViewList.size () << endl;
@@ -94,13 +99,10 @@ void SMLoader::fromEventsStream (std::ifstream &in_stream)
 {
   int params;
 
-  char buffer[MAX_LINE_BUFFER];
-  int v0, v1, v2;
+  string line;
 
-  while (in_stream.getline (buffer, MAX_LINE_BUFFER))
+  while (getline (in_stream, line))
   {
-    string line (buffer);
-    
     cout << endl << line << endl;
     
     addEvent (line);
@@ -110,17 +112,13 @@ void SMLoader::fromEventsStream (std::ifstream &in_stream)
 void SMLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smDir)
 {
   int params;
-
-  char buffer[MAX_LINE_BUFFER];
-  int v0, v1, v2;
+  string line;
   View *view = NULL;
   bool map = false;
   unsigned int i = 0;
 
-  while (in_stream.getline (buffer, MAX_LINE_BUFFER))
-  {
-    string line (buffer);
-    
+  while (getline (in_stream, line))
+  {    
     cout << endl << line << endl;
     
     // parser for 'type' token
@@ -176,15 +174,25 @@ void SMLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smD
       fileName = *token;
       
       ++token;
-      if (token == tokenList.end ()) 
-        continue;
-      
-      cout << "Groupname=" << *token << endl;
-      groupName = *token;
+      // groupName is optional as TextView doesn't need one...
+      if (token != tokenList.end ()) 
+      {
+        cout << "Groupname=" << *token << endl;
+        groupName = *token;
+      }
       
       if (viewType == "EdjeView")
       {
+#if HAVE_EFL
         view = new EdjeView (smDir + "/" + fileName, groupName);
+#else
+        cerr << "Error: Compiled sateval without EFL support!" << endl;
+        assert (false);
+#endif
+      }
+      else if (viewType == "TextView")
+      {
+        view = new TextView (smDir + "/" + fileName);
       }
       else
       {
@@ -227,16 +235,12 @@ void SMLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smD
 void SMLoader::fromStatesStream (std::ifstream &in_stream)
 {
   int params;
-
-  char buffer[MAX_LINE_BUFFER];
-  int v0, v1, v2;
+  string line;
   unsigned int i = 0;
   list <list <string> > stringList;
 
-  while (in_stream.getline (buffer, MAX_LINE_BUFFER))
+  while (getline (in_stream, line))
   {
-    string line (buffer);
-    
     cout << endl << line << endl;
     
     // parser for ':' token
@@ -362,14 +366,10 @@ void SMLoader::fromStatesStream (std::ifstream &in_stream)
 void SMLoader::fromTransitionsStream (std::ifstream &in_stream)
 {
   int params;
+  string line;
 
-  char buffer[MAX_LINE_BUFFER];
-  int v0, v1, v2;
-
-  while (in_stream.getline (buffer, MAX_LINE_BUFFER))
-  {
-    string line (buffer);
-    
+  while (getline (in_stream, line))
+  {    
     cout << endl << line << endl;
     
     // parser for '->' token
@@ -453,16 +453,15 @@ State *SMLoader::getInitialState ()
 
 int SMLoader::findMapingEvent (const std::string &event)
 {
-    map <string,int>::iterator iter = mEventList.find(event);
-    if (iter != mEventList.end())
-    {
-      int &mapEvent = iter->second;
-      //cout << "map event: " << iter->first << " : " << iter->second << endl;
-      return mapEvent;
-    }
+  map <string,int>::iterator iter = mEventList.find(event);
+  if (iter != mEventList.end())
+  {
+    int &mapEvent = iter->second;
+    //cout << "map event: " << iter->first << " : " << iter->second << endl;
+    return mapEvent;
+  }
 
-  // TODO: throw exception! as workaround assert
   cerr << "StateMachine::findMapingEvent: try to find not existing event: " << event << endl;
-  //assert (false);
+
   return -1;
 }

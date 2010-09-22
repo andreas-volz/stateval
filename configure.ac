@@ -5,6 +5,7 @@ AC_INIT(stateval, 0.1)
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
 AM_MAINTAINER_MODE
 
 AC_ISC_POSIX
@@ -63,6 +64,8 @@ AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 
 
 PKG_CHECK_MODULES(EFL, evasxx eflxx edjexx ecorexx einaxx)
+AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")
+
 PKG_CHECK_MODULES(GLIB, glibmm-2.4 gthread-2.0)
 AC_OUTPUT([
 Makefile
@@ -74,4 +77,5 @@ stateval.pc
 stateval-uninstalled.pc
 examples/Makefile
 examples/edje_console/Makefile
+examples/text_views/Makefile
 ])

@@ -40,7 +40,8 @@ libstateval_la_SOURCES = \
 	FileReader.h      \
 	stringUtil.cpp      \
 	stringUtil.h      \
-	GraphicContext.cpp      
+	GraphicContext.cpp      \
+	TextView.cpp
 
 libstateval_la_LIBADD = \
 	$(EFL_LIBS) \
