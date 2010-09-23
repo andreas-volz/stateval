@@ -5,6 +5,7 @@
 #include "View.h"
 #include "EcoreDispatcher.h"
 #include "GraphicContext.h"
+#include "Thread.h"
 
 /* STD */
 #include <string>
@@ -12,9 +13,6 @@
 /* EFL */
 #include <evasxx/Evasxx.h>
 #include <edjexx/Edjexx.h>
-
-/* GLIB */
-#include <glibmm/thread.h>
 
 /* forward declarations */
 class StateMachineAccess;
@@ -59,8 +57,8 @@ private:
   EcoreDispatcher mRealizeDispatcher;
   EcoreDispatcher mUnrealizeDispatcher;
   
-  Glib::Cond condUnrealize;
-  Glib::Mutex mutexUnrealize;
+  Threading::Condition condUnrealize;
+  Threading::Mutex mutexUnrealize;
   
   enum ViewState groupState;
 };

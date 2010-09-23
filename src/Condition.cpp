@@ -20,6 +20,7 @@ Condition::~Condition ()
 bool Condition::evaluate () const
 {
   GlobalVariables &global = GlobalVariables::instance ();
+  // TODO: this below is only a test; implement function correct!
   AbstractVariable *val = global.getVariable ("tuner.available");
   
   return mVal->compare (val);

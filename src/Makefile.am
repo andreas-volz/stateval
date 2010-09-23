@@ -3,7 +3,8 @@
 ## Created by Anjuta
 
 AM_CPPFLAGS = \
-	$(EFL_CFLAGS)
+	$(EFL_CFLAGS)\
+	$(SIGC_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -43,5 +44,6 @@ libstateval_la_SOURCES = \
 	TextView.cpp
 
 libstateval_la_LIBADD = \
-	$(EFL_LIBS)
+	$(EFL_LIBS)      \
+	$(SIGC_LIBS)
 

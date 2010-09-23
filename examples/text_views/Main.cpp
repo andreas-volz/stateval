@@ -12,9 +12,6 @@ using namespace std;
 
 Main::Main ()
 {
-  // initialize Glib thread system
-  if(!Glib::thread_supported()) Glib::thread_init();
-  
   StateMachine sm;
   
   sm.load (searchDataDir () + "/text_sm/");

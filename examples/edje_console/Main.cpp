@@ -27,9 +27,6 @@ Main::Main (int argc, const char **argv) :
   mWindow (initialWindowSize),
   mBackgroundRect (mWindow.getCanvas())
 {
-  // initialize Glib thread system
-  if(!Glib::thread_supported()) Glib::thread_init();
-
   mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
   mWindow.resizeSignal.connect (sigc::mem_fun (this, &Main::resizeWindow));
 
