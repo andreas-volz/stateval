@@ -1,11 +1,11 @@
 #ifndef ECOREDISPATCHER_H
 #define ECOREDISPATCHER_H
 
-#ifdef USE_ECORE
-    #include <Ecore.h>
-#else
+#ifdef DONT_USE_ECORE
     typedef bool Eina_Bool;
     typedef void* Ecore_Fd_Handler;
+#else
+    #include <Ecore.h>
 #endif
 
 #include <unistd.h>

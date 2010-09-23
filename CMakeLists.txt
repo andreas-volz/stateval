@@ -18,6 +18,9 @@ IF(APPLE)
     SET(OSX_SDK 10.5)
 
     SET(CMAKE_OSX_SYSROOT "/Developer/SDKs/MacOSX${OSX_SDK}.sdk")
+    
+    ADD_DEFINITIONS(-DDONT_USE_ECORE)
+    
 ENDIF (APPLE)
 
 ####################################################################################
