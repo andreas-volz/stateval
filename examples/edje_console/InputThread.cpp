@@ -16,7 +16,6 @@ InputThread::InputThread (StateMachineAccess &smAccess) :
   mRunning (true),
   mSMAccess (&smAccess)
 {
-  mThread = Glib::Thread::create (sigc::mem_fun (*this, &InputThread::run), false);
 }
 
 void InputThread::run ()

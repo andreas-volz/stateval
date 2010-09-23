@@ -1,17 +1,17 @@
 #ifndef INPUT_THREAD_H
 #define INPUT_THREAD_H
 
-/* GLIB */
+/* SIGC */
 #include <sigc++/sigc++.h>
-#include <glibmm/thread.h>
 
 /* Project */
 #include <stateval/EcoreDispatcher.h>
+#include <stateval/Thread.h>
 
 /* forward declarations */
 class StateMachineAccess;
 
-class InputThread
+class InputThread : Threading::Thread
 {
 public:
   InputThread (StateMachineAccess &smAccess);
@@ -19,9 +19,7 @@ public:
 private:
   void run ();
   void updateEvent (int missedEvents);
-    
-  Glib::Thread *mThread;
-  //Glib::Mutex mEventMutex;
+  
   bool mRunning;
   StateMachineAccess *mSMAccess;
 };

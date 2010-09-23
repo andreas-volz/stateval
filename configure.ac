@@ -66,7 +66,6 @@ AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 PKG_CHECK_MODULES(EFL, evasxx eflxx edjexx ecorexx einaxx)
 AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")
 
-PKG_CHECK_MODULES(GLIB, glibmm-2.4 gthread-2.0)
 AC_OUTPUT([
 Makefile
 data/Makefile

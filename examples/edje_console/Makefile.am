@@ -11,14 +11,12 @@ edje_console_SOURCES = \
 	Main.cpp
 
 edje_console_LDADD = \
-	$(GLIB_LIBS) \
-	$(EFL_LIBS) \
-	../../src/libstateval.la
+	../../src/libstateval.la\
+	$(EFL_LIBS)
 
 AM_CPPFLAGS = \
-	$(GLIB_CFLAGS) \
-	$(EFL_CFLAGS) \
-	-I../../include
+	-I../../include\
+	$(EFL_CFLAGS)
 
 ## File created by the gnome-build tools
 
