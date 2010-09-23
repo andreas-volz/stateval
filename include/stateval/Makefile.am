@@ -23,7 +23,8 @@ libstateval_HEADERS = \
 	StateMachineThread.h     \
 	SMLoader.h     \
 	GraphicContext.h     \
-	TextView.h
+	TextView.h     \
+	Thread.h
 
 libstatevaldir = \
 	$(pkgincludedir)
