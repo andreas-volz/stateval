@@ -10,6 +10,8 @@ public:
   Action () {};
   Action (const std::string &command);
 
+  virtual ~Action(){}
+    
   virtual void run () const; // = 0 -> later abstract!
     
 private:

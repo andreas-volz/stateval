@@ -170,9 +170,15 @@ private:
     static void* _run(void* inArg)
     {
         Thread* inst = reinterpret_cast<Thread*> (inArg);
+        inst->m_AccessGuard.lock();
         inst->m_State = eRunning;
+        inst->m_AccessGuard.unlock();
+        
         inst->run();
+
+        inst->m_AccessGuard.lock();
         inst->m_State = eStopped;
+        inst->m_AccessGuard.unlock();
         return NULL;
     }
 }; // class Thread

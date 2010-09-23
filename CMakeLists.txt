@@ -7,8 +7,6 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 PROJECT(stateval)
 
-SET(LIBSIGCPP_DIR "../libsigc++-2.2.8")
-
 ####################################################################################
 # Target OS specific flags.
 ####################################################################################
@@ -25,11 +23,7 @@ ENDIF (APPLE)
 ####################################################################################
 # Make sure the compiler can find include files from our project.
 ####################################################################################
-INCLUDE_DIRECTORIES (
-    ${LIBSIGCPP_DIR}
-    ${LIBSIGCPP_DIR}/sigc++
-    ${PROJECT_SOURCE_DIR}/include
-) 
+INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/include) 
 
 ####################################################################################
 # The libs to build to.
@@ -39,20 +33,17 @@ ADD_LIBRARY(stateval STATIC
     src/CompoundState.cpp
     src/Condition.cpp
     src/DecisionState.cpp
-#    src/EcoreDispatcher.cpp
-#    src/EdjeView.cpp
     src/Exceptions.cpp
     src/FileReader.cpp
     src/FireEventAction.cpp
     src/GlobalVariables.cpp
-#    src/GraphicContext.cpp
     src/HistoryState.cpp
     src/localUtil.cpp
     src/SimpleState.cpp
     src/SMLoader.cpp
     src/State.cpp
     src/Statemachine.cpp
-#    src/StateMachineAccess.cpp
+    src/StateMachineAccess.cpp
     src/StateMachineThread.cpp
     src/stringUtil.cpp
     src/TextView.cpp
@@ -60,23 +51,38 @@ ADD_LIBRARY(stateval STATIC
     src/Variable.cpp
     src/View.cpp
     src/ViewState.cpp
+#    src/EcoreDispatcher.cpp
+#    src/EdjeView.cpp
+#    src/GraphicContext.cpp
     
     src/FileReader.h
     src/localUtil.h
     src/stringUtil.h
 )
 
-ADD_LIBRARY(sigc++ STATIC
-    ${LIBSIGCPP_DIR}/sigc++/adaptors/lambda/lambda.cc
-    ${LIBSIGCPP_DIR}/sigc++/connection.cc
-    ${LIBSIGCPP_DIR}/sigc++/functors/slot.cc
-    ${LIBSIGCPP_DIR}/sigc++/functors/slot_base.cc
-    ${LIBSIGCPP_DIR}/sigc++/signal.cc
-    ${LIBSIGCPP_DIR}/sigc++/signal_base.cc
-    ${LIBSIGCPP_DIR}/sigc++/trackable.cc
-)
+SET(LIBSIGCPP_DIR "${PROJECT_SOURCE_DIR}/../libsigc++-2.2.8")
+# Build sigc++ if its sourcecode exists on a certain place (here '../libsigc++-2.2.8')
 
-ADD_DEPENDENCIES(stateval sigc++)
+IF (EXISTS ${LIBSIGCPP_DIR}/)
+    
+    ADD_LIBRARY(sigc++ STATIC
+        ${LIBSIGCPP_DIR}/sigc++/adaptors/lambda/lambda.cc
+        ${LIBSIGCPP_DIR}/sigc++/connection.cc
+        ${LIBSIGCPP_DIR}/sigc++/functors/slot.cc
+        ${LIBSIGCPP_DIR}/sigc++/functors/slot_base.cc
+        ${LIBSIGCPP_DIR}/sigc++/signal.cc
+        ${LIBSIGCPP_DIR}/sigc++/signal_base.cc
+        ${LIBSIGCPP_DIR}/sigc++/trackable.cc
+    )
+
+    ADD_DEPENDENCIES(stateval sigc++)
+
+    INCLUDE_DIRECTORIES (
+        ${LIBSIGCPP_DIR}
+        ${LIBSIGCPP_DIR}/sigc++ )
+
+ENDIF()
+
 
 ####################################################################################
 # The executeable(s) to build to.
