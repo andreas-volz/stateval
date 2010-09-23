@@ -14,13 +14,13 @@
 
 using namespace std;
 
-StateMachineThread::StateMachineThread (StateMachine &sm)
-: Thread()
-, mEventMutex()
-, mEventsInQueue()
-, mSM(&sm)
-, mSignalList()
-, mSignalBroadcast()
+StateMachineThread::StateMachineThread (StateMachine &sm) :
+  Threading::Thread(),
+  mEventMutex(),
+  mEventsInQueue(),
+  mSM(&sm),
+  mSignalList(),
+  mSignalBroadcast()
 {
 }
 
