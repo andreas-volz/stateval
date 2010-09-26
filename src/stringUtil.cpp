@@ -52,7 +52,7 @@ void UtilStringDelSurround (std::string &str, const std::string &characters)
 
 bool hasFileEnding (const std::string &filename, const std::string &ending)
 {
-  unsigned int loc = filename.find (ending, filename.length () - ending.length ());
+  const size_t loc = filename.find (ending, filename.length () - ending.length ());
 
   if (loc != string::npos )
   {
@@ -66,7 +66,7 @@ std::string cutFileEnding (std::string filename, const std::string &ending)
 {
   if (ending == "")
   {
-    unsigned int loc = filename.find_last_of('.', filename.length ());
+    const size_t loc = filename.find_last_of('.', filename.length ());
 
     if (loc != string::npos )
     {
@@ -76,7 +76,7 @@ std::string cutFileEnding (std::string filename, const std::string &ending)
   }
   else
   {
-    unsigned int loc = filename.find (ending, filename.length () - ending.length ());
+    const size_t loc = filename.find (ending, filename.length () - ending.length ());
 
     if (loc != string::npos )
     {
