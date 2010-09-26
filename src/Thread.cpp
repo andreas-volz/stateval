@@ -4,6 +4,8 @@
 
 /* STD */
 #include <cassert>
+#include <unistd.h>
+#include <stdio.h>
 
 namespace Threading {
 
@@ -126,6 +128,12 @@ void Thread::join()
   ::pthread_join(m_ThreadHd, NULL);
 }
 
+// public, static
+void Thread::sleepMS(uint32_t inTimeMS)
+{
+  ::usleep(1000 * inTimeMS);
+}
+
 // Thread - static, private
 void* Thread::_run(void* inArg)
 {
@@ -133,7 +141,7 @@ void* Thread::_run(void* inArg)
   inst->m_AccessGuard.lock();
   inst->m_State = eRunning;
   inst->m_AccessGuard.unlock();
-    
+
   inst->run();
     
   inst->m_AccessGuard.lock();

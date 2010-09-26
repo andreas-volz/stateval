@@ -3,6 +3,7 @@
 
 /* PThreads */
 #include <pthread.h>
+#include <stdint.h>
 
 namespace Threading {
 
@@ -56,12 +57,16 @@ public:
   void start();
   void cancel();
   void join();
-
+  
   bool isRunning() const
   {
     MutexGrabber grab(m_AccessGuard);
     return (eRunning == m_State);
   }
+
+  // Static methods
+  static void sleepMS(uint32_t inTimeMS);
+
 
 protected:
   virtual void run() = 0;
