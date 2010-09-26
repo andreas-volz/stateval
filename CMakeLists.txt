@@ -20,8 +20,23 @@ IF(APPLE)
     SET(CMAKE_OSX_SYSROOT "/Developer/SDKs/MacOSX${OSX_SDK}.sdk")
     
     ADD_DEFINITIONS(-DDONT_USE_ECORE)
-    
+
+    FIND_LIBRARY(CPPUNIT cppunit)
+
+    MARK_AS_ADVANCED (
+       CPPUNIT
+    )
+
+    SET(EXTRA_LIBS
+        ${CPPUNIT}
+    )
+ELSE()
+    SET(EXTRA_LIBS
+        cppunit
+    )
 ENDIF (APPLE)
+
+SET(EXTRA_LIBS pthread ${EXTRA_LIBS})
 
 ####################################################################################
 # Make sure the compiler can find include files from our project.
@@ -91,12 +106,18 @@ ENDIF()
 ####################################################################################
 # The executeable(s) to build to.
 ####################################################################################
-#ADD_EXECUTABLE(projectExe
-#    src/file1.c
-#    include/file1.h
-#)
+ADD_EXECUTABLE(testThread
+    test/module/testThread.cpp
+)
 
-#TARGET_LINK_LIBRARIES(projectExe pthread)
+TARGET_LINK_LIBRARIES(testThread stateval ${EXTRA_LIBS})
+
+####################################################################################
+# Target specific flags.
+####################################################################################
+IF(APPLE)
+    SET_TARGET_PROPERTIES(testThread PROPERTIES LINK_FLAGS -mmacosx-version-min=${OSX_SDK})
+ENDIF(APPLE)
 
 ####################################################################################
 # Additional Directories to deal with...
