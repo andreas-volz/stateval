@@ -41,6 +41,7 @@ libstateval_la_SOURCES = \
 	stringUtil.cpp      \
 	stringUtil.h      \
 	GraphicContext.cpp      \
+	Thread.cpp \
 	TextView.cpp
 
 libstateval_la_LIBADD = \

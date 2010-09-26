@@ -54,6 +54,7 @@ ADD_LIBRARY(stateval STATIC
     src/Variable.cpp
     src/View.cpp
     src/ViewState.cpp
+    src/Thread.cpp
 #    src/EcoreDispatcher.cpp
 #    src/EdjeView.cpp
 #    src/GraphicContext.cpp
