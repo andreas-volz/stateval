@@ -200,55 +200,64 @@ public:
         StateMachineThread smt(sm);
         smt.start();
         
-        smt.pushEvent(eEventA);
-        sc.append("EventA");
+        // hdusel: This is weird - when you increas the loop count then the results 
+        // differ from run to run...
+        //
+        // TODO Check this out!
+        for (int i=0; i< 1; ++i)
+        {
+            smt.pushEvent(eEventA);
+            sc.append("EventA");
 
-        smt.pushEvent(eEventA);
-        sc.append("EventA");
+            smt.pushEvent(eEventA);
+            sc.append("EventA");
 
-        smt.pushEvent(eEventC);
-        sc.append("EventC");
+            smt.pushEvent(eEventC);
+            sc.append("EventC");
 
-        smt.pushEvent(eEventB);
-        sc.append("EventB");
+            smt.pushEvent(eEventB);
+            sc.append("EventB");
 
-        smt.pushEvent(eEventB);
-        sc.append("EventB");
+            smt.pushEvent(eEventB);
+            sc.append("EventB");
+            
+            smt.pushEvent(eEventA);
+            sc.append("EventA");
+
+            smt.pushEvent(eEventB);
+            sc.append("EventB");
+
+            smt.pushEvent(eEventC);
+            sc.append("EventC");
+
+            smt.pushEvent(eEventC);
+            sc.append("EventC");
+
+            smt.pushEvent(eEventA);
+            sc.append("EventA");
+            
+            smt.pushEvent(eEventC);
+            sc.append("EventC");
+
+            smt.pushEvent(eEventA);
+            sc.append("EventA");
+
+            smt.pushEvent(eEventB);
+            sc.append("EventB");
+
+            smt.pushEvent(eEventC);
+            sc.append("EventC");
+
+            smt.pushEvent(eEventB);
+            sc.append("EventB");
+        }
         
-        smt.pushEvent(eEventA);
-        sc.append("EventA");
-
-        smt.pushEvent(eEventB);
-        sc.append("EventB");
-
-        smt.pushEvent(eEventC);
-        sc.append("EventC");
-
-        smt.pushEvent(eEventC);
-        sc.append("EventC");
-
-        smt.pushEvent(eEventA);
-        sc.append("EventA");
-        
-        smt.pushEvent(eEventC);
-        sc.append("EventC");
-
-        smt.pushEvent(eEventA);
-        sc.append("EventA");
-
-        smt.pushEvent(eEventB);
-        sc.append("EventB");
-
-        smt.pushEvent(eEventC);
-        sc.append("EventC");
-
-        smt.pushEvent(eEventB);
-        sc.append("EventB");
+        Threading::Thread::sleepMS(10);
 
         smt.cancel();
         
 //        printf("The Checksum is 0x%08x\n", sc.getHash());
-        CPPUNIT_ASSERT_EQUAL(0x9886381c,  sc.getHash());
+        CPPUNIT_ASSERT_EQUAL((uint32_t)2558933020UL,  sc.getHash());
     }
     
     virtual void setUp() 

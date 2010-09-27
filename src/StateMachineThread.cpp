@@ -51,46 +51,50 @@ void StateMachineThread::run ()
     cout << "StateMachineThread::running while" << endl;
 
     mEventMutex.lock ();
-    if (mSM->eventQueue.empty())
+    
+    while (mSM->eventQueue.empty())
     {
       mEventsInQueue.wait (mEventMutex);
-    }
-    else
-    {
-      int event = mSM->eventQueue.front();
-      mEventMutex.unlock ();
-      
-      cout << "EventQueue size: " << mSM->eventQueue.size () << endl;
-
-      mSM->evaluateState (event);
-      
-      // pop element after working
-      cout << "EventQueue size: " << mSM->eventQueue.size () << endl;
-      cout << "pop element" << endl;
-      cout << endl;
-
-			// emit event signals
-      multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
-      multimap <int, SignalSignal*>::iterator lastElement = mSignalList.upper_bound (event);
-      
-      if (findResult != mSignalList.end ())
+      if (!isRunning())
       {
-        // emit also multible signals...
-	      for ( ; findResult != lastElement; ++findResult)
-        {
-          cout << "call event '" << event << "' to app" << endl;
-          SignalSignal *signal = (*findResult).second;
-          signal->emit (event);
-        }
+          mEventMutex.unlock ();
+          return;
       }
-
-      // emit the signal broadcast
-      // this is e.g. usefull to dispatch signals to another thread
-      mSignalBroadcast.emit (event);
-      
-      mEventMutex.lock ();
-      mSM->popEvent ();
     }
+
+    int event = mSM->eventQueue.front();
+    mEventMutex.unlock ();
+  
+    cout << "EventQueue size: " << mSM->eventQueue.size () << endl;
+
+    mSM->evaluateState (event);
+  
+    // pop element after working
+    cout << "EventQueue size: " << mSM->eventQueue.size () << endl;
+    cout << "pop element" << endl;
+    cout << endl;
+
+        // emit event signals
+    multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
+    multimap <int, SignalSignal*>::iterator lastElement = mSignalList.upper_bound (event);
+  
+    if (findResult != mSignalList.end ())
+    {
+    // emit also multible signals...
+      for ( ; findResult != lastElement; ++findResult)
+      {
+        cout << "call event '" << event << "' to app" << endl;
+        SignalSignal *signal = (*findResult).second;
+        signal->emit (event);
+      }
+    }
+
+    // emit the signal broadcast
+    // this is e.g. usefull to dispatch signals to another thread
+    mSignalBroadcast.emit (event);
+  
+    mEventMutex.lock ();
+    mSM->popEvent ();
     mEventMutex.unlock ();
     
     cout << "StateMachineThread running in the background..." << endl;
@@ -101,9 +105,8 @@ void StateMachineThread::pushEvent (int event)
 {
   mEventMutex.lock ();
   mSM->pushEvent (event);
-  mEventMutex.unlock ();
-  
   mEventsInQueue.signal ();
+  mEventMutex.unlock ();
 }
 
 void StateMachineThread::pushEvent (const std::string &event)
