@@ -63,7 +63,11 @@ public:
     {
         TestThread thread(false);
         CPPUNIT_ASSERT_EQUAL(false, thread.isRunning());
-        thread.start();
+        
+        // Try to start the thread.
+        const Threading::Thread::EError err(thread.start());
+        CPPUNIT_ASSERT_EQUAL(Threading::Thread::eErrorOK, err);
+
         Threading::Thread::sleepMS(10);
         
         
@@ -75,7 +79,10 @@ public:
     {
         TestThread thread(true);
         CPPUNIT_ASSERT_EQUAL(false, thread.isRunning());
-        thread.start();
+
+        // Try to start the thread.
+        Threading::Thread::EError err(thread.start());
+        CPPUNIT_ASSERT_EQUAL(Threading::Thread::eErrorOK, err);
         
         // Give the thread some time to run...
         for (int i=0; i<10; ++i)
@@ -84,13 +91,24 @@ public:
             {
                 break;
             }
-            Threading::Thread::sleepMS(1);
+            Threading::Thread::sleepMS(1); // sleep a while if not running...
         }
+        
+        // The thread shoul be in running state.
         CPPUNIT_ASSERT_EQUAL(true, thread.isRunning());
-        thread.cancel();
+        
+        // Cancel the thread!
+        err = thread.cancel();
+
+        // Check if cancel returned successfully.
+        CPPUNIT_ASSERT_EQUAL(Threading::Thread::eErrorOK, err);
         
         CPPUNIT_ASSERT_EQUAL_MESSAGE("The thread did not run!", thread.mThreadRun, true);
+        
+        // The thread should state to run any longer.
         CPPUNIT_ASSERT_EQUAL(false, thread.isRunning());
+        
+        // Check if the method signal_cancel() has really called!
         CPPUNIT_ASSERT_EQUAL(true, thread.mSignalCancelCalled);
     }
 

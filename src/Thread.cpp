@@ -6,6 +6,7 @@
 #include <cassert>
 #include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
 
 namespace Threading {
 
@@ -15,26 +16,36 @@ namespace Threading {
 Mutex::Mutex()
 : m_Mutex()
 {
-  int rc = ::pthread_mutex_init(&m_Mutex, NULL);
+  const int rc(::pthread_mutex_init(&m_Mutex, NULL));
   assert(0 == rc);
 }
 
 Mutex::~Mutex()
 {
-  int rc = ::pthread_mutex_destroy(&m_Mutex);
+  const int rc(::pthread_mutex_destroy(&m_Mutex));
   assert(0 == rc);
 }
 
-void Mutex::lock()
+Mutex::EError Mutex::lock()
 {
   int rc = ::pthread_mutex_lock(&m_Mutex);
   assert(0 == rc);
+  return (0 == rc) ? eErrorOK : eErrorLock;
 }
 
-void Mutex::unlock()
+Mutex::EError Mutex::trylock()
 {
-  int rc = ::pthread_mutex_unlock(&m_Mutex);
+  const int rc(::pthread_mutex_trylock(&m_Mutex));
+  assert(EINVAL != rc);
+  return (0     == rc) ? eErrorOK : 
+         (EBUSY == rc) ? eErrorLocked : eErrorLock;
+}
+
+Mutex::EError Mutex::unlock()
+{
+  const int rc(::pthread_mutex_unlock(&m_Mutex));
   assert(0 == rc);
+  return (0 == rc) ? eErrorOK : eErrorUnlock;
 }
 
 // ===============================================================================================
@@ -57,19 +68,19 @@ MutexGrabber::~MutexGrabber()
 Condition::Condition()
 : m_Condition()
 {
-  int rc = ::pthread_cond_init(&m_Condition, NULL);
+  const int rc(::pthread_cond_init(&m_Condition, NULL));
   assert(0 == rc);
 }
 
 Condition::~Condition()
 {
-  int rc = ::pthread_cond_destroy(&m_Condition);
+  const int rc(::pthread_cond_destroy(&m_Condition));
   assert(0 == rc);
 }
 
 void Condition::signal()
 {
-  int rc = ::pthread_cond_signal(&m_Condition);
+  const int rc(::pthread_cond_signal(&m_Condition));
   assert(0 == rc);
 }
 
@@ -89,43 +100,54 @@ Thread::Thread()
 , m_State(eStopped)
 {}
 
-void Thread::start()
+Thread::EError Thread::start()
 {
-  m_AccessGuard.lock();
+  MutexGrabber grab(m_AccessGuard);
   if (eStopped == m_State)
   {
     m_State = eStarting;
-    int rc = ::pthread_create(&m_ThreadHd, NULL, _run, this);
+    const int rc(::pthread_create(&m_ThreadHd, NULL, _run, this));
     assert(0==rc);
+
+    // Was the cthread created successfully?
     if (rc != 0)
     {
+      // No it didn't :-(
       m_State = eStopped; // cancel the starting state on failure
+      return Thread::eErrorStart; // return 'failure'.
     }
   }
-  m_AccessGuard.unlock();
+  return Thread::eErrorOK; // return 'success'.
 }
 
-void Thread::cancel()
+Thread::EError Thread::cancel()
 {
-  m_AccessGuard.lock();
+  MutexGrabber grab(m_AccessGuard);
   if (eRunning == m_State)
   {
     m_State = eStopping;
     m_AccessGuard.unlock();
     
     signal_cancel();
-    join();
     
-    m_AccessGuard.lock();
-    
+    const Thread::EError err(join());
     assert(eStopped == m_State);
+    m_AccessGuard.lock();
+
+    if (eErrorOK != err)
+    {
+      m_State = Thread::eStopped;
+      return Thread::eErrorStop;
+    }
   }
   m_AccessGuard.unlock();
+  return Thread::eErrorOK;
 }
 
-void Thread::join()
+Thread::EError Thread::join()
 {
-  ::pthread_join(m_ThreadHd, NULL);
+  const int rc(::pthread_join(m_ThreadHd, NULL));
+  return (0 == rc) ? Thread::eErrorOK : Thread::eErrorJoin;
 }
 
 // public, static
