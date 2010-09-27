@@ -18,7 +18,7 @@ typedef sigc::slot1<void, int> SignalSlot;
 /* forward declarations */
 class StateMachine;
 
-class StateMachineThread : Threading::Thread
+class StateMachineThread : public Threading::Thread
 {
 public:
   StateMachineThread (StateMachine &sm);

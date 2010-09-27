@@ -118,12 +118,15 @@ void SimpleState::mapEvent (int &inOutEvent)
 
 void SimpleState::changeHistory ()
 {
-  CompoundState *cState = static_cast <CompoundState*> (mParentState); // TODO: cast not needed if mParentState would be CompoundState
-  HistoryState *hState = cState->getHistory ();
-  
-  if (hState)
+  if (mParentState)
   {
-    cout << "change history transition" << endl;
-    hState->changeTransition (this);
+    CompoundState *cState = static_cast <CompoundState*> (mParentState); // TODO: cast not needed if mParentState would be CompoundState
+    HistoryState *hState = cState->getHistory ();
+      
+    if (hState)
+    {
+      cout << "change history transition" << endl;
+      hState->changeTransition (this);
+    }
   }
 }

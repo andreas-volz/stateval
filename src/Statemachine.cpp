@@ -33,7 +33,7 @@ void StateMachine::init ()
 
 bool StateMachine::load (const std::string &smDir)
 {
-  mSMLoader.load (smDir);
+  return mSMLoader.load (smDir);
 }
 
 void StateMachine::pushEvent (int event)
@@ -105,6 +105,8 @@ State *StateMachine::searchHierarchie (int event)
   {
     // evaluate new active state
     parentState = parentState->getParentState ();
+    if (parentState == NULL)
+        break;
     assert (parentState);
     
     // doesn't find default transition

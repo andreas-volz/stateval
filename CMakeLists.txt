@@ -77,6 +77,35 @@ ADD_LIBRARY(stateval STATIC
     src/FileReader.h
     src/localUtil.h
     src/stringUtil.h
+
+# include
+    include/stateval/Action.h
+    include/stateval/CompoundState.h
+    include/stateval/Condition.h
+    include/stateval/DecisionState.h
+    include/stateval/EcoreDispatcher.h
+    include/stateval/EdjeView.h
+    include/stateval/EventList.h
+    include/stateval/Exceptions.h
+    include/stateval/FireEventAction.h
+    include/stateval/GlobalVariables.h
+    include/stateval/GraphicContext.h
+    include/stateval/HistoryState.h
+    include/stateval/Makefile.am
+    include/stateval/SimpleState.h
+    include/stateval/SMLoader.h
+    include/stateval/State.h
+    include/stateval/StateMachine.h
+    include/stateval/StateMachineAccess.h
+    include/stateval/StateMachineThread.h
+    include/stateval/stateval.h
+    include/stateval/TextView.h
+    include/stateval/Thread.h
+    include/stateval/Transition.h
+    include/stateval/Variable.h
+    include/stateval/View.h
+    include/stateval/ViewState.h
+
 )
 
 SET(LIBSIGCPP_DIR "${PROJECT_SOURCE_DIR}/../libsigc++-2.2.8")
@@ -110,7 +139,7 @@ ADD_EXECUTABLE(testThread
     test/module/testThread.cpp
 )
 
-TARGET_LINK_LIBRARIES(testThread stateval ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(testThread z sigc++ stateval ${EXTRA_LIBS})
 
 ####################################################################################
 # Target specific flags.

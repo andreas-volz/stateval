@@ -30,8 +30,11 @@ public:
   
   int findMapingEvent (const std::string &event);
   
+  SMLoader& getLoader() {return mSMLoader;}
+    
   std::queue <int> eventQueue; // TODO: private
   
+
 private:
   State *searchHierarchie (int event);
   bool walkDown (int event);

@@ -1,13 +1,35 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <zlib.h>
 
 #include "testCommon.h"
 #include "stateval/Thread.h"
+#include "stateval/StateMachine.h"
+#include "stateval/StateMachineThread.h"
+#include "stateval/SimpleState.h"
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
+
+class StringCollector
+{
+    std::string mString;
+    
+public:
+    StringCollector() : mString(){}
+    void append(const std::string& inString)
+    {
+        mString.append(inString);
+    }
+    
+    uint32_t getHash() const
+    {
+        uLong initCRC = ::crc32(0, NULL, 0);
+        return ::crc32(initCRC, (const Bytef*)mString.c_str(), mString.length());
+    }
+};
 
 /* ========================================================================== *
  *
@@ -112,6 +134,123 @@ public:
         CPPUNIT_ASSERT_EQUAL(true, thread.mSignalCancelCalled);
     }
 
+    void testSimpleSM()
+    {
+        StringCollector sc;
+        
+        class MyAction : public Action
+        {
+            StringCollector& mCollector;
+            const char *mName;
+            
+        public:
+            MyAction(const char *inName, StringCollector& inSC)
+            : Action(), mCollector(inSC), mName(inName){}
+            
+            virtual void run () const
+            {
+//                printf("**** run() of action '%s' called!\n", mName);
+                mCollector.append("->Action: ");
+                mCollector.append(mName);
+            }
+        };
+        
+        enum EEvents {eEventA, eEventB, eEventC};
+        
+        StateMachine sm;
+        SMLoader &loader(sm.getLoader());
+        SimpleState *initState = new SimpleState(NULL);
+
+        SimpleState *stateA = new SimpleState(NULL);
+        MyAction *entryActionStateA = new MyAction("entryActionStateA", sc);
+        MyAction *exitActionStateA = new MyAction("exitActionStateA", sc);
+        stateA->addEntryAction(entryActionStateA);
+        stateA->addExitAction(exitActionStateA);
+        
+        SimpleState *stateB = new SimpleState(NULL);
+        MyAction *entryActionStateB = new MyAction("entryActionStateB", sc);
+        MyAction *exitActionStateB = new MyAction("exitActionStateB", sc);
+        stateB->addEntryAction(entryActionStateB);
+        stateB->addExitAction(exitActionStateB);
+
+        SimpleState *stateC = new SimpleState(NULL);
+        MyAction *entryActionStateC = new MyAction("entryActionStateC", sc);
+        MyAction *exitActionStateC = new MyAction("exitActionStateC", sc);
+        stateC->addEntryAction(entryActionStateC);
+        stateC->addExitAction(exitActionStateC);
+        
+        Transition *tr1 = new Transition(stateA, eEventA);
+        initState->addLeaveTransition(*tr1);
+
+        Transition *tr2 = new Transition(stateB, eEventB);
+        stateA->addLeaveTransition(*tr2);
+
+        Transition *tr3 = new Transition(stateC, eEventC);
+        stateB->addLeaveTransition(*tr3);
+
+        Transition *tr4 = new Transition(stateA, eEventA);
+        stateC->addLeaveTransition(*tr4);
+        
+        loader.addState(initState);
+        loader.addState(stateA);
+        loader.addState(stateB);
+        loader.addState(stateC);
+        
+        sm.init();
+        StateMachineThread smt(sm);
+        smt.start();
+        
+        smt.pushEvent(eEventA);
+        sc.append("EventA");
+
+        smt.pushEvent(eEventA);
+        sc.append("EventA");
+
+        smt.pushEvent(eEventC);
+        sc.append("EventC");
+
+        smt.pushEvent(eEventB);
+        sc.append("EventB");
+
+        smt.pushEvent(eEventB);
+        sc.append("EventB");
+        
+        smt.pushEvent(eEventA);
+        sc.append("EventA");
+
+        smt.pushEvent(eEventB);
+        sc.append("EventB");
+
+        smt.pushEvent(eEventC);
+        sc.append("EventC");
+
+        smt.pushEvent(eEventC);
+        sc.append("EventC");
+
+        smt.pushEvent(eEventA);
+        sc.append("EventA");
+        
+        smt.pushEvent(eEventC);
+        sc.append("EventC");
+
+        smt.pushEvent(eEventA);
+        sc.append("EventA");
+
+        smt.pushEvent(eEventB);
+        sc.append("EventB");
+
+        smt.pushEvent(eEventC);
+        sc.append("EventC");
+
+        smt.pushEvent(eEventB);
+        sc.append("EventB");
+
+        smt.cancel();
+        
+//        printf("The Checksum is 0x%08x\n", sc.getHash());
+        CPPUNIT_ASSERT_EQUAL(0x9886381c,  sc.getHash());
+    }
+    
     virtual void setUp() 
     {
     }
@@ -133,6 +272,10 @@ public:
                                 "testThreadCancel", 
                                 &TestCase::testThreadCancel));
 
+        suiteOfTests->addTest(new CppUnit::TestCaller<TestCase>( 
+                                "testSimpleSM", 
+                                &TestCase::testSimpleSM));
+        
         return suiteOfTests;
     }
 }; // class MyTestCase : public CppUnit::TestCase
