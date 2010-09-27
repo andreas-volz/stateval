@@ -1,6 +1,6 @@
 // Thread.cpp
 
-#include "stateval/Thread.h"
+#include "../include/stateval/Thread.h"
 
 /* STD */
 #include <cassert>
