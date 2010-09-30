@@ -57,6 +57,7 @@ Main::Main (int argc, const char **argv) :
 
   // create an input thread
   InputThread iThread (stateMachineAccess);
+  iThread.start ();
   
   sm.init ();
   

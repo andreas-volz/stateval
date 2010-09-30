@@ -20,8 +20,6 @@ InputThread::InputThread (StateMachineAccess &smAccess) :
 
 void InputThread::run ()
 {
-  // TODO: create a mutex around eventQueue?
-  
   while (mRunning)
   {
     string input;  
@@ -38,6 +36,7 @@ void InputThread::run ()
     {
       mRunning = false;
       cout << "Exiting..." << endl;
+      exit (0);
     }
   }
 }

@@ -11,7 +11,7 @@
 /* forward declarations */
 class StateMachineAccess;
 
-class InputThread : Threading::Thread
+class InputThread : public Threading::Thread
 {
 public:
   InputThread (StateMachineAccess &smAccess);

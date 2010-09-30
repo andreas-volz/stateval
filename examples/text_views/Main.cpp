@@ -30,6 +30,7 @@ Main::Main ()
   // yes, I know an input thread isn't really needed here.
   // but as it was done like this in the edje_console example...
   InputThread iThread (stateMachineAccess);
+  iThread.start ();
   
   sm.init ();
   
