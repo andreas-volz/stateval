@@ -4,7 +4,8 @@
 SUBDIRS = src \
 	data\
 	include\
-	examples
+	examples \
+	test
 
 statevaldocdir = ${prefix}/doc/stateval
 statevaldoc_DATA = \

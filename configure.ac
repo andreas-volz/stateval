@@ -67,6 +67,7 @@ PKG_CHECK_MODULES(EFL, evasxx eflxx edjexx ecorexx einaxx)
 AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")
 
 PKG_CHECK_MODULES(SIGC, sigc++-2.0)
+PKG_CHECK_MODULES(CPPUNIT, cppunit)
 AC_OUTPUT([
 Makefile
 data/Makefile
@@ -78,4 +79,6 @@ stateval-uninstalled.pc
 examples/Makefile
 examples/edje_console/Makefile
 examples/text_views/Makefile
+test/Makefile
+test/module/Makefile
 ])

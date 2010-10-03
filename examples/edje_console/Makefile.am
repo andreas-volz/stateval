@@ -10,15 +10,17 @@ edje_console_SOURCES = \
 	Main.h \
 	Main.cpp
 
+edje_console_CXXFLAGS = \
+	-I../../include \
+	$(EFL_CFLAGS) \
+	$(SIGC_CFLAGS)
+
 edje_console_LDADD = \
 	../../src/libstateval.la \
 	$(EFL_LIBS) \
 	$(SIGC_LIBS)
 
-AM_CPPFLAGS = \
-	-I../../include \
-	$(EFL_CFLAGS) \
-	$(SIGC_CFLAGS)
+AM_CPPFLAGS = 
 
 ## File created by the gnome-build tools
 

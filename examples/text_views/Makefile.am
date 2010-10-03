@@ -10,15 +10,17 @@ text_views_SOURCES = \
 	searchFile.cpp    \
 	searchFile.h
 
+text_views_CXXFLAGS = \
+	-I../../include \
+	$(SIGC_CFLAGS) \
+	$(EFL_CFLAGS)
+
 text_views_LDADD = \
 	../../src/libstateval.la \
 	$(SIGC_LIBS) \
 	$(EFL_LIBS)
 
-AM_CPPFLAGS = \
-	-I../../include \
-	$(SIGC_CFLAGS) \
-	$(EFL_CFLAGS)
+AM_CPPFLAGS = 
 
 ## File created by the gnome-build tools
 
