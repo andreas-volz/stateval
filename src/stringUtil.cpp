@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
+
 #include <cctype>
 #include <algorithm>
 
@@ -126,7 +130,7 @@ int replaceString (const string& match, const string& replace, string& str, unsi
  * Convert both strings to upper case by transfrom() before compare.
  * @todo optimization possible with compare of each char after toupper; may help for very long strings
  */
-bool compareCaseInsensitive (string strFirst, string strSecond)
+bool compareCaseInsensitive (std::string strFirst, std::string strSecond)
 {
   std::transform(strFirst.begin(), strFirst.end(), strFirst.begin(), ::toupper);
   std::transform(strSecond.begin(), strSecond.end(), strSecond.begin(), ::toupper);

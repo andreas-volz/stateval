@@ -1,32 +1,5 @@
-/*
- *  Copyright (C) 2005  Andreas Volz
- *  Copyright (C) 2006-2007  MakeHuman Project
- *
- *  This program is free software; you  can  redistribute  it  and/or
- *  modify  it  under  the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either  version  3  of
- *  the License, or (at your option) any later version.
- *
- *  This  program  is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the  implied  warranty  of
- *  MERCHANTABILITY  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- *  General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software Foun-
- *  dation, Inc., 59 Temple Place, Suite 330, Boston,  MA  02111-1307
- *  USA
- *
- *  File: util.h
- *
- */
-
 #ifndef STRING_UTIL_H
 #define STRING_UTIL_H
-
-#ifdef HAVE_CONFIG_H
-  #include <config.h>
-#endif
 
 /* STD */
 #include <cstdlib>
@@ -45,9 +18,6 @@
 #else
 #  define PATH_SEPARATOR string("/")
 #endif
-
-using std::string;
-using std::vector;
 
 // delete all following 'characters' in 'str'
 void UtilStringDelFollow (std::string &str, const std::string &characters);
@@ -99,7 +69,6 @@ std::string toString (const T &thing, int w = 0, int p = 0)
   std::ostringstream os;
   os << std::setw(w) << std::setprecision(p) << thing;
   return os.str();
-
 }
 
 /*!
@@ -150,10 +119,10 @@ void stringToken (const std::string& line, const std::string &separator, int num
   } while (std::string::npos != start);
 }
 
-int replaceString (const string& match, const string& replace, string& str, unsigned int maxReplace = 0);
+int replaceString (const std::string &match, const std::string &replace, std::string &str, unsigned int maxReplace = 0);
 
 // I make a helper function to compare string
-bool compareCaseInsensitive(string strFirst, string strSecond);
+bool compareCaseInsensitive(std::string strFirst, std::string strSecond);
 
 /*! 
  * the third parameter of from_string() should be 
