@@ -16,7 +16,7 @@
 #include "../include/stateval/DecisionState.h"
 #include "../include/stateval/ViewState.h"
 // TODO: Later provide some sort of plugin mechanism...
-#if HAVE_EFL
+#ifdef HAVE_EFL
 #include "../include/stateval/EdjeView.h"
 #endif
 #include "../include/stateval/TextView.h"

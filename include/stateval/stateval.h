@@ -17,7 +17,7 @@
 #include "GlobalVariables.h"
 #include "Variable.h"
 
-#if HAVE_EFL
+#ifdef HAVE_EFL
 #include "EdjeView.h"
 #include "GraphicContext.h"
 #endif
