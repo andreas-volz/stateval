@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "../include/stateval/HistoryState.h"
+#include "stateval/HistoryState.h"
 
 HistoryState::HistoryState (State *parentState) :
   State (parentState),

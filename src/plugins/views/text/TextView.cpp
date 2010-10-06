@@ -3,8 +3,8 @@
 #endif
 
 /* Project */
-#include "stateval/TextView.h"
-//#include "FileReader.h"
+#include "TextView.h"
+#include "FileReader.h"
 
 /* STD */
 #include <iostream>
@@ -18,7 +18,7 @@ TextView::TextView (const std::string &fileName) :
 
 void TextView::realize ()
 {
-  /*FileReader fileReader;
+  FileReader fileReader;
   fileReader.open (mFileName);
 
   cout << "reading " << mFileName << "..." << endl;
@@ -27,7 +27,7 @@ void TextView::realize ()
   while (getline (fileReader, str))
   {
     cout << str << endl;
-  }*/
+  }
 }
 
 void TextView::unrealize ()

@@ -9,14 +9,16 @@ testThread_SOURCES = \
 testThread_LDADD = \
 	../../src/libstateval.la \
 	$(SIGC_LIBS) \
-	$(CPPUNIT_LIBS)
+	$(CPPUNIT_LIBS) \
+	$(PLUXX_LIBS)
 
 testThread_CXXFLAGS = \
 	-I../../include
 
 AM_CPPFLAGS = \
-	$(SIGC_CFLAGS)\
-	$(CPPUNIT_CFLAGS)
+	$(SIGC_CFLAGS) \
+	$(CPPUNIT_CFLAGS) \
+	$(PLUXX_CFLAGS)
 
 ## File created by the gnome-build tools
 

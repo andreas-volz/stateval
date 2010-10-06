@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "../include/stateval/Action.h"
+#include "stateval/Action.h"
 
 /* STD */
 #include <iostream>

@@ -2,7 +2,7 @@
   #include <config.h>
 #endif
 
-#include "../include/stateval/DecisionState.h"
+#include "stateval/DecisionState.h"
 
 DecisionState::DecisionState (State *parentState) :
   State (parentState),

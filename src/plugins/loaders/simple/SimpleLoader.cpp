@@ -6,34 +6,54 @@
 #include <iostream>
 #include <cassert>
 
+/* stateval */
+#include "stateval/CompoundState.h"
+#include "stateval/HistoryState.h"
+#include "stateval/DecisionState.h"
+#include "stateval/ViewState.h"
+// TODO: Later provide some sort of plugin mechanism...
+#ifdef HAVE_EFL
+#include "stateval/EdjeView.h"
+#endif
+#include "stateval/TextView.h"
+
 /* Project */
-#include "../include/stateval/SMLoader.h"
+#include "SimpleLoader.h"
 #include "FileReader.h"
 #include "localUtil.h"
 #include "stringUtil.h"
-#include "../include/stateval/CompoundState.h"
-#include "../include/stateval/HistoryState.h"
-#include "../include/stateval/DecisionState.h"
-#include "../include/stateval/ViewState.h"
-// TODO: Later provide some sort of plugin mechanism...
-#ifdef HAVE_EFL
-#include "../include/stateval/EdjeView.h"
-#endif
-#include "../include/stateval/TextView.h"
 
 using namespace std;
 
-SMLoader::SMLoader () :
-  eventCounter (0)
+static const char* type = "SimpleLoader";
+static const unsigned int major_version = 1;
+static const unsigned int minor_version = 1;
+
+SimpleLoader::SimpleLoader ()
 {
 }
 
-SMLoader::~SMLoader ()
+SimpleLoader::~SimpleLoader ()
 {
   unload ();
 }
 
-bool SMLoader::load (const std::string &smDir)
+const std::string SimpleLoader::getType ()
+{
+  return type;
+}
+
+const unsigned int SimpleLoader::getMajorVersion ()
+{
+  return major_version;
+}
+
+const unsigned int SimpleLoader::getMinorVersion ()
+{
+  return minor_version;
+}
+
+bool SimpleLoader::load (const std::string &smDir)
 {
   FileReader fileReader;
   
@@ -86,7 +106,7 @@ bool SMLoader::load (const std::string &smDir)
   return true;
 }
 
-void SMLoader::unload ()
+void SimpleLoader::unload ()
 {
   // free mViewList
   delete_stl_container <std::vector <View*>, View*> (mViewList);
@@ -95,7 +115,7 @@ void SMLoader::unload ()
   delete_stl_container <std::vector <State*>, State*> (mStateList);
 }
 
-void SMLoader::fromEventsStream (std::ifstream &in_stream)
+void SimpleLoader::fromEventsStream (std::ifstream &in_stream)
 {
   int params;
 
@@ -109,7 +129,7 @@ void SMLoader::fromEventsStream (std::ifstream &in_stream)
   }
 }
 
-void SMLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smDir)
+void SimpleLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smDir)
 {
   int params;
   string line;
@@ -232,7 +252,7 @@ void SMLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smD
   }
 }
 
-void SMLoader::fromStatesStream (std::ifstream &in_stream)
+void SimpleLoader::fromStatesStream (std::ifstream &in_stream)
 {
   int params;
   string line;
@@ -363,7 +383,7 @@ void SMLoader::fromStatesStream (std::ifstream &in_stream)
   }
 }
 
-void SMLoader::fromTransitionsStream (std::ifstream &in_stream)
+void SimpleLoader::fromTransitionsStream (std::ifstream &in_stream)
 {
   int params;
   string line;
@@ -429,39 +449,26 @@ void SMLoader::fromTransitionsStream (std::ifstream &in_stream)
   }  
 }
 
-void SMLoader::addEvent (const std::string &event)
+/*****************************/
+/* Plugin needed C functions */
+/*****************************/
+
+PLUGIN_EXPORT SimpleLoader *plugin_create ()
 {
-  mEventList[event] = eventCounter;
-    
-  ++eventCounter;
+  return new SimpleLoader ();
 }
 
-void SMLoader::addState (State *state)
+PLUGIN_EXPORT void plugin_destroy (Loader *plugin)
 {
-  mStateList.push_back (state);
+  delete plugin;
 }
 
-void SMLoader::addView (View *view)
+PLUGIN_EXPORT const char *get_plugin_type ()
 {
-  mViewList.push_back (view);
+  return type;
 }
 
-State *SMLoader::getInitialState ()
+PLUGIN_EXPORT unsigned int get_plugin_major_version ()
 {
-  return *mStateList.begin ();
-}
-
-int SMLoader::findMapingEvent (const std::string &event)
-{
-  map <string,int>::iterator iter = mEventList.find(event);
-  if (iter != mEventList.end())
-  {
-    int &mapEvent = iter->second;
-    //cout << "map event: " << iter->first << " : " << iter->second << endl;
-    return mapEvent;
-  }
-
-  cerr << "StateMachine::findMapingEvent: try to find not existing event: " << event << endl;
-
-  return -1;
+  return major_version;
 }

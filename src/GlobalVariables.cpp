@@ -3,9 +3,8 @@
 #endif
 
 /* Project*/
-#include "../include/stateval/GlobalVariables.h"
-#include "../include/stateval/Variable.h"
-#include "localUtil.h"
+#include "stateval/GlobalVariables.h"
+#include "stateval/Variable.h"
 
 using namespace std;
 

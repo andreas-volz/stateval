@@ -158,7 +158,7 @@ public:
         enum EEvents {eEventA, eEventB, eEventC};
         
         StateMachine sm;
-        SMLoader &loader(sm.getLoader());
+        Loader &loader(sm.getLoader());
         SimpleState *initState = new SimpleState(NULL);
 
         SimpleState *stateA = new SimpleState(NULL);

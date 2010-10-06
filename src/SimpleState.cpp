@@ -3,9 +3,9 @@
 #endif
 
 /* Project */
-#include "../include/stateval/SimpleState.h"
-#include "../include/stateval/CompoundState.h"
-#include "../include/stateval/HistoryState.h"
+#include "stateval/SimpleState.h"
+#include "stateval/CompoundState.h"
+#include "stateval/HistoryState.h"
 #include "localUtil.h"
 
 /* STD */

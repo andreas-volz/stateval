@@ -3,8 +3,8 @@
 #endif
 
 /* Project */
-#include "../include/stateval/StateMachineThread.h"
-#include "../include/stateval/StateMachine.h"
+#include "stateval/StateMachineThread.h"
+#include "stateval/StateMachine.h"
 
 /* STD */
 #include <iostream>

@@ -3,12 +3,15 @@
 #endif
 
 /* Project */
-#include "../include/stateval/StateMachine.h"
+#include "stateval/StateMachine.h"
 #include "localUtil.h"
 
 /* STD */
 #include <iostream>
 #include <cassert>
+
+/* pluxx */
+#include <pluxx/PluginLoader.h>
 
 using namespace std;
 
@@ -16,16 +19,40 @@ StateMachine::StateMachine () :
   mActiveState (NULL), // link to root state
   mSMInit (false)
 {
+  string pluginFile ("../../src/plugins/loaders/simple/.libs/stateval_loader_simple.so");
+  
+  try
+  {
+    mLoader = (Loader*) pluxx::PluginLoader::loadFactory (pluginFile, "SimpleLoader", 1);
+
+    // TODO: correct exception handling!
+    
+    cout << "Type: " << mLoader->getType () << endl;
+    cout << "Major Version: " << mLoader->getMajorVersion () << endl;
+    cout << "Minor Version: " << mLoader->getMinorVersion () << endl;
+  }
+  catch (pluxx::PluginTypeMismatchException typeEx)
+  {
+    cout << "catched an PluginTypeMismatchException exception..." << endl;
+    cout << "Loader Type: " << typeEx.getLoaderType () << endl;
+    cout << "Plugin Type: " << typeEx.getPluginType () << endl;
+  }
+  catch (pluxx::PluginMajorVersionMismatchException verEx)
+  {
+    cout << "catched an PluginMajorVersionMismatchException exception..." << endl;
+    cout << "Loader Major Version: " << verEx.getLoaderMajorVersion () << endl;
+    cout << "Plugin Major Version: " << verEx.getPluginMajorVersion () << endl;
+  }
 }
 
 StateMachine::~StateMachine ()
 {
-  cout << "clean up StateMachine" << endl;
+  pluxx::PluginLoader::destroyFactory ((pluxx::Plugin*) mLoader);  
 }
 
 void StateMachine::init ()
 {
-  mActiveState = mSMLoader.getInitialState ();
+  mActiveState = mLoader->getInitialState ();
   assert (mActiveState);
   
   mSMInit = true;
@@ -33,7 +60,7 @@ void StateMachine::init ()
 
 bool StateMachine::load (const std::string &smDir)
 {
-  return mSMLoader.load (smDir);
+  return mLoader->load (smDir);
 }
 
 void StateMachine::pushEvent (int event)
@@ -48,7 +75,7 @@ void StateMachine::popEvent ()
 
 int StateMachine::findMapingEvent (const std::string &event)
 {
-  return mSMLoader.findMapingEvent (event);
+  return mLoader->findMapingEvent (event);
 }
 
 void StateMachine::evaluateState (int &inOutEvent)

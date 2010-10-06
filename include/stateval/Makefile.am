@@ -21,7 +21,7 @@ libstateval_HEADERS = \
 	stateval.h     \
 	StateMachineAccess.h     \
 	StateMachineThread.h     \
-	SMLoader.h     \
+	Loader.h     \
 	GraphicContext.h     \
 	TextView.h     \
 	Thread.h

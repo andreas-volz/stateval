@@ -6,7 +6,7 @@
 #include <string>
 
 /* Project */
-#include "../include/stateval/Exceptions.h"
+#include "stateval/Exceptions.h"
 
 using namespace std;
 

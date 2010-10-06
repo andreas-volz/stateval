@@ -3,8 +3,9 @@
 ## Created by Anjuta
 
 AM_CPPFLAGS = \
-	$(EFL_CFLAGS)\
-	$(SIGC_CFLAGS)
+	$(EFL_CFLAGS) \
+	$(SIGC_CFLAGS) \
+	$(PLUXX_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -33,18 +34,24 @@ libstateval_la_SOURCES = \
 	ViewState.cpp      \
 	StateMachineAccess.cpp      \
 	StateMachineThread.cpp      \
-	localUtil.cpp      \
-	localUtil.h      \
-	SMLoader.cpp      \
-	FileReader.cpp      \
-	FileReader.h      \
+	Loader.cpp      \
 	stringUtil.cpp      \
 	stringUtil.h      \
 	GraphicContext.cpp      \
 	Thread.cpp \
-	TextView.cpp
+	TextView.cpp \
+	localUtil.cpp \
+	localUtil.h
 
-libstateval_la_LIBADD = \
+libstateval_la_CXXFLAGS = \
+	-I \
+	../include
+
+libstateval_la_LIBADD =      \
 	$(EFL_LIBS)      \
-	$(SIGC_LIBS)
+	$(SIGC_LIBS)      \
+	$(PLUXX_LIBS)
+
+SUBDIRS = \
+	plugins
 

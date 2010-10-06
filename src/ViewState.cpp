@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "../include/stateval/ViewState.h"
+#include "stateval/ViewState.h"
 
 /* STD */
 #include <iostream>

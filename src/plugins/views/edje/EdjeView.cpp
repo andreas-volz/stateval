@@ -2,7 +2,7 @@
   #include <config.h>
 #endif
 
-/* Project */
+/* stateval */
 #include "stateval/EdjeView.h"
 #include "stateval/StateMachineAccess.h"
 

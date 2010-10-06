@@ -3,8 +3,8 @@
 #endif
 
 /* Project */
-#include "../include/stateval/FireEventAction.h"
-#include "../include/stateval/StateMachine.h"
+#include "stateval/FireEventAction.h"
+#include "stateval/StateMachine.h"
 
 /* STD */
 #include <iostream>

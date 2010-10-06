@@ -3,9 +3,9 @@
 #endif
 
 /* Project */
-#include "../include/stateval/Condition.h"
-#include "../include/stateval/GlobalVariables.h"
-#include "../include/stateval/Variable.h"
+#include "stateval/Condition.h"
+#include "stateval/GlobalVariables.h"
+#include "stateval/Variable.h"
 
 Condition::Condition () :
   mVal (NULL)

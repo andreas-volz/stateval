@@ -3,8 +3,8 @@
 #endif
 
 /* Project */
-#include "../include/stateval/Transition.h"
-#include "../include/stateval/State.h"
+#include "stateval/Transition.h"
+#include "stateval/State.h"
 
 Transition::Transition (State *state) :
   mEndState (state),

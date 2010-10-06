@@ -1,32 +1,29 @@
-#ifndef SM_LOADER_H
-#define SM_LOADER_H
+#ifndef SIMPLE_LOADER_H
+#define SIMPLE_LOADER_H
 
 /* STD */
 #include <string>
 #include <vector>
 
-/* Project */
-#include "State.h"
+/* stateval */
+#include "stateval/State.h"
+#include "stateval/Loader.h"
 
-class SMLoader
+class SimpleLoader : public Loader
 {
 public:
-  SMLoader ();
-  virtual ~SMLoader ();
+  SimpleLoader ();
+  virtual ~SimpleLoader ();
+
+  const std::string getType ();
+  
+  const unsigned int getMajorVersion ();
+
+  const unsigned int getMinorVersion ();
   
   bool load (const std::string &smDir);
   
   void unload ();
-  
-  void addEvent (const std::string &event);
-  
-  void addState (State *state);
-  
-  void addView (View *view);
-  
-  State *getInitialState ();
-  
-  int findMapingEvent (const std::string &event);
   
 private:
   /*!
@@ -72,15 +69,9 @@ private:
    * if no event is given than it's a default transition
    */
   void fromTransitionsStream (std::ifstream &in_stream);
-  
-  std::vector <State*> mStateList;
-  std::vector <View*> mViewList;
-  std::map <std::string, int> mEventList;
 
   std::map <std::string, unsigned int> mStateNameMapper;
   std::map <std::string, unsigned int> mViewNameMapper;
-  
-  int eventCounter;
 };
 
-#endif // SM_LOADER_H
+#endif // SIMPLE_LOADER_H

@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "../include/stateval/GraphicContext.h"
+#include "stateval/GraphicContext.h"
 
 using namespace std;
 

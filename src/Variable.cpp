@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "../include/stateval/Variable.h"
+#include "stateval/Variable.h"
 
 AbstractVariable::AbstractVariable (Type type) :
   mType (type)

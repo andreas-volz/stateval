@@ -2,7 +2,7 @@
 #include <config.h>
 #endif
 
-#include "stateval/EcoreDispatcher.h"
+#include "EcoreDispatcher.h"
 #include <iostream>
 
 using namespace std;

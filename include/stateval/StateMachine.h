@@ -7,7 +7,7 @@
 
 /* Project */
 #include "State.h"
-#include "SMLoader.h"
+#include "Loader.h"
 
 /* forward declarations */
 
@@ -30,7 +30,7 @@ public:
   
   int findMapingEvent (const std::string &event);
   
-  SMLoader& getLoader() {return mSMLoader;}
+  Loader& getLoader() {return *mLoader;}
     
   std::queue <int> eventQueue; // TODO: private
   
@@ -41,7 +41,7 @@ private:
   
   State *mActiveState;
   
-  SMLoader mSMLoader;
+  Loader *mLoader;
   bool mSMInit;  
 };
 

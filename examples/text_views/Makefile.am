@@ -18,9 +18,11 @@ text_views_CXXFLAGS = \
 text_views_LDADD = \
 	../../src/libstateval.la \
 	$(SIGC_LIBS) \
-	$(EFL_LIBS)
+	$(EFL_LIBS) \
+	$(PLUXX_LIBS)
 
-AM_CPPFLAGS = 
+AM_CPPFLAGS = \
+	$(PLUXX_CFLAGS)
 
 ## File created by the gnome-build tools
 

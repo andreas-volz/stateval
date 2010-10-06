@@ -9,7 +9,7 @@ class ViewState : public SimpleState
 {
 public:
   ViewState (State *parentState, View &view);
-    
+  
 private:
   void beforeTransitionCode ();
   void afterTransitionCode ();

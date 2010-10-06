@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "../include/stateval/StateMachineAccess.h"
+#include "stateval/StateMachineAccess.h"
 
 /* STD */
 #include <iostream>
