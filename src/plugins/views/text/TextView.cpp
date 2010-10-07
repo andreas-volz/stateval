@@ -25,6 +25,21 @@ TextView::TextView (const std::list <std::string> &params)
   mFileName = *params_it;
 }
 
+const std::string TextView::getType ()
+{
+  return type;
+}
+
+const unsigned int TextView::getMajorVersion ()
+{
+  return major_version;
+}
+
+const unsigned int TextView::getMinorVersion ()
+{
+  return minor_version;
+}
+
 void TextView::realize ()
 {
   FileReader fileReader;
@@ -49,10 +64,9 @@ void TextView::unrealize ()
 /* Plugin needed C functions */
 /*****************************/
 
-PLUGIN_EXPORT TextView *plugin_create (/*const std::list <std::string> &params*/)
+PLUGIN_EXPORT TextView *plugin_create (const std::list <std::string> &params)
 {
   // FIXME: think about pluxx change or define init function in EdjeView
-  std::list <std::string> params;
   return new TextView (params);
 }
 

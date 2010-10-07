@@ -11,6 +11,7 @@
 class TextView : public View
 {
 public:
+  virtual ~TextView () {};
   TextView (const std::list <std::string> &params);
 
   const std::string getType ();
