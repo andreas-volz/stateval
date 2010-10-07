@@ -6,18 +6,17 @@
 #include <iostream>
 #include <cassert>
 
+/* pluxx */
+#include <pluxx/PluginLoader.h>
+
 /* Project */
 #include "stateval/Loader.h"
 #include "stateval/CompoundState.h"
 #include "stateval/HistoryState.h"
 #include "stateval/DecisionState.h"
 #include "stateval/ViewState.h"
-// TODO: Later provide some sort of plugin mechanism...
-#ifdef HAVE_EFL
-#include "stateval/EdjeView.h"
-#endif
-#include "stateval/TextView.h"
 #include "stringUtil.h"
+#include "ViewPluginLoader.h"
 
 using namespace std;
 
@@ -65,4 +64,36 @@ int Loader::findMapingEvent (const std::string &event)
   cerr << "StateMachine::findMapingEvent: try to find not existing event: " << event << endl;
 
   return -1;
+}
+
+View *Loader::loadView (const std::string &viewPlugin, const std::list <std::string> &params)
+{
+  string pluginFile ("/home/andreas/src/svn/stateval/stateval/src/plugins/views/text/.libs/stateval_view_text.so");  
+  View *view = NULL;
+  
+  try
+  {
+    view = (View*) ViewPluginLoader::loadFactory (pluginFile, "View", 1,
+                                                  params);
+
+    // TODO: correct exception handling!
+    
+    cout << "Type: " <<  view->getType () << endl;
+    cout << "Major Version: " << view->getMajorVersion () << endl;
+    cout << "Minor Version: " << view->getMinorVersion () << endl;
+  }
+  catch (pluxx::PluginTypeMismatchException typeEx)
+  {
+    cout << "catched an PluginTypeMismatchException exception..." << endl;
+    cout << "Loader Type: " << typeEx.getLoaderType () << endl;
+    cout << "Plugin Type: " << typeEx.getPluginType () << endl;
+  }
+  catch (pluxx::PluginMajorVersionMismatchException verEx)
+  {
+    cout << "catched an PluginMajorVersionMismatchException exception..." << endl;
+    cout << "Loader Major Version: " << verEx.getLoaderMajorVersion () << endl;
+    cout << "Plugin Major Version: " << verEx.getPluginMajorVersion () << endl;
+  }
+
+  return view;
 }

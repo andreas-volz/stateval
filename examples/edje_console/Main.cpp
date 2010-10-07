@@ -37,9 +37,9 @@ Main::Main (int argc, const char **argv) :
   mBackgroundRect.show ();
     
   // initialize Singleton that holds graphic context
-  GraphicContext &graphicContext (GraphicContext::instance ());
+  /*GraphicContext &graphicContext (GraphicContext::instance ());
   graphicContext.init (mWindow.getCanvas());
-  graphicContext.setResolution (initialWindowSize);
+  graphicContext.setResolution (initialWindowSize);*/
   
   StateMachine sm;
   
@@ -86,11 +86,11 @@ void Main::hideWindow (const Ecorexx::EvasWindow &win)
 
 void Main::resizeWindow (const Ecorexx::EvasWindow &win)
 {
-  GraphicContext &graphicContext (GraphicContext::instance ());
+  //GraphicContext &graphicContext (GraphicContext::instance ());
   
   const Eflxx::Size winSize (mWindow.geometry ().size ());
   
-  graphicContext.setResolution (winSize);
+  //graphicContext.setResolution (winSize);
   mBackgroundRect.resize (winSize);
 }
 

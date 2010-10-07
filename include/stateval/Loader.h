@@ -32,6 +32,8 @@ public:
   int findMapingEvent (const std::string &event);
 
 protected:
+  View *loadView (const std::string &viewPlugin, const std::list <std::string> &params);
+  
   std::vector <State*> mStateList;
   std::vector <View*> mViewList;
   std::map <std::string, int> mEventList;

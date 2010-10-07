@@ -5,7 +5,6 @@ libstateval_HEADERS = \
 	Condition.h     \
 	DecisionState.h     \
 	EcoreDispatcher.h     \
-	EdjeView.h     \
 	EventList.h     \
 	Exceptions.h     \
 	FireEventAction.h     \
@@ -22,8 +21,6 @@ libstateval_HEADERS = \
 	StateMachineAccess.h     \
 	StateMachineThread.h     \
 	Loader.h     \
-	GraphicContext.h     \
-	TextView.h     \
 	Thread.h
 
 libstatevaldir = \

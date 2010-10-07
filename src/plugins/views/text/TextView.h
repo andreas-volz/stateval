@@ -6,12 +6,19 @@
 
 /* STD */
 #include <string>
+#include <list>
 
 class TextView : public View
 {
 public:
-  TextView (const std::string &fileName);
-    
+  TextView (const std::list <std::string> &params);
+
+  const std::string getType ();
+  
+  const unsigned int getMajorVersion ();
+
+  const unsigned int getMinorVersion ();
+  
   void realize ();
   void unrealize ();
   

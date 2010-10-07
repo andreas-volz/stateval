@@ -19,11 +19,11 @@ StateMachine::StateMachine () :
   mActiveState (NULL), // link to root state
   mSMInit (false)
 {
-  string pluginFile ("../../src/plugins/loaders/simple/.libs/stateval_loader_simple.so");
+  string pluginFile ("/home/andreas/src/svn/stateval/stateval/src/plugins/loaders/simple/.libs/stateval_loader_simple.so");
   
   try
   {
-    mLoader = (Loader*) pluxx::PluginLoader::loadFactory (pluginFile, "SimpleLoader", 1);
+    mLoader = (Loader*) pluxx::PluginLoader::loadFactory (pluginFile, "Loader", 1);
 
     // TODO: correct exception handling!
     

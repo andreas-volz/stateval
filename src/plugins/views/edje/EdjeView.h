@@ -22,7 +22,13 @@ class StateMachineAccess;
 class EdjeView : public View
 {
 public:
-  EdjeView (const std::string &filename, const std::string &groupname);
+  EdjeView (const std::list <std::string> &params);
+
+  const std::string getType ();
+  
+  const unsigned int getMajorVersion ();
+
+  const unsigned int getMinorVersion ();
   
   void realize ();
   void unrealize ();
@@ -53,8 +59,8 @@ private:
   
   Evasxx::Canvas *mEvas;
   Edjexx::Object *mEdje;
-  const std::string mFilename;
-  const std::string mGroupname;
+  std::string mFilename;
+  std::string mGroupname;
   
   EcoreDispatcher mRealizeDispatcher;
   EcoreDispatcher mUnrealizeDispatcher;

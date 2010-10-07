@@ -5,7 +5,10 @@
 #include <string>
 #include <map>
 
-class View
+/* pluxx */
+#include <pluxx/Plugin.h>
+
+class View : public pluxx::Plugin
 {
 public:
   View ();

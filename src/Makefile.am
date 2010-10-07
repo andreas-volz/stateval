@@ -20,7 +20,6 @@ libstateval_la_SOURCES = \
 	Condition.cpp      \
 	DecisionState.cpp      \
 	EcoreDispatcher.cpp      \
-	EdjeView.cpp      \
 	Exceptions.cpp      \
 	FireEventAction.cpp      \
 	GlobalVariables.cpp      \
@@ -37,11 +36,11 @@ libstateval_la_SOURCES = \
 	Loader.cpp      \
 	stringUtil.cpp      \
 	stringUtil.h      \
-	GraphicContext.cpp      \
 	Thread.cpp \
-	TextView.cpp \
 	localUtil.cpp \
-	localUtil.h
+	localUtil.h \
+	ViewPluginLoader.cpp \
+	ViewPluginLoader.h
 
 libstateval_la_CXXFLAGS = \
 	-I \

@@ -11,11 +11,6 @@
 #include "stateval/HistoryState.h"
 #include "stateval/DecisionState.h"
 #include "stateval/ViewState.h"
-// TODO: Later provide some sort of plugin mechanism...
-#ifdef HAVE_EFL
-#include "stateval/EdjeView.h"
-#endif
-#include "stateval/TextView.h"
 
 /* Project */
 #include "SimpleLoader.h"
@@ -25,7 +20,7 @@
 
 using namespace std;
 
-static const char* type = "SimpleLoader";
+static const char* type = "Loader";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
@@ -204,7 +199,7 @@ void SimpleLoader::fromViewsStream (std::ifstream &in_stream, const std::string 
       if (viewType == "EdjeView")
       {
 #if HAVE_EFL
-        view = new EdjeView (smDir + "/" + fileName, groupName);
+        //view = new EdjeView (smDir + "/" + fileName, groupName);
 #else
         cerr << "Error: Compiled sateval without EFL support!" << endl;
         assert (false);
@@ -212,7 +207,10 @@ void SimpleLoader::fromViewsStream (std::ifstream &in_stream, const std::string 
       }
       else if (viewType == "TextView")
       {
-        view = new TextView (smDir + "/" + fileName);
+        std::list <std::string> params;
+        params.push_back (smDir + "/" + fileName);
+        
+        view = loadView ("xxx", params);
       }
       else
       {
