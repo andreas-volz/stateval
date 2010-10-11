@@ -2,12 +2,15 @@
   #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "TextView.h"
 #include "FileReader.h"
 
+/* stateval */
+
 /* STD */
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -15,10 +18,12 @@ static const char* type = "View";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-TextView::TextView (const std::list <std::string> &params)
+TextView::TextView (Context *context, const std::list <std::string> &params)
 {
   //if (params.length () != 1)
     //throw something
+
+  assert (!context);
 
   std::list <std::string>::const_iterator params_it = params.begin ();
     
@@ -64,10 +69,10 @@ void TextView::unrealize ()
 /* Plugin needed C functions */
 /*****************************/
 
-PLUGIN_EXPORT TextView *plugin_create (const std::list <std::string> &params)
+PLUGIN_EXPORT TextView *plugin_create (Context *context, const std::list <std::string> &params)
 {
   // FIXME: think about pluxx change or define init function in EdjeView
-  return new TextView (params);
+  return new TextView (context, params);
 }
 
 PLUGIN_EXPORT void plugin_destroy (View *plugin)

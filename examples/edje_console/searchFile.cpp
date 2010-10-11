@@ -6,31 +6,9 @@
 #include <sys/stat.h>
 #include <iostream>
 #include "searchFile.h"
-#include "../include/stateval/Exceptions.h"
+#include "stateval/Exceptions.h"
 
 using namespace std;
-
-const std::string searchEdjeFile (const std::string &theme)
-{
-  vector <string> name_vector;
-
-  name_vector.push_back (theme);
-  name_vector.push_back ("../" + theme);
-
-#ifdef HAVE_CONFIG_H
-  name_vector.push_back (string (PACKAGE_SOURCE_DIR) + "/data/" + theme);
-  name_vector.push_back (string (PACKAGE_DATA_DIR) + "/" + theme);
-#endif
-  
-  const string &file = searchFile (name_vector);
-
-  if (file.empty ())
-  {
-    throw FileNotFoundException (theme);
-  }
-
-  return file;
-}
 
 const std::string searchDataDir ()
 {
@@ -41,20 +19,6 @@ const std::string searchDataDir ()
 #ifdef HAVE_CONFIG_H
   name_vector.push_back (string (PACKAGE_SOURCE_DIR) + "/data");
   name_vector.push_back (PACKAGE_DATA_DIR);
-#endif
-  
-  return searchFile (name_vector);
-}
-
-const std::string searchPixmapFile (std::string pixmap_file)
-{
-  vector <string> name_vector;
-
-  name_vector.push_back ("pixmaps/" + pixmap_file);
-
-#ifdef HAVE_CONFIG_H
-  name_vector.push_back (string (PACKAGE_SOURCE_DIR) + "/pixmaps/" + pixmap_file);
-  name_vector.push_back (string (PACKAGE_PIXMAPS_DIR) + "/" + pixmap_file);
 #endif
   
   return searchFile (name_vector);

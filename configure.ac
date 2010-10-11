@@ -33,7 +33,7 @@ fi
 #dnl Set PACKAGE DIRS in config.h
 packagedatadir=share/${PACKAGE}
 packagedocdir=doc/${PACKAGE}
-packagepixmapsdir=share/pixmaps/${PACKAGE}
+packagepluginsdir=${packagelibdir}/plugins
 
 #dnl Subst PACKAGE_DATA_DIR.
 NO_PREFIX_PACKAGE_DATA_DIR="${packagedatadir}"
@@ -47,22 +47,18 @@ AC_SUBST(NO_PREFIX_PACKAGE_DOC_DIR)
 PACKAGE_DOC_DIR="${packageprefix}/${packagedocdir}"
 AC_SUBST(PACKAGE_DOC_DIR)
 
-dnl Subst PACKAGE_PIXMAPS_DIR.
-NO_PREFIX_PACKAGE_PIXMAPS_DIR="${packagepixmapsdir}"
-AC_SUBST(NO_PREFIX_PACKAGE_PIXMAPS_DIR)
-PACKAGE_PIXMAPS_DIR="${packageprefix}/${packagepixmapsdir}"
-AC_SUBST(PACKAGE_PIXMAPS_DIR)
+dnl Subst PACKAGE_PLUGINS_DIR.
+NO_PREFIX_PACKAGE_PLUGINS_DIR="${packagepluginsdir}"
+AC_SUBST(NO_PREFIX_PACKAGE_PLUGINS_DIR)
+PACKAGE_PLUGINS_DIR="${packageprefix}/${packagepluginsdir}"
+AC_SUBST(PACKAGE_PLUGINS_DIR)
 
 AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${packageprefix}/${packagedatadir}","")
 AC_DEFINE_UNQUOTED(SYSTEM_DATA_DIR, "${packageprefix}/${systemdatadir}","")
 AC_DEFINE_UNQUOTED(PACKAGE_DOC_DIR, "${packageprefix}/${packagedocdir}","")
-AC_DEFINE_UNQUOTED(PACKAGE_PIXMAPS_DIR, "${packageprefix}/${packagepixmapsdir}","")
-AC_DEFINE_UNQUOTED(SYSTEM_PIXMAPS_DIR, "${packageprefix}/${systempixmapsdir}","")
+AC_DEFINE_UNQUOTED(PACKAGE_PLUGINS_DIR, "${packageprefix}/${packagepluginsdir}","")
+AC_DEFINE_UNQUOTED(SYSTEM_PLUGINS_DIR, "${packageprefix}/${systempluginsdir}","")
 AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
-
-AC_SUBST(PACKAGE_SOURCE_DIR)
-
-
 
 PKG_CHECK_MODULES(EFL, evasxx eflxx edjexx ecorexx einaxx)
 AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")

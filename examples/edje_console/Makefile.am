@@ -13,7 +13,8 @@ edje_console_SOURCES = \
 edje_console_CXXFLAGS = \
 	-I../../include \
 	$(EFL_CFLAGS) \
-	$(SIGC_CFLAGS)
+	$(SIGC_CFLAGS) \
+	-I../../src
 
 edje_console_LDADD = \
 	../../src/libstateval.la \

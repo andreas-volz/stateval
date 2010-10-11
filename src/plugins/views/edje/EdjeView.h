@@ -2,12 +2,10 @@
 #define EDJE_VIEW_H
 
 /* stateval */
-#include "stateval/View.h"
-#include "stateval/Thread.h"
+#include "stateval/stateval.h"
 
-/* Project */
+/* local */
 #include "EcoreDispatcher.h"
-#include "GraphicContext.h"
 
 /* STD */
 #include <string>
@@ -18,11 +16,12 @@
 
 /* forward declarations */
 class StateMachineAccess;
+class EdjeContext;
 
 class EdjeView : public View
 {
 public:
-  EdjeView (const std::list <std::string> &params);
+  EdjeView (Context *context, const std::list <std::string> &params);
 
   const std::string getType ();
   
@@ -55,7 +54,7 @@ private:
   
   /* Singletons at first */
   StateMachineAccess *mStateMachineAccess;
-  GraphicContext *mGraphicContext;
+  EdjeContext *mEdjeContext;
   
   Evasxx::Canvas *mEvas;
   Edjexx::Object *mEdje;

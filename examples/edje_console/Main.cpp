@@ -8,7 +8,7 @@
 #include <map>
 #include <cassert>
 
-/* Project */
+/* local */
 #include <stateval/stateval.h>
 #include "searchFile.h"
 #include "InputThread.h"
@@ -17,6 +17,9 @@
 /* EFL */
 #include <evasxx/Evasxx.h>
 #include <edjexx/Edjexx.h>
+
+/* stateval plugins */
+#include "plugins/views/edje/EdjeContext.h"
 
 using namespace std;
 
@@ -36,14 +39,12 @@ Main::Main (int argc, const char **argv) :
   mBackgroundRect.setFocus (true);
   mBackgroundRect.show ();
     
-  // initialize Singleton that holds graphic context
-  /*GraphicContext &graphicContext (GraphicContext::instance ());
-  graphicContext.init (mWindow.getCanvas());
-  graphicContext.setResolution (initialWindowSize);*/
+  EdjeContext edjeContext (mWindow.getCanvas());
+  edjeContext.setResolution (initialWindowSize);
   
   StateMachine sm;
   
-  sm.load (searchDataDir () + "/example_sm/");
+  sm.load (&edjeContext, searchDataDir () + "/example_sm/");
   
   // fill statemachine with data
   //buidStateMachine (sm, evas);

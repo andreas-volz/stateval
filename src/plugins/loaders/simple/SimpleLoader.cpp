@@ -12,11 +12,12 @@
 #include "stateval/DecisionState.h"
 #include "stateval/ViewState.h"
 
-/* Project */
+/* local */
 #include "SimpleLoader.h"
 #include "FileReader.h"
 #include "localUtil.h"
 #include "stringUtil.h"
+#include "searchFile.h"
 
 using namespace std;
 
@@ -48,7 +49,7 @@ const unsigned int SimpleLoader::getMinorVersion ()
   return minor_version;
 }
 
-bool SimpleLoader::load (const std::string &smDir)
+bool SimpleLoader::load (Context *context, const std::string &smDir)
 {
   FileReader fileReader;
   
@@ -69,7 +70,7 @@ bool SimpleLoader::load (const std::string &smDir)
   if (!fileReader)
     return false;
 
-  fromViewsStream (fileReader, smDir);
+  fromViewsStream (context, fileReader, smDir);
   fileReader.close ();
   
   // load states
@@ -124,7 +125,7 @@ void SimpleLoader::fromEventsStream (std::ifstream &in_stream)
   }
 }
 
-void SimpleLoader::fromViewsStream (std::ifstream &in_stream, const std::string &smDir)
+void SimpleLoader::fromViewsStream (Context *context, std::ifstream &in_stream, const std::string &smDir)
 {
   int params;
   string line;
@@ -198,19 +199,20 @@ void SimpleLoader::fromViewsStream (std::ifstream &in_stream, const std::string 
       
       if (viewType == "EdjeView")
       {
-#if HAVE_EFL
-        //view = new EdjeView (smDir + "/" + fileName, groupName);
-#else
-        cerr << "Error: Compiled sateval without EFL support!" << endl;
-        assert (false);
-#endif
+        std::list <std::string> params;
+        params.push_back (smDir + "/" + fileName);
+        params.push_back (groupName);
+
+        string pluginFile (searchPluginFile ("views", "edje"));  
+        view = loadView (pluginFile, context, params);
       }
       else if (viewType == "TextView")
       {
         std::list <std::string> params;
         params.push_back (smDir + "/" + fileName);
-        
-        view = loadView ("xxx", params);
+
+        string pluginFile (searchPluginFile ("views", "text"));  
+        view = loadView (pluginFile, context, params);
       }
       else
       {

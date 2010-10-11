@@ -40,7 +40,9 @@ libstateval_la_SOURCES = \
 	localUtil.cpp \
 	localUtil.h \
 	ViewPluginLoader.cpp \
-	ViewPluginLoader.h
+	ViewPluginLoader.h \
+	searchFile.cpp \
+	searchFile.h
 
 libstateval_la_CXXFLAGS = \
 	-I \

@@ -4,9 +4,10 @@
 
 /* local */
 #include "EdjeView.h"
+#include "EdjeContext.h"
 
 /* stateval */
-#include "stateval/StateMachineAccess.h"
+#include "stateval/stateval.h"
 
 /* STD */
 #include <iostream>
@@ -20,13 +21,15 @@ static const char* type = "View";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-EdjeView::EdjeView (const std::list <std::string> &params) :
+EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   mStateMachineAccess (&StateMachineAccess::instance ()),
-  mGraphicContext (&GraphicContext::instance ()),
-  mEvas (&mGraphicContext->getCanvas ()),
+  mEdjeContext (NULL),
+  mEvas (NULL),
   mEdje (NULL),
   groupState (Unrealized)
 {
+  assert (context);
+  
   //if (params.length () != 2)
     //throw something
   
@@ -34,6 +37,9 @@ EdjeView::EdjeView (const std::list <std::string> &params) :
   mFilename = *params_it;
   ++params_it;
   mGroupname = *params_it;
+
+  mEdjeContext = static_cast <EdjeContext*> (context);
+  mEvas = &mEdjeContext->getCanvas ();
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
@@ -91,7 +97,7 @@ void EdjeView::realizeDispatched (int missedEvents)
   mEdje->connect ("*", "*", sigc::mem_fun (this, &EdjeView::allFunc));
 
   // TODO: think about resizing to group min/max if available
-  mEdje->resize (mGraphicContext->getResolution ());
+  mEdje->resize (mEdjeContext->getResolution ());
 
   mEdje->setLayer (0);
   mEdje->show ();
@@ -157,10 +163,9 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
 /* Plugin needed C functions */
 /*****************************/
 
-PLUGIN_EXPORT EdjeView *plugin_create (const std::list <std::string> &params)
+PLUGIN_EXPORT EdjeView *plugin_create (Context *context, const std::list <std::string> &params)
 {
-  // FIXME: think about pluxx change or define init function in EdjeView
-  return new EdjeView (params);
+  return new EdjeView (context, params);
 }
 
 PLUGIN_EXPORT void plugin_destroy (View *plugin)

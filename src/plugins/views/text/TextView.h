@@ -8,10 +8,13 @@
 #include <string>
 #include <list>
 
+/* forward declarations */
+class Context;
+
 class TextView : public View
 {
 public:
-  TextView (const std::list <std::string> &params);
+  TextView (Context *context, const std::list <std::string> &params);
   virtual ~TextView () {};
 
   const std::string getType ();

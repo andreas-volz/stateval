@@ -1,8 +1,8 @@
 
 lib_LTLIBRARIES = \
-	stateval_loader_simple.la
+	stateval_loaders_simple.la
 
-stateval_loader_simple_la_SOURCES = \
+stateval_loaders_simple_la_SOURCES = \
 	SimpleLoader.cpp\
 	SimpleLoader.h \
 	FileReader.cpp \
@@ -10,17 +10,19 @@ stateval_loader_simple_la_SOURCES = \
 	localUtil.cpp \
 	localUtil.h \
 	stringUtil.cpp \
-	stringUtil.h
+	stringUtil.h \
+	searchFile.cpp \
+	searchFile.h
 
-stateval_loader_simple_la_CXXFLAGS = \
+stateval_loaders_simple_la_CXXFLAGS = \
 	-I \
 	../../../../include
 
-stateval_loader_simple_la_LIBADD = \
+stateval_loaders_simple_la_LIBADD = \
 	$(EFL_LIBS) \
 	$(PLUXX_LIBS)
 
-stateval_loader_simple_la_LDFLAGS = \
+stateval_loaders_simple_la_LDFLAGS = \
 	-module \
 	-avoid-version \
 	-shared

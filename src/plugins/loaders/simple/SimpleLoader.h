@@ -21,7 +21,7 @@ public:
 
   const unsigned int getMinorVersion ();
   
-  bool load (const std::string &smDir);
+  bool load (Context *context, const std::string &smDir);
   
   void unload ();
   
@@ -48,7 +48,7 @@ private:
    *
    * the last parameter depends on view_type
    */
-  void fromViewsStream (std::ifstream &in_stream, const std::string &smDir);
+  void fromViewsStream (Context *context, std::ifstream &in_stream, const std::string &smDir);
 
   /*!
    * Format description:

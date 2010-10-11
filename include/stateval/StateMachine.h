@@ -5,9 +5,10 @@
 #include <vector>
 #include <queue>
 
-/* Project */
+/* local */
 #include "State.h"
 #include "Loader.h"
+#include "Context.h"
 
 /* forward declarations */
 
@@ -20,7 +21,7 @@ public:
 
   void init ();
 
-  bool load (const std::string &smDir);
+  bool load (Context *context, const std::string &smDir);
   
   void pushEvent (int event);
   

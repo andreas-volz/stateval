@@ -14,7 +14,7 @@ Main::Main ()
 {
   StateMachine sm;
   
-  sm.load (searchDataDir () + "/text_sm/");
+  sm.load (NULL, searchDataDir () + "/text_sm/");
   
   // fill statemachine with data
   //buidStateMachine (sm, evas);

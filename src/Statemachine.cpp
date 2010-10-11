@@ -2,9 +2,10 @@
 #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/StateMachine.h"
 #include "localUtil.h"
+#include "searchFile.h"
 
 /* STD */
 #include <iostream>
@@ -19,7 +20,7 @@ StateMachine::StateMachine () :
   mActiveState (NULL), // link to root state
   mSMInit (false)
 {
-  string pluginFile ("/home/andreas/src/svn/stateval/stateval/src/plugins/loaders/simple/.libs/stateval_loader_simple.so");
+  string pluginFile (searchPluginFile ("loaders", "simple"));
   
   try
   {
@@ -58,9 +59,9 @@ void StateMachine::init ()
   mSMInit = true;
 }
 
-bool StateMachine::load (const std::string &smDir)
+bool StateMachine::load (Context *context, const std::string &smDir)
 {
-  return mLoader->load (smDir);
+  return mLoader->load (context, smDir);
 }
 
 void StateMachine::pushEvent (int event)

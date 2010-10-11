@@ -66,15 +66,14 @@ int Loader::findMapingEvent (const std::string &event)
   return -1;
 }
 
-View *Loader::loadView (const std::string &viewPlugin, const std::list <std::string> &params)
-{
-  string pluginFile ("/home/andreas/src/svn/stateval/stateval/src/plugins/views/text/.libs/stateval_view_text.so");  
+View *Loader::loadView (const std::string &viewPlugin, Context *context, const std::list <std::string> &params)
+{  
   View *view = NULL;
   
   try
   {
-    view = (View*) ViewPluginLoader::loadFactory (pluginFile, "View", 1,
-                                                  params);
+    view = (View*) ViewPluginLoader::loadFactory (viewPlugin, "View", 1,
+                                                  context, params);
 
     // TODO: correct exception handling!
     
