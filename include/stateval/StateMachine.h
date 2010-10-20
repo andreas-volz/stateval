@@ -16,7 +16,7 @@
 class StateMachine
 {
 public:  
-  StateMachine ();
+  StateMachine (const std::string &loaderPlugin);
   virtual ~StateMachine ();
 
   void init ();

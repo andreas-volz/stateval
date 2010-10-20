@@ -66,6 +66,7 @@ AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")
 PKG_CHECK_MODULES(SIGC, sigc++-2.0)
 PKG_CHECK_MODULES(CPPUNIT, cppunit)
 PKG_CHECK_MODULES(PLUXX, pluxx)
+PKG_CHECK_MODULES(XML, libxml++-2.6)
 AC_OUTPUT([
 Makefile
 data/Makefile
@@ -75,6 +76,7 @@ src/Makefile
 src/plugins/Makefile
 src/plugins/loaders/Makefile
 src/plugins/loaders/simple/Makefile
+src/plugins/loaders/smxml/Makefile
 src/plugins/views/Makefile
 src/plugins/views/edje/Makefile
 src/plugins/views/text/Makefile

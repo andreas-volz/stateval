@@ -12,12 +12,10 @@ using namespace std;
 
 Main::Main ()
 {
-  StateMachine sm;
+  StateMachine sm ("smxml");
   
-  sm.load (NULL, searchDataDir () + "/text_sm/");
-  
-  // fill statemachine with data
-  //buidStateMachine (sm, evas);
+  //sm.load (NULL, searchDataDir () + "/text_sm/");
+  sm.load (NULL, searchDataDir () + "/text_smxml/test.smxml");
   
   StateMachineThread smThread (sm);
   
@@ -35,7 +33,6 @@ Main::Main ()
   sm.init ();
   
   // inital event
-  // TODO Ecorexx::Job
   stateMachineAccess.pushEvent ("HK_NAV");
 
   // stupid wait loop

@@ -19,7 +19,6 @@ stateval_loaders_simple_la_CXXFLAGS = \
 	../../../../include
 
 stateval_loaders_simple_la_LIBADD = \
-	$(EFL_LIBS) \
 	$(PLUXX_LIBS)
 
 stateval_loaders_simple_la_LDFLAGS = \
@@ -28,7 +27,6 @@ stateval_loaders_simple_la_LDFLAGS = \
 	-shared
 
 AM_CPPFLAGS = \
-	$(EFL_CFLAGS)\
 	$(PLUXX_CFLAGS)
 
 ## File created by the gnome-build tools

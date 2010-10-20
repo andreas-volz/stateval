@@ -16,11 +16,11 @@
 
 using namespace std;
 
-StateMachine::StateMachine () :
+StateMachine::StateMachine (const std::string &loaderPlugin) :
   mActiveState (NULL), // link to root state
   mSMInit (false)
 {
-  string pluginFile (searchPluginFile ("loaders", "simple"));
+  string pluginFile (searchPluginFile ("loaders", loaderPlugin));
   
   try
   {

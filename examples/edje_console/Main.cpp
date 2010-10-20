@@ -42,7 +42,7 @@ Main::Main (int argc, const char **argv) :
   EdjeContext edjeContext (mWindow.getCanvas());
   edjeContext.setResolution (initialWindowSize);
   
-  StateMachine sm;
+  StateMachine sm ("simple");
   
   sm.load (&edjeContext, searchDataDir () + "/example_sm/");
   
