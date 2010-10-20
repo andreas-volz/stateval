@@ -7,6 +7,13 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 PROJECT(stateval)
 
+# The base path for libsigc++
+SET(LIBSIGCPP_DIR "${PROJECT_SOURCE_DIR}/../libsigc++-2.2.8")
+
+# The base path for pluxx
+SET(LIBPLUXX_DIR "${PROJECT_SOURCE_DIR}/../../pluxx")
+
+
 ####################################################################################
 # Target OS specific flags.
 ####################################################################################
@@ -23,17 +30,12 @@ IF(APPLE)
 
     FIND_LIBRARY(CPPUNIT cppunit)
 
-    MARK_AS_ADVANCED (
-       CPPUNIT
-    )
+    MARK_AS_ADVANCED (CPPUNIT)
 
-    SET(EXTRA_LIBS
-        ${CPPUNIT}
-    )
+    SET(EXTRA_LIBS ${CPPUNIT})
+    
 ELSE()
-    SET(EXTRA_LIBS
-        cppunit
-    )
+    SET(EXTRA_LIBS cppunit)
 ENDIF (APPLE)
 
 SET(EXTRA_LIBS pthread ${EXTRA_LIBS})
@@ -51,66 +53,65 @@ ADD_LIBRARY(stateval STATIC
     src/CompoundState.cpp
     src/Condition.cpp
     src/DecisionState.cpp
+#    src/EcoreDispatcher.cpp
     src/Exceptions.cpp
-    src/FileReader.cpp
     src/FireEventAction.cpp
     src/GlobalVariables.cpp
     src/HistoryState.cpp
+    src/Loader.cpp
+#    src/LoaderPluginLoader.cpp
     src/localUtil.cpp
+    src/plugins/loaders/simple/FileReader.cpp
+    src/plugins/loaders/simple/localUtil.cpp
+    src/plugins/loaders/simple/searchFile.cpp
+    src/plugins/loaders/simple/SimpleLoader.cpp
+    src/plugins/loaders/simple/stringUtil.cpp
+#    src/plugins/views/edje/EcoreDispatcher.cpp
+#    src/plugins/views/edje/EdjeContext.cpp
+#    src/plugins/views/edje/EdjeView.cpp
+    src/plugins/views/text/FileReader.cpp
+    src/plugins/views/text/TextView.cpp
+    src/searchFile.cpp
     src/SimpleState.cpp
-    src/SMLoader.cpp
     src/State.cpp
     src/Statemachine.cpp
     src/StateMachineAccess.cpp
     src/StateMachineThread.cpp
     src/stringUtil.cpp
-    src/TextView.cpp
+    src/Thread.cpp
     src/Transition.cpp
     src/Variable.cpp
     src/View.cpp
+    src/ViewPluginLoader.cpp
     src/ViewState.cpp
-    src/Thread.cpp
-#    src/EcoreDispatcher.cpp
-#    src/EdjeView.cpp
-#    src/GraphicContext.cpp
-    
-    src/FileReader.h
-    src/localUtil.h
-    src/stringUtil.h
 
 # include
     include/stateval/Action.h
     include/stateval/CompoundState.h
     include/stateval/Condition.h
+    include/stateval/Context.h
     include/stateval/DecisionState.h
     include/stateval/EcoreDispatcher.h
-    include/stateval/EdjeView.h
     include/stateval/EventList.h
     include/stateval/Exceptions.h
     include/stateval/FireEventAction.h
     include/stateval/GlobalVariables.h
-    include/stateval/GraphicContext.h
     include/stateval/HistoryState.h
-    include/stateval/Makefile.am
+    include/stateval/Loader.h
     include/stateval/SimpleState.h
-    include/stateval/SMLoader.h
     include/stateval/State.h
     include/stateval/StateMachine.h
     include/stateval/StateMachineAccess.h
     include/stateval/StateMachineThread.h
     include/stateval/stateval.h
-    include/stateval/TextView.h
     include/stateval/Thread.h
     include/stateval/Transition.h
     include/stateval/Variable.h
     include/stateval/View.h
     include/stateval/ViewState.h
-
 )
 
-SET(LIBSIGCPP_DIR "${PROJECT_SOURCE_DIR}/../libsigc++-2.2.8")
 # Build sigc++ if its sourcecode exists on a certain place (here '../libsigc++-2.2.8')
-
 IF (EXISTS ${LIBSIGCPP_DIR}/)
     
     ADD_LIBRARY(sigc++ STATIC
@@ -123,7 +124,7 @@ IF (EXISTS ${LIBSIGCPP_DIR}/)
         ${LIBSIGCPP_DIR}/sigc++/trackable.cc
     )
 
-    ADD_DEPENDENCIES(stateval sigc++)
+    ADD_DEPENDENCIES(stateval sigc++ pluxx)
 
     INCLUDE_DIRECTORIES (
         ${LIBSIGCPP_DIR}
@@ -131,15 +132,21 @@ IF (EXISTS ${LIBSIGCPP_DIR}/)
 
 ENDIF()
 
+# build pluxx if there is a ${LIBPLUXX_DIR}/CMakeLists.txt
+IF (EXISTS ${LIBPLUXX_DIR}/CMakeLists.txt)
+    ADD_SUBDIRECTORY(${LIBPLUXX_DIR} pluxx)
+ENDIF()
+
+INCLUDE_DIRECTORIES (${LIBPLUXX_DIR}/include)
 
 ####################################################################################
 # The executeable(s) to build to.
 ####################################################################################
-ADD_EXECUTABLE(testThread
+ADD_EXECUTABLE(testThread EXCLUDE_FROM_ALL
     test/module/testThread.cpp
 )
 
-TARGET_LINK_LIBRARIES(testThread z sigc++ stateval ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(testThread z sigc++ stateval pluxx ${EXTRA_LIBS})
 
 ####################################################################################
 # Target specific flags.
@@ -151,6 +158,4 @@ ENDIF(APPLE)
 ####################################################################################
 # Additional Directories to deal with...
 ####################################################################################
-# ADD_SUBDIRECTORY(lib)
-
 # INSTALL(TARGETS projectExe DESTINATION /usr/bin)
