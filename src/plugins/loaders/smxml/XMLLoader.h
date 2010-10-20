@@ -46,7 +46,4 @@ protected:
   void loadSiteFile (const Glib::ustring& filepath);
   
 private:
-  const std::string rootNode;
-  const std::string siteNode;
-  const std::string folderNode;
 };

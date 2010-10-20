@@ -10,10 +10,7 @@ static const char* type = "Loader";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-XMLLoader::XMLLoader ():
-  rootNode ("stateval"),
-  siteNode ("site"), 
-  folderNode ("folder")
+XMLLoader::XMLLoader ()
 {
 
 }
@@ -62,7 +59,7 @@ void XMLLoader::parseRootNode (const xmlpp::Node * node)
 
   if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
   {
-    if (nodename == rootNode)
+    if (nodename == "stateval")
     {
       //Recurse through child nodes:
       xmlpp::Node::NodeList list = node->get_children ();
@@ -156,6 +153,9 @@ void XMLLoader::parseEventNode (const xmlpp::Node * node)
     if (name_attribute)
     {
       cout << "Attribute name = " << name_attribute->get_value () << endl;
+
+      // add event from XML into statemachine
+      addEvent (name_attribute->get_value ());
     }
       
   }
