@@ -5,6 +5,7 @@
 /* local */
 #include "XMLLoader.h"
 #include "searchFile.h"
+#include "localUtil.h"
 
 /* STD */
 #include <cassert>
@@ -56,6 +57,11 @@ bool XMLLoader::load (Context *context, const std::string &sm)
       //Walk the tree:
       const xmlpp::Node * pNode = parser.get_document ()->get_root_node ();	//deleted by DomParser.
       parseRootNode (pNode);
+
+     // delete temporary data maps after constructing statemachine
+     // as the mapper data isn't needed at runtime
+     mStateNameMapper.clear ();
+     mViewNameMapper.clear ();
     }
   }
   catch (const exception &ex)
@@ -66,7 +72,11 @@ bool XMLLoader::load (Context *context, const std::string &sm)
 
 void XMLLoader::unload ()
 {
+  // free mViewList
+  delete_stl_container <std::vector <View*>, View*> (mViewList);
 
+  // free mStateList
+  delete_stl_container <std::vector <State*>, State*> (mStateList);
 }
 
 void XMLLoader::parseRootNode (const xmlpp::Node * node)
