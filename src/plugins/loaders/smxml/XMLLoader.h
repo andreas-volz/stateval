@@ -33,17 +33,21 @@ protected:
   void parseEventNode (const xmlpp::Node* node);
 
   void parseStatesNode (const xmlpp::Node* node);
-  void parseStateNodeIndex (const xmlpp::Node* node, unsigned int i);
-  void parseStateNode (const xmlpp::Node* node, unsigned int i);
+  void parseStateNodeIndex (const xmlpp::Node* node, unsigned int &i);
+  void parseStateNode (const xmlpp::Node* node);
 
   void parseTransitionsNode (const xmlpp::Node* node);
   void parseTransitionNode (const xmlpp::Node* node);
 
   void parseViewsNode (const xmlpp::Node* node);
-  void parseViewNode (const xmlpp::Node* node, const Glib::ustring &plugin, unsigned int i);
+  void parseViewNode (const xmlpp::Node* node, const Glib::ustring &plugin, unsigned int &i);
+  void parseViewParamsNode (const xmlpp::Node * node, std::list <std::string> &params);
+  void parseParamNode (const xmlpp::Node * node, std::list <std::string> &params);
   void parseViewMapNode (const xmlpp::Node* node, View *view);
   
 private:
   std::map <Glib::ustring, unsigned int> mStateNameMapper;
   std::map <Glib::ustring, unsigned int> mViewNameMapper;
+
+  Context *mContext;
 };

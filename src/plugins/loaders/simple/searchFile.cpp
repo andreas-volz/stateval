@@ -12,7 +12,7 @@ using namespace std;
 
 const std::string searchPluginFile (const std::string &type, const std::string &name)
 {
-  list <string> nameList; // TODO: port to list and iterator usage
+  list <string> nameList;
   const string ext (".so");
   const string relPath ("plugins/" + type + "/" + name + "/");
   const string soName ("stateval_" + type + "_" + name + ext);
@@ -46,7 +46,7 @@ const std::string searchFile (std::list <std::string> &nameList)
     const string &try_name = *li_it;
 
     bool found = !(stat (try_name.c_str (), &buf));
-    cout << "try_name: " << try_name << endl;
+    //cout << "try_name: " << try_name << endl;
 
     if (found)
     {

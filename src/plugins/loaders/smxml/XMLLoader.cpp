@@ -2,7 +2,9 @@
 #include <config.h>
 #endif
 
+/* local */
 #include "XMLLoader.h"
+#include "searchFile.h"
 
 /* STD */
 #include <cassert>
@@ -13,7 +15,8 @@ static const char* type = "Loader";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-XMLLoader::XMLLoader ()
+XMLLoader::XMLLoader () :
+  mContext (NULL)
 {
 
 }
@@ -40,6 +43,8 @@ const unsigned int XMLLoader::getMinorVersion ()
 
 bool XMLLoader::load (Context *context, const std::string &sm)
 {
+  mContext = context;
+  
   try
   {
     xmlpp::DomParser parser;
@@ -79,12 +84,36 @@ void XMLLoader::parseRootNode (const xmlpp::Node * node)
   {
     if (nodename == "stateval")
     {
-      //Recurse through child nodes:
+      // Recurse through child nodes
       xmlpp::Node::NodeList list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
-        parseBlockNode (*iter);
+        parseEventsNode (*iter);
+      }
+
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseViewsNode (*iter);
+      }
+
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseStatesNode (*iter);
+      }
+
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseTransitionsNode (*iter);
       }
     }
   }
@@ -191,32 +220,29 @@ void XMLLoader::parseStatesNode (const xmlpp::Node * node)
   {
     if (nodename == "states")
     {
-      //Recurse through child nodes: (create Index)
+      // Recurse through child nodes (create Index)
       unsigned int i = 0;
       xmlpp::Node::NodeList list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end ();
            ++iter)
       {
-        ++i;
         parseStateNodeIndex (*iter, i);
       }
 
-      //Recurse through child nodes:
-      i = 0;
+      // Recurse through child nodes
       list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end ();
            ++iter)
       {
-        ++i;
-        parseStateNode (*iter, i);
+        parseStateNode (*iter);
       }
     }
   }
 }
 
-void XMLLoader::parseStateNodeIndex (const xmlpp::Node * node, unsigned int i)
+void XMLLoader::parseStateNodeIndex (const xmlpp::Node * node, unsigned int &i)
 {
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
@@ -236,17 +262,18 @@ void XMLLoader::parseStateNodeIndex (const xmlpp::Node * node, unsigned int i)
     {
       const Glib::ustring &name = name_attribute->get_value ();
       cout << "Attribute name (Index) = " << name << endl;
+      ++i; // modifies also outside of function!
       mStateNameMapper[name] = i;
     }      
   }
 }
 
-void XMLLoader::parseStateNode (const xmlpp::Node * node, unsigned int i)
+void XMLLoader::parseStateNode (const xmlpp::Node * node)
 {
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
   
-  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+  if (nodeText && nodeText->is_white_space ())// Let's ignore the indenting
     return;
 
   Glib::ustring nodename = node->get_name ();
@@ -354,7 +381,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node, unsigned int i)
       
       assert (state);
       
-      state->setID (i);
+      state->setID (mStateNameMapper[name_attribute->get_value ()]);
       state->setName (name_attribute->get_value ());
       
       addState (state);
@@ -490,14 +517,13 @@ void XMLLoader::parseViewsNode (const xmlpp::Node * node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
-        ++i;
         parseViewNode (*iter, plugin_attribute->get_value (), i);
       }
     }
   }
 }
 
-void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &plugin, unsigned int i)
+void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &plugin, unsigned int &i)
 {
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
@@ -515,36 +541,90 @@ void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &pl
     if (nodename == "view")
     {
       const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
-      const xmlpp::Attribute *params_attribute = nodeElement->get_attribute ("params");
 
       if (name_attribute)
       {
         cout << "Attribute name = " << name_attribute->get_value () << endl;
         mViewNameMapper[name_attribute->get_value ()] = i;
+        ++i; // modifies also outside of function!
       }
       else
       {
         // throw exception
       }
 
-      std::list <std::string> params;
-      if (params_attribute)
+      list <std::string> params;
+      
+      // Recurse through child nodes
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
       {
-        cout << "Attribute params = " << params_attribute->get_value () << endl;
-        //params.push_back (smDir + "/" + fileName);
-        //params.push_back (groupName);
+        parseViewParamsNode (*iter, params);
       }
 
-      //string pluginFile (searchPluginFile ("views", "edje"));  
-      //view = loadView (pluginFile, context, params);
+      string pluginFile (searchPluginFile ("views", plugin));  
+      view = loadView (pluginFile, mContext, params);
+      mViewList.push_back (view);
       
-      // Recurse through child nodes:
-      xmlpp::Node::NodeList list = node->get_children ();
+      // Recurse through child nodes
+      list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
         parseViewMapNode (*iter, view);
       }
+    }
+  }
+}
+
+void XMLLoader::parseViewParamsNode (const xmlpp::Node * node, std::list <std::string> &params)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "params")
+    {
+      // Recurse through child nodes
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseParamNode (*iter, params);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseParamNode (const xmlpp::Node * node, std::list <std::string> &params)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodename.empty ())
+  {
+    cout << "Node = " << node->get_name () << endl;
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("value");
+
+    if (name_attribute)
+    {
+      cout << "Attribute value = " << name_attribute->get_value () << endl;
+
+      params.push_back (name_attribute->get_value ());
     }
   }
 }
@@ -559,7 +639,7 @@ void XMLLoader::parseViewMapNode (const xmlpp::Node * node, View *view)
 
   Glib::ustring nodename = node->get_name ();
 
-  if (!nodename.empty ())
+  if (nodename == "map")
   {
     cout << "Node = " << node->get_name () << endl;
 
@@ -570,11 +650,22 @@ void XMLLoader::parseViewMapNode (const xmlpp::Node * node, View *view)
     {
       cout << "Attribute from = " << from_attribute->get_value () << endl;
     }
+    else
+    {
+      // throw exception
+    }  
+    
     if (to_attribute)
     {
       cout << "Attribute to = " << to_attribute->get_value () << endl;
     }
+    else
+    {
+      // throw exception
+    }
 
+    view->addEventMapping (findMapingEvent (from_attribute->get_value ()), 
+                           findMapingEvent (to_attribute->get_value ()));
   }
 }
 

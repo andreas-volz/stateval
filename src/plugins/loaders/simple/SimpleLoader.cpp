@@ -293,7 +293,7 @@ void SimpleLoader::fromStatesStream (std::ifstream &in_stream)
        ++sl_it)
   {
     const list <string> &tokenList = *sl_it;
-    ++i;
+    ++i; // FIXME: should be set to 0 before looping?
     
     list <string>::const_iterator token = tokenList.begin ();
     if (token == tokenList.end ()) 

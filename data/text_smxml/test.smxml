@@ -78,41 +78,65 @@
   </transitions>
   
   <views plugin="text">
-    <view name="NavMainView" params="NavMainView.view">
+    <view name="NavMainView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavMainView.view"/>
+      </params>
       <map from="SK_1" to="NAV_COUNTRY"/>
       <map from="SK_2" to="NAV_INFO"/>
       <map from="SK_3" to="HK_TUNER"/>
       <map from="SK_4" to="HK_MEDIA"/>
     </view>
 
-    <view name="NavCountryView" params="NavCountryView.view">
+    <view name="NavCountryView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavCountryView.view"/>
+      </params>
       <map from="SK_1" to="NAV_CITY"/>
       <map from="HK_RETURN" to="NAV_MAIN"/>
     </view>
     
-    <view name="NavCityView" params="NavCityView.view">
+    <view name="NavCityView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavCityView.view"/>
+      </params>
       <map from="SK_1" to="NAV_STREET"/>
       <map from="HK_RETURN" to="NAV_COUNTRY"/>
     </view>
     
-    <view name="NavStreetView" params="NavStreetView.view">
+    <view name="NavStreetView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavStreetView.view"/>
+      </params>
       <map from="SK_1" to="NAV_MAIN"/>
       <map from="HK_RETURN" to="NAV_CITY"/>
     </view>
 
-    <view name="TunerListView" params="TunerListView.view">
+    <view name="TunerListView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/TunerListView.view"/>
+      </params>
       <map from="SK_1" to="TUNER_FREQ"/>
     </view>
 
-    <view name="TunerFrequencyView" params="TunerFrequencyView.view">
+    <view name="TunerFrequencyView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/TunerFrequencyView.view"/>
+      </params>
       <map from="HK_RETURN" to="TUNER_LIST"/>
     </view>
     
-    <view name="NavInfoView" params="NavInfoView.view">
+    <view name="NavInfoView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavInfoView.view"/>
+      </params>
       <map from="HK_RETURN" to="NAV_MAIN"/>
     </view>    
     
-    <view name="MediaListView" params="MediaListView.view">
+    <view name="MediaListView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/MediaListView.view"/>
+      </params>
       <map from="HK_RETURN" to="HK_NAV"/>
     </view>
   </views>

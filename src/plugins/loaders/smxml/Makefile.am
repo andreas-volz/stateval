@@ -4,7 +4,9 @@ lib_LTLIBRARIES = \
 
 stateval_loaders_smxml_la_SOURCES = \
 	XMLLoader.cpp            \
-	XMLLoader.h
+	XMLLoader.h            \
+	searchFile.cpp            \
+	searchFile.h
 
 stateval_loaders_smxml_la_CXXFLAGS = \
 	-I \
