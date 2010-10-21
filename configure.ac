@@ -75,7 +75,6 @@ include/stateval/Makefile
 src/Makefile
 src/plugins/Makefile
 src/plugins/loaders/Makefile
-src/plugins/loaders/simple/Makefile
 src/plugins/loaders/smxml/Makefile
 src/plugins/views/Makefile
 src/plugins/views/edje/Makefile
