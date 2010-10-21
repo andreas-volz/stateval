@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!DOCTYPE test PUBLIC "" "test.dtd">
+<!--TODO:
+  How to handle the dtd? I think it should be installed together with the smxml loader plugin...
+ -->
+
+<stateval>
+
+  <events>
+    <event name="HK_NAV"/>
+    <event name="HK_PHONE"/>
+    <event name="HK_TUNER"/>
+    <event name="HK_MEDIA"/>
+    <event name="HK_RETURN"/>
+    <event name="SK_1"/>
+    <event name="SK_2"/>
+    <event name="SK_3"/>
+    <event name="SK_4"/>
+    <event name="NAV_MAIN"/>
+    <event name="NAV_COUNTRY"/>
+    <event name="NAV_CITY"/>
+    <event name="NAV_STREET"/>
+    <event name="NAV_INFO"/>
+    <event name="TUNER_LIST"/>
+    <event name="TUNER_FREQ"/>
+    <event name="TEL_ARD"/>
+    <event name="TEL_DIAL"/>
+    <event name="MEDIA_LIST"/>
+    <event name="MEDIA_DETAIL"/>
+    <event name="MEDIA_TITLE_DETAILS"/>
+    <event name="MEDIA_CD_DETAILS"/>
+    <event name="MAP_ZOOM_IN"/>
+    <event name="MAP_ZOOM_OUT"/>
+    <event name="MEDIA_LOAD"/>
+    <event name="MEDIA_INCREMENT_TITLE"/>
+    <event name="MEDIA_DECREMENT_TITLE"/>
+    <event name="Button01#clicked"/>
+    <event name="Button02#clicked"/>
+    <event name="Button03#clicked"/>
+    <event name="Button04#clicked"/>
+    <event name="Button05#clicked"/>
+    <event name="Button06#clicked"/>
+    <event name="#load"/>
+  </events>
+  
+  <states>
+    <state name="Root" type="CompoundState" parent="0"/>
+    <state name="Initial" type="SimpleState" parent="Root"/>
+    <state name="NavCompound" type="CompoundState" parent="Root"/>
+    <state name="NavInitial" type="SimpleState" parent="NavCompound"/>
+    <state name="NavMain" type="ViewState" parent="NavCompound" view="NavMainView"/>
+    <state name="NavCountry" type="ViewState" parent="NavCompound" view="NavCountryView"/>
+    <state name="NavCity" type="ViewState" parent="NavCompound" view="NavCityView"/>
+    <state name="NavStreet" type="ViewState" parent="NavCompound" view="NavStreetView"/>
+    <state name="TunerCompound" type="CompoundState" parent="Root"/>
+    <state name="TunerInitial" type="SimpleState" parent="TunerCompound"/>
+    <state name="TunerHistory" type="HistoryState" parent="TunerCompound" history="TunerList"/>
+    <state name="TunerList" type="ViewState" parent="TunerCompound" view="TunerListView"/>
+    <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
+    <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView"/>
+    <state name="TunerAvailable" type="DecisionState" parent="Root"/>
+    <state name="MediaCompound" type="CompoundState" parent="Root"/>
+    <state name="MediaInitial" type="SimpleState" parent="MediaCompound"/>
+    <state name="MediaList" type="ViewState" parent="MediaCompound" view="MediaListView"/>
+  </states>
+
+  <transitions>
+    <transition from="Root" to="Initial"/>
+    <transition from="Root" to="NavCompound" event="HK_NAV"/>
+    <transition from="Root" to="TunerCompound" event="HK_TUNER"/>
+    <transition from="Root" to="MediaCompound" event="HK_MEDIA"/>
+    <transition from="NavCompound" to="NavInitial"/>
+    <transition from="NavInitial" to="NavMain"/>
+    <transition from="NavCompound" to="NavMain" event="NAV_MAIN"/>
+    <transition from="NavCompound" to="NavCountry" event="NAV_COUNTRY"/>
+    <transition from="NavCompound" to="NavCity" event="NAV_CITY"/>
+    <transition from="NavCompound" to="NavStreet" event="NAV_STREET"/>
+    <transition from="NavCompound" to="NavInfo" event="NAV_INFO"/>
+    <transition from="TunerCompound" to="TunerInitial"/>
+    <transition from="TunerInitial" to="TunerList"/>
+    <transition from="TunerCompound" to="TunerList" event="TUNER_LIST"/>
+    <transition from="TunerCompound" to="TunerFrequency" event="TUNER_FREQ"/>
+    <transition from="MediaCompound" to="MediaInitial"/>
+    <transition from="MediaInitial" to="MediaList"/>
+  </transitions>
+  
+  <views plugin="edje">
+    <view name="NavMainView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="navigation_main"/>
+      </params>
+      <map from="Button01#clicked" to="HK_TUNER"/>
+      <map from="Button02#clicked" to="NAV_COUNTRY"/>
+      <map from="Button03#clicked" to="NAV_INFO"/>
+      <map from="Button04#clicked" to="HK_MEDIA"/>
+      <map from="Button05#clicked" to="MAP_ZOOM_OUT"/>
+      <map from="Button06#clicked" to="MAP_ZOOM_IN"/>
+    </view>
+
+    <view name="NavCountryView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="navigation_country"/>
+      </params>
+      <map from="Button01#clicked" to="NAV_CITY"/>
+    </view>
+    
+    <view name="NavCityView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="navigation_city"/>
+      </params>
+      <map from="Button01#clicked" to="NAV_STREET"/>
+    </view>
+    
+    <view name="NavStreetView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="navigation_street"/>
+      </params>
+      <map from="Button01#clicked" to="NAV_MAIN"/>
+    </view>
+
+    <view name="TunerListView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="tuner_list"/>
+      </params>
+      <map from="Button01#clicked" to="HK_NAV"/>
+    </view>
+
+    <view name="TunerFrequencyView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="tuner_frequenz"/>
+      </params>
+      <map from="Button01#clicked" to="HK_TUNER"/>
+    </view>
+    
+    <view name="NavInfoView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="navigation_info"/>
+      </params>
+      <map from="Button01#clicked" to="NAV_MAIN"/>
+    </view>    
+    
+    <view name="MediaListView">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param value="media_list"/>
+      </params>
+      <map from="Button01#clicked" to="HK_NAV"/>
+      <map from="#load" to="MEDIA_LOAD"/>
+      <map from="Button02#clicked" to="MEDIA_DECREMENT_TITLE"/>
+      <map from="Button03#clicked" to="MEDIA_INCREMENT_TITLE"/>
+    </view>
+  </views>
+
+</stateval>
