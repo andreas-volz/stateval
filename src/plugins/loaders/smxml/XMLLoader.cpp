@@ -4,6 +4,9 @@
 
 #include "XMLLoader.h"
 
+/* STD */
+#include <cassert>
+
 using namespace std;
 
 static const char* type = "Loader";
@@ -35,9 +38,25 @@ const unsigned int XMLLoader::getMinorVersion ()
   return minor_version;
 }
 
-bool XMLLoader::load (Context *context, const std::string &smDir)
+bool XMLLoader::load (Context *context, const std::string &sm)
 {
-  loadSiteFile (smDir);
+  try
+  {
+    xmlpp::DomParser parser;
+    parser.set_validate (false);	// TODO: activate DTD later...
+    parser.set_substitute_entities ();	//We just want the text to be resolved/unescaped automatically.
+    parser.parse_file (sm);
+    if (parser)
+    {
+      //Walk the tree:
+      const xmlpp::Node * pNode = parser.get_document ()->get_root_node ();	//deleted by DomParser.
+      parseRootNode (pNode);
+    }
+  }
+  catch (const exception &ex)
+  {
+    std::cout << "Exception caught: " << ex.what () << std::endl;
+  }
 }
 
 void XMLLoader::unload ()
@@ -50,7 +69,6 @@ void XMLLoader::parseRootNode (const xmlpp::Node * node)
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
-  bool ret = false;
 
   if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
     return;
@@ -77,7 +95,6 @@ void XMLLoader::parseBlockNode (const xmlpp::Node * node)
   const xmlpp::ContentNode * nodeContent = dynamic_cast <const xmlpp::ContentNode *> (node);
   const xmlpp::TextNode * nodeText = dynamic_cast <const xmlpp::TextNode * > (node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast <const xmlpp::CommentNode *> (node);
-  bool ret = false;
 
   if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
     return;
@@ -112,7 +129,6 @@ void XMLLoader::parseEventsNode (const xmlpp::Node * node)
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
-  bool ret = false;
 
   if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
     return;
@@ -157,7 +173,6 @@ void XMLLoader::parseEventNode (const xmlpp::Node * node)
       // add event from XML into statemachine
       addEvent (name_attribute->get_value ());
     }
-      
   }
 }
 
@@ -166,7 +181,6 @@ void XMLLoader::parseStatesNode (const xmlpp::Node * node)
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
-  bool ret = false;
 
   if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
     return;
@@ -177,18 +191,57 @@ void XMLLoader::parseStatesNode (const xmlpp::Node * node)
   {
     if (nodename == "states")
     {
-      //Recurse through child nodes:
+      //Recurse through child nodes: (create Index)
+      unsigned int i = 0;
       xmlpp::Node::NodeList list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
-           iter != list.end (); ++iter)
+           iter != list.end ();
+           ++iter)
       {
-        parseStateNode (*iter);
+        ++i;
+        parseStateNodeIndex (*iter, i);
+      }
+
+      //Recurse through child nodes:
+      i = 0;
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end ();
+           ++iter)
+      {
+        ++i;
+        parseStateNode (*iter, i);
       }
     }
   }
 }
 
-void XMLLoader::parseStateNode (const xmlpp::Node * node)
+void XMLLoader::parseStateNodeIndex (const xmlpp::Node * node, unsigned int i)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodename.empty ())
+  {
+    cout << "Node (Index) = " << node->get_name () << endl;
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
+    
+    if (name_attribute)
+    {
+      const Glib::ustring &name = name_attribute->get_value ();
+      cout << "Attribute name (Index) = " << name << endl;
+      mStateNameMapper[name] = i;
+    }      
+  }
+}
+
+void XMLLoader::parseStateNode (const xmlpp::Node * node, unsigned int i)
 {
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
@@ -208,25 +261,107 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
     const xmlpp::Attribute *history_attribute = nodeElement->get_attribute ("history");
     const xmlpp::Attribute *view_attribute = nodeElement->get_attribute ("view");
 
+    State *state = NULL;
+    CompoundState *parentState = NULL;
+    int parentNum = 0;
+
     if (name_attribute)
     {
       cout << "Attribute name = " << name_attribute->get_value () << endl;
     }
-    if (type_attribute)
+    else
     {
-      cout << "Attribute type = " << type_attribute->get_value () << endl;
+      // throw exception
     }
+    
     if (parent_attribute)
     {
-      cout << "Attribute parent = " << parent_attribute->get_value () << endl;
+      const Glib::ustring &parent = parent_attribute->get_value ();
+      cout << "Attribute parent = " << parent << endl;
+      // TODO: better use find() to detect if not found in map
+      parentNum = mStateNameMapper[parent];
+
+      if (parentNum != 0) // negative detection of root compound
+      {
+        // TODO: better use find() to detect if not found in map
+        parentState = static_cast <CompoundState*> (mStateList[parentNum-1]);
+        assert (parentState);
+      }
     }
+    else
+    {
+      // throw Exception
+    }
+
+    // check type and throw exception
     if (history_attribute)
     {
       cout << "Attribute history = " << history_attribute->get_value () << endl;
     }
+    
     if (view_attribute)
     {
       cout << "Attribute view = " << view_attribute->get_value () << endl;
+    }
+
+    if (type_attribute)
+    {
+      const Glib::ustring &type = type_attribute->get_value ();
+
+      cout << "Attribute type = " << type << endl;
+
+      if (type == "CompoundState")
+      {
+        if (parentNum == 0) // detection of root compound
+        {
+          state = new CompoundState ();
+        }
+        else
+        {
+          state = new CompoundState (parentState);
+        }
+      }
+      else if (type == "SimpleState")
+      {
+        state = new SimpleState (parentState);
+      }
+      else if (type == "HistoryState")
+      {
+        // TODO: better use find() to detect if not found in map
+        int historyNum = mStateNameMapper [history_attribute->get_value ()];
+        State *stateTrans = mStateList[historyNum-1];
+        HistoryState *historyState = new HistoryState (parentState);
+        
+        parentState->setHistory (historyState);
+        historyState->changeTransition (stateTrans);
+        state = historyState;
+      }
+      else if (type == "DecisionState")
+      {
+        state = new DecisionState (parentState);
+      }
+      else if (type == "ViewState")
+      {
+        // TODO: better use find() to detect if not found in map
+        int viewNum = mViewNameMapper[view_attribute->get_value ()];
+        View *view = mViewList[viewNum];
+        state = new ViewState (parentState, *view);
+      }
+      else
+      {
+        // throw exception
+      }
+      
+      assert (state);
+      
+      state->setID (i);
+      state->setName (name_attribute->get_value ());
+      
+      addState (state);
+    }
+    else
+    {
+      // throw Exception
     }
       
   }
@@ -237,7 +372,6 @@ void XMLLoader::parseTransitionsNode (const xmlpp::Node * node)
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
-  bool ret = false;
 
   if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
     return;
@@ -277,19 +411,49 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
     const xmlpp::Attribute *to_attribute = nodeElement->get_attribute ("to");
     const xmlpp::Attribute *event_attribute = nodeElement->get_attribute ("event");
 
+    int fromStateNum = 0;
+    int toStateNum = 0;
+    State *fromState = NULL;
+    State *toState = NULL;
+    Transition *trans = NULL;
+    
     if (from_attribute)
     {
       cout << "Attribute from = " << from_attribute->get_value () << endl;
+
+      // TODO: better use find() to detect if not found in map
+      fromStateNum = mStateNameMapper[from_attribute->get_value ()];
+      fromState = mStateList[fromStateNum-1];
     }
+    else
+    {
+      // throw exception
+    }
+    
     if (to_attribute)
     {
       cout << "Attribute to = " << to_attribute->get_value () << endl;
+
+      // TODO: better use find() to detect if not found in map
+      toStateNum = mStateNameMapper[to_attribute->get_value ()];
+      toState = mStateList[toStateNum-1];
     }
+    else
+    {
+      // throw exception
+    }
+    
     if (event_attribute)
     {
       cout << "Attribute event = " << event_attribute->get_value () << endl;
+      trans = new Transition (toState, findMapingEvent (event_attribute->get_value ()));
     }
-      
+    else
+    {
+      trans = new Transition (toState);
+    }
+
+    fromState->addLeaveTransition (*trans);      
   }
 }
 
@@ -299,7 +463,6 @@ void XMLLoader::parseViewsNode (const xmlpp::Node * node)
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
-  bool ret = false;
 
   if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
     return;
@@ -316,32 +479,38 @@ void XMLLoader::parseViewsNode (const xmlpp::Node * node)
       {
         cout << "Attribute plugin = " << plugin_attribute->get_value () << endl;
       }
+      else
+      {
+        // throw exception
+      }
       
-      //Recurse through child nodes:
+      // Recurse through child nodes
+      unsigned int i = 0;
       xmlpp::Node::NodeList list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
-        parseViewNode (*iter);
+        ++i;
+        parseViewNode (*iter, plugin_attribute->get_value (), i);
       }
     }
   }
 }
 
-void XMLLoader::parseViewNode (const xmlpp::Node * node)
+void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &plugin, unsigned int i)
 {
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
-  bool ret = false;
+  View *view = NULL;
 
-  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+  if (nodeText && nodeText->is_white_space ())	// Let's ignore the indenting
     return;
 
   Glib::ustring nodename = node->get_name ();
 
-  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  if (!nodeText && !nodeComment && !nodename.empty ())	// Let's not say "name: text".
   {
     if (nodename == "view")
     {
@@ -351,24 +520,36 @@ void XMLLoader::parseViewNode (const xmlpp::Node * node)
       if (name_attribute)
       {
         cout << "Attribute name = " << name_attribute->get_value () << endl;
+        mViewNameMapper[name_attribute->get_value ()] = i;
       }
+      else
+      {
+        // throw exception
+      }
+
+      std::list <std::string> params;
       if (params_attribute)
       {
         cout << "Attribute params = " << params_attribute->get_value () << endl;
+        //params.push_back (smDir + "/" + fileName);
+        //params.push_back (groupName);
       }
+
+      //string pluginFile (searchPluginFile ("views", "edje"));  
+      //view = loadView (pluginFile, context, params);
       
-      //Recurse through child nodes:
+      // Recurse through child nodes:
       xmlpp::Node::NodeList list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
-        parseViewMapNode (*iter);
+        parseViewMapNode (*iter, view);
       }
     }
   }
 }
 
-void XMLLoader::parseViewMapNode (const xmlpp::Node * node)
+void XMLLoader::parseViewMapNode (const xmlpp::Node * node, View *view)
 {
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
@@ -395,28 +576,6 @@ void XMLLoader::parseViewMapNode (const xmlpp::Node * node)
     }
 
   }
-}
-
-void XMLLoader::loadSiteFile (const Glib::ustring & filepath)
-{  
-  try
-  {
-    xmlpp::DomParser parser;
-    parser.set_validate (false);	// TODO: activate DTD later...
-    parser.set_substitute_entities ();	//We just want the text to be resolved/unescaped automatically.
-    parser.parse_file (filepath);
-    if (parser)
-    {
-      //Walk the tree:
-      const xmlpp::Node * pNode = parser.get_document ()->get_root_node ();	//deleted by DomParser.
-      parseRootNode (pNode);
-    }
-  }
-  catch (const exception &ex)
-  {
-    std::cout << "Exception caught: " << ex.what () << std::endl;
-  }
-  
 }
 
 /*****************************/

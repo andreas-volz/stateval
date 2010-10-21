@@ -7,8 +7,7 @@
 #include <libxml++/libxml++.h>
 
 /* stateval */
-#include "stateval/State.h"
-#include "stateval/Loader.h"
+#include "stateval/stateval.h"
 
 class XMLLoader : public Loader
 {
@@ -22,7 +21,7 @@ public:
 
   const unsigned int getMinorVersion ();
   
-  bool load (Context *context, const std::string &smDir);
+  bool load (Context *context, const std::string &sm);
   
   void unload ();
     
@@ -34,16 +33,17 @@ protected:
   void parseEventNode (const xmlpp::Node* node);
 
   void parseStatesNode (const xmlpp::Node* node);
-  void parseStateNode (const xmlpp::Node* node);
+  void parseStateNodeIndex (const xmlpp::Node* node, unsigned int i);
+  void parseStateNode (const xmlpp::Node* node, unsigned int i);
 
   void parseTransitionsNode (const xmlpp::Node* node);
   void parseTransitionNode (const xmlpp::Node* node);
 
   void parseViewsNode (const xmlpp::Node* node);
-  void parseViewNode (const xmlpp::Node* node);
-  void parseViewMapNode (const xmlpp::Node* node);
-
-  void loadSiteFile (const Glib::ustring& filepath);
+  void parseViewNode (const xmlpp::Node* node, const Glib::ustring &plugin, unsigned int i);
+  void parseViewMapNode (const xmlpp::Node* node, View *view);
   
 private:
+  std::map <Glib::ustring, unsigned int> mStateNameMapper;
+  std::map <Glib::ustring, unsigned int> mViewNameMapper;
 };
