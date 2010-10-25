@@ -54,7 +54,8 @@ protected:
   
   State *mParentState; // NULL == root // TODO: why not CompoundState possible???
   std::list <Transition*> mLeaveTransitonList;
-  unsigned int mID;
+  unsigned int mID; // Debug
+  std::string mName; // Debug
 };
 
 #endif // STATE_H

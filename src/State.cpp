@@ -43,12 +43,12 @@ unsigned int State::getID ()
 
 void State::setName (const std::string name)
 {
-
+  mName = name;
 }
 
 const std::string State::getName ()
 {
-
+  return mName;
 }
 
 State *State::getParentState () const

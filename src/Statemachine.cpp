@@ -180,12 +180,18 @@ bool StateMachine::walkDown (int event)
     {
       cout << "getEvent (): " << trans->getEvent () << endl;
       cout << "getEndState (): " << trans->getEndState () << endl;
+      
+      cout << "getName (): " << mActiveState->getName () << endl;
+      cout << "getID (): " << mActiveState->getID () << endl;
 
       mActiveState->runExitActions ();
       
       mActiveState->beforeTransitionCode ();
       
       mActiveState = trans->getEndState (); // do state change transition
+
+      cout << "getName (): " << mActiveState->getName () << endl;
+      cout << "getID (): " << mActiveState->getID () << endl;
       
       mActiveState->runEntryActions ();
       
