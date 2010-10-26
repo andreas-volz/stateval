@@ -47,7 +47,7 @@
     <state name="NavStreet" type="ViewState" parent="NavCompound" view="NavStreetView"/>
     <state name="TunerCompound" type="CompoundState" parent="Root"/>
     <state name="TunerInitial" type="SimpleState" parent="TunerCompound"/>
-    <state name="TunerHistory" type="HistoryState" parent="TunerCompound" history="TunerList"/>
+    <state name="TunerHistory" type="HistoryState" parent="TunerCompound"/>
     <state name="TunerList" type="ViewState" parent="TunerCompound" view="TunerListView"/>
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
     <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView"/>
@@ -70,7 +70,8 @@
     <transition from="NavCompound" to="NavStreet" event="NAV_STREET"/>
     <transition from="NavCompound" to="NavInfo" event="NAV_INFO"/>
     <transition from="TunerCompound" to="TunerInitial"/>
-    <transition from="TunerInitial" to="TunerList"/>
+    <transition from="TunerInitial" to="TunerHistory"/>
+    <transition from="TunerHistory" to="TunerList"/>
     <transition from="TunerCompound" to="TunerList" event="TUNER_LIST"/>
     <transition from="TunerCompound" to="TunerFrequency" event="TUNER_FREQ"/>
     <transition from="MediaCompound" to="MediaInitial"/>

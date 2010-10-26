@@ -295,7 +295,6 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
     const xmlpp::Attribute *parent_attribute = nodeElement->get_attribute ("parent");
-    const xmlpp::Attribute *history_attribute = nodeElement->get_attribute ("history");
     const xmlpp::Attribute *view_attribute = nodeElement->get_attribute ("view");
 
     State *state = NULL;
@@ -330,12 +329,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
       // throw Exception
     }
 
-    // check type and throw exception
-    if (history_attribute)
-    {
-      cout << "Attribute history = " << history_attribute->get_value () << endl;
-    }
-    
+    // check type and throw exception    
     if (view_attribute)
     {
       cout << "Attribute view = " << view_attribute->get_value () << endl;
@@ -365,12 +359,12 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
       else if (type == "HistoryState")
       {
         // TODO: better use find() to detect if not found in map
-        int historyNum = mStateNameMapper [history_attribute->get_value ()];
-        State *stateTrans = mStateList[historyNum-1];
+        //int historyNum = mStateNameMapper [history_attribute->get_value ()];
+        //State *stateTrans = mStateList[historyNum-1];
         HistoryState *historyState = new HistoryState (parentState);
         
         parentState->setHistory (historyState);
-        historyState->changeTransition (stateTrans);
+        //historyState->changeTransition (stateTrans);
         state = historyState;
       }
       else if (type == "DecisionState")

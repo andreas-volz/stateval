@@ -8,7 +8,7 @@
 
 Transition::Transition (State *state) :
   mEndState (state),
-  mEvent (-1)
+  mEvent (NoEvent)
 {
 
 }
