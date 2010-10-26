@@ -32,6 +32,9 @@ protected:
   void parseEventsNode (const xmlpp::Node* node);
   void parseEventNode (const xmlpp::Node* node);
 
+  void parseActionsNode (const xmlpp::Node* node);
+  void parseActionNode (const xmlpp::Node* node);
+
   void parseStatesNode (const xmlpp::Node* node);
   void parseStateNodeIndex (const xmlpp::Node* node, unsigned int &i);
   void parseStateNode (const xmlpp::Node* node);

@@ -36,6 +36,10 @@
     <event name="MEDIA_DECREMENT_TITLE"/>
   </events>
   
+  <actions>
+    <action name="fireNav" type="FireEventAction" event="HK_NAV"/>
+  </actions>
+  
   <states>
     <state name="Root" type="CompoundState" parent="0"/>
     <state name="Initial" type="SimpleState" parent="Root"/>

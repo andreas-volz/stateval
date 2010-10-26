@@ -9,8 +9,7 @@
 #include <cassert>
 
 HistoryState::HistoryState (State *parentState) :
-  State (parentState),
-  mHistoryTransition (this) // history points initial to itself
+  State (parentState)
 {
   
 }

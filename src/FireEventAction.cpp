@@ -4,20 +4,20 @@
 
 /* Project */
 #include "stateval/FireEventAction.h"
-#include "stateval/StateMachine.h"
+#include "stateval/StateMachineAccess.h"
 
 /* STD */
 #include <iostream>
 
 using namespace std;
 
-FireEventAction::FireEventAction (StateMachine &sm, int event) :
-  mEvent (event),
-  mSM (&sm)
+FireEventAction::FireEventAction (const std::string &event) :
+  mEvent (event)
 {
 }
 
 void FireEventAction::run () const
 {
-  mSM->pushEvent (mEvent);
+  StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
+  stateMachineAccess.pushEvent (mEvent);
 }

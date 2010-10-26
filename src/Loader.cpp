@@ -41,6 +41,11 @@ void Loader::addState (State *state)
   mStateList.push_back (state);
 }
 
+void Loader::addAction (Action *action)
+{
+  mActionList.push_back (action);
+}
+
 void Loader::addView (View *view)
 {
   mViewList.push_back (view);

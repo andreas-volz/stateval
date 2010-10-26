@@ -77,6 +77,9 @@ void XMLLoader::unload ()
 
   // free mStateList
   delete_stl_container <std::vector <State*>, State*> (mStateList);
+
+  // free mActionList
+  delete_stl_container <std::list <Action*>, Action*> (mActionList);
 }
 
 void XMLLoader::parseRootNode (const xmlpp::Node * node)
@@ -102,6 +105,14 @@ void XMLLoader::parseRootNode (const xmlpp::Node * node)
         parseEventsNode (*iter);
       }
 
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseActionsNode (*iter);
+      }
+      
       // Recurse through child nodes
       list = node->get_children ();
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
@@ -199,7 +210,7 @@ void XMLLoader::parseEventNode (const xmlpp::Node * node)
 
   Glib::ustring nodename = node->get_name ();
 
-  if (!nodename.empty ())
+  if (nodename == "event")
   {
     cout << "Node = " << node->get_name () << endl;
 
@@ -212,6 +223,70 @@ void XMLLoader::parseEventNode (const xmlpp::Node * node)
       // add event from XML into statemachine
       addEvent (name_attribute->get_value ());
     }
+  }
+}
+
+void XMLLoader::parseActionsNode (const xmlpp::Node * node)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "actions")
+    {
+      //Recurse through child nodes:
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseActionNode (*iter);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseActionNode (const xmlpp::Node * node)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  Action *action = NULL;
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (nodename == "action")
+  {
+    cout << "Node = " << node->get_name () << endl;
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
+    const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
+    const xmlpp::Attribute *event_attribute = nodeElement->get_attribute ("event");
+
+    
+    if (name_attribute)
+    {
+      cout << "Attribute name = " << name_attribute->get_value () << endl;
+    }
+    
+    if (type_attribute->get_value () == "FireEventAction")
+    {
+      action = new FireEventAction ("HK_NAV");
+    }
+    else
+    {
+    }
+
+    assert (action);
+    addAction (action);
   }
 }
 
