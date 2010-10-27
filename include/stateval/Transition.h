@@ -7,6 +7,8 @@ class State;
 class Transition
 {
 public:
+  static const int NoEvent = -1;
+  
   Transition (State *state);
   Transition (State *state, int event);
   virtual ~Transition ();

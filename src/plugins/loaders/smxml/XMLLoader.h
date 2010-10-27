@@ -39,6 +39,9 @@ protected:
   void parseStateNodeIndex (const xmlpp::Node* node, unsigned int &i);
   void parseStateNode (const xmlpp::Node* node);
 
+  void parseStateActionsNode (const xmlpp::Node* node, State *state);
+  void parseStateActionNode (const xmlpp::Node* node, State *state);
+
   void parseTransitionsNode (const xmlpp::Node* node);
   void parseTransitionNode (const xmlpp::Node* node);
 
@@ -51,6 +54,7 @@ protected:
 private:
   std::map <Glib::ustring, unsigned int> mStateNameMapper;
   std::map <Glib::ustring, unsigned int> mViewNameMapper;
+  std::map <Glib::ustring, Action*> mActionNameMapper;
 
   Context *mContext;
 };

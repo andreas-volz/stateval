@@ -10,6 +10,10 @@
 
 /* forward declarations */
 
+/* TODO:
+ * Think about how to handle multible running statemachines. New design needed!
+ */
+
 // Singleton class
 class StateMachineAccess
 {

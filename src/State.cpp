@@ -51,6 +51,20 @@ const std::string State::getName ()
   return mName;
 }
 
+void State::addEntryAction (Action *action)
+{
+  // this is implemented empty with the intention that child classes
+  // don't support actions by default
+  // e.g. SimpleState overwrites it to support actions
+}
+
+void State::addExitAction (Action *action)
+{
+  // this is implemented empty with the intention that child classes
+  // don't support actions by default
+  // e.g. SimpleState overwrites it to support actions
+}
+
 State *State::getParentState () const
 {
   return mParentState;

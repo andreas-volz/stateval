@@ -37,7 +37,7 @@
   </events>
   
   <actions>
-    <action name="fireNav" type="FireEventAction" event="HK_NAV"/>
+    <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
   </actions>
   
   <states>
@@ -54,7 +54,11 @@
     <state name="TunerHistory" type="HistoryState" parent="TunerCompound"/>
     <state name="TunerList" type="ViewState" parent="TunerCompound" view="TunerListView"/>
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
-    <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView"/>
+    <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView">
+      <actions>
+        <action ref="fireMedia" when="leave"/>
+      </actions>
+    </state>
     <state name="TunerAvailable" type="DecisionState" parent="Root"/>
     <state name="MediaCompound" type="CompoundState" parent="Root"/>
     <state name="MediaInitial" type="SimpleState" parent="MediaCompound"/>

@@ -31,7 +31,8 @@ public:
   void setName (const std::string name);
   const std::string getName ();
 
-  //virtual const std::string getType ();
+  virtual void addEntryAction (Action *action);
+  virtual void addExitAction (Action *action);
   
   
 protected:

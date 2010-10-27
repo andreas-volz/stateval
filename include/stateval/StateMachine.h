@@ -43,7 +43,7 @@ private:
   State *mActiveState;
   
   Loader *mLoader;
-  bool mSMInit;  
+  bool mSMInit;
 };
 
 #endif // STATE_MACHINE_H

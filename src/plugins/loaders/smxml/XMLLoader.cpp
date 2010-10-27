@@ -62,6 +62,7 @@ bool XMLLoader::load (Context *context, const std::string &sm)
      // as the mapper data isn't needed at runtime
      mStateNameMapper.clear ();
      mViewNameMapper.clear ();
+     mActionNameMapper.clear ();
     }
   }
   catch (const exception &ex)
@@ -276,10 +277,16 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
     {
       cout << "Attribute name = " << name_attribute->get_value () << endl;
     }
-    
+
+    if (event_attribute)
+    {
+      cout << "Attribute event = " << event_attribute->get_value () << endl;
+    }
     if (type_attribute->get_value () == "FireEventAction")
     {
-      action = new FireEventAction ("HK_NAV");
+      // TODO: check if event is available/useful
+      action = new FireEventAction (event_attribute->get_value ());
+      mActionNameMapper[name_attribute->get_value ()] = action;
     }
     else
     {
@@ -337,7 +344,7 @@ void XMLLoader::parseStateNodeIndex (const xmlpp::Node * node, unsigned int &i)
 
   Glib::ustring nodename = node->get_name ();
 
-  if (!nodename.empty ())
+  if (nodename == "state")
   {
     cout << "Node (Index) = " << node->get_name () << endl;
 
@@ -363,7 +370,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
 
   Glib::ustring nodename = node->get_name ();
 
-  if (!nodename.empty ())
+  if (nodename == "state")
   {
     cout << "Node = " << node->get_name () << endl;
 
@@ -392,6 +399,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
       // TODO: better use find() to detect if not found in map
       parentNum = mStateNameMapper[parent];
 
+      // TODO: think about detecting root if no parent is defined...
       if (parentNum != 0) // negative detection of root compound
       {
         // TODO: better use find() to detect if not found in map
@@ -462,6 +470,14 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
       
       state->setID (mStateNameMapper[name_attribute->get_value ()]);
       state->setName (name_attribute->get_value ());
+
+      // Recurse through child nodes
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseStateActionsNode (*iter, state);
+      }
       
       addState (state);
     }
@@ -469,7 +485,78 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
     {
       // throw Exception
     }
-      
+  }
+}
+
+void XMLLoader::parseStateActionsNode (const xmlpp::Node * node, State *state)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "actions")
+    {
+      //Recurse through child nodes:
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseStateActionNode (*iter, state);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseStateActionNode (const xmlpp::Node * node, State *state)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (nodename == "action")
+  {
+    cout << "Node = " << node->get_name () << endl;
+
+    const xmlpp::Attribute *ref_attribute = nodeElement->get_attribute ("ref");
+    const xmlpp::Attribute *when_attribute = nodeElement->get_attribute ("when");
+
+    if (ref_attribute)
+    {
+      cout << "Attribute ref = " << ref_attribute->get_value () << endl;
+    }
+
+    if (when_attribute)
+    {
+      cout << "Attribute when = " << when_attribute->get_value () << endl;
+    }
+
+    // TODO: use find...
+    Action *action = mActionNameMapper[ref_attribute->get_value ()];
+    assert (action);
+    
+    if (when_attribute->get_value () == "enter")
+    {
+      state->addEntryAction (action);
+    }
+    else if (when_attribute->get_value () == "leave")
+    {
+      state->addExitAction (action);
+    }
+    else
+    {
+      assert (false);
+    }
   }
 }
 

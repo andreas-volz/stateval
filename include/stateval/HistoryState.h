@@ -14,7 +14,11 @@ class HistoryState : public State
 public:
   HistoryState (State *parentState);
 
-  void changeTransition (State *state); // TODO: other design or friend!
+  /*!
+   * Changes the end of the outgoing history transition.
+   * Is called when the state "below" changes.
+   */
+  void changeTransition (State *state);
   
 protected:
   void beforeTransitionCode ();
@@ -28,7 +32,6 @@ protected:
   void runExitActions ();
   
 private:
-  Transition mHistoryTransition;
 };
 
 #endif // HISTORY_STATE_H

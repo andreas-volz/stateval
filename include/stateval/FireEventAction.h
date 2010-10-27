@@ -14,13 +14,12 @@ class StateMachine;
 class FireEventAction : public Action
 {
 public:
-  FireEventAction (StateMachine &sm, int event);
+  FireEventAction (const std::string &event);
 
   void run () const;
     
 private:
-  int mEvent;
-  StateMachine *mSM;
+  const std::string mEvent;
 };
 
 #endif // FIRE_EVENT_ACTION_H

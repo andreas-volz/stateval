@@ -14,7 +14,8 @@ public:
   {
     TYPE_INTEGER,
     TYPE_FLOAT,
-    TYPE_BOOL
+    TYPE_BOOL,
+    TYPE_STRING
   };
 
   virtual bool compare (AbstractVariable *var) const = 0;

@@ -25,13 +25,6 @@ SimpleState::SimpleState (State *parentState) :
 
 SimpleState::~SimpleState ()
 {
-  //cout << "clean up SimpleState" << endl;
-  
-  // free mEntryActionList
-  delete_stl_container <std::list <Action*>, Action*> (mEntryActionList);
-  
-  // free mExitActionList
-  delete_stl_container <std::list <Action*>, Action*> (mExitActionList);
 }
 
 void SimpleState::addEntryAction (Action *action)

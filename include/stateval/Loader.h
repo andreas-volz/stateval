@@ -27,6 +27,8 @@ public:
   void addEvent (const std::string &event);
   
   void addState (State *state);
+
+  void addAction (Action *action);
   
   void addView (View *view);
   
@@ -40,6 +42,7 @@ protected:
   std::vector <State*> mStateList;
   std::vector <View*> mViewList;
   std::map <std::string, int> mEventList;
+  std::list <Action*> mActionList;
 
 private:
   int eventCounter;
