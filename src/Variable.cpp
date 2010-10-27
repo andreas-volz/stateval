@@ -22,7 +22,7 @@ Bool::Bool (bool b) :
   
 }
 
-bool Bool::compare (AbstractVariable *var) const
+bool Bool::equals (AbstractVariable *var) const
 {
   cout << "this:Tyoe: " << getType () << endl;
   cout << "var:Type: " << var->getType () << endl;

@@ -18,7 +18,7 @@ public:
     TYPE_STRING
   };
 
-  virtual bool compare (AbstractVariable *var) const = 0;
+  virtual bool equals (AbstractVariable *var) const = 0;
   
   Type getType () const;
   
@@ -29,60 +29,12 @@ private:
   Type mType;
 };
 
-/*template <typename T>
-class Variable : public AbstractVariable
-{
-public:
-  Variable (const T &val);
-
-  void setValue (const T &v);
-  T &getValue ();
-  
-  bool compare (AbstractVariable *var) const;
-  
-private:
-  T mVal;
-};
-
-template <typename T>
-Variable<T>::Variable (const T &val)
-{
-  mVal = val;
-}
-
-template <typename T>
-void Variable<T>::setValue (const T &v)
-{
-  mVal = v;
-}
-
-template <typename T>
-T &Variable<T>::getValue ()
-{
-  return mVal;
-}
-
-template <typename T>
-bool Variable<T>::compare (AbstractVariable *var) const
-{
-  //T *t = static_cast <T*> (var);
-  
-  cout << "this: " << typeid(this).name() << endl;
-  cout << "var: " << typeid(var).name() << endl;
-  bool b = typeid(this) == typeid(var);
-  cout << "== " << b  << endl;
-}
-
-typedef Variable <int> Integer;
-typedef Variable <float> Float;
-typedef Variable <bool> Bool;*/
-
 class Bool : public AbstractVariable
 {
 public:
   Bool (bool b);
   
-  bool compare (AbstractVariable *var) const;
+  bool equals (AbstractVariable *var) const;
   
 private:
   bool mValue;

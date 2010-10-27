@@ -38,7 +38,7 @@ void GlobalVariables::addVariable (const std::string &str, AbstractVariable &var
 
 AbstractVariable *GlobalVariables::getVariable (const std::string &str)
 {
-  // TODO: return NULL or exception is not found in map
+  // TODO: return NULL or exception if not found in map
   
   return mVariableList[str];
 }

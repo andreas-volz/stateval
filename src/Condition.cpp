@@ -23,7 +23,7 @@ bool Condition::evaluate () const
   // TODO: this below is only a test; implement function correct!
   AbstractVariable *val = global.getVariable ("tuner.available");
   
-  return mVal->compare (val);
+  return mVal->equals (val);
 }
 
 void  Condition::addComparison (const std::string &var, const AbstractVariable *val)
