@@ -89,7 +89,7 @@
   <views plugin="text">
     <view name="NavMainView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavMainView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/NavMainView.view"/>
       </params>
       <map from="SK_1" to="NAV_COUNTRY"/>
       <map from="SK_2" to="NAV_INFO"/>
@@ -99,7 +99,7 @@
 
     <view name="NavCountryView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavCountryView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/NavCountryView.view"/>
       </params>
       <map from="SK_1" to="NAV_CITY"/>
       <map from="HK_RETURN" to="NAV_MAIN"/>
@@ -107,7 +107,7 @@
     
     <view name="NavCityView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavCityView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/NavCityView.view"/>
       </params>
       <map from="SK_1" to="NAV_STREET"/>
       <map from="HK_RETURN" to="NAV_COUNTRY"/>
@@ -115,7 +115,7 @@
     
     <view name="NavStreetView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavStreetView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/NavStreetView.view"/>
       </params>
       <map from="SK_1" to="NAV_MAIN"/>
       <map from="HK_RETURN" to="NAV_CITY"/>
@@ -123,28 +123,28 @@
 
     <view name="TunerListView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/TunerListView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/TunerListView.view"/>
       </params>
       <map from="SK_1" to="TUNER_FREQ"/>
     </view>
 
     <view name="TunerFrequencyView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/TunerFrequencyView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/TunerFrequencyView.view"/>
       </params>
       <map from="HK_RETURN" to="TUNER_LIST"/>
     </view>
     
     <view name="NavInfoView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/NavInfoView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/NavInfoView.view"/>
       </params>
       <map from="HK_RETURN" to="NAV_MAIN"/>
     </view>    
     
     <view name="MediaListView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/text_sm/MediaListView.view"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/MediaListView.view"/>
       </params>
       <map from="HK_RETURN" to="HK_NAV"/>
     </view>
