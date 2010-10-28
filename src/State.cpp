@@ -25,7 +25,7 @@ State::State (State *parentState) :
 
 State::~State ()
 {
-  //cout << "clean State" << endl;
+  // TODO: think about if the Transitions should be managed by Loader
   
   // free mLeaveTransitonList
   delete_stl_container <std::list <Transition*>, Transition*> (mLeaveTransitonList);

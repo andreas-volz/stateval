@@ -27,10 +27,12 @@ public:
     
 protected:  
   void parseRootNode (const xmlpp::Node* node);
-  void parseBlockNode (const xmlpp::Node* node);
   
   void parseEventsNode (const xmlpp::Node* node);
   void parseEventNode (const xmlpp::Node* node);
+
+  void parseVariablesNode (const xmlpp::Node* node);
+  void parseVariableNode (const xmlpp::Node* node);
 
   void parseActionsNode (const xmlpp::Node* node);
   void parseActionNode (const xmlpp::Node* node);
@@ -49,6 +51,7 @@ protected:
   void parseViewNode (const xmlpp::Node* node, const Glib::ustring &plugin, unsigned int &i);
   void parseViewParamsNode (const xmlpp::Node * node, std::list <std::string> &params);
   void parseParamNode (const xmlpp::Node * node, std::list <std::string> &params);
+  void parseViewMappingsNode (const xmlpp::Node * node, View *view);
   void parseViewMapNode (const xmlpp::Node* node, View *view);
   
 private:

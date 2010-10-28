@@ -16,6 +16,7 @@ GlobalVariables& GlobalVariables::instance()
 
 GlobalVariables::~GlobalVariables ()
 {
+  // TODO: think about if the Globals should be managed by Loader
   // clean mVariableList
   for (map <string,AbstractVariable*>::iterator var_it = mVariableList.begin ();
        var_it != mVariableList.end ();
