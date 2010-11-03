@@ -37,8 +37,13 @@
   </events>
   
   <variables>
-    <variable name="tuner.available" type="Bool" value="true"/>
+    <variable name="media.available" type="Bool" value="false"/>
   </variables>
+  
+  <conditions>
+    <condition name="MediaIsAvailable" ref="media.available" operation="equals" type="Bool" value="true"/>
+    <condition name="MediaIsNotAvailable" ref="media.available" operation="equals" type="Bool" value="false"/>
+  </conditions>
   
   <actions>
     <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
@@ -63,7 +68,7 @@
         <action ref="fireMedia" when="leave"/>
       </actions>
     </state>
-    <state name="TunerAvailable" type="DecisionState" parent="Root"/>
+    <state name="MediaAvailable" type="DecisionState" parent="Root"/>
     <state name="MediaCompound" type="CompoundState" parent="Root"/>
     <state name="MediaInitial" type="SimpleState" parent="MediaCompound"/>
     <state name="MediaList" type="ViewState" parent="MediaCompound" view="MediaListView"/>
@@ -73,7 +78,7 @@
     <transition from="Root" to="Initial"/>
     <transition from="Root" to="NavCompound" event="HK_NAV"/>
     <transition from="Root" to="TunerCompound" event="HK_TUNER"/>
-    <transition from="Root" to="MediaCompound" event="HK_MEDIA"/>
+    <transition from="Root" to="MediaAvailable" event="HK_MEDIA"/>
     <transition from="NavCompound" to="NavInitial"/>
     <transition from="NavInitial" to="NavMain"/>
     <transition from="NavCompound" to="NavMain" event="NAV_MAIN"/>
@@ -88,6 +93,8 @@
     <transition from="TunerCompound" to="TunerFrequency" event="TUNER_FREQ"/>
     <transition from="MediaCompound" to="MediaInitial"/>
     <transition from="MediaInitial" to="MediaList"/>
+    <transition from="MediaAvailable" to="MediaCompound" decision="MediaIsAvailable"/>
+    <transition from="MediaAvailable" to="TunerCompound" decision="MediaIsNotAvailable"/>
   </transitions>
   
   <views plugin="text">

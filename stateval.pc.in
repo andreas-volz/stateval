@@ -6,7 +6,7 @@ includedir=@prefix@/include
 Name: @PACKAGE@
 Description: StatEval (State Machine Evaluator)
 Version: @VERSION@
-Requires: gthread-2.0 glibmm-2.4
+Requires: gthread-2.0 glibmm-2.4 pluxx
 Conflicts: 
 Libs: -L${libdir} -lstateval
 Cflags: -I${includedir}

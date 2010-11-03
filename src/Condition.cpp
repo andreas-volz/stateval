@@ -2,10 +2,13 @@
   #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/Condition.h"
 #include "stateval/GlobalVariables.h"
 #include "stateval/Variable.h"
+
+/* STD */
+#include <cassert>
 
 Condition::Condition () :
   mVal (NULL)
@@ -20,8 +23,9 @@ Condition::~Condition ()
 bool Condition::evaluate () const
 {
   GlobalVariables &global = GlobalVariables::instance ();
-  // TODO: this below is only a test; implement function correct!
-  AbstractVariable *val = global.getVariable ("tuner.available");
+  
+  AbstractVariable *val = global.getVariable (mVar);
+  assert (val);
   
   return mVal->equals (val);
 }

@@ -1,5 +1,22 @@
 <?xml version="1.0"?>
 <gtodo>
-  <category title="Bugs" place="0"/>
-  <category title="Features" place="1"/>
+  <category title="Bugs" place="0">
+    <item>
+      <attribute id="1288817479" priority="1" done="0" start_date="734079" enddate="99999999" notify="0" endtime="-60" last_edited="1288817479"/>
+      <summary>Refactor XMLLoader code</summary>
+      <comment>Large parts of the source code is copy&amp;paste. With some helper function it would be possible to save &gt;70% of the code.</comment>
+    </item>
+  </category>
+  <category title="Features" place="1">
+    <item>
+      <attribute id="1288817174" priority="1" done="0" start_date="734079" enddate="99999999" notify="0" endtime="-60" last_edited="1288817174"/>
+      <summary>Handle DecisionState else paths</summary>
+      <comment>it should be possible to define a else path without condition in a decision state</comment>
+    </item>
+    <item>
+      <attribute id="1288817407" priority="1" done="0" start_date="734079" enddate="99999999" notify="0" endtime="-60" last_edited="1288817423"/>
+      <summary>Write DTD for checking XML file</summary>
+      <comment>Some source consistency checks could be removed</comment>
+    </item>
+  </category>
 </gtodo>

@@ -6,7 +6,7 @@ includedir=include
 Name: @PACKAGE@
 Description: StatEval (State Machine Evaluator), Not installed
 Version: @VERSION@
-Requires: gthread-2.0 glibmm-2.4
+Requires: gthread-2.0 glibmm-2.4 pluxx
 Conflicts: 
 Libs: ${pcfiledir}/${libdir}/libstateval.la
 Cflags: -I${pcfiledir}/${includedir} 

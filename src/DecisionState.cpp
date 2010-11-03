@@ -58,6 +58,13 @@ const Transition *DecisionState::getWalkTransition (int event, bool walkDefaultT
   return mElseTrans;
 }
 
+void DecisionState::addLeaveTransition (Transition &trans)
+{
+  // no implementation, because DecisionState gets its transitions with
+  // addConditionTransition()
+  // TODO: change the current design!
+}
+
 void DecisionState::runEntryActions ()
 {
 }

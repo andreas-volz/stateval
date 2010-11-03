@@ -63,6 +63,7 @@ bool XMLLoader::load (Context *context, const std::string &sm)
      mStateNameMapper.clear ();
      mViewNameMapper.clear ();
      mActionNameMapper.clear ();
+     mConditionNameMapper.clear ();
     }
   }
   catch (const exception &ex)
@@ -112,6 +113,14 @@ void XMLLoader::parseRootNode (const xmlpp::Node * node)
            iter != list.end (); ++iter)
       {
         parseVariablesNode (*iter);
+      }
+
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseConditionsNode (*iter);
       }
       
       // Recurse through child nodes
@@ -263,6 +272,7 @@ void XMLLoader::parseVariableNode (const xmlpp::Node * node)
       cout << "Attribute value = " << value_attribute->get_value () << endl;
     }
 
+    // TODO: create helper function and use together with parseConditionVariableNode ()
     if (type_attribute->get_value () == "Bool")
     {
       Bool *b = NULL;
@@ -285,6 +295,106 @@ void XMLLoader::parseVariableNode (const xmlpp::Node * node)
       GlobalVariables &global = GlobalVariables::instance ();
       global.addVariable (name_attribute->get_value (), *b);    
     }
+  }
+}
+
+void XMLLoader::parseConditionsNode (const xmlpp::Node * node)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "conditions")
+    {
+      //Recurse through child nodes:
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseConditionNode (*iter);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseConditionNode (const xmlpp::Node * node)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (nodename == "condition")
+  {
+    cout << "Node = " << node->get_name () << endl;
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
+    const xmlpp::Attribute *ref_attribute = nodeElement->get_attribute ("ref");
+    const xmlpp::Attribute *operation_attribute = nodeElement->get_attribute ("operation");
+    const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
+    const xmlpp::Attribute *value_attribute = nodeElement->get_attribute ("value");
+
+    if (name_attribute)
+    {
+      cout << "Attribute name = " << name_attribute->get_value () << endl;
+    }
+
+    if (ref_attribute)
+    {
+      cout << "Attribute ref = " << ref_attribute->get_value () << endl;
+    }
+
+    // ignore currently, and use "equals" as default...
+    if (operation_attribute)
+    {
+      cout << "Attribute operation = " << operation_attribute->get_value () << endl;
+    }
+
+    if (type_attribute)
+    {
+      cout << "Attribute operation = " << type_attribute->get_value () << endl;
+    }
+
+    if (value_attribute)
+    {
+      cout << "Attribute operation = " << value_attribute->get_value () << endl;
+    }
+
+    Bool *b = NULL;
+    // TODO: create helper function and use together with parseVariableNode ()
+    if (type_attribute->get_value () == "Bool")
+    {
+      if (value_attribute->get_value () == "true")
+      {
+        b = new Bool (true);
+      }
+      else if (value_attribute->get_value () == "false")
+      {
+        b = new Bool (false);
+      }
+      else
+      {
+        // TODO: handle error
+        cerr << "error: not allowed value" << endl;
+        assert (false);
+      }
+    }
+    
+    Condition *cond = new Condition ();
+    cond->addComparison (ref_attribute->get_value (), b);
+
+    // temporary save condition pointer for later reference in transition table
+    mConditionNameMapper[name_attribute->get_value ()] = cond;
   }
 }
 
@@ -660,6 +770,7 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
     const xmlpp::Attribute *from_attribute = nodeElement->get_attribute ("from");
     const xmlpp::Attribute *to_attribute = nodeElement->get_attribute ("to");
     const xmlpp::Attribute *event_attribute = nodeElement->get_attribute ("event");
+    const xmlpp::Attribute *decision_attribute = nodeElement->get_attribute ("decision");
 
     int fromStateNum = 0;
     int toStateNum = 0;
@@ -698,12 +809,25 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
       cout << "Attribute event = " << event_attribute->get_value () << endl;
       trans = new Transition (toState, findMapingEvent (event_attribute->get_value ()));
     }
-    else
+    else 
     {
       trans = new Transition (toState);
     }
-
-    fromState->addLeaveTransition (*trans);      
+    
+    if (decision_attribute)
+    {
+      // TODO: maybe there's a better idea to solve this with correct polymorphy design...
+      DecisionState* decisionState = static_cast <DecisionState*> (fromState);
+      
+      cout << "Attribute decision = " << decision_attribute->get_value () << endl;
+      Condition *cond = mConditionNameMapper[decision_attribute->get_value ()];
+      std::pair <Condition*, Transition*> conTrans (cond, trans);
+      decisionState->addConditionTransition (conTrans);
+    }
+    else
+    {
+      fromState->addLeaveTransition (*trans);
+    }
   }
 }
 

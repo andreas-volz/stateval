@@ -19,6 +19,8 @@ public:
   
   void addConditionTransition (const std::pair <Condition*, Transition*> &conTrans);
 
+  void addLeaveTransition (Transition &trans);
+
 protected:
   void beforeTransitionCode ();
   void afterTransitionCode ();

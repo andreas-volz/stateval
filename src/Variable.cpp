@@ -12,7 +12,7 @@ AbstractVariable::AbstractVariable (Type type) :
 
 AbstractVariable::Type AbstractVariable::getType () const
 {
-  return mType;  
+  return mType;
 }
 
 Bool::Bool (bool b) :
@@ -24,7 +24,7 @@ Bool::Bool (bool b) :
 
 bool Bool::equals (AbstractVariable *var) const
 {
-  cout << "this:Tyoe: " << getType () << endl;
+  cout << "this:Type: " << getType () << endl;
   cout << "var:Type: " << var->getType () << endl;
 
   bool ret = (static_cast <Bool*> (var))->mValue == mValue;
