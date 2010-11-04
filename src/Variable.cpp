@@ -2,8 +2,11 @@
 #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/Variable.h"
+
+/* STD */
+#include <cassert>
 
 AbstractVariable::AbstractVariable (Type type) :
   mType (type)
@@ -24,11 +27,20 @@ Bool::Bool (bool b) :
 
 bool Bool::equals (AbstractVariable *var) const
 {
-  cout << "this:Type: " << getType () << endl;
+  cout << "equals this:Type: " << getType () << endl;
   cout << "var:Type: " << var->getType () << endl;
-
+  assert (getType () == var->getType ());
+  
   bool ret = (static_cast <Bool*> (var))->mValue == mValue;
   
   return ret;
 }
 
+bool Bool::assign (AbstractVariable *var)
+{
+  cout << "assign this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+
+  mValue = (static_cast <Bool*> (var))->mValue;
+}

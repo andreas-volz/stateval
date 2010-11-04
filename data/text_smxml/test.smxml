@@ -41,12 +41,13 @@
   </variables>
   
   <conditions>
-    <condition name="MediaIsAvailable" ref="media.available" operation="equals" type="Bool" value="true"/>
-    <condition name="MediaIsNotAvailable" ref="media.available" operation="equals" type="Bool" value="false"/>
+    <condition name="MediaIsAvailable" variable="media.available" operation="equals" type="Bool" value="true"/>
+    <condition name="MediaIsNotAvailable" variable="media.available" operation="equals" type="Bool" value="false"/>
   </conditions>
   
   <actions>
     <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
+    <action name="enableMedia" type="ChangeVariableAction" variable="media.available" vtype="Bool" value="true"/>
   </actions>
   
   <states>
@@ -65,6 +66,7 @@
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
     <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView">
       <actions>
+        <action ref="enableMedia" when="enter"/>
         <action ref="fireMedia" when="leave"/>
       </actions>
     </state>

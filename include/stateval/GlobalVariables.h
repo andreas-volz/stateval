@@ -25,6 +25,7 @@ public:
   
   void addVariable (const std::string &str, AbstractVariable &av);
   AbstractVariable *getVariable (const std::string &str);
+  void changeVariable (const std::string &str, AbstractVariable &av);
     
   void init ();
   

@@ -19,6 +19,7 @@ public:
   };
 
   virtual bool equals (AbstractVariable *var) const = 0;
+  virtual bool assign (AbstractVariable *var) = 0;
   
   Type getType () const;
   
@@ -35,6 +36,7 @@ public:
   Bool (bool b);
   
   bool equals (AbstractVariable *var) const;
+  bool assign (AbstractVariable *var);
   
 private:
   bool mValue;

@@ -293,7 +293,7 @@ void XMLLoader::parseVariableNode (const xmlpp::Node * node)
       }
 
       GlobalVariables &global = GlobalVariables::instance ();
-      global.addVariable (name_attribute->get_value (), *b);    
+      global.addVariable (name_attribute->get_value (), *b);
     }
   }
 }
@@ -339,7 +339,7 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
     cout << "Node = " << node->get_name () << endl;
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
-    const xmlpp::Attribute *ref_attribute = nodeElement->get_attribute ("ref");
+    const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute ("variable");
     const xmlpp::Attribute *operation_attribute = nodeElement->get_attribute ("operation");
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
     const xmlpp::Attribute *value_attribute = nodeElement->get_attribute ("value");
@@ -349,9 +349,9 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
       cout << "Attribute name = " << name_attribute->get_value () << endl;
     }
 
-    if (ref_attribute)
+    if (variable_attribute)
     {
-      cout << "Attribute ref = " << ref_attribute->get_value () << endl;
+      cout << "Attribute variable = " << variable_attribute->get_value () << endl;
     }
 
     // ignore currently, and use "equals" as default...
@@ -391,7 +391,7 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
     }
     
     Condition *cond = new Condition ();
-    cond->addComparison (ref_attribute->get_value (), b);
+    cond->addComparison (variable_attribute->get_value (), b);
 
     // temporary save condition pointer for later reference in transition table
     mConditionNameMapper[name_attribute->get_value ()] = cond;
@@ -442,6 +442,9 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
     const xmlpp::Attribute *event_attribute = nodeElement->get_attribute ("event");
+    const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute ("variable");
+    const xmlpp::Attribute *vtype_attribute = nodeElement->get_attribute ("vtype");;
+    const xmlpp::Attribute *value_attribute = nodeElement->get_attribute ("value");
 
     
     if (name_attribute)
@@ -459,8 +462,38 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
       action = new FireEventAction (event_attribute->get_value ());
       mActionNameMapper[name_attribute->get_value ()] = action;
     }
+    else if (type_attribute->get_value () == "ChangeVariableAction")
+    {
+      Bool *b = NULL;
+      // TODO: create helper function and use together with parseConditionVariableNode ()
+      if (vtype_attribute->get_value () == "Bool")
+      {
+        if (value_attribute->get_value () == "true")
+        {
+          b = new Bool (true);
+        }
+        else if (value_attribute->get_value () == "false")
+        {
+          b = new Bool (false);
+        }
+        else
+        {
+          // TODO: handle error
+          cerr << "error: not allowed value" << endl;
+          assert (false);
+        }
+      }
+      
+      // TODO: check if event is available/useful
+
+      cout << "ChangeVariableAction: " << variable_attribute->get_value () << endl; 
+      action = new ChangeVariableAction (variable_attribute->get_value (), b);
+      mActionNameMapper[name_attribute->get_value ()] = action;
+    }
     else
     {
+      cerr << "unknow action" << endl;
+      assert (false);
     }
 
     assert (action);

@@ -26,6 +26,8 @@ bool Condition::evaluate () const
   
   AbstractVariable *val = global.getVariable (mVar);
   assert (val);
+
+  // TODO: not sure what happens if it compares two different variable types...
   
   return mVal->equals (val);
 }

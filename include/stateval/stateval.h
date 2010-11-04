@@ -11,6 +11,7 @@
 #include "DecisionState.h"
 #include "EventList.h"
 #include "FireEventAction.h"
+#include "ChangeVariableAction.h"
 #include "GlobalVariables.h"
 #include "HistoryState.h"
 #include "Loader.h"

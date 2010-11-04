@@ -6,6 +6,11 @@
       <summary>Refactor XMLLoader code</summary>
       <comment>Large parts of the source code is copy&amp;paste. With some helper function it would be possible to save &gt;70% of the code.</comment>
     </item>
+    <item>
+      <attribute id="1288821499" priority="1" done="0" start_date="734079" enddate="99999999" notify="0" endtime="-60" last_edited="1288821499"/>
+      <summary>handle XML comments</summary>
+      <comment>comments in the XML file seems to crash the parser</comment>
+    </item>
   </category>
   <category title="Features" place="1">
     <item>
