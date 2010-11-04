@@ -71,7 +71,6 @@ void TextView::unrealize ()
 
 PLUGIN_EXPORT TextView *plugin_create (Context *context, const std::list <std::string> &params)
 {
-  // FIXME: think about pluxx change or define init function in EdjeView
   return new TextView (context, params);
 }
 

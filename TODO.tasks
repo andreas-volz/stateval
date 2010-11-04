@@ -11,6 +11,27 @@
       <summary>handle XML comments</summary>
       <comment>comments in the XML file seems to crash the parser</comment>
     </item>
+    <item>
+      <attribute id="1288910951" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288910951"/>
+      <summary>Implement Double Variable</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288911118" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288911118"/>
+      <summary>Mutex crash at application exit</summary>
+      <comment>lt-edje_console: Thread.cpp:26: Threading::Mutex::~Mutex(): Assertion `0 == rc' failed.
+</comment>
+    </item>
+    <item>
+      <attribute id="1288911815" priority="1" done="0" start_date="734081" enddate="99999999" notify="0" endtime="-60" last_edited="1288911815"/>
+      <summary>Free data in Loader/XMLLoader correct</summary>
+      <comment>e.g. Views are plugins and shouldn't be deleted (there's a destroyFatory)</comment>
+    </item>
+    <item>
+      <attribute id="1288911831" priority="1" done="0" start_date="734081" enddate="99999999" notify="0" endtime="-60" last_edited="1288911831"/>
+      <summary>Move more code from XMLLoader to Loader</summary>
+      <comment></comment>
+    </item>
   </category>
   <category title="Features" place="1">
     <item>
@@ -22,6 +43,36 @@
       <attribute id="1288817407" priority="1" done="0" start_date="734079" enddate="99999999" notify="0" endtime="-60" last_edited="1288817423"/>
       <summary>Write DTD for checking XML file</summary>
       <comment>Some source consistency checks could be removed</comment>
+    </item>
+    <item>
+      <attribute id="1288910920" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288910920"/>
+      <summary>Implement String Variable</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288910935" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288910935"/>
+      <summary>Implement Integer Variable</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288910972" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288910972"/>
+      <summary>Implement other Variable operations that equals</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288911005" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288911005"/>
+      <summary>Implement combined Variables (structs)</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288911023" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288911023"/>
+      <summary>Implement model access interface with variables</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288911201" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288911201"/>
+      <summary>Implement FinishSate</summary>
+      <comment>Or only in data file if possible tto model with normal states</comment>
     </item>
   </category>
 </gtodo>

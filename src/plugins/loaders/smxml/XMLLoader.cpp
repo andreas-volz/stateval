@@ -75,6 +75,7 @@ bool XMLLoader::load (Context *context, const std::string &sm)
 void XMLLoader::unload ()
 {
   // free mViewList
+  // TODO: as View is a plugin it should not be deleted like here!
   delete_stl_container <std::vector <View*>, View*> (mViewList);
 
   // free mStateList

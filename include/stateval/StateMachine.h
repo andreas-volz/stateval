@@ -32,14 +32,13 @@ public:
   int findMapingEvent (const std::string &event);
   
   Loader& getLoader() {return *mLoader;}
-    
+
   std::queue <int> eventQueue; // TODO: private
   
-
 private:
   State *searchHierarchie (int event);
   bool walkDown (int event);
-  
+
   State *mActiveState;
   
   Loader *mLoader;
