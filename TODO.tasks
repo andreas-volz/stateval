@@ -30,7 +30,7 @@
     <item>
       <attribute id="1288911831" priority="1" done="0" start_date="734081" enddate="99999999" notify="0" endtime="-60" last_edited="1288911831"/>
       <summary>Move more code from XMLLoader to Loader</summary>
-      <comment></comment>
+      <comment/>
     </item>
   </category>
   <category title="Features" place="1">
@@ -43,11 +43,6 @@
       <attribute id="1288817407" priority="1" done="0" start_date="734079" enddate="99999999" notify="0" endtime="-60" last_edited="1288817423"/>
       <summary>Write DTD for checking XML file</summary>
       <comment>Some source consistency checks could be removed</comment>
-    </item>
-    <item>
-      <attribute id="1288910920" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288910920"/>
-      <summary>Implement String Variable</summary>
-      <comment/>
     </item>
     <item>
       <attribute id="1288910935" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288910935"/>
@@ -73,6 +68,21 @@
       <attribute id="1288911201" priority="1" done="0" start_date="734080" enddate="99999999" notify="0" endtime="-60" last_edited="1288911201"/>
       <summary>Implement FinishSate</summary>
       <comment>Or only in data file if possible tto model with normal states</comment>
+    </item>
+    <item>
+      <attribute id="1288990722" priority="1" done="0" start_date="734081" enddate="99999999" notify="0" endtime="-60" last_edited="1288990722"/>
+      <summary>Implement DeepHistoryState</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1288910920" priority="1" done="1" start_date="734080" completed_date="734087" notify="0" last_edited="1289513144"/>
+      <summary>Implement String Variable</summary>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1289513451" priority="1" done="0" start_date="734087" enddate="99999999" notify="0" endtime="-60" last_edited="1289513478"/>
+      <summary>Implement EcoreDispatcher with EcorePipe</summary>
+      <comment></comment>
     </item>
   </category>
 </gtodo>

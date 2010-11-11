@@ -19,7 +19,6 @@ libstateval_la_SOURCES = \
 	CompoundState.cpp      \
 	Condition.cpp      \
 	DecisionState.cpp      \
-	EcoreDispatcher.cpp      \
 	Exceptions.cpp      \
 	FireEventAction.cpp      \
 	GlobalVariables.cpp      \

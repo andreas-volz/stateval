@@ -4,7 +4,6 @@ libstateval_HEADERS = \
 	CompoundState.h     \
 	Condition.h     \
 	DecisionState.h     \
-	EcoreDispatcher.h     \
 	EventList.h     \
 	Exceptions.h     \
 	FireEventAction.h     \

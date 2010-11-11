@@ -5,7 +5,6 @@
 #include <sigc++/sigc++.h>
 
 /* Project */
-#include <stateval/EcoreDispatcher.h>
 #include <stateval/Thread.h>
 
 /* forward declarations */

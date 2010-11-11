@@ -42,6 +42,16 @@ private:
   bool mValue;
 };
 
-
+class String : public AbstractVariable
+{
+public:
+  String (const std::string &s);
+  
+  bool equals (AbstractVariable *var) const;
+  bool assign (AbstractVariable *var);
+  
+private:
+  std::string mValue;
+};
 
 #endif // VARIABLE_H
