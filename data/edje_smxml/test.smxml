@@ -43,6 +43,10 @@
     <event name="#load"/>
   </events>
   
+  <variables>
+    <variable name="TextExampleString" type="String" value="A dynamic variable value!"/>
+  </variables>
+  
   <states>
     <state name="Root" type="CompoundState" parent="0"/>
     <state name="Initial" type="SimpleState" parent="Root"/>
@@ -159,6 +163,9 @@
       <mappings>
         <map from="Button01#clicked" to="NAV_MAIN"/>
       </mappings>
+      <widgets>
+        <widget name="Text_Example" variable="TextExampleString"/>
+      </widgets>
     </view>    
     
     <view name="MediaListView">

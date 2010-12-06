@@ -68,6 +68,8 @@ private:
   Threading::Mutex mutexUnrealize;
   
   enum ViewState groupState;
+
+  Edjexx::ExternalParam param;
 };
 
 #endif // EDJE_VIEW_H

@@ -26,7 +26,8 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   mEdjeContext (NULL),
   mEvas (NULL),
   mEdje (NULL),
-  groupState (Unrealized)
+  groupState (Unrealized),
+  param ("label", "blub")
 {
   assert (context);
   
@@ -96,9 +97,34 @@ void EdjeView::realizeDispatched (int missedEvents)
   
   mEdje->connect ("*", "*", sigc::mem_fun (this, &EdjeView::allFunc));
 
-  // TODO: think about resizing to group min/max if available
   mEdje->resize (mEdjeContext->getResolution ());
 
+  GlobalVariables &global = GlobalVariables::instance ();
+  
+  for (WidgetIterator wl_it = beginOfWidgets ();
+       wl_it != endOfWidgets ();
+       ++wl_it)
+  {
+    const Widget &w = *wl_it;
+    
+    Eflxx::CountedPtr <Edjexx::Part> part (mEdje->getPart ("Text_Example"));
+    AbstractVariable *val = global.getVariable (w.getVariable ());
+    assert (val);
+
+    /*
+     TODO:
+     Get variable and put content based on it's type into widget.
+     This needs much more work and a general design decision!
+     */
+
+    Edjexx::ExternalParam param ("text", w.getVariable ());
+
+    part->setParam (&param);
+
+    cout << "Widget name: " << w.getName () << endl;
+    cout << "Widget variable: " << w.getVariable () << endl;
+  }
+  
   mEdje->setLayer (0);
   mEdje->show ();
 

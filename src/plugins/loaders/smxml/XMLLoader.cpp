@@ -273,18 +273,18 @@ void XMLLoader::parseVariableNode (const xmlpp::Node * node)
       cout << "Attribute value = " << value_attribute->get_value () << endl;
     }
 
+    AbstractVariable *var = NULL;
+
     // TODO: create helper function and use together with parseConditionVariableNode ()
     if (type_attribute->get_value () == "Bool")
     {
-      Bool *b = NULL;
-
       if (value_attribute->get_value () == "true")
       {
-        b = new Bool (true);
+        var = new Bool (true);
       }
       else if (value_attribute->get_value () == "false")
       {
-        b = new Bool (false);
+        var = new Bool (false);
       }
       else
       {
@@ -292,10 +292,21 @@ void XMLLoader::parseVariableNode (const xmlpp::Node * node)
         cerr << "error: not allowed value" << endl;
         assert (false);
       }
-
-      GlobalVariables &global = GlobalVariables::instance ();
-      global.addVariable (name_attribute->get_value (), *b);
     }
+    else if (type_attribute->get_value () == "String")
+    {
+      var = new String (value_attribute->get_value ());
+    }
+    else
+    {
+      // TODO: handle error
+      cerr << "error: not allowed type" << endl;
+      assert (false);
+    }
+    
+    GlobalVariables &global = GlobalVariables::instance ();
+    global.addVariable (name_attribute->get_value (), *var);
+    
   }
 }
 
@@ -955,6 +966,14 @@ void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &pl
       {
         parseViewMappingsNode (*iter, view);
       }
+
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseViewWidgetsNode (*iter, view);
+      }
     }
   }
 }
@@ -979,13 +998,13 @@ void XMLLoader::parseViewParamsNode (const xmlpp::Node * node, std::list <std::s
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
-        parseParamNode (*iter, params);
+        parseViewParamNode (*iter, params);
       }
     }
   }
 }
 
-void XMLLoader::parseParamNode (const xmlpp::Node * node, std::list <std::string> &params)
+void XMLLoader::parseViewParamNode (const xmlpp::Node * node, std::list <std::string> &params)
 {
   const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
@@ -1073,6 +1092,71 @@ void XMLLoader::parseViewMapNode (const xmlpp::Node * node, View *view)
 
     view->addEventMapping (findMapingEvent (from_attribute->get_value ()), 
                            findMapingEvent (to_attribute->get_value ()));
+  }
+}
+
+void XMLLoader::parseViewWidgetsNode (const xmlpp::Node * node, View *view)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "widgets")
+    {
+      // Recurse through child nodes
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseViewWidgetNode (*iter, view);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseViewWidgetNode (const xmlpp::Node * node, View *view)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (nodename == "widget")
+  {
+    cout << "Node = " << node->get_name () << endl;
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
+    const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute ("variable");
+
+    if (name_attribute)
+    {
+      cout << "Attribute name = " << name_attribute->get_value () << endl;
+    }
+    else
+    {
+      // throw exception
+    }  
+    
+    if (variable_attribute)
+    {
+      cout << "Attribute variable = " << variable_attribute->get_value () << endl;
+    }
+    else
+    {
+      // throw exception
+    }
+
+    view->addWidget (Widget (name_attribute->get_value (), variable_attribute->get_value ()));
   }
 }
 

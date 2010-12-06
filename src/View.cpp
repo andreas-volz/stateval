@@ -10,6 +10,22 @@
 
 using namespace std;
 
+Widget::Widget (const std::string &name, const std::string &variable) :
+  mName (name),
+  mVariable (variable)
+{
+}
+
+const std::string Widget::getName () const
+{
+  return mName;
+}
+
+const std::string Widget::getVariable () const
+{
+  return mVariable;
+}
+
 View::View ()
 {
 }
@@ -29,3 +45,10 @@ void View::mapEvent (int &inOutEvent)
     inOutEvent = mapEvent;
   } 
 }
+
+void View::addWidget (const Widget &w)
+{ 
+  mWidgetVariableList.push_back (w);
+}
+
+

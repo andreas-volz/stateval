@@ -32,6 +32,11 @@
       <summary>Move more code from XMLLoader to Loader</summary>
       <comment/>
     </item>
+    <item>
+      <attribute id="1289513849" priority="1" done="0" start_date="734087" enddate="99999999" notify="0" endtime="-60" last_edited="1289513849"/>
+      <summary>EdjeContext usage</summary>
+      <comment>export a install header or maybe switch to struct container and document the structure in docs...</comment>
+    </item>
   </category>
   <category title="Features" place="1">
     <item>
@@ -82,7 +87,12 @@
     <item>
       <attribute id="1289513451" priority="1" done="0" start_date="734087" enddate="99999999" notify="0" endtime="-60" last_edited="1289513478"/>
       <summary>Implement EcoreDispatcher with EcorePipe</summary>
-      <comment></comment>
+      <comment/>
+    </item>
+    <item>
+      <attribute id="1289515997" priority="1" done="0" start_date="734087" enddate="99999999" notify="0" endtime="-60" last_edited="1289515997"/>
+      <summary>Rename variable to model concept</summary>
+      <comment>sounds better...</comment>
     </item>
   </category>
 </gtodo>
