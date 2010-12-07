@@ -37,6 +37,8 @@ public:
   
   bool equals (AbstractVariable *var) const;
   bool assign (AbstractVariable *var);
+
+  bool getData () const;
   
 private:
   bool mValue;
@@ -49,6 +51,8 @@ public:
   
   bool equals (AbstractVariable *var) const;
   bool assign (AbstractVariable *var);
+
+  std::string getData () const;
   
 private:
   std::string mValue;

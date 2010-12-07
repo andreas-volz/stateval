@@ -47,6 +47,11 @@
     <variable name="TextExampleString" type="String" value="A dynamic variable value!"/>
   </variables>
   
+  <actions>
+    <action name="changeInfoLabel" type="ChangeVariableAction" variable="TextExampleString" vtype="String" value="...a new Info label..."/>
+    <action name="changeInfoLabel2" type="ChangeVariableAction" variable="TextExampleString" vtype="String" value="...and now changing after leave..."/>
+  </actions>
+  
   <states>
     <state name="Root" type="CompoundState" parent="0"/>
     <state name="Initial" type="SimpleState" parent="Root"/>
@@ -61,11 +66,19 @@
     <state name="TunerHistory" type="HistoryState" parent="TunerCompound"/>
     <state name="TunerList" type="ViewState" parent="TunerCompound" view="TunerListView"/>
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
-    <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView"/>
+    <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView">
+      <actions>
+        <action ref="changeInfoLabel2" when="leave"/>
+      </actions>
+    </state>
     <state name="TunerAvailable" type="DecisionState" parent="Root"/>
     <state name="MediaCompound" type="CompoundState" parent="Root"/>
     <state name="MediaInitial" type="SimpleState" parent="MediaCompound"/>
-    <state name="MediaList" type="ViewState" parent="MediaCompound" view="MediaListView"/>
+    <state name="MediaList" type="ViewState" parent="MediaCompound" view="MediaListView">
+      <actions>
+        <action ref="changeInfoLabel" when="enter"/>
+      </actions>
+    </state>
   </states>
 
   <transitions>

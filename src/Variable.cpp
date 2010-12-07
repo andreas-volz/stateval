@@ -45,6 +45,11 @@ bool Bool::assign (AbstractVariable *var)
   mValue = (static_cast <Bool*> (var))->mValue;
 }
 
+bool Bool::getData () const
+{
+  return mValue;
+}
+
 String::String (const std::string &s) :
   AbstractVariable (TYPE_STRING),
   mValue (s)
@@ -70,4 +75,9 @@ bool String::assign (AbstractVariable *var)
   assert (getType () == var->getType ());
 
   mValue = (static_cast <String*> (var))->mValue;
+}
+
+std::string String::getData () const
+{
+  return mValue;
 }

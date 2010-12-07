@@ -117,10 +117,14 @@ void EdjeView::realizeDispatched (int missedEvents)
      This needs much more work and a general design decision!
      */
 
-    Edjexx::ExternalParam param ("text", w.getVariable ());
+    if (val->getType () == AbstractVariable::TYPE_STRING)
+    {
+      String *str = static_cast <String*> (val);
+      Edjexx::ExternalParam param ("text", str->getData ());
 
-    part->setParam (&param);
-
+      part->setParam (&param);
+    }
+    
     cout << "Widget name: " << w.getName () << endl;
     cout << "Widget variable: " << w.getVariable () << endl;
   }

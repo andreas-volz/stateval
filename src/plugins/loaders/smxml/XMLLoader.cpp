@@ -476,17 +476,18 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
     }
     else if (type_attribute->get_value () == "ChangeVariableAction")
     {
-      Bool *b = NULL;
+      AbstractVariable *av = NULL;
+      
       // TODO: create helper function and use together with parseConditionVariableNode ()
       if (vtype_attribute->get_value () == "Bool")
       {
         if (value_attribute->get_value () == "true")
         {
-          b = new Bool (true);
+          av = new Bool (true);
         }
         else if (value_attribute->get_value () == "false")
         {
-          b = new Bool (false);
+          av = new Bool (false);
         }
         else
         {
@@ -495,11 +496,15 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
           assert (false);
         }
       }
+      if (vtype_attribute->get_value () == "String")
+      {
+        av = new String (value_attribute->get_value ());
+      }
       
       // TODO: check if event is available/useful
 
       cout << "ChangeVariableAction: " << variable_attribute->get_value () << endl; 
-      action = new ChangeVariableAction (variable_attribute->get_value (), b);
+      action = new ChangeVariableAction (variable_attribute->get_value (), av);
       mActionNameMapper[name_attribute->get_value ()] = action;
     }
     else
