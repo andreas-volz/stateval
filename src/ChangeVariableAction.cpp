@@ -20,7 +20,7 @@ ChangeVariableAction::ChangeVariableAction (const std::string &changeVar, Abstra
 
 ChangeVariableAction::~ChangeVariableAction ()
 {
-  delete mVar;
+  // no need to free 'mVar' as it's only a pointer to a Loader managed variable...
 }
 
 void ChangeVariableAction::run () const

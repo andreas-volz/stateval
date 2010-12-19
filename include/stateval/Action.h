@@ -7,15 +7,15 @@
 class Action
 {
 public:
-  Action () {};
-  Action (const std::string &command);
+  //Action () {};
+  //Action (const std::string &command);
 
   virtual ~Action(){}
     
-  virtual void run () const; // = 0 -> later abstract!
+  virtual void run () const = 0;
     
 private:
-  std::string mCommand;
+  //std::string mCommand;
 };
 
 #endif // ACTION_H

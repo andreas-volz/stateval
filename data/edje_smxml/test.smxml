@@ -45,11 +45,13 @@
   
   <variables>
     <variable name="TextExampleString" type="String" value="A dynamic variable value!"/>
+    <variable name="NewInfo" type="String" value="...a new Info label.."/>
+    <variable name="AfterLeave" type="String" value="...and now changing after leave..."/>
   </variables>
   
   <actions>
-    <action name="changeInfoLabel" type="ChangeVariableAction" variable="TextExampleString" vtype="String" value="...a new Info label..."/>
-    <action name="changeInfoLabel2" type="ChangeVariableAction" variable="TextExampleString" vtype="String" value="...and now changing after leave..."/>
+    <action name="changeInfoLabel" type="ChangeVariableAction" variable="TextExampleString" copy="NewInfo"/>
+    <action name="changeInfoLabel2" type="ChangeVariableAction" variable="TextExampleString" copy="AfterLeave"/>
   </actions>
   
   <states>

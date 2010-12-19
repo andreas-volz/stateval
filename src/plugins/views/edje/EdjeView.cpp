@@ -107,7 +107,7 @@ void EdjeView::realizeDispatched (int missedEvents)
   {
     const Widget &w = *wl_it;
     
-    Eflxx::CountedPtr <Edjexx::Part> part (mEdje->getPart ("Text_Example"));
+    Eflxx::CountedPtr <Edjexx::Part> part (mEdje->getPart (w.getName ()));
     AbstractVariable *val = global.getVariable (w.getVariable ());
     assert (val);
 
