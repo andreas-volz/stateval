@@ -38,6 +38,7 @@
   
   <variables>
     <variable name="media.available" type="Bool" value="false"/>
+    <variable name="MediaTrue" type="Bool" value="true"/>
   </variables>
   
   <conditions>
@@ -47,7 +48,7 @@
   
   <actions>
     <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
-    <action name="enableMedia" type="ChangeVariableAction" variable="media.available" vtype="Bool" value="true"/>
+    <action name="enableMedia" type="ChangeVariableAction" variable="media.available" copy="MediaTrue"/>
   </actions>
   
   <states>
