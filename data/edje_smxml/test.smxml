@@ -155,6 +155,7 @@
       </params>
       <mappings>
         <map from="Button01#clicked" to="HK_NAV"/>
+        <map from="Button02#clicked" to="TUNER_FREQ"/>
       </mappings>
     </view>
 
@@ -164,7 +165,7 @@
         <param value="tuner_frequenz"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="HK_TUNER"/>
+        <map from="Button01#clicked" to="TUNER_LIST"/>
       </mappings>
     </view>
     
