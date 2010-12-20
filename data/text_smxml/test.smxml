@@ -38,17 +38,18 @@
   
   <variables>
     <variable name="media.available" type="Bool" value="false"/>
-    <variable name="MediaTrue" type="Bool" value="true"/>
+    <variable name="True" type="Bool" value="true"/>
+    <variable name="False" type="Bool" value="false"/>
   </variables>
   
   <conditions>
-    <condition name="MediaIsAvailable" variable="media.available" operation="equals" type="Bool" value="true"/>
-    <condition name="MediaIsNotAvailable" variable="media.available" operation="equals" type="Bool" value="false"/>
+    <condition name="MediaIsAvailable" variable="media.available" operation="equals" variable2="True"/>
+    <condition name="MediaIsNotAvailable" variable="media.available" operation="equals" variable2="False"/>
   </conditions>
   
   <actions>
     <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
-    <action name="enableMedia" type="ChangeVariableAction" variable="media.available" copy="MediaTrue"/>
+    <action name="enableMedia" type="ChangeVariableAction" variable="media.available" copy="True"/>
   </actions>
   
   <states>

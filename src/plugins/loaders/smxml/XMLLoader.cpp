@@ -353,8 +353,7 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute ("variable");
     const xmlpp::Attribute *operation_attribute = nodeElement->get_attribute ("operation");
-    const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
-    const xmlpp::Attribute *value_attribute = nodeElement->get_attribute ("value");
+    const xmlpp::Attribute *variable2_attribute = nodeElement->get_attribute ("variable2");
 
     if (name_attribute)
     {
@@ -372,38 +371,17 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
       cout << "Attribute operation = " << operation_attribute->get_value () << endl;
     }
 
-    if (type_attribute)
+    if (variable2_attribute)
     {
-      cout << "Attribute operation = " << type_attribute->get_value () << endl;
+      cout << "Attribute operation = " << variable2_attribute->get_value () << endl;
     }
 
-    if (value_attribute)
-    {
-      cout << "Attribute operation = " << value_attribute->get_value () << endl;
-    }
-
-    Bool *b = NULL;
-    // TODO: create helper function and use together with parseVariableNode ()
-    if (type_attribute->get_value () == "Bool")
-    {
-      if (value_attribute->get_value () == "true")
-      {
-        b = new Bool (true);
-      }
-      else if (value_attribute->get_value () == "false")
-      {
-        b = new Bool (false);
-      }
-      else
-      {
-        // TODO: handle error
-        cerr << "error: not allowed value" << endl;
-        assert (false);
-      }
-    }
+    GlobalVariables &global = GlobalVariables::instance ();
+    AbstractVariable *av = global.getVariable (variable2_attribute->get_value ());
+    assert (av);
     
     Condition *cond = new Condition ();
-    cond->addComparison (variable_attribute->get_value (), b);
+    cond->addComparison (variable_attribute->get_value (), av);
 
     // temporary save condition pointer for later reference in transition table
     mConditionNameMapper[name_attribute->get_value ()] = cond;

@@ -17,7 +17,7 @@ Condition::Condition () :
 
 Condition::~Condition ()
 {
-  delete mVal;
+  // no need to free 'mVal' as it's only a pointer to a Loader managed variable...
 }
 
 bool Condition::evaluate () const
