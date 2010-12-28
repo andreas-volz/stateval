@@ -15,7 +15,9 @@ public:
     TYPE_INTEGER,
     TYPE_FLOAT,
     TYPE_BOOL,
-    TYPE_STRING
+    TYPE_STRING,
+    TYPE_LIST,
+    TYPE_STRUCT
   };
 
   virtual bool equals (AbstractVariable *var) const = 0;

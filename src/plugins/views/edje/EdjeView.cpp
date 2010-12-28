@@ -109,8 +109,8 @@ void EdjeView::realizeDispatched (int missedEvents)
     
     Eflxx::CountedPtr <Edjexx::Part> part (mEdje->getPart (w.getName ()));
     AbstractVariable *val = global.getVariable (w.getVariable ());
-    assert (val);
-
+    assert (val);    
+    
     /*
      TODO:
      Get variable and put content based on it's type into widget.

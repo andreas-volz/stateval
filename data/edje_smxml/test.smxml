@@ -43,6 +43,14 @@
     <event name="#load"/>
   </events>
   
+  <types>
+    <type name="elm_widget/slider" plugin="elementary"/>
+    <type name="test_custom">
+        <element name="label" type="String"/>
+        <element name="value" type="Double"/>
+    </type>
+  </types>
+  
   <variables>
     <variable name="TextExampleString" type="String" value="A dynamic variable value!"/>
     <variable name="NewInfo" type="String" value="...a new Info label.."/>

@@ -113,6 +113,14 @@ void XMLLoader::parseRootNode (const xmlpp::Node * node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin ();
            iter != list.end (); ++iter)
       {
+        parseTypesNode (*iter);
+      }
+      
+      // Recurse through child nodes
+      list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
         parseVariablesNode (*iter);
       }
 
@@ -935,6 +943,107 @@ void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &pl
   }
 }
 
+void XMLLoader::parseTypesNode (const xmlpp::Node * node)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "types")
+    {      
+      // Recurse through child nodes
+      //unsigned int i = 0;
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseTypeNode (*iter/*, plugin_attribute->get_value (), i*/);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseTypeNode (const xmlpp::Node * node/*, const Glib::ustring &plugin, unsigned int &i*/)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  View *view = NULL;
+
+  if (nodeText && nodeText->is_white_space ())	// Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	// Let's not say "name: text".
+  {
+    if (nodename == "type")
+    {
+      const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
+      const xmlpp::Attribute *plugin_attribute = nodeElement->get_attribute ("plugin");
+
+      if (name_attribute)
+      {
+        cout << "Attribute name = " << name_attribute->get_value () << endl;
+
+      }
+      else
+      {
+        // throw exception
+      }
+
+      if (plugin_attribute)
+      {
+        cout << "Attribute plugin = " << plugin_attribute->get_value () << endl;
+      }
+      else
+      {
+        // Recurse through child nodes
+        xmlpp::Node::NodeList list = node->get_children ();
+        for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+             iter != list.end (); ++iter)
+        {
+          parseTypeElementNode (*iter);
+        }
+      }
+    }
+  }
+}
+
+void XMLLoader::parseTypeElementNode (const xmlpp::Node * node)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (nodename == "element")
+  {
+    cout << "Node = " << nodename << endl;
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
+    const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
+
+    if (type_attribute)
+    {
+      cout << "Attribute type = " << type_attribute->get_value () << endl;
+    }
+  }
+}
+
+
 void XMLLoader::parseViewParamsNode (const xmlpp::Node * node, std::list <std::string> &params)
 {
   const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
@@ -975,13 +1084,13 @@ void XMLLoader::parseViewParamNode (const xmlpp::Node * node, std::list <std::st
   {
     cout << "Node = " << node->get_name () << endl;
 
-    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("value");
+    const xmlpp::Attribute *value_attribute = nodeElement->get_attribute ("value");
 
-    if (name_attribute)
+    if (value_attribute)
     {
-      cout << "Attribute value = " << name_attribute->get_value () << endl;
+      cout << "Attribute value = " << value_attribute->get_value () << endl;
 
-      params.push_back (name_attribute->get_value ());
+      params.push_back (value_attribute->get_value ());
     }
   }
 }

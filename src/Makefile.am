@@ -42,7 +42,8 @@ libstateval_la_SOURCES = \
 	ViewPluginLoader.h \
 	searchFile.cpp \
 	searchFile.h \
-	ChangeVariableAction.cpp
+	ChangeVariableAction.cpp \
+	Type.cpp
 
 libstateval_la_CXXFLAGS = \
 	-I \

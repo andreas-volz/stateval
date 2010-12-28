@@ -22,7 +22,8 @@ libstateval_HEADERS = \
 	Loader.h     \
 	Thread.h     \
 	Context.h     \
-	ChangeVariableAction.h
+	ChangeVariableAction.h     \
+	Type.h
 
 libstatevaldir = \
 	$(pkgincludedir)
