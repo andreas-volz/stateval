@@ -153,3 +153,13 @@ AbstractVariable *Struct::getData (const std::string &s)
   cout << "mValueMap size: " << mValueMap.size () << endl;
   return mValueMap[s];
 }
+
+Struct::Iterator Struct::begin ()
+{
+  return mValueMap.begin ();
+}
+
+Struct::Iterator Struct::end ()
+{
+  return mValueMap.end ();
+}

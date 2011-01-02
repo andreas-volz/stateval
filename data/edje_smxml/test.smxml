@@ -50,6 +50,10 @@
       <variable name="label" type="String" value="a dynamic label"/>
       <variable name="content" type="String" value="a dynamic content"/>
     </variable>
+    <variable name="ButtonExample" type="Struct">
+      <variable name="label" type="String" value="a dynamic label"/>
+      <variable name="icon" type="String" value="/home/andreas/Bilder/e_penguin/e_penguin.png"/>
+    </variable>
     <variable name="NewInfo" type="String" value="...a new Info label.."/>
     <variable name="AfterLeave" type="String" value="...and now changing after leave..."/>
     <variable name="TunerFrequencySlider" type="Struct">
@@ -194,6 +198,7 @@
       <widgets>
         <widget name="Text_Example" variable="TextExampleString"/>
         <widget name="Bubble01" variable="BubbleExample"/>
+        <widget name="Button02" variable="ButtonExample"/>
       </widgets>
     </view>    
     

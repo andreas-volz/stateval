@@ -47,6 +47,7 @@ private:
   bool mValue;
 };
 
+// TODO: rename to Double...
 class Float : public AbstractVariable
 {
 public:
@@ -78,6 +79,8 @@ private:
 class Struct : public AbstractVariable
 {
 public:
+  typedef std::map <std::string, AbstractVariable*>::const_iterator Iterator;
+  
   Struct (const std::string &s);
   
   bool equals (AbstractVariable *var) const;
@@ -85,6 +88,9 @@ public:
   void add (const std::string &s, AbstractVariable *var);
 
   AbstractVariable *getData (const std::string &s);
+
+  Iterator begin ();
+  Iterator end ();
   
 private:
   std::map <std::string, AbstractVariable*> mValueMap;
