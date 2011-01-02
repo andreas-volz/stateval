@@ -15,6 +15,7 @@
 #include "stateval/HistoryState.h"
 #include "stateval/DecisionState.h"
 #include "stateval/ViewState.h"
+
 #include "stringUtil.h"
 #include "ViewPluginLoader.h"
 

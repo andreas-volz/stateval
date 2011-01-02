@@ -36,14 +36,12 @@ libstateval_la_SOURCES = \
 	stringUtil.cpp      \
 	stringUtil.h      \
 	Thread.cpp \
-	localUtil.cpp \
-	localUtil.h \
+	MemoryUtil.h \
 	ViewPluginLoader.cpp \
 	ViewPluginLoader.h \
 	searchFile.cpp \
 	searchFile.h \
-	ChangeVariableAction.cpp \
-	Type.cpp
+	ChangeVariableAction.cpp 
 
 libstateval_la_CXXFLAGS = \
 	-I \

@@ -5,6 +5,7 @@
 /* local */
 #include "EdjeView.h"
 #include "EdjeContext.h"
+#include <elementaryxx/Elementaryxx.h> // FIXME: needed?
 
 /* stateval */
 #include "stateval/stateval.h"
@@ -107,22 +108,56 @@ void EdjeView::realizeDispatched (int missedEvents)
   {
     const Widget &w = *wl_it;
     
-    Eflxx::CountedPtr <Edjexx::Part> part (mEdje->getPart (w.getName ()));
     AbstractVariable *val = global.getVariable (w.getVariable ());
-    assert (val);    
-    
-    /*
-     TODO:
-     Get variable and put content based on it's type into widget.
-     This needs much more work and a general design decision!
-     */
 
-    if (val->getType () == AbstractVariable::TYPE_STRING)
+    if (val->getType () == AbstractVariable::TYPE_STRUCT)
     {
-      String *str = static_cast <String*> (val);
-      Edjexx::ExternalParam param ("text", str->getData ());
+      Struct *st = static_cast <Struct*> (val);
+      const string typeString = st->getTypeString ();
+      cout << "Type String: " << typeString << endl;
 
-      part->setParam (&param);
+      // "elm_widget/slider" is not the best example here...
+      // This could easier be done with ExternalParams...
+      if (typeString == "Struct")
+      {
+        try
+        {
+          // The code below accesses a Edje External widget (here: Elementary Slider) in a type save way
+          Evasxx::Object &ext_eo3 = mEdje->getPart (w.getName ()).getExternalObject ();
+          cout << "Edje Widget type: " << ext_eo3.getType () << endl;
+          if (ext_eo3.getType () == "elm_widget")
+          {
+            Elmxx::Object &elm_object = *(static_cast <Elmxx::Object*> (&ext_eo3));
+
+            cout << "Elm Widget type: " << elm_object.getWidgetType () << endl;
+            if (elm_object.getWidgetType () == "slider")
+            {
+              Elmxx::Slider &slider = *(static_cast <Elmxx::Slider*> (&elm_object));
+              AbstractVariable *av1 = st->getData ("label");
+              if (av1->getType () == AbstractVariable::TYPE_STRING)
+              {
+                String *s1 = static_cast <String*> (av1);
+                slider.setLabel (s1->getData ());
+              }
+              
+              AbstractVariable *av2 = st->getData ("value");
+              if (av2->getType () == AbstractVariable::TYPE_FLOAT)
+              {
+                Float *f1 = static_cast <Float*> (av2);
+                slider.setValue (f1->getData ());
+              }
+            }
+          }
+        }
+        catch (Edjexx::PartNotExistingException pne)
+        {
+          cerr << pne.what () << endl;
+        }
+        catch (Edjexx::ExternalNotExistingException ene)
+        {
+          cerr << ene.what () << endl;
+        }
+      }
     }
     
     cout << "Widget name: " << w.getName () << endl;

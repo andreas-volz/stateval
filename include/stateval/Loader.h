@@ -13,6 +13,7 @@
 
 /* forward delarations */
 class Context;
+class Type;
 
 class Loader : public pluxx::Plugin
 {
@@ -38,7 +39,7 @@ public:
 
 protected:
   View *loadView (const std::string &viewPlugin, Context *context, const std::list <std::string> &params);
-  
+
   std::vector <State*> mStateList;
   std::vector <View*> mViewList;
   std::map <std::string, int> mEventList;

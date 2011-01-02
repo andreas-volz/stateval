@@ -43,18 +43,14 @@
     <event name="#load"/>
   </events>
   
-  <types>
-    <type name="elm_widget/slider" plugin="elementary"/>
-    <type name="test_custom">
-        <element name="label" type="String"/>
-        <element name="value" type="Double"/>
-    </type>
-  </types>
-  
   <variables>
     <variable name="TextExampleString" type="String" value="A dynamic variable value!"/>
     <variable name="NewInfo" type="String" value="...a new Info label.."/>
     <variable name="AfterLeave" type="String" value="...and now changing after leave..."/>
+    <variable name="TunerFrequencySlider" type="Struct">
+      <variable name="label" type="String" value="stateval changed label"/>
+      <variable name="value" type="Float" value="99.0"/>
+    </variable>
   </variables>
   
   <actions>
@@ -177,6 +173,9 @@
       <mappings>
         <map from="Button01#clicked" to="TUNER_LIST"/>
       </mappings>
+      <widgets>
+        <widget name="Slider01" variable="TunerFrequencySlider"/>
+      </widgets>
     </view>
     
     <view name="NavInfoView">

@@ -6,7 +6,7 @@
 #include "stateval/SimpleState.h"
 #include "stateval/CompoundState.h"
 #include "stateval/HistoryState.h"
-#include "localUtil.h"
+#include "MemoryUtil.h"
 
 /* STD */
 #include <iostream>

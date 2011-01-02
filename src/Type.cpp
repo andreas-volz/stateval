@@ -1,6 +1,0 @@
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-/* local */
-#include "stateval/Type.h"

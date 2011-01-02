@@ -4,7 +4,7 @@
 
 /* Project */
 #include "stateval/State.h"
-#include "localUtil.h"
+#include "MemoryUtil.h"
 
 /* STD */
 #include <iostream>
@@ -27,8 +27,7 @@ State::~State ()
 {
   // TODO: think about if the Transitions should be managed by Loader
   
-  // free mLeaveTransitonList
-  delete_stl_container <std::list <Transition*>, Transition*> (mLeaveTransitonList);
+  delete_stl_container (mLeaveTransitonList);
 }
 
 void State::setID (unsigned int id)

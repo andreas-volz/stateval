@@ -36,7 +36,7 @@ bool Bool::equals (AbstractVariable *var) const
   return ret;
 }
 
-bool Bool::assign (AbstractVariable *var)
+void Bool::assign (AbstractVariable *var)
 {
   cout << "assign this:Type: " << getType () << endl;
   cout << "var:Type: " << var->getType () << endl;
@@ -49,6 +49,39 @@ bool Bool::getData () const
 {
   return mValue;
 }
+
+Float::Float (float f) :
+  AbstractVariable (TYPE_FLOAT),
+  mValue (f)
+{
+  
+}
+
+bool Float::equals (AbstractVariable *var) const
+{
+  cout << "equals this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+  
+  float ret = (static_cast <Float*> (var))->mValue == mValue;
+  
+  return ret;
+}
+
+void Float::assign (AbstractVariable *var)
+{
+  cout << "assign this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+
+  mValue = (static_cast <Float*> (var))->mValue;
+}
+
+float Float::getData () const
+{
+  return mValue;
+}
+
 
 String::String (const std::string &s) :
   AbstractVariable (TYPE_STRING),
@@ -68,7 +101,7 @@ bool String::equals (AbstractVariable *var) const
   return ret;
 }
 
-bool String::assign (AbstractVariable *var)
+void String::assign (AbstractVariable *var)
 {
   cout << "assign this:Type: " << getType () << endl;
   cout << "var:Type: " << var->getType () << endl;
@@ -80,4 +113,49 @@ bool String::assign (AbstractVariable *var)
 std::string String::getData () const
 {
   return mValue;
+}
+
+Struct::Struct (const std::string &s) :
+  AbstractVariable (TYPE_STRUCT),
+  mTypeString (s)
+{
+
+}
+
+const std::string Struct::getTypeString ()
+{
+  return mTypeString;
+}
+
+bool Struct::equals (AbstractVariable *var) const
+{
+  cout << "equals this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+
+  // TODO: implement
+  bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
+  
+  return ret;
+}
+
+void Struct::assign (AbstractVariable *var)
+{
+  cout << "assign this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+
+  // TODO: implement
+  //mValue = (static_cast <String*> (var))->mValue;
+}
+
+void Struct::add (const std::string &s, AbstractVariable *var)
+{
+  mValueMap[s] = var;
+}
+
+AbstractVariable *Struct::getData (const std::string &s)
+{
+  cout << "mValueMap size: " << mValueMap.size () << endl;
+  return mValueMap[s];
 }

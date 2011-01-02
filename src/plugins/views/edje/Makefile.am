@@ -20,11 +20,13 @@ stateval_views_edje_la_CXXFLAGS = \
 
 stateval_views_edje_la_LIBADD = \
 	$(PLUXX_LIBS) \
-	$(EFL_LIBS)
+	$(EFL_LIBS) \
+	$(ELEMENTARY_LIBS)
 
 AM_CPPFLAGS = \
 	$(PLUXX_CFLAGS) \
-	$(EFL_CFLAGS)
+	$(EFL_CFLAGS) \
+	$(ELEMENTARY_CFLAGS)
 
 ## File created by the gnome-build tools
 

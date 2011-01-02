@@ -138,7 +138,7 @@ void StateMachineThread::disconnect (int event)
     // delete all connected handlers
     for ( ; findResult != lastElement; ++findResult)
     {
-      SignalSignal *signal = (*findResult).second;
+      SignalSignal *signal = findResult->second;
       delete signal;
         
      // TODO from hdusel: Forget to remove the element from the multimap?

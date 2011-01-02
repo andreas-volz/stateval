@@ -4,6 +4,7 @@
 /* STD */
 #include <iostream>
 #include <typeinfo>
+#include <map>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
   };
 
   virtual bool equals (AbstractVariable *var) const = 0;
-  virtual bool assign (AbstractVariable *var) = 0;
+  virtual void assign (AbstractVariable *var) = 0;
   
   Type getType () const;
   
@@ -38,12 +39,26 @@ public:
   Bool (bool b);
   
   bool equals (AbstractVariable *var) const;
-  bool assign (AbstractVariable *var);
+  void assign (AbstractVariable *var);
 
   bool getData () const;
   
 private:
   bool mValue;
+};
+
+class Float : public AbstractVariable
+{
+public:
+  Float (float f);
+  
+  bool equals (AbstractVariable *var) const;
+  void assign (AbstractVariable *var);
+
+  float getData () const;
+  
+private:
+  float mValue;
 };
 
 class String : public AbstractVariable
@@ -52,12 +67,29 @@ public:
   String (const std::string &s);
   
   bool equals (AbstractVariable *var) const;
-  bool assign (AbstractVariable *var);
+  void assign (AbstractVariable *var);
 
   std::string getData () const;
   
 private:
   std::string mValue;
+};
+
+class Struct : public AbstractVariable
+{
+public:
+  Struct (const std::string &s);
+  
+  bool equals (AbstractVariable *var) const;
+  void assign (AbstractVariable *var);
+  void add (const std::string &s, AbstractVariable *var);
+
+  AbstractVariable *getData (const std::string &s);
+  const std::string getTypeString ();
+  
+private:
+  std::string mTypeString;
+  std::map <std::string, AbstractVariable*> mValueMap;
 };
 
 #endif // VARIABLE_H

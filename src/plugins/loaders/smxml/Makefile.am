@@ -7,8 +7,9 @@ stateval_loaders_smxml_la_SOURCES = \
 	XMLLoader.h            \
 	searchFile.cpp            \
 	searchFile.h		\
-	localUtil.cpp		\
-	localUtil.h
+	MemoryUtil.h            \
+	stringUtil.cpp            \
+	stringUtil.h
 
 stateval_loaders_smxml_la_CXXFLAGS = \
 	-I \
