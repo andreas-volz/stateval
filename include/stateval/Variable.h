@@ -85,10 +85,8 @@ public:
   void add (const std::string &s, AbstractVariable *var);
 
   AbstractVariable *getData (const std::string &s);
-  const std::string getTypeString ();
   
 private:
-  std::string mTypeString;
   std::map <std::string, AbstractVariable*> mValueMap;
 };
 

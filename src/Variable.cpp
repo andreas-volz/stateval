@@ -116,15 +116,9 @@ std::string String::getData () const
 }
 
 Struct::Struct (const std::string &s) :
-  AbstractVariable (TYPE_STRUCT),
-  mTypeString (s)
+  AbstractVariable (TYPE_STRUCT)
 {
 
-}
-
-const std::string Struct::getTypeString ()
-{
-  return mTypeString;
 }
 
 bool Struct::equals (AbstractVariable *var) const
