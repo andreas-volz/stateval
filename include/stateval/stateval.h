@@ -9,7 +9,6 @@
 #include "Condition.h"
 #include "Context.h"
 #include "DecisionState.h"
-#include "EventList.h"
 #include "FireEventAction.h"
 #include "ChangeVariableAction.h"
 #include "GlobalVariables.h"
