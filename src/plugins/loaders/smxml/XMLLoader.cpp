@@ -310,7 +310,7 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
     }
     else if (type_attribute->get_value () == "Struct")
     {
-      Struct* st = new Struct (type_attribute->get_value ());
+      Struct* st = new Struct ();
 
       //Recurse through child nodes:
       xmlpp::Node::NodeList list = node->get_children ();
@@ -329,6 +329,28 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
       }
       
       var = st;
+    }
+    else if (type_attribute->get_value () == "List")
+    {
+      List* ls = new List ();
+
+      //Recurse through child nodes:
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        AbstractVariable *av = parseVariableNode (*iter);
+        if (av)
+        {
+          //const xmlpp::Element * innerNodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
+          //const xmlpp::Attribute *inner_name_attribute = innerNodeElement->get_attribute ("name");
+          
+          cout << "adding variable to list" << endl;
+          ls->pushBack (av);
+        }
+      }
+      
+      var = ls;
     }
     else
     {

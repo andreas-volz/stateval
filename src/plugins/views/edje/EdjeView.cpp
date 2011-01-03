@@ -118,7 +118,8 @@ void EdjeView::realizeDispatched (int missedEvents)
       {
         Struct *st = static_cast <Struct*> (val);
         bool specialHandled = false;
-        
+
+        // TODO: is there a special handling for struct types needed?
         try 
         {
           Evasxx::Object &ext_eo3 = part.getExternalObject ();
@@ -189,6 +190,48 @@ void EdjeView::realizeDispatched (int missedEvents)
               }
             }
           }
+        }
+      }
+      else if (val->getType () == AbstractVariable::TYPE_LIST)
+      {
+        try 
+        {
+          List *ls = static_cast <List*> (val);
+          
+          Evasxx::Object &ext_eo3 = part.getExternalObject ();
+          Evasxx::Object &eo3 = part.getSwallow ();
+          cout << "Edje External Widget type: " << ext_eo3.getType () << endl;
+          cout << "Edje Part Widget type: " << eo3.getType () << endl;
+          
+          if (ext_eo3.getType () == "elm_widget")
+          {
+            Elmxx::Object &elm_object = *(static_cast <Elmxx::Object*> (&ext_eo3));
+
+            cout << "Elm Widget type: " << elm_object.getWidgetType () << endl;
+
+            if (elm_object.getWidgetType () == "list")
+            {
+              Elmxx::List &list = *(static_cast <Elmxx::List*> (&elm_object));
+
+              for (List::Iterator ls_it = ls->begin ();
+                   ls_it != ls->end ();
+                   ++ls_it)
+              {
+                AbstractVariable *av = *ls_it;
+
+                if (av->getType () == AbstractVariable::TYPE_STRING)
+                {
+                  String *str = static_cast <String*> (av);
+                  list.append (str->getData (), NULL, NULL);
+                }
+                list.go ();
+              }
+            }                
+          }
+        }
+        catch (Edjexx::ExternalNotExistingException ene)
+        {
+          cerr << ene.what () << endl;
         }
       }
       else if (val->getType () == AbstractVariable::TYPE_STRING)

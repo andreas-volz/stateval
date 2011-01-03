@@ -60,6 +60,11 @@
       <variable name="label" type="String" value="stateval changed label"/>
       <variable name="value" type="Float" value="99.0"/>
     </variable>
+    <variable name="ListExample" type="List">
+      <variable type="String" value="First Element"/>
+      <variable type="String" value="Second Element"/>
+      <variable type="String" value="Third Element"/>
+    </variable>
   </variables>
   
   <actions>
@@ -213,6 +218,9 @@
         <map from="Button02#clicked" to="MEDIA_DECREMENT_TITLE"/>
         <map from="Button03#clicked" to="MEDIA_INCREMENT_TITLE"/>
       </mappings>
+      <widgets>
+        <widget name="List01" variable="ListExample"/>
+      </widgets>
     </view>
   </views>
 

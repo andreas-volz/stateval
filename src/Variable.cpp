@@ -4,6 +4,7 @@
 
 /* local */
 #include "stateval/Variable.h"
+#include "MemoryUtil.h"
 
 /* STD */
 #include <cassert>
@@ -17,6 +18,8 @@ AbstractVariable::Type AbstractVariable::getType () const
 {
   return mType;
 }
+
+//////////////////////////
 
 Bool::Bool (bool b) :
   AbstractVariable (TYPE_BOOL),
@@ -49,6 +52,8 @@ bool Bool::getData () const
 {
   return mValue;
 }
+
+//////////////////////////
 
 Float::Float (float f) :
   AbstractVariable (TYPE_FLOAT),
@@ -83,6 +88,8 @@ float Float::getData () const
 }
 
 
+//////////////////////////
+
 String::String (const std::string &s) :
   AbstractVariable (TYPE_STRING),
   mValue (s)
@@ -115,10 +122,16 @@ std::string String::getData () const
   return mValue;
 }
 
-Struct::Struct (const std::string &s) :
+//////////////////////////
+
+Struct::Struct () :
   AbstractVariable (TYPE_STRUCT)
 {
+}
 
+Struct::~Struct ()
+{
+  delete_stl_container (mValueMap);
 }
 
 bool Struct::equals (AbstractVariable *var) const
@@ -129,6 +142,7 @@ bool Struct::equals (AbstractVariable *var) const
 
   // TODO: implement
   bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
+  assert (false);
   
   return ret;
 }
@@ -141,6 +155,7 @@ void Struct::assign (AbstractVariable *var)
 
   // TODO: implement
   //mValue = (static_cast <String*> (var))->mValue;
+  assert (false);
 }
 
 void Struct::add (const std::string &s, AbstractVariable *var)
@@ -162,4 +177,60 @@ Struct::Iterator Struct::begin ()
 Struct::Iterator Struct::end ()
 {
   return mValueMap.end ();
+}
+
+//////////////////////////
+
+List::List () :
+  AbstractVariable (TYPE_LIST)
+{
+}
+
+List::~List ()
+{
+  delete_stl_container (mValueList);
+}
+
+bool List::equals (AbstractVariable *var) const
+{
+  cout << "equals this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+
+  // TODO: implement
+  bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
+  assert (false);
+  
+  return ret;
+}
+
+void List::assign (AbstractVariable *var)
+{
+  cout << "assign this:Type: " << getType () << endl;
+  cout << "var:Type: " << var->getType () << endl;
+  assert (getType () == var->getType ());
+
+  // TODO: implement
+  //mValue = (static_cast <String*> (var))->mValue;
+  assert (false);
+}
+
+void List::pushBack (AbstractVariable *var)
+{
+  mValueList.push_back (var);
+}
+
+void List::pushFront (AbstractVariable *var)
+{
+  mValueList.push_front (var);
+}
+
+List::Iterator List::begin ()
+{
+  return mValueList.begin ();
+}
+
+List::Iterator List::end ()
+{
+  return mValueList.end ();
 }

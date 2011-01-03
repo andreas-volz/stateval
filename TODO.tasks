@@ -101,5 +101,10 @@
 TODO: How to handle plugins?
 rename also header protection in STATEVAL_*_H</comment>
     </item>
+    <item>
+      <attribute id="1294009050" priority="1" done="0" start_date="734139" enddate="99999999" notify="0" endtime="-60" last_edited="1294009107"/>
+      <summary>Implement Integer type variable</summary>
+      <comment></comment>
+    </item>
   </category>
 </gtodo>

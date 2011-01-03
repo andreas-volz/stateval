@@ -5,6 +5,7 @@
 #include <iostream>
 #include <typeinfo>
 #include <map>
+#include <list>
 
 using namespace std;
 
@@ -81,13 +82,15 @@ class Struct : public AbstractVariable
 public:
   typedef std::map <std::string, AbstractVariable*>::const_iterator Iterator;
   
-  Struct (const std::string &s);
+  Struct ();
+  ~Struct ();
   
   bool equals (AbstractVariable *var) const;
   void assign (AbstractVariable *var);
   void add (const std::string &s, AbstractVariable *var);
 
   AbstractVariable *getData (const std::string &s);
+  // TODO: implement [] operator
 
   Iterator begin ();
   Iterator end ();
@@ -95,5 +98,27 @@ public:
 private:
   std::map <std::string, AbstractVariable*> mValueMap;
 };
+
+class List : public AbstractVariable
+{
+public:
+  typedef std::list <AbstractVariable*>::const_iterator Iterator;
+  
+  List ();
+  ~List ();
+  
+  bool equals (AbstractVariable *var) const;
+  void assign (AbstractVariable *var);
+  
+  void pushBack (AbstractVariable *var);
+  void pushFront (AbstractVariable *var);
+
+  Iterator begin ();
+  Iterator end ();
+  
+private:
+  std::list <AbstractVariable*> mValueList;
+};
+
 
 #endif // VARIABLE_H
