@@ -188,7 +188,7 @@ List::List () :
 
 List::~List ()
 {
-  delete_stl_container (mValueList);
+  clear ();
 }
 
 bool List::equals (AbstractVariable *var) const
@@ -223,6 +223,11 @@ void List::pushBack (AbstractVariable *var)
 void List::pushFront (AbstractVariable *var)
 {
   mValueList.push_front (var);
+}
+
+void List::clear ()
+{
+  delete_stl_container (mValueList);
 }
 
 List::Iterator List::begin ()

@@ -113,6 +113,8 @@ public:
   void pushBack (AbstractVariable *var);
   void pushFront (AbstractVariable *var);
 
+  void clear ();
+
   Iterator begin ();
   Iterator end ();
   

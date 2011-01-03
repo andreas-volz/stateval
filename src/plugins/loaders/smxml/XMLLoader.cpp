@@ -342,10 +342,6 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
         AbstractVariable *av = parseVariableNode (*iter);
         if (av)
         {
-          //const xmlpp::Element * innerNodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
-          //const xmlpp::Attribute *inner_name_attribute = innerNodeElement->get_attribute ("name");
-          
-          cout << "adding variable to list" << endl;
           ls->pushBack (av);
         }
       }

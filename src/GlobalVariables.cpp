@@ -11,6 +11,8 @@
 
 using namespace std;
 
+// TODO: redesign complete access and locking design!_
+
 GlobalVariables& GlobalVariables::instance()
 {
   static GlobalVariables g;
@@ -20,7 +22,7 @@ GlobalVariables& GlobalVariables::instance()
 GlobalVariables::~GlobalVariables ()
 {
   // TODO: think about if the Globals should be managed by Loader
-  // clean mVariableList
+  // TODO: clean mVariableList
   for (map <string,AbstractVariable*>::iterator var_it = mVariableList.begin ();
        var_it != mVariableList.end ();
        ++var_it)
@@ -37,18 +39,22 @@ void GlobalVariables::init ()
 
 void GlobalVariables::addVariable (const std::string &str, AbstractVariable &var)
 {
+  mutex.lock ();
   mVariableList[str] = &var;
+  mutex.unlock ();
 }
 
 AbstractVariable *GlobalVariables::getVariable (const std::string &str)
 {
   // TODO: return NULL or exception if not found in map
+  AbstractVariable *av = mVariableList[str];
   
-  return mVariableList[str];
+  return av;
 }
 
 void GlobalVariables::changeVariable (const std::string &str, AbstractVariable &av)
 {
+  mutex.lock ();
   // TODO: throw exception if not found in map
   AbstractVariable *foundVar = mVariableList[str];
   assert (foundVar);
@@ -56,4 +62,5 @@ void GlobalVariables::changeVariable (const std::string &str, AbstractVariable &
   cout << "change variable: " << str << endl;
   
   foundVar->assign (&av);
+  mutex.unlock ();
 }

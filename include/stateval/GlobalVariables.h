@@ -5,9 +5,12 @@
   #include <config.h>
 #endif
 
+/* STD */
 #include <string>
 #include <map>
 
+/* local */
+#include "stateval/Thread.h"
 
 using std::map;
 using std::string;
@@ -37,7 +40,7 @@ private: // Singleton
   //void operator = (GlobalVariables&);
 
   std::map <std::string, AbstractVariable*> mVariableList; // is cleaned
-  
+  Threading::Mutex mutex;
 };
 
 #endif // GLOBAL_VARIABLES_H
