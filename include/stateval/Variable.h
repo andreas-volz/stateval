@@ -71,6 +71,8 @@ public:
   bool equals (AbstractVariable *var) const;
   void assign (AbstractVariable *var);
 
+  void change (const std::string &str);
+
   std::string getData () const;
   
 private:

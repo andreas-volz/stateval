@@ -45,6 +45,10 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
+
+  // FIXME: this leads into crash as statemachine isn't fully available at this point
+  // Dirty Singleton design -> Arrg!
+  //mStateMachineAccess->connect ("VIEW_UPDATE", sigc::mem_fun (this, &EdjeView::viewUpdate));
 }
 
 const std::string EdjeView::getType ()
@@ -109,6 +113,7 @@ void EdjeView::realizeDispatched (int missedEvents)
     const Widget &w = *wl_it;
     
     AbstractVariable *val = global.getVariable (w.getVariable ());
+    assert (val);
 
     try
     {
@@ -261,6 +266,11 @@ void EdjeView::realizeDispatched (int missedEvents)
   mEdje->emit ("visible", "framework");
 }
 
+void EdjeView::viewUpdate (int event)
+{
+  cout << "viewUpdate()" << endl;
+}
+
 void EdjeView::unrealizeDispatched (int missedEvents)
 {
   if (mEdje)
@@ -310,7 +320,7 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
   if (mStateMachineAccess->findMapingEvent (event) != -1)
   {
     cout << "mStateMachineAccess->pushEvent" << endl;
-    mStateMachineAccess->pushEvent (event); //"Button01#clicked"
+    mStateMachineAccess->pushEvent (event);
   }
 }
 

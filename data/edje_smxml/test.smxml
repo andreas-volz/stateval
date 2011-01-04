@@ -29,6 +29,7 @@
     <event name="MEDIA_DETAIL"/>
     <event name="MEDIA_TITLE_DETAILS"/>
     <event name="MEDIA_CD_DETAILS"/>
+    <event name="CHANGE_MEDIA_TITLE"/>
     <event name="MAP_ZOOM_IN"/>
     <event name="MAP_ZOOM_OUT"/>
     <event name="MEDIA_LOAD"/>
@@ -41,6 +42,7 @@
     <event name="Button05#clicked"/>
     <event name="Button06#clicked"/>
     <event name="#load"/>
+    <event name="VIEW_UPDATE"/>
   </events>
   
   <variables>
@@ -65,6 +67,7 @@
       <variable type="String" value="Second Element"/>
       <variable type="String" value="Third Element"/>
     </variable>
+    <variable name="MediaListTitle" type="String" value="Original Title"/>
   </variables>
   
   <actions>
@@ -213,13 +216,15 @@
         <param value="media_list"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="HK_NAV"/>
         <map from="#load" to="MEDIA_LOAD"/>
+        <map from="Button01#clicked" to="HK_NAV"/>
         <map from="Button02#clicked" to="MEDIA_DECREMENT_TITLE"/>
         <map from="Button03#clicked" to="MEDIA_INCREMENT_TITLE"/>
+        <map from="Button04#clicked" to="CHANGE_MEDIA_TITLE"/>
       </mappings>
       <widgets>
         <widget name="List01" variable="ListExample"/>
+        <widget name="Text01" variable="MediaListTitle"/>
       </widgets>
     </view>
   </views>

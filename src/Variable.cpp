@@ -117,6 +117,11 @@ void String::assign (AbstractVariable *var)
   mValue = (static_cast <String*> (var))->mValue;
 }
 
+void String::change (const std::string &str)
+{
+  mValue = str;
+}
+
 std::string String::getData () const
 {
   return mValue;

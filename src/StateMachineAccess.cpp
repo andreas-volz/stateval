@@ -47,7 +47,7 @@ void StateMachineAccess::connect (int event, const SignalSlot& slot)
   mSMThread->connect (event, slot);
 }
 
-void StateMachineAccess::connect (std::string event, const SignalSlot& slot)
+void StateMachineAccess::connect (const std::string &event, const SignalSlot& slot)
 {
   connect (findMapingEvent (event), slot);
 }

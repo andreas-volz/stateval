@@ -28,7 +28,7 @@ public:
   int findMapingEvent (const std::string &event);
 
   void connect (int event, const SignalSlot& slot);
-  void connect (std::string event, const SignalSlot& slot);
+  void connect (const std::string &event, const SignalSlot& slot);
   void connect (const SignalSlot& slot);
   void disconnect (int event);
   void disconnectAll ();
