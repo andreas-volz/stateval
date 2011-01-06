@@ -32,6 +32,8 @@ public:
   virtual void realize () = 0;
   
   virtual void unrealize () = 0;
+
+  virtual void updateContent () = 0;
   
   void addEventMapping (const int rawEvent, const int mappedEvent);
   

@@ -45,10 +45,6 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
-
-  // FIXME: this leads into crash as statemachine isn't fully available at this point
-  // Dirty Singleton design -> Arrg!
-  //mStateMachineAccess->connect ("VIEW_UPDATE", sigc::mem_fun (this, &EdjeView::viewUpdate));
 }
 
 const std::string EdjeView::getType ()
@@ -104,6 +100,29 @@ void EdjeView::realizeDispatched (int missedEvents)
 
   mEdje->resize (mEdjeContext->getResolution ());
 
+  updateContent ();
+
+  mEdje->setLayer (0);
+  mEdje->show ();
+
+  groupState = Realizing;
+  mEdje->emit ("visible", "framework");
+}
+
+void EdjeView::unrealizeDispatched (int missedEvents)
+{
+  if (mEdje)
+  {
+    groupState = Unrealizing;
+    mEdje->emit ("invisible", "framework");
+  }
+}
+
+void EdjeView::updateContent ()
+{ 
+  if (!mEdje)
+    return;
+  
   GlobalVariables &global = GlobalVariables::instance ();
   
   for (WidgetIterator wl_it = beginOfWidgets ();
@@ -257,26 +276,6 @@ void EdjeView::realizeDispatched (int missedEvents)
     
     cout << "Widget name: " << w.getName () << endl;
     cout << "Widget variable: " << w.getVariable () << endl;
-  }
-  
-  mEdje->setLayer (0);
-  mEdje->show ();
-
-  groupState = Realizing;
-  mEdje->emit ("visible", "framework");
-}
-
-void EdjeView::viewUpdate (int event)
-{
-  cout << "viewUpdate()" << endl;
-}
-
-void EdjeView::unrealizeDispatched (int missedEvents)
-{
-  if (mEdje)
-  {
-    groupState = Unrealizing;
-    mEdje->emit ("invisible", "framework");
   }
 }
 

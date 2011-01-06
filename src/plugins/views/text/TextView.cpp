@@ -64,6 +64,12 @@ void TextView::unrealize ()
   cout << "*************************[clear]" << endl;
 }
 
+void TextView::updateContent ()
+{
+  cout << "*************************[update]" << endl;
+  // as update isn't good possible on text console, simply realize it again...
+  realize ();
+}
 
 /*****************************/
 /* Plugin needed C functions */

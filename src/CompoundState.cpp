@@ -9,14 +9,12 @@
 CompoundState::CompoundState () :
   mHistoryState (NULL)
 {
-
 }
 
 CompoundState::CompoundState (State *parentState) :
   SimpleState (parentState),
   mHistoryState (NULL)
 {
-
 }
 
 HistoryState *CompoundState::getHistory ()

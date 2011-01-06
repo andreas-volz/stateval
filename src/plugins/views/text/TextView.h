@@ -25,6 +25,8 @@ public:
   
   void realize ();
   void unrealize ();
+
+  void updateContent ();
   
 private:
   std::string mFileName;

@@ -28,6 +28,8 @@ public:
   const unsigned int getMajorVersion ();
 
   const unsigned int getMinorVersion ();
+
+  void updateContent ();
   
   void realize ();
   void unrealize ();
@@ -49,8 +51,6 @@ private:
   void frameworkFunc (const std::string emmision, const std::string source);
   void edjeFunc (const std::string emmision, const std::string source);
   void allFunc (const std::string emmision, const std::string source);
-
-  void viewUpdate (int event);
   
   /** Variables **/
   

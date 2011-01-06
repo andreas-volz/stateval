@@ -59,3 +59,11 @@ void ViewState::afterTransitionCode ()
     cout << "State has no view attached" << endl; 
   }
 }
+
+void ViewState::updateContent ()
+{
+  if (hasView ())
+  {
+    getView ()->updateContent ();
+  }
+}

@@ -48,6 +48,8 @@ protected:
   
   virtual void runEntryActions () = 0;
   virtual void runExitActions () = 0;
+
+  virtual void updateContent ();
   
 protected:
   State ();

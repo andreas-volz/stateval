@@ -9,17 +9,24 @@ class ViewState : public SimpleState
 {
 public:
   ViewState (State *parentState, View &view);
+
+protected:
+  void updateContent ();
   
 private:
   void beforeTransitionCode ();
   void afterTransitionCode ();
-  
+
+  // TODO: think about how usefull it is to have a ViewState without view.
+  // maybe a better alternative would here to detect this at loading and exit...
   bool hasView ();
+  
   View *getView ();
   
   void mapEvent (int &inOutEvent);
-  
-  View *mView; // TODO: free
+
+  // this memory doesn't need to be freed as it's handled in the loader!
+  View *mView;
 };
 
 #endif // VIEW_STATE_H

@@ -87,6 +87,10 @@ void StateMachine::evaluateState (int &inOutEvent)
   //cout << "activeState (before): " << mActiveState << endl;
   
   bool transit = walkDown (inOutEvent);
+
+  /// FIXME!!!!!! not every event!!!
+  //if (mActiveState)
+    //mActiveState->updateContent ();
   
   if (!transit)
   {
@@ -120,8 +124,6 @@ void StateMachine::evaluateState (int &inOutEvent)
   {
     mActiveState->afterTransitionCode ();
   }
-  
-  //cout << "activeState (after): " << mActiveState << endl;
 }
 
 State *StateMachine::searchHierarchie (int event)

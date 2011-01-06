@@ -64,6 +64,13 @@ void State::addExitAction (Action *action)
   // e.g. SimpleState overwrites it to support actions
 }
 
+void State::updateContent ()
+{
+  // this is implemented empty with the intention that child classes
+  // don't support any content by default
+  // e.g. some ViewState types overwrites it to support content update
+}
+
 State *State::getParentState () const
 {
   return mParentState;
