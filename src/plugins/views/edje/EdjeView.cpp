@@ -45,6 +45,9 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
+
+  // crash!!
+  //mStateMachineAccess->connect (sigc::mem_fun (this, &EdjeView::smEvents));
 }
 
 const std::string EdjeView::getType ()
@@ -321,6 +324,11 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
     cout << "mStateMachineAccess->pushEvent" << endl;
     mStateMachineAccess->pushEvent (event);
   }
+}
+
+void EdjeView::smEvents (int event)
+{
+  cout << "EdjeView::smEvents" << endl;
 }
 
 /*****************************/

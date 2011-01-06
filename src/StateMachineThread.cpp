@@ -90,7 +90,7 @@ void StateMachineThread::run ()
     }
 
     // emit the signal broadcast
-    // this is e.g. usefull to dispatch signals to another thread
+    // this is e.g. useful to dispatch signals to another thread
     mSignalBroadcast.emit (event);
   
     mEventMutex.lock ();

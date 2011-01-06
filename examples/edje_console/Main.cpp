@@ -47,21 +47,18 @@ Main::Main (int argc, const char **argv) :
   
   sm.load (&edjeContext, searchDataDir () + "/edje_smxml/test.smxml");
   
-  // fill statemachine with data
-  //buidStateMachine (sm, evas);
-  
   StateMachineThread smThread (sm);
-  
-  smThread.start ();
   
   StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
   stateMachineAccess.init (sm, smThread);
+
+  smThread.start ();
 
   // create an input thread
   InputThread iThread (stateMachineAccess);
   iThread.start ();
   
-  sm.init ();
+  sm.start ();
   
   // inital event
   // TODO Ecorexx::Job

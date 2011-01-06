@@ -19,7 +19,7 @@ public:
   StateMachine (const std::string &loaderPlugin);
   virtual ~StateMachine ();
 
-  void init ();
+  void start ();
 
   bool load (Context *context, const std::string &smDir);
   

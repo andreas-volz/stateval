@@ -51,6 +51,8 @@ private:
   void frameworkFunc (const std::string emmision, const std::string source);
   void edjeFunc (const std::string emmision, const std::string source);
   void allFunc (const std::string emmision, const std::string source);
+
+  void smEvents (int event);
   
   /** Variables **/
   

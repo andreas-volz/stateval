@@ -27,42 +27,106 @@ void StateMachineAccess::init (StateMachine &sm, StateMachineThread &smThread)
   mSMThread = &smThread;
 }
 
+bool StateMachineAccess::isInitialized ()
+{
+  return (mSM && mSMThread);
+}
+
 void StateMachineAccess::pushEvent (int event)
 {
-  mSMThread->pushEvent (event);
+  if (isInitialized ())
+  {
+    mSMThread->pushEvent (event);
+  }
+  else
+  {
+    assert (false);
+  }
 }
 
 void StateMachineAccess::pushEvent (const std::string &event)
 {
-  mSMThread->pushEvent (event);
+  if (isInitialized ())
+  {
+    mSMThread->pushEvent (event);
+  }
+  else
+  {
+    assert (false);
+  }
 }
 
 int StateMachineAccess::findMapingEvent (const std::string &event)
 {
-  return mSM->findMapingEvent (event);
+  int ret = -1;
+  if (isInitialized ())
+  {
+    ret = mSM->findMapingEvent (event);
+  }
+  else
+  {
+    assert (false);
+  }
+  
+  return ret;
 }
 
 void StateMachineAccess::connect (int event, const SignalSlot& slot)
 {
-  mSMThread->connect (event, slot);
+  if (isInitialized ())
+  {
+    mSMThread->connect (event, slot);
+  }
+  else
+  {
+    assert (false);
+  }
 }
 
 void StateMachineAccess::connect (const std::string &event, const SignalSlot& slot)
 {
-  connect (findMapingEvent (event), slot);
+  if (isInitialized ())
+  {
+    connect (findMapingEvent (event), slot);
+  }
+  else
+  {
+    assert (false);
+  }
 }
 
 void StateMachineAccess::connect (const SignalSlot& slot)
 {
-  mSMThread->connect (slot);
+  if (isInitialized ())
+  {
+    mSMThread->connect (slot);
+  }
+  else
+  {
+    assert (false);
+  }
 }
 
 void StateMachineAccess::disconnect (int event)
 {
-  mSMThread->disconnect (event);
+  if (isInitialized ())
+  {
+    mSMThread->disconnect (event);
+  }
+  else
+  {
+    assert (false);
+  }
 }
 
 void StateMachineAccess::disconnectAll ()
 {
-  mSMThread->disconnectAll ();
+  if (isInitialized ())
+  {
+    mSMThread->disconnectAll ();
+  }
+  else
+  {
+    assert (false);
+  }
 }

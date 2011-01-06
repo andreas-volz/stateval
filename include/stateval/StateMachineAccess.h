@@ -32,6 +32,9 @@ public:
   void connect (const SignalSlot& slot);
   void disconnect (int event);
   void disconnectAll ();
+
+  bool isInitialized ();
+  
   
 private:
   StateMachineAccess () {}

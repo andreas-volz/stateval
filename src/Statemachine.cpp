@@ -51,7 +51,7 @@ StateMachine::~StateMachine ()
   pluxx::PluginLoader::destroyFactory ((pluxx::Plugin*) mLoader);  
 }
 
-void StateMachine::init ()
+void StateMachine::start ()
 {
   mActiveState = mLoader->getInitialState ();
   assert (mActiveState);

@@ -30,7 +30,7 @@ Main::Main ()
   InputThread iThread (stateMachineAccess);
   iThread.start ();
   
-  sm.init ();
+  sm.start ();
   
   // inital event
   stateMachineAccess.pushEvent ("HK_NAV");
