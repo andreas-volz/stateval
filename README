@@ -5,11 +5,11 @@ Group needs following scripts:
 
 - visible (IN)
   - signal:visible
-  - source:framework
+  - source:stateval
 
 - invisible (IN)
   - signal:invisible
-  - source:framework
+  - source:stateval
 
 - visible_signal (OUT)
   - signal:visible
