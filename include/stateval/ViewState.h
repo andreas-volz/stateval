@@ -11,7 +11,7 @@ public:
   ViewState (State *parentState, View &view);
 
 protected:
-  void updateContent ();
+  void pushEvent (int event);
   
 private:
   void beforeTransitionCode ();

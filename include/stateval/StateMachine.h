@@ -30,6 +30,7 @@ public:
   void evaluateState (int &inOutEvent);
   
   int findMapingEvent (const std::string &event);
+  std::string findMapingEvent (int event);
   
   Loader& getLoader() {return *mLoader;}
 

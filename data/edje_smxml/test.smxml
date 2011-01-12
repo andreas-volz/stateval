@@ -35,13 +35,13 @@
     <event name="MEDIA_LOAD"/>
     <event name="MEDIA_INCREMENT_TITLE"/>
     <event name="MEDIA_DECREMENT_TITLE"/>
-    <event name="Button01#clicked"/>
-    <event name="Button02#clicked"/>
-    <event name="Button03#clicked"/>
-    <event name="Button04#clicked"/>
-    <event name="Button05#clicked"/>
-    <event name="Button06#clicked"/>
-    <event name="#load"/>
+    <event name="edje,Button01,clicked"/>
+    <event name="edje,Button02,clicked"/>
+    <event name="edje,Button03,clicked"/>
+    <event name="edje,Button04,clicked"/>
+    <event name="edje,Button05,clicked"/>
+    <event name="edje,Button06,clicked"/>
+    <event name="edje,,load"/>
     <event name="VIEW_UPDATE"/>
   </events>
   
@@ -132,12 +132,12 @@
         <param value="navigation_main"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="HK_TUNER"/>
-        <map from="Button02#clicked" to="NAV_COUNTRY"/>
-        <map from="Button03#clicked" to="NAV_INFO"/>
-        <map from="Button04#clicked" to="HK_MEDIA"/>
-        <map from="Button05#clicked" to="MAP_ZOOM_OUT"/>
-        <map from="Button06#clicked" to="MAP_ZOOM_IN"/>
+        <map from="edje,Button01,clicked" to="HK_TUNER"/>
+        <map from="edje,Button02,clicked" to="NAV_COUNTRY"/>
+        <map from="edje,Button03,clicked" to="NAV_INFO"/>
+        <map from="edje,Button04,clicked" to="HK_MEDIA"/>
+        <map from="edje,Button05,clicked" to="MAP_ZOOM_OUT"/>
+        <map from="edje,Button06,clicked" to="MAP_ZOOM_IN"/>
       </mappings>
     </view>
 
@@ -147,7 +147,7 @@
         <param value="navigation_country"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="NAV_CITY"/>
+        <map from="edje,Button01,clicked" to="NAV_CITY"/>
       </mappings>
     </view>
     
@@ -157,7 +157,7 @@
         <param value="navigation_city"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="NAV_STREET"/>
+        <map from="edje,Button01,clicked" to="NAV_STREET"/>
       </mappings>
     </view>
     
@@ -167,7 +167,7 @@
         <param value="navigation_street"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="NAV_MAIN"/>
+        <map from="edje,Button01,clicked" to="NAV_MAIN"/>
       </mappings>
     </view>
 
@@ -177,8 +177,8 @@
         <param value="tuner_list"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="HK_NAV"/>
-        <map from="Button02#clicked" to="TUNER_FREQ"/>
+        <map from="edje,Button01,clicked" to="HK_NAV"/>
+        <map from="edje,Button02,clicked" to="TUNER_FREQ"/>
       </mappings>
     </view>
 
@@ -188,7 +188,7 @@
         <param value="tuner_frequenz"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="TUNER_LIST"/>
+        <map from="edje,Button01,clicked" to="TUNER_LIST"/>
       </mappings>
       <widgets>
         <widget name="Slider01" variable="TunerFrequencySlider"/>
@@ -201,7 +201,7 @@
         <param value="navigation_info"/>
       </params>
       <mappings>
-        <map from="Button01#clicked" to="NAV_MAIN"/>
+        <map from="edje,Button01,clicked" to="NAV_MAIN"/>
       </mappings>
       <widgets>
         <widget name="Text_Example" variable="TextExampleString"/>
@@ -216,11 +216,11 @@
         <param value="media_list"/>
       </params>
       <mappings>
-        <map from="#load" to="MEDIA_LOAD"/>
-        <map from="Button01#clicked" to="HK_NAV"/>
-        <map from="Button02#clicked" to="MEDIA_DECREMENT_TITLE"/>
-        <map from="Button03#clicked" to="MEDIA_INCREMENT_TITLE"/>
-        <map from="Button04#clicked" to="CHANGE_MEDIA_TITLE"/>
+        <map from="edje,,load" to="MEDIA_LOAD"/>
+        <map from="edje,Button01,clicked" to="HK_NAV"/>
+        <map from="edje,Button02,clicked" to="MEDIA_DECREMENT_TITLE"/>
+        <map from="edje,Button03,clicked" to="MEDIA_INCREMENT_TITLE"/>
+        <map from="edje,Button04,clicked" to="CHANGE_MEDIA_TITLE"/>
       </mappings>
       <widgets>
         <widget name="List01" variable="ListExample"/>

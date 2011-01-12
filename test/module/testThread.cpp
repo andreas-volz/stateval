@@ -195,8 +195,9 @@ public:
         loader.addState(stateA);
         loader.addState(stateB);
         loader.addState(stateC);
-        
-        sm.init();
+
+      
+        sm.start();       
         StateMachineThread smt(sm);
         smt.start();
         

@@ -49,7 +49,7 @@ protected:
   virtual void runEntryActions () = 0;
   virtual void runExitActions () = 0;
 
-  virtual void updateContent ();
+  virtual void pushEvent (int event);
   
 protected:
   State ();

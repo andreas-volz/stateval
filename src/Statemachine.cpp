@@ -79,6 +79,11 @@ int StateMachine::findMapingEvent (const std::string &event)
   return mLoader->findMapingEvent (event);
 }
 
+std::string StateMachine::findMapingEvent (int event)
+{
+  return mLoader->findMapingEvent (event);
+}
+
 void StateMachine::evaluateState (int &inOutEvent)
 {
   const Transition *trans = NULL;
@@ -99,12 +104,16 @@ void StateMachine::evaluateState (int &inOutEvent)
     
     // map event if state has a view...
     mActiveState->mapEvent (inOutEvent);
+
+    // push event to active state
+    // this is e.g. useful to push event to a external GUI event loop
+    mActiveState->pushEvent (inOutEvent);
     
     State *foundState = searchHierarchie (inOutEvent);
     //cout << "found state that fits: " << foundState << endl;
     
     if (foundState != NULL)
-    {
+    {      
       // run exit and entry actions
       mActiveState->runExitActions ();
       

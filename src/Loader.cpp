@@ -33,6 +33,7 @@ Loader::~Loader ()
 void Loader::addEvent (const std::string &event)
 {
   mEventList[event] = eventCounter;
+  mEventListIndex.push_back (event);
     
   ++eventCounter;
 }
@@ -70,6 +71,16 @@ int Loader::findMapingEvent (const std::string &event)
   cerr << "StateMachine::findMapingEvent: try to find not existing event: " << event << endl;
 
   return -1;
+}
+
+std::string Loader::findMapingEvent (int event)
+{
+  if (mEventListIndex.size () >= event)
+  {    
+    return mEventListIndex[event];
+  }
+  
+  return ""; // TODO: hm, should I return an Exception or so??
 }
 
 View *Loader::loadView (const std::string &viewPlugin, Context *context, const std::list <std::string> &params)

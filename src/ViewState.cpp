@@ -60,10 +60,10 @@ void ViewState::afterTransitionCode ()
   }
 }
 
-void ViewState::updateContent ()
+void ViewState::pushEvent (int event)
 {
   if (hasView ())
   {
-    getView ()->updateContent ();
+    getView ()->pushEvent (event);
   }
 }

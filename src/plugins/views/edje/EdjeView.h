@@ -18,6 +18,8 @@
 class StateMachineAccess;
 class EdjeContext;
 
+static bool initialized = false;
+
 class EdjeView : public View
 {
 public:
@@ -28,11 +30,13 @@ public:
   const unsigned int getMajorVersion ();
 
   const unsigned int getMinorVersion ();
-
-  void updateContent ();
   
   void realize ();
   void unrealize ();
+
+  void updateContent ();
+
+  void pushEvent (int event);
   
 private:
   enum ViewState
@@ -48,16 +52,12 @@ private:
   
   void invisibleFunc (const std::string emmision, const std::string source);
   void visibleFunc (const std::string emmision, const std::string source);
-  void frameworkFunc (const std::string emmision, const std::string source);
+  void statevalFunc (const std::string emmision, const std::string source);
   void edjeFunc (const std::string emmision, const std::string source);
   void allFunc (const std::string emmision, const std::string source);
-
-  void smEvents (int event);
+  void viewUpdateFunc (const std::string emmision, const std::string source);
   
   /** Variables **/
-  
-  /* Singletons at first */
-  StateMachineAccess *mStateMachineAccess;
   EdjeContext *mEdjeContext;
   
   Evasxx::Canvas *mEvas;

@@ -26,6 +26,7 @@ public:
   void pushEvent (const std::string &event);
   
   int findMapingEvent (const std::string &event);
+  std::string findMapingEvent (int event);
 
   void connect (int event, const SignalSlot& slot);
   void connect (const std::string &event, const SignalSlot& slot);

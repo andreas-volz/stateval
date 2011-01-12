@@ -71,6 +71,21 @@ int StateMachineAccess::findMapingEvent (const std::string &event)
   return ret;
 }
 
+std::string StateMachineAccess::findMapingEvent (int event)
+{
+  string ret;
+  if (isInitialized ())
+  {
+    return ret = mSM->findMapingEvent (event);
+  }
+  else
+  {
+    assert (false);
+  }
+  
+  return "";
+}
+
 void StateMachineAccess::connect (int event, const SignalSlot& slot)
 {
   if (isInitialized ())

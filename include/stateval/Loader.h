@@ -36,6 +36,7 @@ public:
   State *getInitialState ();
   
   int findMapingEvent (const std::string &event);
+  std::string findMapingEvent (int event);
 
 protected:
   View *loadView (const std::string &viewPlugin, Context *context, const std::list <std::string> &params);
@@ -43,6 +44,7 @@ protected:
   std::vector <State*> mStateList;
   std::vector <View*> mViewList;
   std::map <std::string, int> mEventList;
+  std::vector <std::string> mEventListIndex;
   std::list <Action*> mActionList;
 
 private:

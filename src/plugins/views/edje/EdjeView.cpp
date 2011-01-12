@@ -23,7 +23,6 @@ static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
 EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
-  mStateMachineAccess (&StateMachineAccess::instance ()),
   mEdjeContext (NULL),
   mEvas (NULL),
   mEdje (NULL),
@@ -32,8 +31,10 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
 {
   assert (context);
   
-  //if (params.length () != 2)
-    //throw something
+  if (params.size () != 2)
+  {
+    assert (false);
+  }
   
   std::list <std::string>::const_iterator params_it = params.begin ();
   mFilename = *params_it;
@@ -45,9 +46,6 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
-
-  // crash!!
-  //mStateMachineAccess->connect (sigc::mem_fun (this, &EdjeView::smEvents));
 }
 
 const std::string EdjeView::getType ()
@@ -97,8 +95,8 @@ void EdjeView::realizeDispatched (int missedEvents)
   mEdje->connect ("visible_signal", "edje", sigc::mem_fun (this, &EdjeView::visibleFunc));
 
   mEdje->connect ("*", "edje", sigc::mem_fun (this, &EdjeView::edjeFunc));
-  mEdje->connect ("*", "framework", sigc::mem_fun (this, &EdjeView::frameworkFunc));
-  
+  mEdje->connect ("*", "stateval", sigc::mem_fun (this, &EdjeView::statevalFunc));
+
   mEdje->connect ("*", "*", sigc::mem_fun (this, &EdjeView::allFunc));
 
   mEdje->resize (mEdjeContext->getResolution ());
@@ -109,7 +107,7 @@ void EdjeView::realizeDispatched (int missedEvents)
   mEdje->show ();
 
   groupState = Realizing;
-  mEdje->emit ("visible", "framework");
+  mEdje->emit ("visible", "stateval");
 }
 
 void EdjeView::unrealizeDispatched (int missedEvents)
@@ -117,12 +115,13 @@ void EdjeView::unrealizeDispatched (int missedEvents)
   if (mEdje)
   {
     groupState = Unrealizing;
-    mEdje->emit ("invisible", "framework");
+    mEdje->emit ("invisible", "stateval");
   }
 }
 
 void EdjeView::updateContent ()
 { 
+  // FIXME: seems first screen could not do a updateContent ()!!
   if (!mEdje)
     return;
   
@@ -240,6 +239,9 @@ void EdjeView::updateContent ()
             {
               Elmxx::List &list = *(static_cast <Elmxx::List*> (&elm_object));
 
+              // TODO: I think until the edited/merge feature is implemented it's the
+              // best to clear the list before adding new elements...
+              list.clear ();
               for (List::Iterator ls_it = ls->begin ();
                    ls_it != ls->end ();
                    ++ls_it)
@@ -286,6 +288,7 @@ void EdjeView::invisibleFunc (const std::string emmision, const std::string sour
 {
   cout << "invisibleFunc" << endl;
 
+  groupState = Unrealized;
   delete mEdje;
   mEdje = NULL;
   
@@ -300,9 +303,9 @@ void EdjeView::visibleFunc (const std::string emmision, const std::string source
   groupState = Realized;
 }
 
-void EdjeView::frameworkFunc (const std::string emmision, const std::string source)
+void EdjeView::statevalFunc (const std::string emmision, const std::string source)
 {
-  cout << "frameworkFunc: " << emmision << ", " << source << endl;
+  cout << "statevalFunc: " << emmision << ", " << source << endl;
 }
 
 void EdjeView::edjeFunc (const std::string emmision, const std::string source)
@@ -312,23 +315,47 @@ void EdjeView::edjeFunc (const std::string emmision, const std::string source)
 
 void EdjeView::allFunc (const std::string emmision, const std::string source)
 {
-  cout << "allFunc: " << emmision << ", " << source << endl;
-  string event (source + "#" + emmision);
-
-  // only push new events for realized screens
-  // when I do this it leads into freezes as the invisible signal doesn't come
-  //if (groupState != Realized) return;
-  
-  if (mStateMachineAccess->findMapingEvent (event) != -1)
+  if (source != "stateval")
   {
-    cout << "mStateMachineAccess->pushEvent" << endl;
-    mStateMachineAccess->pushEvent (event);
+    StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
+    
+    cout << "allFunc: " << emmision << ", " << source << endl;
+    string event ("edje," + source + "," + emmision);
+
+    // only push new events for realized screens
+    // when I do this it leads into freezes as the invisible signal doesn't come
+    //if (groupState != Realized) return;
+    
+    if (stateMachineAccess.findMapingEvent (event) != -1)
+    {
+      cout << "mStateMachineAccess->pushEvent" << endl;
+      stateMachineAccess.pushEvent (event);
+    }
   }
 }
 
-void EdjeView::smEvents (int event)
+void EdjeView::pushEvent (int event)
 {
-  cout << "EdjeView::smEvents" << endl;
+  if (groupState == Realized)
+  {
+    StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
+    
+    static const int VIEW_UPDATE_EVENT = stateMachineAccess.findMapingEvent ("VIEW_UPDATE");
+    
+    string eventString = stateMachineAccess.findMapingEvent (event);
+
+    cout << "EdjeView::smEvents: " << event << " / " << eventString << endl;
+
+    if (eventString.substr (4) != "edje")
+    {
+      mEdje->emit (eventString, "stateval");
+    }
+
+    if (event == VIEW_UPDATE_EVENT)
+    {
+      updateContent ();
+    }
+  }
 }
 
 /*****************************/

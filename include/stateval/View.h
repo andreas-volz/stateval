@@ -33,7 +33,7 @@ public:
   
   virtual void unrealize () = 0;
 
-  virtual void updateContent () = 0;
+  virtual void pushEvent (int event);
   
   void addEventMapping (const int rawEvent, const int mappedEvent);
   
