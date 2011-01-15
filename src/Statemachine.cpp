@@ -6,6 +6,7 @@
 #include "stateval/StateMachine.h"
 #include "MemoryUtil.h"
 #include "searchFile.h"
+#include "Logger.h"
 
 /* STD */
 #include <iostream>
@@ -15,6 +16,8 @@
 #include <pluxx/PluginLoader.h>
 
 using namespace std;
+
+Logger logger ("stateval.Statemachine");
 
 StateMachine::StateMachine (const std::string &loaderPlugin) :
   mActiveState (NULL), // link to root state
@@ -27,22 +30,22 @@ StateMachine::StateMachine (const std::string &loaderPlugin) :
     mLoader = (Loader*) pluxx::PluginLoader::loadFactory (pluginFile, "Loader", 1);
 
     // TODO: correct exception handling!
-    
-    cout << "Type: " << mLoader->getType () << endl;
-    cout << "Major Version: " << mLoader->getMajorVersion () << endl;
-    cout << "Minor Version: " << mLoader->getMinorVersion () << endl;
+
+    LOG4CXX_INFO (logger, "Type: " << mLoader->getType ());
+    LOG4CXX_INFO (logger, "Major Version: " << mLoader->getMajorVersion ());
+    LOG4CXX_INFO (logger, "Minor Version: " << mLoader->getMinorVersion ());
   }
   catch (pluxx::PluginTypeMismatchException typeEx)
   {
-    cout << "catched an PluginTypeMismatchException exception..." << endl;
-    cout << "Loader Type: " << typeEx.getLoaderType () << endl;
-    cout << "Plugin Type: " << typeEx.getPluginType () << endl;
+    LOG4CXX_FATAL (logger, "catched an PluginTypeMismatchException exception...");
+    LOG4CXX_FATAL (logger, "Loader Type: " << typeEx.getLoaderType ());
+    LOG4CXX_FATAL (logger, "Plugin Type: " << typeEx.getPluginType ());
   }
   catch (pluxx::PluginMajorVersionMismatchException verEx)
   {
-    cout << "catched an PluginMajorVersionMismatchException exception..." << endl;
-    cout << "Loader Major Version: " << verEx.getLoaderMajorVersion () << endl;
-    cout << "Plugin Major Version: " << verEx.getPluginMajorVersion () << endl;
+    LOG4CXX_FATAL (logger, "catched an PluginMajorVersionMismatchException exception...");
+    LOG4CXX_FATAL (logger, "Loader Major Version: " << verEx.getLoaderMajorVersion ());
+    LOG4CXX_FATAL (logger, "Plugin Major Version: " << verEx.getPluginMajorVersion ());
   }
 }
 
@@ -88,18 +91,13 @@ void StateMachine::evaluateState (int &inOutEvent)
 {
   const Transition *trans = NULL;
   
-  cout << "Now serving: " << inOutEvent << endl;
-  //cout << "activeState (before): " << mActiveState << endl;
+  LOG4CXX_DEBUG (logger, "Now serving: " << inOutEvent);
   
   bool transit = walkDown (inOutEvent);
-
-  /// FIXME!!!!!! not every event!!!
-  //if (mActiveState)
-    //mActiveState->updateContent ();
   
   if (!transit)
   {
-    cout << "nothing found -> searching in hierarchie..." << endl;
+    LOG4CXX_DEBUG (logger, "nothing found -> searching in hierarchie...");
     assert (mActiveState);
     
     // map event if state has a view...
@@ -146,6 +144,7 @@ State *StateMachine::searchHierarchie (int event)
     parentState = parentState->getParentState ();
     if (parentState == NULL)
         break;
+    
     assert (parentState);
     
     // doesn't find default transition
@@ -153,15 +152,15 @@ State *StateMachine::searchHierarchie (int event)
     
     if (trans)
     {
-      cout << "StateMachine::searchHierarchie: father state '" << parentState-> getID () << "' has searched transition" << endl;
-      cout << "StateMachine::searchHierarchie: getEvent (): " << trans->getEvent () << endl;
-      cout << "StateMachine::searchHierarchie: getEndState (): " << trans->getEndState ()->getID () << endl;
+      LOG4CXX_DEBUG (logger, "searchHierarchie: father state '" << parentState-> getID () << "' has searched transition");
+      LOG4CXX_DEBUG (logger, "searchHierarchie: getEvent (): " << trans->getEvent ());
+      LOG4CXX_DEBUG (logger, "searchHierarchie: getEndState (): " << trans->getEndState ()->getID ());
       
       return trans->getEndState (); // return found state from hierarchie
     }
     else
     {
-      cout << "StateMachine::searchHierarchie: father state '" << parentState-> getID () << "' hasn't searched event '" << event << "'" << endl;
+      LOG4CXX_DEBUG (logger, "searchHierarchie: father state '" << parentState-> getID () << "' hasn't searched event '" << event << "'");
     }
   }
   while (parentState->getParentState () != NULL);
@@ -179,7 +178,6 @@ bool StateMachine::walkDown (int event)
   do
   {
     // evaluate new active state
-    cout << "evaluate new active state" << endl;
     assert (mActiveState);
 
     // map events...
@@ -189,11 +187,11 @@ bool StateMachine::walkDown (int event)
     
     if (trans)
     {
-      cout << "getEvent (): " << trans->getEvent () << endl;
-      cout << "getEndState (): " << trans->getEndState () << endl;
+      LOG4CXX_DEBUG (logger, "getEvent (): " << trans->getEvent ());
+      LOG4CXX_DEBUG (logger, "getEndState (): " << trans->getEndState ());
       
-      cout << "getName (): " << mActiveState->getName () << endl;
-      cout << "getID (): " << mActiveState->getID () << endl;
+      LOG4CXX_DEBUG (logger, "getName (): " << mActiveState->getName ());
+      LOG4CXX_DEBUG (logger, "getID (): " << mActiveState->getID ());
 
       mActiveState->runExitActions ();
       
@@ -201,8 +199,8 @@ bool StateMachine::walkDown (int event)
       
       mActiveState = trans->getEndState (); // do state change transition
 
-      cout << "getName (): " << mActiveState->getName () << endl;
-      cout << "getID (): " << mActiveState->getID () << endl;
+      LOG4CXX_DEBUG (logger, "getName (): " << mActiveState->getName ());
+      LOG4CXX_DEBUG (logger, "getID (): " << mActiveState->getID ());
       
       mActiveState->runEntryActions ();
       

@@ -8,10 +8,25 @@
 #include "InputThread.h"
 #include "Main.h"
 
+#ifdef HAVE_LOG4CXX
+/* log4cxx */
+#include <log4cxx/logger.h>
+#include "log4cxx/basicconfigurator.h"
+#endif // HAVE_LOG4CXX
+
 using namespace std;
+
+#ifdef HAVE_LOG4CXX
+using namespace log4cxx;
+using namespace log4cxx::helpers;
+#endif // HAVE_LOG4CXX
 
 Main::Main ()
 {
+#ifdef HAVE_LOG4CXX
+  BasicConfigurator::configure();
+#endif // HAVE_LOG4CXX
+  
   StateMachine sm ("smxml");
   
   //sm.load (NULL, searchDataDir () + "/text_sm/");

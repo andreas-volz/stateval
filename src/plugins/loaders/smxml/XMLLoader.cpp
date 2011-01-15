@@ -7,6 +7,7 @@
 #include "searchFile.h"
 #include "MemoryUtil.h"
 #include "stringUtil.h"
+#include "Logger.h"
 
 /* STD */
 #include <cassert>
@@ -16,6 +17,8 @@ using namespace std;
 static const char* type = "Loader";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
+
+Logger logger ("stateval.XMLLoader");
 
 XMLLoader::XMLLoader () :
   mContext (NULL)
@@ -69,7 +72,7 @@ bool XMLLoader::load (Context *context, const std::string &sm)
   }
   catch (const exception &ex)
   {
-    std::cout << "Exception caught: " << ex.what () << std::endl;
+    LOG4CXX_FATAL (logger, "Exception caught: " << ex.what ());
   }
 }
 
@@ -198,13 +201,13 @@ void XMLLoader::parseEventNode (const xmlpp::Node * node)
 
   if (nodename == "event")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
 
     if (name_attribute)
     {
-      cout << "Attribute name = " << name_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
 
       // add event from XML into statemachine
       addEvent (name_attribute->get_value ());
@@ -259,7 +262,7 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
 
   if (nodename == "variable")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
@@ -269,18 +272,18 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
     
     if (name_attribute)
     {
-      cout << "Attribute name = " << name_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
     }
 
     if (type_attribute)
     {
-      cout << "Attribute type = " << type_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute type = " << type_attribute->get_value ());
     }
 
 
     if (value_attribute)
     {
-      cout << "Attribute value = " << value_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute value = " << value_attribute->get_value ());
     }
 
     if (type_attribute->get_value () == "Bool")
@@ -296,7 +299,7 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
       else
       {
         // TODO: handle error
-        cerr << "error: not allowed value" << endl;
+        LOG4CXX_ERROR (logger, "error: not allowed value");
         assert (false);
       }
     }
@@ -323,7 +326,7 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
           const xmlpp::Element * innerNodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
           const xmlpp::Attribute *inner_name_attribute = innerNodeElement->get_attribute ("name");
           
-          cout << "adding variable to struct: " << inner_name_attribute->get_value () << endl;
+          LOG4CXX_DEBUG (logger, "adding variable to struct: " << inner_name_attribute->get_value ());
           st->add (inner_name_attribute->get_value (), av);
         }
       }
@@ -351,7 +354,7 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
     else
     {
       // TODO: handle error
-      cerr << "error: not allowed type: " << type_attribute->get_value () << endl;
+      LOG4CXX_ERROR (logger, "error: not allowed type: " << type_attribute->get_value ());
       assert (false);
     }
   }
@@ -397,7 +400,7 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
 
   if (nodename == "condition")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute ("variable");
@@ -406,23 +409,23 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
 
     if (name_attribute)
     {
-      cout << "Attribute name = " << name_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
     }
 
     if (variable_attribute)
     {
-      cout << "Attribute variable = " << variable_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute variable = " << variable_attribute->get_value ());
     }
 
     // ignore currently, and use "equals" as default...
     if (operation_attribute)
     {
-      cout << "Attribute operation = " << operation_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute operation = " << operation_attribute->get_value ());
     }
 
     if (variable2_attribute)
     {
-      cout << "Attribute operation = " << variable2_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute operation = " << variable2_attribute->get_value ());
     }
 
     GlobalVariables &global = GlobalVariables::instance ();
@@ -476,7 +479,7 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
 
   if (nodename == "action")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
@@ -486,12 +489,12 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
     
     if (name_attribute)
     {
-      cout << "Attribute name = " << name_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
     }
 
     if (event_attribute)
     {
-      cout << "Attribute event = " << event_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute event = " << event_attribute->get_value ());
     }
     if (type_attribute->get_value () == "FireEventAction")
     {
@@ -568,14 +571,14 @@ void XMLLoader::parseStateNodeIndex (const xmlpp::Node * node, unsigned int &i)
 
   if (nodename == "state")
   {
-    cout << "Node (Index) = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node (Index) = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     
     if (name_attribute)
     {
       const Glib::ustring &name = name_attribute->get_value ();
-      cout << "Attribute name (Index) = " << name << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name (Index) = " << name);
       ++i; // modifies also outside of function!
       mStateNameMapper[name] = i;
     }      
@@ -594,7 +597,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
 
   if (nodename == "state")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute ("type");
@@ -607,7 +610,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
 
     if (name_attribute)
     {
-      cout << "Attribute name = " << name_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
     }
     else
     {
@@ -617,7 +620,7 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
     if (parent_attribute)
     {
       const Glib::ustring &parent = parent_attribute->get_value ();
-      cout << "Attribute parent = " << parent << endl;
+      LOG4CXX_DEBUG (logger, "Attribute parent = " << parent);
       // TODO: better use find() to detect if not found in map
       parentNum = mStateNameMapper[parent];
 
@@ -637,14 +640,14 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
     // check type and throw exception    
     if (view_attribute)
     {
-      cout << "Attribute view = " << view_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute view = " << view_attribute->get_value ());
     }
 
     if (type_attribute)
     {
       const Glib::ustring &type = type_attribute->get_value ();
 
-      cout << "Attribute type = " << type << endl;
+      LOG4CXX_DEBUG (logger, "Attribute type = " << type);
 
       if (type == "CompoundState")
       {
@@ -744,19 +747,19 @@ void XMLLoader::parseStateActionNode (const xmlpp::Node * node, State *state)
 
   if (nodename == "action")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *ref_attribute = nodeElement->get_attribute ("ref");
     const xmlpp::Attribute *when_attribute = nodeElement->get_attribute ("when");
 
     if (ref_attribute)
     {
-      cout << "Attribute ref = " << ref_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute ref = " << ref_attribute->get_value ());
     }
 
     if (when_attribute)
     {
-      cout << "Attribute when = " << when_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute when = " << when_attribute->get_value ());
     }
 
     // TODO: use find...
@@ -816,7 +819,7 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
 
   if (!nodename.empty ())
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *from_attribute = nodeElement->get_attribute ("from");
     const xmlpp::Attribute *to_attribute = nodeElement->get_attribute ("to");
@@ -831,7 +834,7 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
     
     if (from_attribute)
     {
-      cout << "Attribute from = " << from_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute from = " << from_attribute->get_value ());
 
       // TODO: better use find() to detect if not found in map
       fromStateNum = mStateNameMapper[from_attribute->get_value ()];
@@ -844,7 +847,7 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
     
     if (to_attribute)
     {
-      cout << "Attribute to = " << to_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute to = " << to_attribute->get_value ());
 
       // TODO: better use find() to detect if not found in map
       toStateNum = mStateNameMapper[to_attribute->get_value ()];
@@ -857,7 +860,7 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
     
     if (event_attribute)
     {
-      cout << "Attribute event = " << event_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute event = " << event_attribute->get_value ());
       trans = new Transition (toState, findMapingEvent (event_attribute->get_value ()));
     }
     else 
@@ -870,7 +873,7 @@ void XMLLoader::parseTransitionNode (const xmlpp::Node * node)
       // TODO: maybe there's a better idea to solve this with correct polymorphy design...
       DecisionState* decisionState = static_cast <DecisionState*> (fromState);
       
-      cout << "Attribute decision = " << decision_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute decision = " << decision_attribute->get_value ());
       Condition *cond = mConditionNameMapper[decision_attribute->get_value ()];
       std::pair <Condition*, Transition*> conTrans (cond, trans);
       decisionState->addConditionTransition (conTrans);
@@ -902,7 +905,7 @@ void XMLLoader::parseViewsNode (const xmlpp::Node * node)
 
       if (plugin_attribute)
       {
-        cout << "Attribute plugin = " << plugin_attribute->get_value () << endl;
+        LOG4CXX_DEBUG (logger, "Attribute plugin = " << plugin_attribute->get_value ());
       }
       else
       {
@@ -942,7 +945,7 @@ void XMLLoader::parseViewNode (const xmlpp::Node * node, const Glib::ustring &pl
 
       if (name_attribute)
       {
-        cout << "Attribute name = " << name_attribute->get_value () << endl;
+        LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
         mViewNameMapper[name_attribute->get_value ()] = i;
         ++i; // modifies also outside of function!
       }
@@ -1022,13 +1025,13 @@ void XMLLoader::parseViewParamNode (const xmlpp::Node * node, std::list <std::st
 
   if (!nodename.empty ())
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *value_attribute = nodeElement->get_attribute ("value");
 
     if (value_attribute)
     {
-      cout << "Attribute value = " << value_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute value = " << value_attribute->get_value ());
 
       params.push_back (value_attribute->get_value ());
     }
@@ -1073,14 +1076,14 @@ void XMLLoader::parseViewMapNode (const xmlpp::Node * node, View *view)
 
   if (nodename == "map")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *from_attribute = nodeElement->get_attribute ("from");
     const xmlpp::Attribute *to_attribute = nodeElement->get_attribute ("to");
 
     if (from_attribute)
     {
-      cout << "Attribute from = " << from_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute from = " << from_attribute->get_value ());
     }
     else
     {
@@ -1089,7 +1092,7 @@ void XMLLoader::parseViewMapNode (const xmlpp::Node * node, View *view)
     
     if (to_attribute)
     {
-      cout << "Attribute to = " << to_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute to = " << to_attribute->get_value ());
     }
     else
     {
@@ -1139,14 +1142,14 @@ void XMLLoader::parseViewWidgetNode (const xmlpp::Node * node, View *view)
 
   if (nodename == "widget")
   {
-    cout << "Node = " << node->get_name () << endl;
+    LOG4CXX_DEBUG (logger, "Node = " << node->get_name ());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
     const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute ("variable");
 
     if (name_attribute)
     {
-      cout << "Attribute name = " << name_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute name = " << name_attribute->get_value ());
     }
     else
     {
@@ -1155,7 +1158,7 @@ void XMLLoader::parseViewWidgetNode (const xmlpp::Node * node, View *view)
     
     if (variable_attribute)
     {
-      cout << "Attribute variable = " << variable_attribute->get_value () << endl;
+      LOG4CXX_DEBUG (logger, "Attribute variable = " << variable_attribute->get_value ());
     }
     else
     {

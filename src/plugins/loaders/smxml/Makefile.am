@@ -20,13 +20,15 @@ stateval_loaders_smxml_la_LDFLAGS = \
 	-avoid-version \
 	-shared
 
-stateval_loaders_smxml_la_LIBADD = \
+stateval_loaders_smxml_la_LIBADD =             \
 	$(PLUXX_LIBS)             \
-	$(XML_LIBS)
+	$(XML_LIBS)             \
+	$(LOG4CXX_LIBS)
 
 AM_CPPFLAGS = \
-	$(PLUXX_CFLAGS)\
-	$(XML_CFLAGS)
+	$(PLUXX_CFLAGS) \
+	$(XML_CFLAGS) \
+	$(LOG4CXX_CFLAGS)
 
 ## File created by the gnome-build tools
 

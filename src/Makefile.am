@@ -5,7 +5,8 @@
 AM_CPPFLAGS = \
 	$(EFL_CFLAGS) \
 	$(SIGC_CFLAGS) \
-	$(PLUXX_CFLAGS)
+	$(PLUXX_CFLAGS) \
+	$(LOG4CXX_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -41,7 +42,8 @@ libstateval_la_SOURCES = \
 	ViewPluginLoader.h \
 	searchFile.cpp \
 	searchFile.h \
-	ChangeVariableAction.cpp 
+	ChangeVariableAction.cpp \
+	Logger.h
 
 libstateval_la_CXXFLAGS = \
 	-I \
@@ -50,7 +52,8 @@ libstateval_la_CXXFLAGS = \
 libstateval_la_LIBADD =      \
 	$(EFL_LIBS)      \
 	$(SIGC_LIBS)      \
-	$(PLUXX_LIBS)
+	$(PLUXX_LIBS)      \
+	$(LOG4CXX_LIBS)
 
 SUBDIRS = \
 	plugins

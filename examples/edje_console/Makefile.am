@@ -20,10 +20,12 @@ edje_console_LDADD = \
 	../../src/libstateval.la \
 	$(EFL_LIBS) \
 	$(SIGC_LIBS) \
-	$(PLUXX_LIBS)
+	$(PLUXX_LIBS) \
+	$(LOG4CXX_LIBS)
 
 AM_CPPFLAGS = \
-	$(PLUXX_CFLAGS)
+	$(PLUXX_CFLAGS)\
+	$(LOG4CXX_CFLAGS)
 
 ## File created by the gnome-build tools
 
