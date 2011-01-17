@@ -9,7 +9,8 @@ stateval_loaders_smxml_la_SOURCES = \
 	searchFile.h		\
 	MemoryUtil.h            \
 	stringUtil.cpp            \
-	stringUtil.h
+	stringUtil.h            \
+	Logger.h
 
 stateval_loaders_smxml_la_CXXFLAGS = \
 	-I \

@@ -2,14 +2,17 @@
 #include <config.h>
 #endif
 
-/* Project*/
+/* local */
 #include "stateval/GlobalVariables.h"
 #include "stateval/Variable.h"
+#include "Logger.h"
 
 /* STD */
 #include <cassert>
 
 using namespace std;
+
+Logger logger ("stateval.GlobalVariables");
 
 // TODO: redesign complete access and locking design!_
 
@@ -59,7 +62,7 @@ void GlobalVariables::changeVariable (const std::string &str, AbstractVariable &
   AbstractVariable *foundVar = mVariableList[str];
   assert (foundVar);
 
-  cout << "change variable: " << str << endl;
+  LOG4CXX_DEBUG (logger, "change variable: " << str);
   
   foundVar->assign (&av);
   mutex.unlock ();

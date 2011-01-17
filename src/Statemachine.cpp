@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Logger logger ("stateval.Statemachine");
+static Logger logger ("stateval.Statemachine");
 
 StateMachine::StateMachine (const std::string &loaderPlugin) :
   mActiveState (NULL), // link to root state

@@ -60,7 +60,7 @@ const std::string searchFile (std::list <std::string> &nameList)
     const string &try_name = *li_it;
 
     bool found = !(stat (try_name.c_str (), &buf));
-    cout << "try_name: " << try_name << endl;
+    //cout << "try_name: " << try_name << endl;
 
     if (found)
     {

@@ -14,6 +14,14 @@
 #include "InputThread.h"
 #include "Main.h"
 
+#ifdef HAVE_LOG4CXX
+/* log4cxx */
+#include "log4cxx/logger.h"
+#include "log4cxx/basicconfigurator.h"
+#include "log4cxx/propertyconfigurator.h"
+#include "log4cxx/helpers/exception.h"
+#endif // HAVE_LOG4CXX
+
 /* EFL */
 #include <evasxx/Evasxx.h>
 #include <edjexx/Edjexx.h>
@@ -23,6 +31,11 @@
 
 using namespace std;
 
+#ifdef HAVE_LOG4CXX
+using namespace log4cxx;
+using namespace log4cxx::helpers;
+#endif // HAVE_LOG4CXX
+
 static const Eflxx::Size initialWindowSize (800, 600);
 
 Main::Main (int argc, const char **argv) :
@@ -30,6 +43,11 @@ Main::Main (int argc, const char **argv) :
   mWindow (initialWindowSize),
   mBackgroundRect (mWindow.getCanvas())
 {
+#ifdef HAVE_LOG4CXX
+  //BasicConfigurator::configure ();
+  PropertyConfigurator::configure (searchDataDir () + "/logging.prop");
+#endif // HAVE_LOG4CXX
+  
   mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
   mWindow.resizeSignal.connect (sigc::mem_fun (this, &Main::resizeWindow));
   mWindow.setAlpha (true); // enable transparency for the window

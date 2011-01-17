@@ -2,13 +2,16 @@
 #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/ViewState.h"
+#include "Logger.h"
 
 /* STD */
 #include <iostream>
 
 using namespace std;
+
+static Logger logger ("stateval.ViewState");
 
 ViewState::ViewState (State *parentState, View &view) :
   SimpleState (parentState),
@@ -42,7 +45,7 @@ void ViewState::beforeTransitionCode ()
   }
   else
   {
-    cout << "State has no view attached" << endl; 
+    LOG4CXX_DEBUG (logger, "State has no view attached");
   }
 }
 
@@ -56,7 +59,7 @@ void ViewState::afterTransitionCode ()
   }
   else
   {
-    cout << "State has no view attached" << endl; 
+    LOG4CXX_DEBUG (logger, "State has no view attached");
   }
 }
 

@@ -2,11 +2,14 @@
 #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/View.h"
+#include "Logger.h"
 
 /* STD */
 #include <iostream>
+
+static Logger logger ("stateval.View");
 
 using namespace std;
 
@@ -41,7 +44,7 @@ void View::mapEvent (int &inOutEvent)
   if (iter != mEventMap.end ())
   {
     int &mapEvent = iter->second;
-    cout << "map event: " << iter->first << " : " << iter->second << endl;
+    LOG4CXX_DEBUG (logger, "map event: " << iter->first << " : " << iter->second);
     inOutEvent = mapEvent;
   } 
 }

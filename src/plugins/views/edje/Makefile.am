@@ -7,7 +7,8 @@ stateval_views_edje_la_SOURCES = \
 	EcoreDispatcher.h    \
 	EdjeView.cpp    \
 	EdjeView.h    \
-	EdjeContext.h
+	EdjeContext.h    \
+	Logger.h
 
 stateval_views_edje_la_LDFLAGS = \
 	-module \

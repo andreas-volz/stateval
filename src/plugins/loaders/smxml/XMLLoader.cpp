@@ -18,7 +18,7 @@ static const char* type = "Loader";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-Logger logger ("stateval.XMLLoader");
+Logger logger ("stateval.plugins.loaders.smxml");
 
 XMLLoader::XMLLoader () :
   mContext (NULL)

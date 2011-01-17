@@ -8,7 +8,7 @@ edje_console_SOURCES = \
 	searchFile.cpp \
 	searchFile.h \
 	Main.h \
-	Main.cpp
+	Main.cpp 
 
 edje_console_CXXFLAGS = \
 	-I../../include \

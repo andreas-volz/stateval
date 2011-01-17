@@ -18,7 +18,6 @@ StateMachineAccess &StateMachineAccess::instance ()
 
 StateMachineAccess::~StateMachineAccess ()
 {
-  cout << "~StateMachineAccess" << endl;
 }
 
 void StateMachineAccess::init (StateMachine &sm, StateMachineThread &smThread)

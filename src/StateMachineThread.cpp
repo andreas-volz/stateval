@@ -2,9 +2,10 @@
 #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/StateMachineThread.h"
 #include "stateval/StateMachine.h"
+#include "Logger.h"
 
 /* STD */
 #include <iostream>
@@ -13,6 +14,8 @@
 #include <cassert>
 
 using namespace std;
+
+static Logger logger ("stateval.StateMachineThread");
 
 StateMachineThread::StateMachineThread (StateMachine &sm) :
   Threading::Thread(),
@@ -26,15 +29,15 @@ StateMachineThread::StateMachineThread (StateMachine &sm) :
 
 StateMachineThread::~StateMachineThread ()
 {
-  cout << "~StateMachineThread" << endl;
+  LOG4CXX_TRACE (logger, "~StateMachineThread");
   cancel ();
 }
 
 void StateMachineThread::start ()
 {
-  cout << "+StateMachineThread::start ()" << endl;
+  LOG4CXX_TRACE (logger, "+StateMachineThread::start ()");
   Thread::start();
-  cout << "-StateMachineThread::start ()" << endl;
+  LOG4CXX_TRACE (logger, "-StateMachineThread::start ()");
 }
 
 void StateMachineThread::signal_cancel() // from thread
@@ -44,35 +47,38 @@ void StateMachineThread::signal_cancel() // from thread
 
 void StateMachineThread::run ()
 {
-  cout << "StateMachineThread::running" << endl;
+  LOG4CXX_TRACE (logger, "+run");
   
   while (isRunning())
   {
-    cout << "StateMachineThread::running while" << endl;
+    LOG4CXX_TRACE (logger, "+run::running while");
 
     mEventMutex.lock ();
-    
+
+    // this waiting loop runs until someone pushed an event to the event queue
     while (mSM->eventQueue.empty())
     {
+      LOG4CXX_TRACE (logger, "!mSM->eventQueue.empty()");
+      // here is the point the loop waits if no event is in the event queue
       mEventsInQueue.wait (mEventMutex);
       if (!isRunning())
       {
           mEventMutex.unlock ();
+          LOG4CXX_TRACE (logger, "!isRunning()");
           return;
       }
     }
+    LOG4CXX_TRACE (logger, "mSM->eventQueue.empty()");
 
     int event = mSM->eventQueue.front();
     mEventMutex.unlock ();
   
-    cout << "EventQueue size: " << mSM->eventQueue.size () << endl;
+    LOG4CXX_DEBUG (logger, "EventQueue size: " << mSM->eventQueue.size ());
 
     mSM->evaluateState (event);
   
     // pop element after working
-    cout << "EventQueue size: " << mSM->eventQueue.size () << endl;
-    cout << "pop element" << endl;
-    cout << endl;
+    LOG4CXX_DEBUG (logger, "EventQueue size: " << mSM->eventQueue.size ());
 
         // emit event signals
     multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
@@ -83,11 +89,12 @@ void StateMachineThread::run ()
     // emit also multible signals...
       for ( ; findResult != lastElement; ++findResult)
       {
-        cout << "call event '" << event << "' to app" << endl;
+        LOG4CXX_DEBUG (logger, "call event '" << event << "' to app");
         SignalSignal *signal = (*findResult).second;
         signal->emit (event);
       }
     }
+    LOG4CXX_TRACE (logger, "-run::running while");
 
     // emit the signal broadcast
     // this is e.g. useful to dispatch signals to another thread
@@ -97,7 +104,7 @@ void StateMachineThread::run ()
     mSM->popEvent ();
     mEventMutex.unlock ();
     
-    cout << "StateMachineThread running in the background..." << endl;
+    LOG4CXX_TRACE (logger, "-run");
   }
 }
 

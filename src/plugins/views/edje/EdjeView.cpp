@@ -5,6 +5,9 @@
 /* local */
 #include "EdjeView.h"
 #include "EdjeContext.h"
+#include "Logger.h"
+
+/* Eflxx */
 #include <elementaryxx/Elementaryxx.h>
 
 /* stateval */
@@ -21,6 +24,8 @@ const int height = 600;
 static const char* type = "View";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
+
+Logger logger ("stateval.plugins.views.edje");
 
 EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   mEdjeContext (NULL),
@@ -70,7 +75,7 @@ void EdjeView::realize ()
 
 void EdjeView::unrealize ()
 {
-  cout << "+EdjeView::unrealize ()" << endl;
+  LOG4CXX_TRACE (logger, "+EdjeView::unrealize ()");
   
   mUnrealizeDispatcher.signal ();
   
@@ -79,14 +84,14 @@ void EdjeView::unrealize ()
 
   groupState = Unrealized;
 
-  cout << "-EdjeView::unrealize ()" << endl;
+  LOG4CXX_TRACE (logger, "-EdjeView::unrealize ()");
 }
 
 void EdjeView::realizeDispatched (int missedEvents)
 {
-  cout << "EdjeView::realize ()" << endl;
+  LOG4CXX_TRACE (logger, "EdjeView::realize ()");
   
-  cout << "Filename: '" << mFilename << "', Groupname: " << mGroupname << endl;
+  LOG4CXX_INFO (logger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
       
   mEdje = new Edjexx::Object (*mEvas, mFilename, mGroupname);
   
@@ -150,14 +155,14 @@ void EdjeView::updateContent ()
         {
           Evasxx::Object &ext_eo3 = part.getExternalObject ();
           Evasxx::Object &eo3 = part.getSwallow ();
-          cout << "Edje External Widget type: " << ext_eo3.getType () << endl;
-          cout << "Edje Part Widget type: " << eo3.getType () << endl;
+          LOG4CXX_DEBUG (logger, "Edje External Widget type: " << ext_eo3.getType ());
+          LOG4CXX_DEBUG (logger, "Edje Part Widget type: " << eo3.getType ());
           
           if (ext_eo3.getType () == "elm_widget")
           {
             Elmxx::Object &elm_object = *(static_cast <Elmxx::Object*> (&ext_eo3));
 
-            cout << "Elm Widget type: " << elm_object.getWidgetType () << endl;
+            LOG4CXX_DEBUG (logger, "Elm Widget type: " << elm_object.getWidgetType ());
             // TODO: slider is now generic supported. But ElmList needs to be implemented...
             /*if (elm_object.getWidgetType () == "slider")
             {
@@ -226,14 +231,14 @@ void EdjeView::updateContent ()
           
           Evasxx::Object &ext_eo3 = part.getExternalObject ();
           Evasxx::Object &eo3 = part.getSwallow ();
-          cout << "Edje External Widget type: " << ext_eo3.getType () << endl;
-          cout << "Edje Part Widget type: " << eo3.getType () << endl;
+          LOG4CXX_DEBUG (logger, "Edje External Widget type: " << ext_eo3.getType ());
+          LOG4CXX_DEBUG (logger, "Edje Part Widget type: " << eo3.getType ());
           
           if (ext_eo3.getType () == "elm_widget")
           {
             Elmxx::Object &elm_object = *(static_cast <Elmxx::Object*> (&ext_eo3));
 
-            cout << "Elm Widget type: " << elm_object.getWidgetType () << endl;
+            LOG4CXX_DEBUG (logger, "Elm Widget type: " << elm_object.getWidgetType ());
 
             if (elm_object.getWidgetType () == "list")
             {
@@ -271,7 +276,7 @@ void EdjeView::updateContent ()
       }
       else
       {
-        cerr << "Currently not supported AbstractVariable Type!" << endl;
+        LOG4CXX_WARN (logger, "Currently not supported AbstractVariable Type!");
       }
     }
     catch (Edjexx::PartNotExistingException pne)
@@ -279,14 +284,14 @@ void EdjeView::updateContent ()
       cerr << pne.what () << endl;
     }
     
-    cout << "Widget name: " << w.getName () << endl;
-    cout << "Widget variable: " << w.getVariable () << endl;
+    LOG4CXX_INFO (logger, "Widget name: " << w.getName ());
+    LOG4CXX_INFO (logger, "Widget variable: " << w.getVariable ());
   }
 }
 
 void EdjeView::invisibleFunc (const std::string emmision, const std::string source)
 {
-  cout << "invisibleFunc" << endl;
+  LOG4CXX_TRACE (logger, "invisibleFunc");
 
   groupState = Unrealized;
   delete mEdje;
@@ -298,19 +303,19 @@ void EdjeView::invisibleFunc (const std::string emmision, const std::string sour
 
 void EdjeView::visibleFunc (const std::string emmision, const std::string source)
 {
-  cout << "visibleFunc" << endl;
+  LOG4CXX_TRACE (logger, "visibleFunc");
   
   groupState = Realized;
 }
 
 void EdjeView::statevalFunc (const std::string emmision, const std::string source)
 {
-  cout << "statevalFunc: " << emmision << ", " << source << endl;
+  LOG4CXX_TRACE (logger, "statevalFunc: " << emmision << ", " << source);
 }
 
 void EdjeView::edjeFunc (const std::string emmision, const std::string source)
 {
-  cout << "edjeFunc: " << emmision << ", " << source << endl;
+  LOG4CXX_TRACE (logger, "edjeFunc: " << emmision << ", " << source);
 }
 
 void EdjeView::allFunc (const std::string emmision, const std::string source)
@@ -319,7 +324,7 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
   {
     StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
     
-    cout << "allFunc: " << emmision << ", " << source << endl;
+    LOG4CXX_DEBUG (logger, "allFunc: " << emmision << ", " << source);
     string event ("edje," + source + "," + emmision);
 
     // only push new events for realized screens
@@ -328,7 +333,7 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
     
     if (stateMachineAccess.findMapingEvent (event) != -1)
     {
-      cout << "mStateMachineAccess->pushEvent" << endl;
+      LOG4CXX_DEBUG (logger, "mStateMachineAccess->pushEvent");
       stateMachineAccess.pushEvent (event);
     }
   }
@@ -344,7 +349,7 @@ void EdjeView::pushEvent (int event)
     
     string eventString = stateMachineAccess.findMapingEvent (event);
 
-    cout << "EdjeView::smEvents: " << event << " / " << eventString << endl;
+    LOG4CXX_DEBUG (logger, "EdjeView::smEvents: " << event << " / " << eventString);
 
     if (eventString.substr (4) != "edje")
     {

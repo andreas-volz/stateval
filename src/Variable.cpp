@@ -5,9 +5,12 @@
 /* local */
 #include "stateval/Variable.h"
 #include "MemoryUtil.h"
+#include "Logger.h"
 
 /* STD */
 #include <cassert>
+
+static Logger logger ("stateval.Variable");
 
 AbstractVariable::AbstractVariable (Type type) :
   mType (type)
@@ -30,8 +33,8 @@ Bool::Bool (bool b) :
 
 bool Bool::equals (AbstractVariable *var) const
 {
-  cout << "equals this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
   
   bool ret = (static_cast <Bool*> (var))->mValue == mValue;
@@ -41,8 +44,8 @@ bool Bool::equals (AbstractVariable *var) const
 
 void Bool::assign (AbstractVariable *var)
 {
-  cout << "assign this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   mValue = (static_cast <Bool*> (var))->mValue;
@@ -64,8 +67,8 @@ Float::Float (float f) :
 
 bool Float::equals (AbstractVariable *var) const
 {
-  cout << "equals this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
   
   float ret = (static_cast <Float*> (var))->mValue == mValue;
@@ -75,8 +78,8 @@ bool Float::equals (AbstractVariable *var) const
 
 void Float::assign (AbstractVariable *var)
 {
-  cout << "assign this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   mValue = (static_cast <Float*> (var))->mValue;
@@ -99,8 +102,8 @@ String::String (const std::string &s) :
 
 bool String::equals (AbstractVariable *var) const
 {
-  cout << "equals this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
   
   bool ret = (static_cast <String*> (var))->mValue == mValue;
@@ -110,8 +113,8 @@ bool String::equals (AbstractVariable *var) const
 
 void String::assign (AbstractVariable *var)
 {
-  cout << "assign this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   mValue = (static_cast <String*> (var))->mValue;
@@ -141,8 +144,8 @@ Struct::~Struct ()
 
 bool Struct::equals (AbstractVariable *var) const
 {
-  cout << "equals this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   // TODO: implement
@@ -154,8 +157,8 @@ bool Struct::equals (AbstractVariable *var) const
 
 void Struct::assign (AbstractVariable *var)
 {
-  cout << "assign this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   // TODO: implement
@@ -170,7 +173,7 @@ void Struct::add (const std::string &s, AbstractVariable *var)
 
 AbstractVariable *Struct::getData (const std::string &s)
 {
-  cout << "mValueMap size: " << mValueMap.size () << endl;
+  LOG4CXX_DEBUG (logger, "mValueMap size: " << mValueMap.size ());
   return mValueMap[s];
 }
 
@@ -198,8 +201,8 @@ List::~List ()
 
 bool List::equals (AbstractVariable *var) const
 {
-  cout << "equals this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   // TODO: implement
@@ -211,8 +214,8 @@ bool List::equals (AbstractVariable *var) const
 
 void List::assign (AbstractVariable *var)
 {
-  cout << "assign this:Type: " << getType () << endl;
-  cout << "var:Type: " << var->getType () << endl;
+  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
   assert (getType () == var->getType ());
 
   // TODO: implement
