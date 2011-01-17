@@ -30,7 +30,15 @@ StateMachineThread::StateMachineThread (StateMachine &sm) :
 StateMachineThread::~StateMachineThread ()
 {
   LOG4CXX_TRACE (logger, "~StateMachineThread");
+
+  
   cancel ();
+
+  LOG4CXX_TRACE (logger, "~StateMachineThread (canceled)");
+  
+  join ();
+
+  LOG4CXX_TRACE (logger, "~StateMachineThread (joined)");
 }
 
 void StateMachineThread::start ()
@@ -42,7 +50,7 @@ void StateMachineThread::start ()
 
 void StateMachineThread::signal_cancel() // from thread
 {
-    mEventsInQueue.signal ();
+  mEventsInQueue.signal ();
 }
 
 void StateMachineThread::run ()
@@ -73,12 +81,12 @@ void StateMachineThread::run ()
     int event = mSM->eventQueue.front();
     mEventMutex.unlock ();
   
-    LOG4CXX_DEBUG (logger, "EventQueue size: " << mSM->eventQueue.size ());
+    LOG4CXX_DEBUG (logger, "+EventQueue size: " << mSM->eventQueue.size ());
 
     mSM->evaluateState (event);
   
     // pop element after working
-    LOG4CXX_DEBUG (logger, "EventQueue size: " << mSM->eventQueue.size ());
+    LOG4CXX_DEBUG (logger, "-EventQueue size: " << mSM->eventQueue.size ());
 
         // emit event signals
     multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
@@ -86,7 +94,7 @@ void StateMachineThread::run ()
   
     if (findResult != mSignalList.end ())
     {
-    // emit also multible signals...
+      // emit also multible signals...
       for ( ; findResult != lastElement; ++findResult)
       {
         LOG4CXX_DEBUG (logger, "call event '" << event << "' to app");
