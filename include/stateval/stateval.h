@@ -1,7 +1,8 @@
 #ifndef STATEVAL_H
 #define STATEVAL_H
 
-/* gloabal include header
+/*!
+ * stateval library include header
  */
 
 #include "Action.h"

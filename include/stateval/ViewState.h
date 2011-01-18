@@ -25,7 +25,7 @@ private:
   
   void mapEvent (int &inOutEvent);
 
-  // this memory doesn't need to be freed as it's handled in the loader!
+  // this memory doesn't need to be freed as it's handled in the Loader!
   View *mView;
 };
 

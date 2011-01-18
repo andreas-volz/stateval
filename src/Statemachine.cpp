@@ -212,3 +212,18 @@ bool StateMachine::walkDown (int event)
   
   return transit;
 }
+
+bool StateMachine::hasEvents ()
+{
+  return !eventQueue.empty ();
+}
+
+unsigned int StateMachine::getEventCount ()
+{
+  return eventQueue.size ();
+}
+
+int StateMachine::getNextEvent ()
+{
+  return eventQueue.front ();
+}

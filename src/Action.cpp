@@ -10,12 +10,3 @@
 
 using namespace std;
 
-/*Action::Action (const std::string &command) //:
-  //mCommand (command)
-{
-}
-
-void Action::run () const
-{
-//  cout << "Action: " << mCommand << endl;
-}*/

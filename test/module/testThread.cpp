@@ -158,7 +158,7 @@ public:
         enum EEvents {eEventA, eEventB, eEventC};
         
         StateMachine sm ("simple");
-        Loader &loader(sm.getLoader());
+        //Loader &loader(sm.getLoader());
         SimpleState *initState = new SimpleState(NULL);
 
         SimpleState *stateA = new SimpleState(NULL);
@@ -190,11 +190,13 @@ public:
 
         Transition *tr4 = new Transition(stateA, eEventA);
         stateC->addLeaveTransition(*tr4);
-        
-        loader.addState(initState);
+
+        // Hint: new interface doesn't longer allow this!
+        // write a test loader plugin to directly add states!!
+        /*loader.addState(initState);
         loader.addState(stateA);
         loader.addState(stateB);
-        loader.addState(stateC);
+        loader.addState(stateC);*/
 
       
         sm.start();       

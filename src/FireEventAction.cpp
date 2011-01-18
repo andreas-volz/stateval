@@ -11,7 +11,7 @@
 
 using namespace std;
 
-FireEventAction::FireEventAction (const std::string &event) :
+FireEventAction::FireEventAction (int event) :
   mEvent (event)
 {
 }

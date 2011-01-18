@@ -64,7 +64,7 @@ void StateMachineThread::run ()
     mEventMutex.lock ();
 
     // this waiting loop runs until someone pushed an event to the event queue
-    while (mSM->eventQueue.empty())
+    while (!mSM->hasEvents ())
     {
       LOG4CXX_TRACE (logger, "!mSM->eventQueue.empty()");
       // here is the point the loop waits if no event is in the event queue
@@ -78,15 +78,15 @@ void StateMachineThread::run ()
     }
     LOG4CXX_TRACE (logger, "mSM->eventQueue.empty()");
 
-    int event = mSM->eventQueue.front();
+    int event = mSM->getNextEvent ();
     mEventMutex.unlock ();
   
-    LOG4CXX_DEBUG (logger, "+EventQueue size: " << mSM->eventQueue.size ());
+    LOG4CXX_DEBUG (logger, "+EventQueue size: " << mSM->getEventCount ());
 
     mSM->evaluateState (event);
   
     // pop element after working
-    LOG4CXX_DEBUG (logger, "-EventQueue size: " << mSM->eventQueue.size ());
+    LOG4CXX_DEBUG (logger, "-EventQueue size: " << mSM->getEventCount ());
 
         // emit event signals
     multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);

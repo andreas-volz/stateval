@@ -499,7 +499,7 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
     if (type_attribute->get_value () == "FireEventAction")
     {
       // TODO: check if event is available/useful
-      action = new FireEventAction (event_attribute->get_value ());
+      action = new FireEventAction (findMapingEvent (event_attribute->get_value ()));
       mActionNameMapper[name_attribute->get_value ()] = action;
     }
     else if (type_attribute->get_value () == "ChangeVariableAction")

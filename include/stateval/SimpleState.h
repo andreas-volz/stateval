@@ -37,8 +37,8 @@ private:
   
   void runActions (std::list <Action*> &actionList);
   
-  std::list <Action*> mEntryActionList; // is freed by Loader
-  std::list <Action*> mExitActionList; // is freed by Loader
+  std::list <Action*> mEntryActionList; // pointers are freed by Loader!
+  std::list <Action*> mExitActionList; // pointers are freed by Loader!
 };
 
 #endif // SIMPLE_STATE_H

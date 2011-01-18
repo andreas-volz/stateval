@@ -22,7 +22,7 @@ public:
   
   void init (StateMachine &sm, StateMachineThread &smThread);
   
-  void pushEvent (int Event);
+  void pushEvent (int event);
   void pushEvent (const std::string &event);
   
   int findMapingEvent (const std::string &event);
@@ -35,7 +35,6 @@ public:
   void disconnectAll ();
 
   bool isInitialized ();
-  
   
 private:
   StateMachineAccess () {}

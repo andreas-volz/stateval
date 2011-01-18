@@ -20,7 +20,7 @@ public:
   State *getEndState () const;
   
 private:
-  State *mEndState;
+  State *mEndState; // no need to free this as Loader holds it!
   int mEvent;
 };
 

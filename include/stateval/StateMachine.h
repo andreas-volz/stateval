@@ -31,17 +31,17 @@ public:
   
   int findMapingEvent (const std::string &event);
   std::string findMapingEvent (int event);
-  
-  Loader& getLoader() {return *mLoader;}
 
-  std::queue <int> eventQueue; // TODO: private
-  
+  bool hasEvents ();
+  unsigned int getEventCount ();
+  int getNextEvent ();
+
 private:
   State *searchHierarchie (int event);
   bool walkDown (int event);
 
+  std::queue <int> eventQueue;
   State *mActiveState;
-  
   Loader *mLoader;
   bool mSMInit;
 };

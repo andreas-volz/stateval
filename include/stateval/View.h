@@ -46,7 +46,6 @@ public:
 
 private:
   std::map <int, int> mEventMap;
-
   std::list <Widget> mWidgetVariableList;
 };
 
