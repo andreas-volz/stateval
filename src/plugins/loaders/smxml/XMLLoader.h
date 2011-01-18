@@ -22,8 +22,6 @@ public:
   const unsigned int getMinorVersion ();
   
   bool load (Context *context, const std::string &sm);
-  
-  void unload ();
     
 protected:  
   void parseRootNode (const xmlpp::Node* node);
@@ -63,10 +61,12 @@ protected:
   void parseViewWidgetNode (const xmlpp::Node* node, View *view);
   
 private:
+  // -> these maps are only temporary needed while loading, after this they're freed!
   std::map <Glib::ustring, unsigned int> mStateNameMapper;
   std::map <Glib::ustring, unsigned int> mViewNameMapper;
   std::map <Glib::ustring, Action*> mActionNameMapper;
   std::map <Glib::ustring, Condition*> mConditionNameMapper;
+  // <-
 
   Context *mContext;
 };

@@ -16,6 +16,7 @@
 #include "stateval/DecisionState.h"
 #include "stateval/ViewState.h"
 #include "Logger.h"
+#include "MemoryUtil.h"
 
 #include "stringUtil.h"
 #include "ViewPluginLoader.h"
@@ -31,6 +32,13 @@ Loader::Loader () :
 
 Loader::~Loader ()
 {
+  LOG4CXX_TRACE (logger, "~Loader");
+
+  // -> Free all statemachine data containers at destruction time
+  delete_stl_container (mStateList);
+  delete_stl_container (mViewList);
+  delete_stl_container (mActionList);
+  // <-
 }
 
 void Loader::addEvent (const std::string &event)

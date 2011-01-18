@@ -23,12 +23,10 @@ Logger logger ("stateval.plugins.loaders.smxml");
 XMLLoader::XMLLoader () :
   mContext (NULL)
 {
-
 }
 
 XMLLoader::~XMLLoader ()
 {
-  unload ();
 }
 
 const std::string XMLLoader::getType ()
@@ -54,39 +52,27 @@ bool XMLLoader::load (Context *context, const std::string &sm)
   {
     xmlpp::DomParser parser;
     parser.set_validate (false);	// TODO: activate DTD later...
-    parser.set_substitute_entities ();	//We just want the text to be resolved/unescaped automatically.
+    parser.set_substitute_entities ();	// We just want the text to be resolved/unescaped automatically.
     parser.parse_file (sm);
     if (parser)
     {
-      //Walk the tree:
-      const xmlpp::Node * pNode = parser.get_document ()->get_root_node ();	//deleted by DomParser.
+      // Walk the tree:
+      const xmlpp::Node * pNode = parser.get_document ()->get_root_node ();	// deleted by DomParser.
       parseRootNode (pNode);
 
-     // delete temporary data maps after constructing statemachine
-     // as the mapper data isn't needed at runtime
+     // -> delete temporary data maps after constructing statemachine
+     //    as the mapper data isn't needed at runtime
      mStateNameMapper.clear ();
      mViewNameMapper.clear ();
      mActionNameMapper.clear ();
      mConditionNameMapper.clear ();
+     // <-
     }
   }
   catch (const exception &ex)
   {
     LOG4CXX_FATAL (logger, "Exception caught: " << ex.what ());
   }
-}
-
-void XMLLoader::unload ()
-{
-  // free mViewList
-  // TODO: as View is a plugin it should not be deleted like here!
-  delete_stl_container (mViewList);
-
-  // free mStateList
-  delete_stl_container (mStateList);
-
-  // free mActionList
-  delete_stl_container (mActionList);
 }
 
 void XMLLoader::parseRootNode (const xmlpp::Node * node)

@@ -13,6 +13,7 @@ class Widget
 {
 public:
   Widget (const std::string &name, const std::string &variable);
+  virtual ~Widget () {};
 
   const std::string getName () const;
   const std::string getVariable () const;
@@ -28,6 +29,7 @@ public:
   typedef std::list <Widget>::const_iterator WidgetIterator;
   
   View ();
+  virtual ~View () {};
 
   virtual void realize () = 0;
   
