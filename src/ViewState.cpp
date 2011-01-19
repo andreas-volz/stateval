@@ -13,7 +13,7 @@ using namespace std;
 
 static Logger logger ("stateval.ViewState");
 
-ViewState::ViewState (State *parentState, View &view) :
+ViewState::ViewState (CompoundState *parentState, View &view) :
   SimpleState (parentState),
   mView (&view)
 {

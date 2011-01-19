@@ -8,7 +8,7 @@
 /* STD */
 #include <cassert>
 
-HistoryState::HistoryState (State *parentState) :
+HistoryState::HistoryState (CompoundState *parentState) :
   State (parentState)
 {
   

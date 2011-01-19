@@ -8,7 +8,7 @@
 class ViewState : public SimpleState
 {
 public:
-  ViewState (State *parentState, View &view);
+  ViewState (CompoundState *parentState, View &view);
 
 protected:
   void pushEvent (int event);

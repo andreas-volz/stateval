@@ -10,7 +10,7 @@ class CompoundState : public SimpleState
 {
 public:
   CompoundState ();
-  CompoundState (State *parentState);
+  CompoundState (CompoundState *parentState);
 
   HistoryState *getHistory (); // TODO: other design or friend!
   void setHistory (HistoryState *hState);

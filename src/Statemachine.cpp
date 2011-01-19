@@ -4,6 +4,7 @@
 
 /* local */
 #include "stateval/StateMachine.h"
+#include "stateval/CompoundState.h"
 #include "MemoryUtil.h"
 #include "searchFile.h"
 #include "Logger.h"

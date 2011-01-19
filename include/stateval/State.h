@@ -34,9 +34,8 @@ public:
   virtual void addEntryAction (Action *action);
   virtual void addExitAction (Action *action);
   
-  
 protected:
-  virtual State *getParentState () const;
+  virtual CompoundState *getParentState () const;
   
   virtual void beforeTransitionCode () = 0;
   
@@ -52,10 +51,11 @@ protected:
   virtual void pushEvent (int event);
   
 protected:
+  // TODO: why are the constructors private?
   State ();
-  State (State *parentState);
+  State (CompoundState *parentState);
   
-  State *mParentState; // NULL == root // TODO: why not CompoundState possible???
+  CompoundState *mParentState; // NULL == root // TODO: why not CompoundState possible???
   std::list <Transition*> mLeaveTransitonList;
   unsigned int mID; // Debug
   std::string mName; // Debug

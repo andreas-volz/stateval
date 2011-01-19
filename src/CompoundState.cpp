@@ -11,7 +11,7 @@ CompoundState::CompoundState () :
 {
 }
 
-CompoundState::CompoundState (State *parentState) :
+CompoundState::CompoundState (CompoundState *parentState) :
   SimpleState (parentState),
   mHistoryState (NULL)
 {

@@ -14,7 +14,7 @@
 class DecisionState : public State
 {
 public:
-  DecisionState (State *parentState);
+  DecisionState (CompoundState *parentState);
   virtual ~DecisionState ();
   
   void addConditionTransition (const std::pair <Condition*, Transition*> &conTrans);

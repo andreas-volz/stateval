@@ -17,7 +17,7 @@ State::State () :
 { 
 }
 
-State::State (State *parentState) :
+State::State (CompoundState *parentState) :
   mParentState (parentState),
   mID (0)
 {
@@ -71,7 +71,7 @@ void State::pushEvent (int event)
   // e.g. some ViewState types needs it to push events to a special GUI event loop
 }
 
-State *State::getParentState () const
+CompoundState *State::getParentState () const
 {
   return mParentState;
 }

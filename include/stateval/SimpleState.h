@@ -12,7 +12,7 @@
 class SimpleState : public State
 {
 public:
-  SimpleState (State *parentState);
+  SimpleState (CompoundState *parentState);
   virtual ~SimpleState ();
 
   void beforeTransitionCode ();

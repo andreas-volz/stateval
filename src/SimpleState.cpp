@@ -18,7 +18,7 @@ SimpleState::SimpleState ()
 {
 }
 
-SimpleState::SimpleState (State *parentState) :
+SimpleState::SimpleState (CompoundState *parentState) :
   State (parentState)
 {
 }
@@ -113,8 +113,7 @@ void SimpleState::changeHistory ()
 {
   if (mParentState)
   {
-    CompoundState *cState = static_cast <CompoundState*> (mParentState); // TODO: cast not needed if mParentState would be CompoundState
-    HistoryState *hState = cState->getHistory ();
+    HistoryState *hState = mParentState->getHistory ();
       
     if (hState)
     {

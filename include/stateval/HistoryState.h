@@ -12,7 +12,7 @@ class ViewState;
 class HistoryState : public State
 {
 public:
-  HistoryState (State *parentState);
+  HistoryState (CompoundState *parentState);
 
   /*!
    * Changes the end of the outgoing history transition.

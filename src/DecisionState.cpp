@@ -4,7 +4,7 @@
 
 #include "stateval/DecisionState.h"
 
-DecisionState::DecisionState (State *parentState) :
+DecisionState::DecisionState (CompoundState *parentState) :
   State (parentState),
   mElseTrans (NULL)
 {
