@@ -18,22 +18,10 @@ SET(LIBPLUXX_DIR "${PROJECT_SOURCE_DIR}/../../pluxx")
 # Target OS specific flags.
 ####################################################################################
 IF(APPLE)
-    # Flags for universal build.
-#    SET(CMAKE_OSX_ARCHITECTURES ppc;i386)
-
-    # Determine the SDK the source has to build for.
-    SET(OSX_SDK 10.5)
-
-    SET(CMAKE_OSX_SYSROOT "/Developer/SDKs/MacOSX${OSX_SDK}.sdk")
-    
     ADD_DEFINITIONS(-DDONT_USE_ECORE)
-
     FIND_LIBRARY(CPPUNIT cppunit)
-
     MARK_AS_ADVANCED (CPPUNIT)
-
     SET(EXTRA_LIBS ${CPPUNIT})
-    
 ELSE()
     SET(EXTRA_LIBS cppunit)
 ENDIF (APPLE)
@@ -50,22 +38,19 @@ INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/include)
 ####################################################################################
 ADD_LIBRARY(stateval STATIC 
     src/Action.cpp
+    src/ChangeVariableAction.cpp
     src/CompoundState.cpp
     src/Condition.cpp
     src/DecisionState.cpp
-#    src/EcoreDispatcher.cpp
     src/Exceptions.cpp
     src/FireEventAction.cpp
     src/GlobalVariables.cpp
     src/HistoryState.cpp
     src/Loader.cpp
 #    src/LoaderPluginLoader.cpp
-    src/localUtil.cpp
-    src/plugins/loaders/simple/FileReader.cpp
-    src/plugins/loaders/simple/localUtil.cpp
-    src/plugins/loaders/simple/searchFile.cpp
-    src/plugins/loaders/simple/SimpleLoader.cpp
-    src/plugins/loaders/simple/stringUtil.cpp
+    src/plugins/loaders/smxml/searchFile.cpp
+    src/plugins/loaders/smxml/stringUtil.cpp
+#    src/plugins/loaders/smxml/XMLLoader.cpp
 #    src/plugins/views/edje/EcoreDispatcher.cpp
 #    src/plugins/views/edje/EdjeContext.cpp
 #    src/plugins/views/edje/EdjeView.cpp
@@ -87,12 +72,11 @@ ADD_LIBRARY(stateval STATIC
 
 # include
     include/stateval/Action.h
+    include/stateval/ChangeVariableAction.h
     include/stateval/CompoundState.h
     include/stateval/Condition.h
     include/stateval/Context.h
     include/stateval/DecisionState.h
-    include/stateval/EcoreDispatcher.h
-    include/stateval/EventList.h
     include/stateval/Exceptions.h
     include/stateval/FireEventAction.h
     include/stateval/GlobalVariables.h
@@ -147,13 +131,6 @@ ADD_EXECUTABLE(testThread EXCLUDE_FROM_ALL
 )
 
 TARGET_LINK_LIBRARIES(testThread z sigc++ stateval pluxx ${EXTRA_LIBS})
-
-####################################################################################
-# Target specific flags.
-####################################################################################
-IF(APPLE)
-    SET_TARGET_PROPERTIES(testThread PROPERTIES LINK_FLAGS -mmacosx-version-min=${OSX_SDK})
-ENDIF(APPLE)
 
 ####################################################################################
 # Additional Directories to deal with...
