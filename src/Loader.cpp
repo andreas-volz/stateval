@@ -35,9 +35,18 @@ Loader::~Loader ()
   LOG4CXX_TRACE (logger, "~Loader");
 
   // -> Free all statemachine data containers at destruction time
-  delete_stl_container (mStateList);
-  delete_stl_container (mViewList);
   delete_stl_container (mActionList);
+  delete_stl_container (mStateList);
+
+  // the view has to be destroyed in a special way because it's a plugin!!
+  for (std::vector <View*>::iterator view_it = mViewList.begin ();
+       view_it != mViewList.end ();
+       ++view_it)
+  {
+    View *view = *view_it;
+    pluxx::PluginLoader::destroyFactory(view);
+  }
+  mViewList.clear ();
   // <-
 }
 

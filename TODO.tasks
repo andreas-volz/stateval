@@ -23,11 +23,6 @@
 </comment>
     </item>
     <item>
-      <attribute id="1288911815" priority="1" done="0" start_date="734081" enddate="99999999" notify="0" endtime="-60" last_edited="1288911815"/>
-      <summary>Free data in Loader/XMLLoader correct</summary>
-      <comment>e.g. Views are plugins and shouldn't be deleted (there's a destroyFatory)</comment>
-    </item>
-    <item>
       <attribute id="1288911831" priority="1" done="0" start_date="734081" enddate="99999999" notify="0" endtime="-60" last_edited="1288911831"/>
       <summary>Move more code from XMLLoader to Loader</summary>
       <comment/>
@@ -36,6 +31,11 @@
       <attribute id="1289513849" priority="1" done="0" start_date="734087" enddate="99999999" notify="0" endtime="-60" last_edited="1289513849"/>
       <summary>EdjeContext usage</summary>
       <comment>export a install header or maybe switch to struct container and document the structure in docs...</comment>
+    </item>
+    <item>
+      <attribute id="1288911815" priority="1" done="1" start_date="734081" completed_date="734156" notify="0" last_edited="1295469761"/>
+      <summary>Free data in Loader/XMLLoader correct</summary>
+      <comment>e.g. Views are plugins and shouldn't be deleted (there's a destroyFatory)</comment>
     </item>
   </category>
   <category title="Features" place="1">
@@ -102,9 +102,9 @@ TODO: How to handle plugins?
 rename also header protection in STATEVAL_*_H</comment>
     </item>
     <item>
-      <attribute id="1294009050" priority="1" done="0" start_date="734139" enddate="99999999" notify="0" endtime="-60" last_edited="1294009107"/>
-      <summary>Implement Integer type variable</summary>
-      <comment></comment>
+      <attribute id="1295469227" priority="1" done="0" start_date="734156" enddate="99999999" notify="0" endtime="-60" last_edited="1295469227"/>
+      <summary>plugin includes</summary>
+      <comment>move all headers which are only needed for plugin development, but not application development to a special include path. Maybe combined with some PIMPL implementation</comment>
     </item>
   </category>
 </gtodo>

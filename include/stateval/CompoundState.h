@@ -12,7 +12,7 @@ public:
   CompoundState ();
   CompoundState (CompoundState *parentState);
 
-  HistoryState *getHistory (); // TODO: other design or friend!
+  HistoryState *getHistory ();
   void setHistory (HistoryState *hState);
   
 protected:

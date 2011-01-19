@@ -52,6 +52,7 @@ StateMachine::StateMachine (const std::string &loaderPlugin) :
 
 StateMachine::~StateMachine ()
 {
+  // the Loader has to be destroyed in a special way, because it's a plugin!!
   pluxx::PluginLoader::destroyFactory ((pluxx::Plugin*) mLoader);  
 }
 
