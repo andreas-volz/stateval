@@ -106,5 +106,10 @@ rename also header protection in STATEVAL_*_H</comment>
       <summary>plugin includes</summary>
       <comment>move all headers which are only needed for plugin development, but not application development to a special include path. Maybe combined with some PIMPL implementation</comment>
     </item>
+    <item>
+      <attribute id="1295470581" priority="1" done="0" start_date="734156" enddate="99999999" notify="0" endtime="-60" last_edited="1295470581"/>
+      <summary>Implement multible running statemachines</summary>
+      <comment></comment>
+    </item>
   </category>
 </gtodo>

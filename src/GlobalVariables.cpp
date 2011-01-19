@@ -6,6 +6,7 @@
 #include "stateval/GlobalVariables.h"
 #include "stateval/Variable.h"
 #include "Logger.h"
+#include "MemoryUtil.h"
 
 /* STD */
 #include <cassert>
@@ -15,6 +16,7 @@ using namespace std;
 Logger logger ("stateval.GlobalVariables");
 
 // TODO: redesign complete access and locking design!_
+// TODO: think about if the Globals should be managed by Loader
 
 GlobalVariables& GlobalVariables::instance()
 {
@@ -24,15 +26,7 @@ GlobalVariables& GlobalVariables::instance()
 
 GlobalVariables::~GlobalVariables ()
 {
-  // TODO: think about if the Globals should be managed by Loader
-  // TODO: clean mVariableList
-  for (map <string,AbstractVariable*>::iterator var_it = mVariableList.begin ();
-       var_it != mVariableList.end ();
-       ++var_it)
-  {
-    AbstractVariable *aVar = var_it->second;
-    delete aVar;
-  }
+  delete_stl_container (mVariableList);
 }
 
 void GlobalVariables::init ()

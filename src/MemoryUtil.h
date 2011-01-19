@@ -29,6 +29,10 @@ void delete_stl_container (T &cnt)
   cnt.clear();
 }
 
+/*!
+ * Delete the STL std::map container elements and clear it afterwards.
+ * But note that only the value elements (->second) are deleted!!!!
+ */
 template <typename Key, typename T>
 void delete_stl_container (std::map<Key, T> &cnt)
 {
