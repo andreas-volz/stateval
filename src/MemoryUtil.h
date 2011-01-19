@@ -43,4 +43,14 @@ void delete_stl_container (std::map<Key, T> &cnt)
   cnt.clear ();
 }
 
+template <typename Key, typename T>
+void delete_stl_container (std::multimap<Key, T> &cnt)
+{
+  for (typename std::multimap<Key, T>::iterator it = cnt.begin(); it != cnt.end(); ++it)
+  {
+    delete it->second;
+  }
+  cnt.clear ();
+}
+
 #endif // MEMORY_UTIL_H

@@ -44,6 +44,7 @@ void GlobalVariables::addVariable (const std::string &str, AbstractVariable &var
 AbstractVariable *GlobalVariables::getVariable (const std::string &str)
 {
   // TODO: return NULL or exception if not found in map
+  // TODO: locking and/or copy value concept
   AbstractVariable *av = mVariableList[str];
   
   return av;

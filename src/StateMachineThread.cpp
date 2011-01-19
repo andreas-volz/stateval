@@ -6,6 +6,7 @@
 #include "stateval/StateMachineThread.h"
 #include "stateval/StateMachine.h"
 #include "Logger.h"
+#include "MemoryUtil.h"
 
 /* STD */
 #include <iostream>
@@ -155,22 +156,12 @@ void StateMachineThread::disconnect (int event)
     {
       SignalSignal *signal = findResult->second;
       delete signal;
-        
-     // TODO from hdusel: Forget to remove the element from the multimap?
-     // Discuss this with Andreas.
+      mSignalList.erase (findResult);
     }
   }
 }
 
 void StateMachineThread::disconnectAll ()
 {
-	for (std::multimap <int, SignalSignal*>::iterator s_it = mSignalList.begin ();
-	     s_it != mSignalList.end ();
-	     ++s_it)
-	{
-		int event = (*s_it).first;
-		SignalSignal *signal = (*s_it).second;
-
-		delete signal;
-	}
+  delete_stl_container (mSignalList);
 }
