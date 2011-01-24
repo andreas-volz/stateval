@@ -3,8 +3,8 @@
 #endif
 
 /* Project */
-#include "stateval/CompoundState.h"
-#include "stateval/HistoryState.h"
+#include "stateval/private/CompoundState.h"
+#include "stateval/private/HistoryState.h"
 
 CompoundState::CompoundState () :
   mHistoryState (NULL)

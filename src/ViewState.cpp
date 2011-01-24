@@ -3,7 +3,7 @@
 #endif
 
 /* local */
-#include "stateval/ViewState.h"
+#include "stateval/private/ViewState.h"
 #include "Logger.h"
 
 /* STD */

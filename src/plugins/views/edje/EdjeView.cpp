@@ -12,6 +12,7 @@
 
 /* stateval */
 #include "stateval/stateval.h"
+#include "stateval/private/stateval_private.h"
 
 /* STD */
 #include <iostream>

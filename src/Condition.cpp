@@ -3,7 +3,7 @@
 #endif
 
 /* local */
-#include "stateval/Condition.h"
+#include "stateval/private/Condition.h"
 #include "stateval/GlobalVariables.h"
 #include "stateval/Variable.h"
 

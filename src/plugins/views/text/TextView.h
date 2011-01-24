@@ -2,7 +2,7 @@
 #define TEXT_VIEW_H
 
 /* stateval */
-#include "stateval/View.h"
+#include "stateval/private/View.h"
 
 /* STD */
 #include <string>

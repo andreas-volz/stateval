@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "stateval/ChangeVariableAction.h"
+#include "stateval/private/ChangeVariableAction.h"
 #include "stateval/StateMachineAccess.h"
 #include "stateval/GlobalVariables.h"
 

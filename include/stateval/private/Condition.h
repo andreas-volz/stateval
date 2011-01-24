@@ -6,7 +6,7 @@
 
 /* Project */
 #include "State.h"
-#include "Variable.h"
+#include "stateval/Variable.h"
 
 /* forward declaration */
 

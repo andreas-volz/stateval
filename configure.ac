@@ -66,8 +66,8 @@ AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")
 dnl Check for option to enable logging
 AC_MSG_CHECKING(whether to enable logging)
 AC_ARG_ENABLE(logging,
-        [  --enable-logging=[no/yes]        enables logging build (default=no)],,
-                 enable_logging=no)              
+        [  --enable-logging=[no/yes]        enables logging build (default=yes)],,
+                 enable_logging=yes)              
                  
 if [ ! test "$enable_logging" != "yes"]; then
   AC_DEFINE(HAVE_LOGGING, 1, [Define to enable logging build])
@@ -93,6 +93,7 @@ Makefile
 data/Makefile
 include/Makefile
 include/stateval/Makefile
+include/stateval/private/Makefile
 src/Makefile
 src/plugins/Makefile
 src/plugins/loaders/Makefile

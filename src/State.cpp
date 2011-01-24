@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "stateval/State.h"
+#include "stateval/private/State.h"
 #include "MemoryUtil.h"
 
 /* STD */

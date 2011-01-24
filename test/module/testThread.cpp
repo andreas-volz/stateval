@@ -7,7 +7,7 @@
 #include "stateval/Thread.h"
 #include "stateval/StateMachine.h"
 #include "stateval/StateMachineThread.h"
-#include "stateval/SimpleState.h"
+#include "stateval/private/SimpleState.h"
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/extensions/HelperMacros.h>

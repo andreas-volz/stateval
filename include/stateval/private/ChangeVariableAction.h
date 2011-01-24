@@ -6,7 +6,7 @@
 
 /* local */
 #include "Action.h"
-#include "Variable.h"
+#include "stateval/Variable.h"
 
 /* forwared declaration */
 class StateMachine;

@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "stateval/FireEventAction.h"
+#include "stateval/private/FireEventAction.h"
 #include "stateval/StateMachineAccess.h"
 
 /* STD */

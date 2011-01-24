@@ -10,7 +10,7 @@
 #include <iostream>
 
 /* Project */
-#include "stateval/Exceptions.h"
+#include "stateval/private/Exceptions.h"
 
 /// some system specific defines
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)

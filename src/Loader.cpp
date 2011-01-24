@@ -10,11 +10,11 @@
 #include <pluxx/PluginLoader.h>
 
 /* local */
-#include "stateval/Loader.h"
-#include "stateval/CompoundState.h"
-#include "stateval/HistoryState.h"
-#include "stateval/DecisionState.h"
-#include "stateval/ViewState.h"
+#include "stateval/private/Loader.h"
+#include "stateval/private/CompoundState.h"
+#include "stateval/private/HistoryState.h"
+#include "stateval/private/DecisionState.h"
+#include "stateval/private/ViewState.h"
 #include "Logger.h"
 #include "MemoryUtil.h"
 

@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <iostream>
 #include "searchFile.h"
-#include "../include/stateval/Exceptions.h"
+#include "stateval/private/Exceptions.h"
 
 using namespace std;
 

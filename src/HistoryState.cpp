@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "stateval/HistoryState.h"
+#include "stateval/private/HistoryState.h"
 
 /* STD */
 #include <cassert>
