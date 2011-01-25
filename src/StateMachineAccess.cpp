@@ -16,14 +16,17 @@ StateMachineAccess &StateMachineAccess::instance ()
   return _instance;
 }
 
-StateMachineAccess::~StateMachineAccess ()
+void StateMachineAccess::load (const std::string &loader, const std::string &file, Context *context)
 {
+  mSM = new StateMachine (loader);
+  mSMThread = new StateMachineThread (*mSM);
+  mSM->load (context, file);
 }
 
-void StateMachineAccess::init (StateMachine &sm, StateMachineThread &smThread)
+void StateMachineAccess::start ()
 {
-  mSM = &sm;
-  mSMThread = &smThread;
+  mSMThread->start (); 
+  mSM->start ();
 }
 
 bool StateMachineAccess::isInitialized ()

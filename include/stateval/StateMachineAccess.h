@@ -5,8 +5,8 @@
 #include <string>
 
 /* Project */
-#include "../include/stateval/StateMachine.h"
-#include "../include/stateval/StateMachineThread.h"
+#include "stateval/private/StateMachine.h"
+#include "stateval/private/StateMachineThread.h"
 
 /* forward declarations */
 
@@ -20,7 +20,9 @@ class StateMachineAccess
 public:
   static StateMachineAccess& instance ();
   
-  void init (StateMachine &sm, StateMachineThread &smThread);
+  void load (const std::string &loader, const std::string &file, Context *context);
+
+  void start ();
   
   void pushEvent (int event);
   void pushEvent (const std::string &event);
@@ -39,7 +41,7 @@ public:
 private:
   StateMachineAccess () {}
   StateMachineAccess (const StateMachineAccess&);
-  virtual ~StateMachineAccess ();
+  virtual ~StateMachineAccess () {};
   
   StateMachine *mSM;
   StateMachineThread *mSMThread;

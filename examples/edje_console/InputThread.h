@@ -5,7 +5,7 @@
 #include <sigc++/sigc++.h>
 
 /* Project */
-#include <stateval/Thread.h>
+#include <stateval/private/Thread.h>
 
 /* forward declarations */
 class StateMachineAccess;

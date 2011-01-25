@@ -6,9 +6,7 @@
  */
 
 #include "GlobalVariables.h"
-#include "StateMachine.h"
 #include "StateMachineAccess.h"
-#include "StateMachineThread.h"
 #include "Variable.h"
 #include "Context.h"
 

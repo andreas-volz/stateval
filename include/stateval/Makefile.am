@@ -1,11 +1,8 @@
 
 libstateval_HEADERS = \
 	GlobalVariables.h     \
-	StateMachine.h     \
 	stateval.h     \
 	StateMachineAccess.h     \
-	StateMachineThread.h     \
-	Thread.h     \
 	Variable.h     \
 	Context.h
 

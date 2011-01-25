@@ -10,7 +10,7 @@
 #include <map>
 
 /* local */
-#include "stateval/Thread.h"
+#include "stateval/private/Thread.h"
 
 using std::map;
 using std::string;

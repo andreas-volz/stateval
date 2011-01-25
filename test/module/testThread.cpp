@@ -4,9 +4,9 @@
 #include <zlib.h>
 
 #include "testCommon.h"
-#include "stateval/Thread.h"
-#include "stateval/StateMachine.h"
-#include "stateval/StateMachineThread.h"
+#include "stateval/private/Thread.h"
+#include "stateval/private/StateMachine.h"
+#include "stateval/private/StateMachineThread.h"
 #include "stateval/private/SimpleState.h"
 
 #include <cppunit/extensions/TestFactoryRegistry.h>

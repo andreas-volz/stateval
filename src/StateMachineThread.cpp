@@ -3,8 +3,8 @@
 #endif
 
 /* local */
-#include "stateval/StateMachineThread.h"
-#include "stateval/StateMachine.h"
+#include "stateval/private/StateMachineThread.h"
+#include "stateval/private/StateMachine.h"
 #include "Logger.h"
 #include "MemoryUtil.h"
 

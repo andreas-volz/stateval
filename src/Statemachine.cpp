@@ -3,7 +3,7 @@
 #endif
 
 /* local */
-#include "stateval/StateMachine.h"
+#include "stateval/private/StateMachine.h"
 #include "stateval/private/CompoundState.h"
 #include "MemoryUtil.h"
 #include "searchFile.h"

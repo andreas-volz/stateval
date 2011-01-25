@@ -1,5 +1,5 @@
-#ifndef STATEVAL_PLUGDEV_H
-#define STATEVAL_PLUGDEV_H
+#ifndef STATEVAL_PRIVATE_H
+#define STATEVAL_PRIVATE_H
 
 #include "Action.h"
 #include "ChangeVariableAction.h"
@@ -15,6 +15,7 @@
 #include "Transition.h"
 #include "View.h"
 #include "ViewState.h"
+#include "StateMachineThread.h"
+#include "StateMachine.h"
 
-#endif // STATEVAL_PLUGDEV_H
-
+#endif // STATEVAL_PRIVATE_H

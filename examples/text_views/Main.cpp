@@ -27,17 +27,17 @@ Main::Main ()
   BasicConfigurator::configure();
 #endif // HAVE_LOG4CXX
   
-  StateMachine sm ("smxml");
+  /*StateMachine sm ("smxml");
   
   //sm.load (NULL, searchDataDir () + "/text_sm/");
   sm.load (NULL, searchDataDir () + "/text_smxml/test.smxml");
   
   StateMachineThread smThread (sm);
   
-  smThread.start ();
+  smThread.start ();*/
   
   StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
-  stateMachineAccess.init (sm, smThread);
+  //stateMachineAccess.init (sm, smThread);
 
   // create an input thread
   // yes, I know an input thread isn't really needed here.
@@ -45,7 +45,7 @@ Main::Main ()
   InputThread iThread (stateMachineAccess);
   iThread.start ();
   
-  sm.start ();
+  //sm.start ();
   
   // inital event
   stateMachineAccess.pushEvent ("HK_NAV");

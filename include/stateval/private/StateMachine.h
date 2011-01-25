@@ -6,9 +6,9 @@
 #include <queue>
 
 /* local */
-#include "private/State.h"
-#include "private/Loader.h"
-#include "Context.h"
+#include "State.h"
+#include "Loader.h"
+#include "stateval/Context.h"
 
 /* forward declarations */
 
