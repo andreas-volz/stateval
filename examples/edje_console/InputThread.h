@@ -8,19 +8,19 @@
 #include <stateval/private/Thread.h>
 
 /* forward declarations */
-class StateMachineAccess;
+class StateMachineAccessor;
 
 class InputThread : public Threading::Thread
 {
 public:
-  InputThread (StateMachineAccess &smAccess);
+  InputThread (StateMachineAccessor &smAccess);
 
 private:
   void run ();
   void updateEvent (int missedEvents);
   
   bool mRunning;
-  StateMachineAccess *mSMAccess;
+  StateMachineAccessor *mSMAccess;
 };
 
 #endif // INPUT_THREAD_H

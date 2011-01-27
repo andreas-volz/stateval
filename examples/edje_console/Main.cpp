@@ -61,18 +61,18 @@ Main::Main (int argc, const char **argv) :
   EdjeContext edjeContext (mWindow.getCanvas());
   edjeContext.setResolution (initialWindowSize);
   
-  StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
-  stateMachineAccess.load ("smxml", searchDataDir () + "/edje_smxml/test.smxml", &edjeContext);
+  StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
+  StateMachineAccessor.load ("smxml", searchDataDir () + "/edje_smxml/test.smxml", &edjeContext);
 
-  stateMachineAccess.start ();
+  StateMachineAccessor.start ();
 
   // create an input thread
-  InputThread iThread (stateMachineAccess);
+  InputThread iThread (StateMachineAccessor);
   iThread.start ();
   
   // inital event
   // TODO Ecorexx::Job
-  stateMachineAccess.pushEvent ("HK_NAV");
+  StateMachineAccessor.pushEvent ("HK_NAV");
 
   mWindow.show();
 

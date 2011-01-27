@@ -4,7 +4,7 @@
 
 /* Project */
 #include "stateval/private/FireEventAction.h"
-#include "stateval/StateMachineAccess.h"
+#include "stateval/StateMachineAccessor.h"
 
 /* STD */
 #include <iostream>
@@ -18,6 +18,6 @@ FireEventAction::FireEventAction (int event) :
 
 void FireEventAction::run () const
 {
-  StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
-  stateMachineAccess.pushEvent (mEvent);
+  StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
+  StateMachineAccessor.pushEvent (mEvent);
 }

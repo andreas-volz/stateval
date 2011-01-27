@@ -4,7 +4,7 @@
 
 /* Project */
 #include "InputThread.h"
-#include <stateval/StateMachineAccess.h>
+#include <stateval/StateMachineAccessor.h>
 
 /* STD */
 #include <iostream>
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-InputThread::InputThread (StateMachineAccess &smAccess) :
+InputThread::InputThread (StateMachineAccessor &smAccess) :
   mRunning (true),
   mSMAccess (&smAccess)
 {

@@ -323,7 +323,7 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
 {
   if (source != "stateval")
   {
-    StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
+    StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
     
     LOG4CXX_DEBUG (logger, "allFunc: " << emmision << ", " << source);
     string event ("edje," + source + "," + emmision);
@@ -332,10 +332,10 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
     // when I do this it leads into freezes as the invisible signal doesn't come
     //if (groupState != Realized) return;
     
-    if (stateMachineAccess.findMapingEvent (event) != -1)
+    if (StateMachineAccessor.findMapingEvent (event) != -1)
     {
-      LOG4CXX_DEBUG (logger, "mStateMachineAccess->pushEvent");
-      stateMachineAccess.pushEvent (event);
+      LOG4CXX_DEBUG (logger, "mStateMachineAccessor->pushEvent");
+      StateMachineAccessor.pushEvent (event);
     }
   }
 }
@@ -344,11 +344,11 @@ void EdjeView::pushEvent (int event)
 {
   if (groupState == Realized)
   {
-    StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
+    StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
     
-    static const int VIEW_UPDATE_EVENT = stateMachineAccess.findMapingEvent ("VIEW_UPDATE");
+    static const int VIEW_UPDATE_EVENT = StateMachineAccessor.findMapingEvent ("VIEW_UPDATE");
     
-    string eventString = stateMachineAccess.findMapingEvent (event);
+    string eventString = StateMachineAccessor.findMapingEvent (event);
 
     LOG4CXX_DEBUG (logger, "EdjeView::smEvents: " << event << " / " << eventString);
 

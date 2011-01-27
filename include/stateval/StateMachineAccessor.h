@@ -1,5 +1,5 @@
-#ifndef STATE_MACHINE_ACCESS_H
-#define STATE_MACHINE_ACCESS_H
+#ifndef STATE_MACHINE_ACCESSOR_H
+#define STATE_MACHINE_ACCESSOR_H
 
 /* STD */
 #include <string>
@@ -15,10 +15,10 @@
  */
 
 // Singleton class
-class StateMachineAccess
+class StateMachineAccessor
 {
 public:
-  static StateMachineAccess& instance ();
+  static StateMachineAccessor& getInstance ();
   
   void load (const std::string &loader, const std::string &file, Context *context);
 
@@ -39,12 +39,12 @@ public:
   bool isInitialized ();
   
 private:
-  StateMachineAccess () {}
-  StateMachineAccess (const StateMachineAccess&);
-  virtual ~StateMachineAccess () {};
+  StateMachineAccessor () {}
+  StateMachineAccessor (const StateMachineAccessor&);
+  virtual ~StateMachineAccessor () {};
   
   StateMachine *mSM;
   StateMachineThread *mSMThread;
 };
 
-#endif // STATE_MACHINE_ACCESS_H
+#endif // STATE_MACHINE_ACCESSOR_H

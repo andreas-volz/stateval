@@ -12,7 +12,7 @@
 
 /* forward declarations */
 
-// the functions for the state machine aren't synchronized. Use StateMachineAccess instead!!!
+// the functions for the state machine aren't synchronized. Use StateMachineAccessor instead!!!
 class StateMachine
 {
 public:  

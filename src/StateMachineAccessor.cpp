@@ -3,38 +3,38 @@
 #endif
 
 /* Project */
-#include "stateval/StateMachineAccess.h"
+#include "stateval/StateMachineAccessor.h"
 
 /* STD */
 #include <iostream>
 
 using namespace std;
 
-StateMachineAccess &StateMachineAccess::instance ()
+StateMachineAccessor &StateMachineAccessor::getInstance ()
 {
-  static StateMachineAccess _instance;
+  static StateMachineAccessor _instance;
   return _instance;
 }
 
-void StateMachineAccess::load (const std::string &loader, const std::string &file, Context *context)
+void StateMachineAccessor::load (const std::string &loader, const std::string &file, Context *context)
 {
   mSM = new StateMachine (loader);
   mSMThread = new StateMachineThread (*mSM);
   mSM->load (context, file);
 }
 
-void StateMachineAccess::start ()
+void StateMachineAccessor::start ()
 {
   mSMThread->start (); 
   mSM->start ();
 }
 
-bool StateMachineAccess::isInitialized ()
+bool StateMachineAccessor::isInitialized ()
 {
   return (mSM && mSMThread);
 }
 
-void StateMachineAccess::pushEvent (int event)
+void StateMachineAccessor::pushEvent (int event)
 {
   if (isInitialized ())
   {
@@ -46,7 +46,7 @@ void StateMachineAccess::pushEvent (int event)
   }
 }
 
-void StateMachineAccess::pushEvent (const std::string &event)
+void StateMachineAccessor::pushEvent (const std::string &event)
 {
   if (isInitialized ())
   {
@@ -58,7 +58,7 @@ void StateMachineAccess::pushEvent (const std::string &event)
   }
 }
 
-int StateMachineAccess::findMapingEvent (const std::string &event)
+int StateMachineAccessor::findMapingEvent (const std::string &event)
 {
   int ret = -1;
   if (isInitialized ())
@@ -73,7 +73,7 @@ int StateMachineAccess::findMapingEvent (const std::string &event)
   return ret;
 }
 
-std::string StateMachineAccess::findMapingEvent (int event)
+std::string StateMachineAccessor::findMapingEvent (int event)
 {
   string ret;
   if (isInitialized ())
@@ -88,7 +88,7 @@ std::string StateMachineAccess::findMapingEvent (int event)
   return "";
 }
 
-void StateMachineAccess::connect (int event, const SignalSlot& slot)
+void StateMachineAccessor::connect (int event, const SignalSlot& slot)
 {
   if (isInitialized ())
   {
@@ -100,7 +100,7 @@ void StateMachineAccess::connect (int event, const SignalSlot& slot)
   }
 }
 
-void StateMachineAccess::connect (const std::string &event, const SignalSlot& slot)
+void StateMachineAccessor::connect (const std::string &event, const SignalSlot& slot)
 {
   if (isInitialized ())
   {
@@ -112,7 +112,7 @@ void StateMachineAccess::connect (const std::string &event, const SignalSlot& sl
   }
 }
 
-void StateMachineAccess::connect (const SignalSlot& slot)
+void StateMachineAccessor::connect (const SignalSlot& slot)
 {
   if (isInitialized ())
   {
@@ -124,7 +124,7 @@ void StateMachineAccess::connect (const SignalSlot& slot)
   }
 }
 
-void StateMachineAccess::disconnect (int event)
+void StateMachineAccessor::disconnect (int event)
 {
   if (isInitialized ())
   {
@@ -136,7 +136,7 @@ void StateMachineAccess::disconnect (int event)
   }
 }
 
-void StateMachineAccess::disconnectAll ()
+void StateMachineAccessor::disconnectAll ()
 {
   if (isInitialized ())
   {

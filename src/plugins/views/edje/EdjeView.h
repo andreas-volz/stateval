@@ -15,7 +15,7 @@
 #include <edjexx/Edjexx.h>
 
 /* forward declarations */
-class StateMachineAccess;
+class StateMachineAccessor;
 class EdjeContext;
 
 static bool initialized = false;

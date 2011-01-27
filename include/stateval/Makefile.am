@@ -2,7 +2,7 @@
 libstateval_HEADERS = \
 	GlobalVariables.h     \
 	stateval.h     \
-	StateMachineAccess.h     \
+	StateMachineAccessor.h     \
 	Variable.h     \
 	Context.h
 

@@ -36,19 +36,19 @@ Main::Main ()
   
   smThread.start ();*/
   
-  StateMachineAccess &stateMachineAccess (StateMachineAccess::instance ());
-  //stateMachineAccess.init (sm, smThread);
+  StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
+  //StateMachineAccessor.init (sm, smThread);
 
   // create an input thread
   // yes, I know an input thread isn't really needed here.
   // but as it was done like this in the edje_console example...
-  InputThread iThread (stateMachineAccess);
+  InputThread iThread (StateMachineAccessor);
   iThread.start ();
   
   //sm.start ();
   
   // inital event
-  stateMachineAccess.pushEvent ("HK_NAV");
+  StateMachineAccessor.pushEvent ("HK_NAV");
 
   // stupid wait loop
   for (;;)
