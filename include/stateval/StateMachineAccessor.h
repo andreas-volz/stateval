@@ -4,9 +4,14 @@
 /* STD */
 #include <string>
 
-/* Project */
-#include "stateval/private/StateMachine.h"
-#include "stateval/private/StateMachineThread.h"
+/* local */
+#include "Context.h"
+
+/* SIGC */
+#include <sigc++/sigc++.h>
+
+typedef sigc::signal<void, int> SignalSignal;
+typedef sigc::slot1<void, int> SignalSlot;
 
 /* forward declarations */
 
@@ -19,6 +24,8 @@ class StateMachineAccessor
 {
 public:
   static StateMachineAccessor& getInstance ();
+
+  static void destroy ();
   
   void load (const std::string &loader, const std::string &file, Context *context);
 
@@ -39,12 +46,13 @@ public:
   bool isInitialized ();
   
 private:
-  StateMachineAccessor () {}
+  StateMachineAccessor ();
   StateMachineAccessor (const StateMachineAccessor&);
-  virtual ~StateMachineAccessor () {};
-  
-  StateMachine *mSM;
-  StateMachineThread *mSMThread;
+  virtual ~StateMachineAccessor ();
+
+  static StateMachineAccessor *mInstance;
+
+  struct StateMachineAccessorPImpl *mPImpl;
 };
 
 #endif // STATE_MACHINE_ACCESSOR_H

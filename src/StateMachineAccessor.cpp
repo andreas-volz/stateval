@@ -2,43 +2,72 @@
 #include <config.h>
 #endif
 
-/* Project */
+/* local */
 #include "stateval/StateMachineAccessor.h"
+#include "stateval/private/StateMachine.h"
+#include "stateval/private/StateMachineThread.h"
+#include "StateMachineAccessorPImpl.h"
 
 /* STD */
 #include <iostream>
 
 using namespace std;
 
-StateMachineAccessor &StateMachineAccessor::getInstance ()
+StateMachineAccessor *StateMachineAccessor::mInstance = NULL;
+
+StateMachineAccessor::StateMachineAccessor () :
+  mPImpl (new StateMachineAccessorPImpl ())
 {
-  static StateMachineAccessor _instance;
-  return _instance;
+
 }
 
+StateMachineAccessor::~StateMachineAccessor ()
+{
+  delete mPImpl;
+}
+
+void StateMachineAccessor::destroy ()
+{
+  if (mInstance)
+  {
+    delete mInstance;
+  }
+  mInstance = NULL;
+}
+
+StateMachineAccessor &StateMachineAccessor::getInstance ()
+{
+  if (!mInstance)
+  {
+    mInstance = new StateMachineAccessor ();
+  }
+  return *mInstance;
+}
+
+// TODO: unload before load?
 void StateMachineAccessor::load (const std::string &loader, const std::string &file, Context *context)
 {
-  mSM = new StateMachine (loader);
-  mSMThread = new StateMachineThread (*mSM);
-  mSM->load (context, file);
+  mPImpl->mSM = new StateMachine (loader);
+  mPImpl->mSMThread = new StateMachineThread (*mPImpl->mSM);
+  mPImpl->mSM->load (context, file);
 }
 
 void StateMachineAccessor::start ()
 {
-  mSMThread->start (); 
-  mSM->start ();
+  mPImpl->mSMThread->start (); 
+  mPImpl->mSM->start ();
 }
 
 bool StateMachineAccessor::isInitialized ()
 {
-  return (mSM && mSMThread);
+  return (mPImpl->mSM && mPImpl->mSMThread);
 }
 
 void StateMachineAccessor::pushEvent (int event)
 {
   if (isInitialized ())
   {
-    mSMThread->pushEvent (event);
+    mPImpl->mSMThread->pushEvent (event);
   }
   else
   {
@@ -50,7 +79,7 @@ void StateMachineAccessor::pushEvent (const std::string &event)
 {
   if (isInitialized ())
   {
-    mSMThread->pushEvent (event);
+    mPImpl->mSMThread->pushEvent (event);
   }
   else
   {
@@ -63,7 +92,7 @@ int StateMachineAccessor::findMapingEvent (const std::string &event)
   int ret = -1;
   if (isInitialized ())
   {
-    ret = mSM->findMapingEvent (event);
+    ret = mPImpl->mSM->findMapingEvent (event);
   }
   else
   {
@@ -78,7 +107,7 @@ std::string StateMachineAccessor::findMapingEvent (int event)
   string ret;
   if (isInitialized ())
   {
-    return ret = mSM->findMapingEvent (event);
+    return ret = mPImpl->mSM->findMapingEvent (event);
   }
   else
   {
@@ -92,7 +121,7 @@ void StateMachineAccessor::connect (int event, const SignalSlot& slot)
 {
   if (isInitialized ())
   {
-    mSMThread->connect (event, slot);
+    mPImpl->mSMThread->connect (event, slot);
   }
   else
   {
@@ -116,7 +145,7 @@ void StateMachineAccessor::connect (const SignalSlot& slot)
 {
   if (isInitialized ())
   {
-    mSMThread->connect (slot);
+    mPImpl->mSMThread->connect (slot);
   }
   else
   {
@@ -128,7 +157,7 @@ void StateMachineAccessor::disconnect (int event)
 {
   if (isInitialized ())
   {
-    mSMThread->disconnect (event);
+    mPImpl->mSMThread->disconnect (event);
   }
   else
   {
@@ -140,7 +169,7 @@ void StateMachineAccessor::disconnectAll ()
 {
   if (isInitialized ())
   {
-    mSMThread->disconnectAll ();
+    mPImpl->mSMThread->disconnectAll ();
   }
   else
   {

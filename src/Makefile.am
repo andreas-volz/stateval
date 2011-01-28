@@ -43,7 +43,8 @@ libstateval_la_SOURCES = \
 	searchFile.cpp \
 	searchFile.h \
 	ChangeVariableAction.cpp \
-	Logger.h
+	Logger.h \
+	StateMachineAccessorPImpl.h
 
 libstateval_la_CXXFLAGS = \
 	-I \

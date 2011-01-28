@@ -27,25 +27,16 @@ Main::Main ()
   BasicConfigurator::configure();
 #endif // HAVE_LOG4CXX
   
-  /*StateMachine sm ("smxml");
-  
-  //sm.load (NULL, searchDataDir () + "/text_sm/");
-  sm.load (NULL, searchDataDir () + "/text_smxml/test.smxml");
-  
-  StateMachineThread smThread (sm);
-  
-  smThread.start ();*/
-  
   StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
-  //StateMachineAccessor.init (sm, smThread);
+  StateMachineAccessor.load ("smxml", searchDataDir () + "/text_smxml/test.smxml", NULL);
 
+  StateMachineAccessor.start ();
+  
   // create an input thread
   // yes, I know an input thread isn't really needed here.
   // but as it was done like this in the edje_console example...
   InputThread iThread (StateMachineAccessor);
   iThread.start ();
-  
-  //sm.start ();
   
   // inital event
   StateMachineAccessor.pushEvent ("HK_NAV");

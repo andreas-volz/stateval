@@ -6,14 +6,9 @@
 #include <string>
 #include <cassert>
 
-/* SIGC */
-#include <sigc++/sigc++.h>
-
-/* Project */
+/* local */
 #include "Thread.h"
-
-typedef sigc::signal<void, int> SignalSignal;
-typedef sigc::slot1<void, int> SignalSlot;
+#include "stateval/StateMachineAccessor.h" 
 
 /* forward declarations */
 class StateMachine;
