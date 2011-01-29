@@ -15,7 +15,6 @@
 #include "stateval/private/HistoryState.h"
 #include "stateval/private/DecisionState.h"
 #include "stateval/private/ViewState.h"
-#include "Logger.h"
 #include "MemoryUtil.h"
 
 #include "stringUtil.h"
@@ -23,16 +22,15 @@
 
 using namespace std;
 
-static Logger logger ("stateval.Loader");
-
 Loader::Loader () :
+  mLogger ("stateval.Loader"),
   eventCounter (0)
 {
 }
 
 Loader::~Loader ()
 {
-  LOG4CXX_TRACE (logger, "~Loader");
+  LOG4CXX_TRACE (mLogger, "~Loader");
 
   // -> Free all statemachine data containers at destruction time
   delete_stl_container (mActionList);
@@ -88,7 +86,7 @@ int Loader::findMapingEvent (const std::string &event)
     return mapEvent;
   }
 
-  LOG4CXX_DEBUG (logger, "StateMachine::findMapingEvent: try to find not existing event: " << event);
+  LOG4CXX_DEBUG (mLogger, "StateMachine::findMapingEvent: try to find not existing event: " << event);
 
   return -1;
 }
@@ -114,21 +112,21 @@ View *Loader::loadView (const std::string &viewPlugin, Context *context, const s
 
     // TODO: correct exception handling!
     
-    LOG4CXX_INFO (logger, "Type: " <<  view->getType ());
-    LOG4CXX_INFO (logger, "Major Version: " << view->getMajorVersion ());
-    LOG4CXX_INFO (logger, "Minor Version: " << view->getMinorVersion ());
+    LOG4CXX_INFO (mLogger, "Type: " <<  view->getType ());
+    LOG4CXX_INFO (mLogger, "Major Version: " << view->getMajorVersion ());
+    LOG4CXX_INFO (mLogger, "Minor Version: " << view->getMinorVersion ());
   }
   catch (pluxx::PluginTypeMismatchException typeEx)
   {
-    LOG4CXX_FATAL (logger, "catched an PluginTypeMismatchException exception...");
-    LOG4CXX_FATAL (logger, "Loader Type: " << typeEx.getLoaderType ());
-    LOG4CXX_FATAL (logger, "Plugin Type: " << typeEx.getPluginType ());
+    LOG4CXX_FATAL (mLogger, "catched an PluginTypeMismatchException exception...");
+    LOG4CXX_FATAL (mLogger, "Loader Type: " << typeEx.getLoaderType ());
+    LOG4CXX_FATAL (mLogger, "Plugin Type: " << typeEx.getPluginType ());
   }
   catch (pluxx::PluginMajorVersionMismatchException verEx)
   {
-    LOG4CXX_FATAL (logger, "catched an PluginMajorVersionMismatchException exception...");
-    LOG4CXX_FATAL (logger, "Loader Major Version: " << verEx.getLoaderMajorVersion ());
-    LOG4CXX_FATAL (logger, "Plugin Major Version: " << verEx.getPluginMajorVersion ());
+    LOG4CXX_FATAL (mLogger, "catched an PluginMajorVersionMismatchException exception...");
+    LOG4CXX_FATAL (mLogger, "Loader Major Version: " << verEx.getLoaderMajorVersion ());
+    LOG4CXX_FATAL (mLogger, "Plugin Major Version: " << verEx.getPluginMajorVersion ());
   }
 
   return view;

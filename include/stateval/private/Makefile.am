@@ -17,7 +17,8 @@ libstateval_private_HEADERS = \
 	stateval_private.h             \
 	StateMachine.h             \
 	StateMachineThread.h             \
-	Thread.h
+	Thread.h             \
+	Logger.h
 
 libstateval_privatedir = \
 	$(pkgincludedir)

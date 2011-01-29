@@ -9,6 +9,9 @@
 /* pluxx */
 #include <pluxx/Plugin.h>
 
+/* local */
+#include "Logger.h"
+
 class Widget
 {
 public:
@@ -19,6 +22,7 @@ public:
   const std::string getVariable () const;
   
 private:
+  Logger mLogger;
   std::string mName;
   std::string mVariable;
 };
@@ -47,6 +51,7 @@ public:
   WidgetIterator endOfWidgets ()   {return mWidgetVariableList.end ();}
 
 private:
+  Logger mLogger;
   std::map <int, int> mEventMap;
   std::list <Widget> mWidgetVariableList;
 };

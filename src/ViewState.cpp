@@ -4,17 +4,15 @@
 
 /* local */
 #include "stateval/private/ViewState.h"
-#include "Logger.h"
 
 /* STD */
 #include <iostream>
 
 using namespace std;
 
-static Logger logger ("stateval.ViewState");
-
 ViewState::ViewState (CompoundState *parentState, View &view) :
   SimpleState (parentState),
+  mLogger ("stateval.ViewState"),
   mView (&view)
 {
 }
@@ -45,7 +43,7 @@ void ViewState::beforeTransitionCode ()
   }
   else
   {
-    LOG4CXX_DEBUG (logger, "State has no view attached");
+    LOG4CXX_DEBUG (mLogger, "State has no view attached");
   }
 }
 
@@ -59,7 +57,7 @@ void ViewState::afterTransitionCode ()
   }
   else
   {
-    LOG4CXX_DEBUG (logger, "State has no view attached");
+    LOG4CXX_DEBUG (mLogger, "State has no view attached");
   }
 }
 

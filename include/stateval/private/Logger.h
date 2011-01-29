@@ -1,9 +1,9 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-// TODO: put this into configure.ac
-//#define HAVE_LOG4CXX
-//#define LOGGING_NULL
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #ifdef HAVE_LOG4CXX
 /* log4cxx */

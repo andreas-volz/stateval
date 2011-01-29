@@ -5,11 +5,12 @@
 /* local */
 #include "stateval/Variable.h"
 #include "MemoryUtil.h"
-#include "Logger.h"
+#include "stateval/private/Logger.h" // TODO: don't use this here
 
 /* STD */
 #include <cassert>
 
+// TODO: move into each specific variable class and PImpl
 static Logger logger ("stateval.Variable");
 
 AbstractVariable::AbstractVariable (Type type) :

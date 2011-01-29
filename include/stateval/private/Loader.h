@@ -7,6 +7,7 @@
 
 /* local */
 #include "State.h"
+#include "Logger.h"
 
 /* pluxx */
 #include <pluxx/Plugin.h>
@@ -54,6 +55,7 @@ protected:
   // <-
 
 private:
+  Logger mLogger;
   int eventCounter;
 };
 

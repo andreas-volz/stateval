@@ -1,9 +1,10 @@
 #ifndef VIEW_STATE_H
 #define VIEW_STATE_H
 
-/* Project */
+/* local */
 #include "SimpleState.h"
 #include "View.h"
+#include "Logger.h"
 
 class ViewState : public SimpleState
 {
@@ -25,6 +26,8 @@ private:
   
   void mapEvent (int &inOutEvent);
 
+  Logger mLogger;
+    
   // this memory doesn't need to be freed as it's handled in the Loader!
   View *mView;
 };

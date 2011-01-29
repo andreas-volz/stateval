@@ -5,7 +5,6 @@
 /* local */
 #include "stateval/private/StateMachineThread.h"
 #include "stateval/private/StateMachine.h"
-#include "Logger.h"
 #include "MemoryUtil.h"
 
 /* STD */
@@ -16,10 +15,9 @@
 
 using namespace std;
 
-static Logger logger ("stateval.StateMachineThread");
-
 StateMachineThread::StateMachineThread (StateMachine &sm) :
   Threading::Thread(),
+  mLogger ("stateval.StateMachineThread"),
   mEventMutex(),
   mEventsInQueue(),
   mSM(&sm),
@@ -30,23 +28,23 @@ StateMachineThread::StateMachineThread (StateMachine &sm) :
 
 StateMachineThread::~StateMachineThread ()
 {
-  LOG4CXX_TRACE (logger, "~StateMachineThread");
+  LOG4CXX_TRACE (mLogger, "~StateMachineThread");
 
   
   cancel ();
 
-  LOG4CXX_TRACE (logger, "~StateMachineThread (canceled)");
+  LOG4CXX_TRACE (mLogger, "~StateMachineThread (canceled)");
   
   join ();
 
-  LOG4CXX_TRACE (logger, "~StateMachineThread (joined)");
+  LOG4CXX_TRACE (mLogger, "~StateMachineThread (joined)");
 }
 
 void StateMachineThread::start ()
 {
-  LOG4CXX_TRACE (logger, "+StateMachineThread::start ()");
+  LOG4CXX_TRACE (mLogger, "+StateMachineThread::start ()");
   Thread::start();
-  LOG4CXX_TRACE (logger, "-StateMachineThread::start ()");
+  LOG4CXX_TRACE (mLogger, "-StateMachineThread::start ()");
 }
 
 void StateMachineThread::signal_cancel() // from thread
@@ -56,38 +54,38 @@ void StateMachineThread::signal_cancel() // from thread
 
 void StateMachineThread::run ()
 {
-  LOG4CXX_TRACE (logger, "+run");
+  LOG4CXX_TRACE (mLogger, "+run");
   
   while (isRunning())
   {
-    LOG4CXX_TRACE (logger, "+run::running while");
+    LOG4CXX_TRACE (mLogger, "+run::running while");
 
     mEventMutex.lock ();
 
     // this waiting loop runs until someone pushed an event to the event queue
     while (!mSM->hasEvents ())
     {
-      LOG4CXX_TRACE (logger, "!mSM->eventQueue.empty()");
+      LOG4CXX_TRACE (mLogger, "!mSM->eventQueue.empty()");
       // here is the point the loop waits if no event is in the event queue
       mEventsInQueue.wait (mEventMutex);
       if (!isRunning())
       {
           mEventMutex.unlock ();
-          LOG4CXX_TRACE (logger, "!isRunning()");
+          LOG4CXX_TRACE (mLogger, "!isRunning()");
           return;
       }
     }
-    LOG4CXX_TRACE (logger, "mSM->eventQueue.empty()");
+    LOG4CXX_TRACE (mLogger, "mSM->eventQueue.empty()");
 
     int event = mSM->getNextEvent ();
     mEventMutex.unlock ();
   
-    LOG4CXX_DEBUG (logger, "+EventQueue size: " << mSM->getEventCount ());
+    LOG4CXX_DEBUG (mLogger, "+EventQueue size: " << mSM->getEventCount ());
 
     mSM->evaluateState (event);
   
     // pop element after working
-    LOG4CXX_DEBUG (logger, "-EventQueue size: " << mSM->getEventCount ());
+    LOG4CXX_DEBUG (mLogger, "-EventQueue size: " << mSM->getEventCount ());
 
         // emit event signals
     multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
@@ -98,12 +96,12 @@ void StateMachineThread::run ()
       // emit also multible signals...
       for ( ; findResult != lastElement; ++findResult)
       {
-        LOG4CXX_DEBUG (logger, "call event '" << event << "' to app");
+        LOG4CXX_DEBUG (mLogger, "call event '" << event << "' to app");
         SignalSignal *signal = (*findResult).second;
         signal->emit (event);
       }
     }
-    LOG4CXX_TRACE (logger, "-run::running while");
+    LOG4CXX_TRACE (mLogger, "-run::running while");
 
     // emit the signal broadcast
     // this is e.g. useful to dispatch signals to another thread
@@ -113,7 +111,7 @@ void StateMachineThread::run ()
     mSM->popEvent ();
     mEventMutex.unlock ();
     
-    LOG4CXX_TRACE (logger, "-run");
+    LOG4CXX_TRACE (mLogger, "-run");
   }
 }
 

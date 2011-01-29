@@ -13,6 +13,7 @@
 
 using namespace std;
 
+/* static member variable initialization */
 StateMachineAccessor *StateMachineAccessor::mInstance = NULL;
 
 StateMachineAccessor::StateMachineAccessor () :

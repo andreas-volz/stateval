@@ -9,6 +9,7 @@
 /* local */
 #include "Thread.h"
 #include "stateval/StateMachineAccessor.h" 
+#include "Logger.h"
 
 /* forward declarations */
 class StateMachine;
@@ -38,6 +39,8 @@ private:
   virtual void signal_cancel(); // from Thread
 
   void updateEvent (int missedEvents);
+
+  Logger mLogger;
     
   Threading::Mutex mEventMutex;
   Threading::Condition mEventsInQueue;

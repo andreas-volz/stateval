@@ -4,16 +4,14 @@
 
 /* local */
 #include "stateval/private/View.h"
-#include "Logger.h"
 
 /* STD */
 #include <iostream>
 
-static Logger logger ("stateval.View");
-
 using namespace std;
 
 Widget::Widget (const std::string &name, const std::string &variable) :
+  mLogger ("stateval.Widget"),
   mName (name),
   mVariable (variable)
 {
@@ -29,7 +27,8 @@ const std::string Widget::getVariable () const
   return mVariable;
 }
 
-View::View ()
+View::View () :
+  mLogger ("stateval.View")
 {
 }
 
@@ -44,7 +43,7 @@ void View::mapEvent (int &inOutEvent)
   if (iter != mEventMap.end ())
   {
     int &mapEvent = iter->second;
-    LOG4CXX_DEBUG (logger, "map event: " << iter->first << " : " << iter->second);
+    LOG4CXX_DEBUG (mLogger, "map event: " << iter->first << " : " << iter->second);
     inOutEvent = mapEvent;
   } 
 }

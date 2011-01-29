@@ -79,6 +79,7 @@ Main::Main (int argc, const char **argv) :
   // Enter the application main loop
   mApp.exec();
 
+  StateMachineAccessor::destroy ();
   // <-- EFL
 }
 

@@ -9,6 +9,7 @@
 #include "State.h"
 #include "Loader.h"
 #include "stateval/Context.h"
+#include "Logger.h"
 
 /* forward declarations */
 
@@ -37,6 +38,7 @@ public:
   int getNextEvent ();
 
 private:
+  Logger mLogger;
   State *searchHierarchie (int event);
   bool walkDown (int event);
 

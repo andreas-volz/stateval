@@ -46,6 +46,8 @@ Main::Main ()
   {
     sleep (1);
   }
+
+  StateMachineAccessor::destroy ();
 }
 
 int main (int argc, char **argv)

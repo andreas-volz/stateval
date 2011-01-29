@@ -5,7 +5,7 @@
 /* local */
 #include "stateval/GlobalVariables.h"
 #include "stateval/Variable.h"
-#include "Logger.h"
+#include "stateval/private/Logger.h"
 #include "MemoryUtil.h"
 
 /* STD */
@@ -13,7 +13,8 @@
 
 using namespace std;
 
-Logger logger ("stateval.GlobalVariables");
+// TODO: move to header...
+static Logger logger ("stateval.GlobalVariables");
 
 // TODO: redesign complete access and locking design!_
 // TODO: think about if the Globals should be managed by Loader
