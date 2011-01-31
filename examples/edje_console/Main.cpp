@@ -14,8 +14,8 @@
 #include "InputThread.h"
 #include "Main.h"
 
-#ifdef HAVE_LOG4CXX
 /* log4cxx */
+#ifdef HAVE_LOG4CXX
 #include "log4cxx/logger.h"
 #include "log4cxx/basicconfigurator.h"
 #include "log4cxx/propertyconfigurator.h"

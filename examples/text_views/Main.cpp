@@ -8,10 +8,12 @@
 #include "InputThread.h"
 #include "Main.h"
 
-#ifdef HAVE_LOG4CXX
 /* log4cxx */
-#include <log4cxx/logger.h>
+#ifdef HAVE_LOG4CXX
+#include "log4cxx/logger.h"
 #include "log4cxx/basicconfigurator.h"
+#include "log4cxx/propertyconfigurator.h"
+#include "log4cxx/helpers/exception.h"
 #endif // HAVE_LOG4CXX
 
 using namespace std;
@@ -24,7 +26,7 @@ using namespace log4cxx::helpers;
 Main::Main ()
 {
 #ifdef HAVE_LOG4CXX
-  BasicConfigurator::configure();
+  PropertyConfigurator::configure (searchDataDir () + "/logging.prop");
 #endif // HAVE_LOG4CXX
   
   StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
