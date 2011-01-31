@@ -227,8 +227,7 @@ void XMLLoader::parseVariablesNode (const xmlpp::Node * node)
           const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
           const xmlpp::Attribute *name_attribute = nodeElement->get_attribute ("name");
           
-          GlobalVariables &global = GlobalVariables::instance ();
-          global.addVariable (name_attribute->get_value (), *var);
+          addVariable (name_attribute->get_value (), *var);
         }
       }
     }
@@ -414,8 +413,7 @@ void XMLLoader::parseConditionNode (const xmlpp::Node * node)
       LOG4CXX_DEBUG (logger, "Attribute operation = " << variable2_attribute->get_value ());
     }
 
-    GlobalVariables &global = GlobalVariables::instance ();
-    AbstractVariable *av = global.getVariable (variable2_attribute->get_value ());
+    AbstractVariable *av = getVariable (variable2_attribute->get_value ());
     assert (av);
     
     Condition *cond = new Condition ();
@@ -490,8 +488,7 @@ void XMLLoader::parseActionNode (const xmlpp::Node * node)
     }
     else if (type_attribute->get_value () == "ChangeVariableAction")
     {
-      GlobalVariables &global = GlobalVariables::instance ();
-      AbstractVariable *av = global.getVariable (copy_attribute->get_value ());
+      AbstractVariable *av = getVariable (copy_attribute->get_value ());
       assert (av);
       
       action = new ChangeVariableAction (variable_attribute->get_value (), av);

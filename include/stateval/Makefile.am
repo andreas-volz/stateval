@@ -1,6 +1,5 @@
 
 libstateval_HEADERS = \
-	GlobalVariables.h     \
 	stateval.h     \
 	StateMachineAccessor.h     \
 	Variable.h     \

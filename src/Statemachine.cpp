@@ -227,3 +227,18 @@ int StateMachine::getNextEvent ()
 {
   return eventQueue.front ();
 }
+
+void StateMachine::addVariable (const std::string &var, AbstractVariable &av)
+{
+  mLoader->addVariable (var, av);
+}
+
+AbstractVariable *StateMachine::getVariable (const std::string &str)
+{
+  mLoader->getVariable (str);
+}
+
+void StateMachine::changeVariable (const std::string &str, AbstractVariable &av)
+{
+  mLoader->changeVariable (str, av);
+}

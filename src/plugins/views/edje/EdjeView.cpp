@@ -131,7 +131,7 @@ void EdjeView::updateContent ()
   if (!mEdje)
     return;
   
-  GlobalVariables &global = GlobalVariables::instance ();
+  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
   
   for (WidgetIterator wl_it = beginOfWidgets ();
        wl_it != endOfWidgets ();
@@ -139,7 +139,7 @@ void EdjeView::updateContent ()
   {
     const Widget &w = *wl_it;
     
-    AbstractVariable *val = global.getVariable (w.getVariable ());
+    AbstractVariable *val = stateMachineAccessor.getVariable (w.getVariable ());
     assert (val);
 
     try

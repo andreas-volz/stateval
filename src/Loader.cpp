@@ -33,6 +33,7 @@ Loader::~Loader ()
   LOG4CXX_TRACE (mLogger, "~Loader");
 
   // -> Free all statemachine data containers at destruction time
+  delete_stl_container (mVariableList);
   delete_stl_container (mActionList);
   delete_stl_container (mStateList);
 
@@ -50,10 +51,18 @@ Loader::~Loader ()
 
 void Loader::addEvent (const std::string &event)
 {
-  mEventList[event] = eventCounter;
-  mEventListIndex.push_back (event);
-    
-  ++eventCounter;
+  std::map <std::string, int>::iterator ev_it = mEventList.find (event);
+
+  if (ev_it == mEventList.end ()) // not found
+  {
+    mEventList[event] = eventCounter;
+    mEventListIndex.push_back (event);
+    ++eventCounter;
+  }
+  else
+  {
+    LOG4CXX_WARN (mLogger, "Try to add same event more than once in map: " << event);
+  }
 }
 
 void Loader::addState (State *state)
@@ -69,6 +78,42 @@ void Loader::addAction (Action *action)
 void Loader::addView (View *view)
 {
   mViewList.push_back (view);
+}
+
+void Loader::addVariable (const std::string &var, AbstractVariable &av)
+{
+  std::map <std::string, AbstractVariable*>::iterator var_it = mVariableList.find (var);
+
+  if (var_it == mVariableList.end ()) // not found
+  {
+    mVariableList[var] = &av;
+  }
+  else
+  {
+    LOG4CXX_WARN (mLogger, "Try to add same variable more than once in map: " << var);
+  }
+}
+
+AbstractVariable *Loader::getVariable (const std::string &str)
+{
+  // TODO: return NULL or exception if not found in map
+  // TODO: locking and/or copy value concept
+  AbstractVariable *av = mVariableList[str];
+  
+  return av;
+}
+
+void Loader::changeVariable (const std::string &str, AbstractVariable &av)
+{
+  //mutex.lock ();
+  // TODO: throw exception if not found in map
+  AbstractVariable *foundVar = mVariableList[str];
+  assert (foundVar);
+
+  LOG4CXX_DEBUG (mLogger, "change variable: " << str);
+  
+  foundVar->assign (&av);
+  //mutex.unlock ();
 }
 
 State *Loader::getInitialState ()

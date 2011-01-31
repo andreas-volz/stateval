@@ -4,10 +4,12 @@
 /* STD */
 #include <string>
 #include <vector>
+#include <map>
 
 /* local */
 #include "State.h"
 #include "Logger.h"
+#include "stateval/Variable.h"
 
 /* pluxx */
 #include <pluxx/Plugin.h>
@@ -31,6 +33,12 @@ public:
   void addAction (Action *action);
   
   void addView (View *view);
+
+  void addVariable (const std::string &var, AbstractVariable &av);
+
+  AbstractVariable *getVariable (const std::string &str);
+  
+  void changeVariable (const std::string &str, AbstractVariable &av);
   
   State *getInitialState ();
   
@@ -48,6 +56,7 @@ protected:
   std::vector <State*> mStateList;
   std::vector <View*> mViewList;
   std::list <Action*> mActionList;
+  std::map <std::string, AbstractVariable*> mVariableList;
 
   // ... but no need to free this as it holds no allocated types...
   std::map <std::string, int> mEventList;

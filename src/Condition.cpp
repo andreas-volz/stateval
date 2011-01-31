@@ -4,7 +4,7 @@
 
 /* local */
 #include "stateval/private/Condition.h"
-#include "stateval/GlobalVariables.h"
+#include "stateval/StateMachineAccessor.h"
 #include "stateval/Variable.h"
 
 /* STD */
@@ -22,9 +22,9 @@ Condition::~Condition ()
 
 bool Condition::evaluate () const
 {
-  GlobalVariables &global = GlobalVariables::instance ();
+  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
   
-  AbstractVariable *val = global.getVariable (mVar);
+  AbstractVariable *val = stateMachineAccessor.getVariable (mVar);
   assert (val);
 
   // TODO: not sure what happens if it compares two different variable types...

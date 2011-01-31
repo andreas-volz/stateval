@@ -10,6 +10,7 @@
 #include "Loader.h"
 #include "stateval/Context.h"
 #include "Logger.h"
+#include "stateval/Variable.h"
 
 /* forward declarations */
 
@@ -36,6 +37,12 @@ public:
   bool hasEvents ();
   unsigned int getEventCount ();
   int getNextEvent ();
+
+  void addVariable (const std::string &var, AbstractVariable &av);
+
+  AbstractVariable *getVariable (const std::string &str);
+  
+  void changeVariable (const std::string &str, AbstractVariable &av);
 
 private:
   Logger mLogger;

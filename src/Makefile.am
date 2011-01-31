@@ -22,7 +22,6 @@ libstateval_la_SOURCES = \
 	DecisionState.cpp      \
 	Exceptions.cpp      \
 	FireEventAction.cpp      \
-	GlobalVariables.cpp      \
 	HistoryState.cpp      \
 	SimpleState.cpp      \
 	State.cpp      \

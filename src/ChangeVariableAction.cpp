@@ -5,7 +5,6 @@
 /* Project */
 #include "stateval/private/ChangeVariableAction.h"
 #include "stateval/StateMachineAccessor.h"
-#include "stateval/GlobalVariables.h"
 
 /* STD */
 #include <iostream>
@@ -25,6 +24,6 @@ ChangeVariableAction::~ChangeVariableAction ()
 
 void ChangeVariableAction::run () const
 {
-  GlobalVariables &global = GlobalVariables::instance ();
-  global.changeVariable (mChangeVar, *mVar);
+  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
+  stateMachineAccessor.changeVariable (mChangeVar, *mVar);
 }

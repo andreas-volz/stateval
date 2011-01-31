@@ -6,6 +6,7 @@
 
 /* local */
 #include "Context.h"
+#include "Variable.h"
 
 /* SIGC */
 #include <sigc++/sigc++.h>
@@ -33,6 +34,12 @@ public:
   
   void pushEvent (int event);
   void pushEvent (const std::string &event);
+
+  void addVariable (const std::string &var, AbstractVariable &av);
+
+  AbstractVariable *getVariable (const std::string &str);
+  
+  void changeVariable (const std::string &str, AbstractVariable &av);
   
   int findMapingEvent (const std::string &event);
   std::string findMapingEvent (int event);

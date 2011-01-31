@@ -5,7 +5,6 @@
  * stateval library include header
  */
 
-#include "GlobalVariables.h"
 #include "StateMachineAccessor.h"
 #include "Variable.h"
 #include "Context.h"
