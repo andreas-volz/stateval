@@ -122,17 +122,17 @@ Thread::EError Thread::start()
 
 Thread::EError Thread::cancel()
 {
-  //MutexGrabber grab(m_AccessGuard);
+  MutexGrabber grab(m_AccessGuard);
   if (eRunning == m_State)
   {
     m_State = eStopping;
-    //m_AccessGuard.unlock();
+    m_AccessGuard.unlock();
     
     signal_cancel();
     
     const Thread::EError err(join());
     assert(eStopped == m_State);
-    //m_AccessGuard.lock();
+    m_AccessGuard.lock();
 
     if (eErrorOK != err)
     {
@@ -140,7 +140,7 @@ Thread::EError Thread::cancel()
       return Thread::eErrorStop;
     }
   }
-  //m_AccessGuard.unlock();
+  m_AccessGuard.unlock();
   return Thread::eErrorOK;
 }
 

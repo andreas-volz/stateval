@@ -30,7 +30,6 @@ StateMachineThread::~StateMachineThread ()
 {
   LOG4CXX_TRACE (mLogger, "~StateMachineThread");
 
-  
   cancel ();
 
   LOG4CXX_TRACE (mLogger, "~StateMachineThread (canceled)");
@@ -70,9 +69,9 @@ void StateMachineThread::run ()
       mEventsInQueue.wait (mEventMutex);
       if (!isRunning())
       {
-          mEventMutex.unlock ();
-          LOG4CXX_TRACE (mLogger, "!isRunning()");
-          return;
+        mEventMutex.unlock ();
+        LOG4CXX_TRACE (mLogger, "!isRunning()");
+        return;
       }
     }
     LOG4CXX_TRACE (mLogger, "mSM->eventQueue.empty()");

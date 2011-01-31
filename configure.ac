@@ -60,8 +60,19 @@ AC_DEFINE_UNQUOTED(PACKAGE_PLUGINS_DIR, "${packageprefix}/${packagepluginsdir}",
 AC_DEFINE_UNQUOTED(SYSTEM_PLUGINS_DIR, "${packageprefix}/${systempluginsdir}","")
 AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 
-PKG_CHECK_MODULES(EFL, evasxx eflxx edjexx ecorexx einaxx)
-AC_DEFINE(HAVE_EFL, 1,"Define to 1 if you have the EFL and EFLxx installed.")
+PKG_CHECK_MODULES([EFL], evasxx eflxx edjexx ecorexx einaxx elementaryxx,
+    [AC_DEFINE(HAVE_EFL, 1,[enables EFL plugin build])
+     AM_CONDITIONAL(HAVE_EFL, test 1=1)],
+    [AC_DEFINE(HAVE_EFL, 0, [disables EFL plugin build])
+     AM_CONDITIONAL(HAVE_EFL, test 0=1)]
+)
+
+PKG_CHECK_MODULES([XML], libxml++-2.6,
+    [AC_DEFINE(HAVE_XML, 1,[enables SMXML plugin build])
+     AM_CONDITIONAL(HAVE_XML, test 1=1)],
+    [AC_DEFINE(HAVE_XML, 0, [disables SMXML plugin build])
+     AM_CONDITIONAL(HAVE_XML, test 0=1)]
+)
 
 dnl Check for option to enable logging
 AC_MSG_CHECKING(whether to enable logging)
@@ -81,12 +92,9 @@ else
   AC_MSG_RESULT(no)
 fi
 
-
 PKG_CHECK_MODULES(SIGC, sigc++-2.0)
 PKG_CHECK_MODULES(CPPUNIT, cppunit)
 PKG_CHECK_MODULES(PLUXX, pluxx)
-PKG_CHECK_MODULES(XML, libxml++-2.6)
-PKG_CHECK_MODULES(ELEMENTARY, elementaryxx)
 
 AC_OUTPUT([
 Makefile

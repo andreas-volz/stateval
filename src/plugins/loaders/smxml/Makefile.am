@@ -1,3 +1,4 @@
+if HAVE_XML
 
 lib_LTLIBRARIES = \
 	stateval_loaders_smxml.la
@@ -30,6 +31,8 @@ AM_CPPFLAGS = \
 	$(PLUXX_CFLAGS) \
 	$(XML_CFLAGS) \
 	$(LOG4CXX_CFLAGS)
+	
+endif
 
 ## File created by the gnome-build tools
 
