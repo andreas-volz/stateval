@@ -94,16 +94,16 @@ void StateMachineAccessor::addVariable (const std::string &var, AbstractVariable
   mPImpl->mSM->addVariable (var, av);
 }
 
-AbstractVariable *StateMachineAccessor::getVariable (const std::string &str)
+AbstractVariable *StateMachineAccessor::getVariable (const std::string &var)
 {
   // TODO: locking
-  mPImpl->mSM->getVariable (str);
+  mPImpl->mSM->getVariable (var);
 }
 
-void StateMachineAccessor::changeVariable (const std::string &str, AbstractVariable &av)
+void StateMachineAccessor::changeVariable (const std::string &var, AbstractVariable &av)
 {
   // TODO: locking
-  mPImpl->mSM->changeVariable (str, av);
+  mPImpl->mSM->changeVariable (var, av);
 }
 
 int StateMachineAccessor::findMapingEvent (const std::string &event)

@@ -233,12 +233,12 @@ void StateMachine::addVariable (const std::string &var, AbstractVariable &av)
   mLoader->addVariable (var, av);
 }
 
-AbstractVariable *StateMachine::getVariable (const std::string &str)
+AbstractVariable *StateMachine::getVariable (const std::string &var)
 {
-  mLoader->getVariable (str);
+  mLoader->getVariable (var);
 }
 
-void StateMachine::changeVariable (const std::string &str, AbstractVariable &av)
+void StateMachine::changeVariable (const std::string &var, AbstractVariable &av)
 {
-  mLoader->changeVariable (str, av);
+  mLoader->changeVariable (var, av);
 }

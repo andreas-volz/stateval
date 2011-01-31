@@ -37,9 +37,9 @@ public:
 
   void addVariable (const std::string &var, AbstractVariable &av);
 
-  AbstractVariable *getVariable (const std::string &str);
+  AbstractVariable *getVariable (const std::string &var);
   
-  void changeVariable (const std::string &str, AbstractVariable &av);
+  void changeVariable (const std::string &var, AbstractVariable &av);
   
   int findMapingEvent (const std::string &event);
   std::string findMapingEvent (int event);
