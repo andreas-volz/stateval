@@ -9,6 +9,8 @@
 #include "Variable.h"
 
 /* SIGC */
+// TODO: this needs HAVE_XML defined and so libxml++2-6 installed (and so libglibmm)
+// think about not using it or defining it as minimum requirement...
 #include <sigc++/sigc++.h>
 
 typedef sigc::signal<void, int> SignalSignal;
