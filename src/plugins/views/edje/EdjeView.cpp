@@ -5,7 +5,6 @@
 /* local */
 #include "EdjeView.h"
 #include "EdjeContext.h"
-#include "Logger.h"
 
 /* Eflxx */
 #include <elementaryxx/Elementaryxx.h>
@@ -26,9 +25,8 @@ static const char* type = "View";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-Logger logger ("stateval.plugins.views.edje");
-
 EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
+  mLogger ("stateval.plugins.views.edje"),
   mEdjeContext (NULL),
   mEvas (NULL),
   mEdje (NULL),
@@ -76,7 +74,7 @@ void EdjeView::realize ()
 
 void EdjeView::unrealize ()
 {
-  LOG4CXX_TRACE (logger, "+EdjeView::unrealize ()");
+  LOG4CXX_TRACE (mLogger, "+EdjeView::unrealize ()");
   
   mUnrealizeDispatcher.signal ();
   
@@ -85,14 +83,14 @@ void EdjeView::unrealize ()
 
   groupState = Unrealized;
 
-  LOG4CXX_TRACE (logger, "-EdjeView::unrealize ()");
+  LOG4CXX_TRACE (mLogger, "-EdjeView::unrealize ()");
 }
 
 void EdjeView::realizeDispatched (int missedEvents)
 {
-  LOG4CXX_TRACE (logger, "EdjeView::realize ()");
+  LOG4CXX_TRACE (mLogger, "EdjeView::realize ()");
   
-  LOG4CXX_INFO (logger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
+  LOG4CXX_INFO (mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
       
   mEdje = new Edjexx::Object (*mEvas, mFilename, mGroupname);
   
@@ -156,14 +154,14 @@ void EdjeView::updateContent ()
         {
           Evasxx::Object &ext_eo3 = part.getExternalObject ();
           Evasxx::Object &eo3 = part.getSwallow ();
-          LOG4CXX_DEBUG (logger, "Edje External Widget type: " << ext_eo3.getType ());
-          LOG4CXX_DEBUG (logger, "Edje Part Widget type: " << eo3.getType ());
+          LOG4CXX_DEBUG (mLogger, "Edje External Widget type: " << ext_eo3.getType ());
+          LOG4CXX_DEBUG (mLogger, "Edje Part Widget type: " << eo3.getType ());
           
           if (ext_eo3.getType () == "elm_widget")
           {
             Elmxx::Object &elm_object = *(static_cast <Elmxx::Object*> (&ext_eo3));
 
-            LOG4CXX_DEBUG (logger, "Elm Widget type: " << elm_object.getWidgetType ());
+            LOG4CXX_DEBUG (mLogger, "Elm Widget type: " << elm_object.getWidgetType ());
             // TODO: slider is now generic supported. But ElmList needs to be implemented...
             /*if (elm_object.getWidgetType () == "slider")
             {
@@ -232,14 +230,14 @@ void EdjeView::updateContent ()
           
           Evasxx::Object &ext_eo3 = part.getExternalObject ();
           Evasxx::Object &eo3 = part.getSwallow ();
-          LOG4CXX_DEBUG (logger, "Edje External Widget type: " << ext_eo3.getType ());
-          LOG4CXX_DEBUG (logger, "Edje Part Widget type: " << eo3.getType ());
+          LOG4CXX_DEBUG (mLogger, "Edje External Widget type: " << ext_eo3.getType ());
+          LOG4CXX_DEBUG (mLogger, "Edje Part Widget type: " << eo3.getType ());
           
           if (ext_eo3.getType () == "elm_widget")
           {
             Elmxx::Object &elm_object = *(static_cast <Elmxx::Object*> (&ext_eo3));
 
-            LOG4CXX_DEBUG (logger, "Elm Widget type: " << elm_object.getWidgetType ());
+            LOG4CXX_DEBUG (mLogger, "Elm Widget type: " << elm_object.getWidgetType ());
 
             if (elm_object.getWidgetType () == "list")
             {
@@ -277,7 +275,7 @@ void EdjeView::updateContent ()
       }
       else
       {
-        LOG4CXX_WARN (logger, "Currently not supported AbstractVariable Type!");
+        LOG4CXX_WARN (mLogger, "Currently not supported AbstractVariable Type!");
       }
     }
     catch (Edjexx::PartNotExistingException pne)
@@ -285,14 +283,14 @@ void EdjeView::updateContent ()
       cerr << pne.what () << endl;
     }
     
-    LOG4CXX_INFO (logger, "Widget name: " << w.getName ());
-    LOG4CXX_INFO (logger, "Widget variable: " << w.getVariable ());
+    LOG4CXX_INFO (mLogger, "Widget name: " << w.getName ());
+    LOG4CXX_INFO (mLogger, "Widget variable: " << w.getVariable ());
   }
 }
 
 void EdjeView::invisibleFunc (const std::string emmision, const std::string source)
 {
-  LOG4CXX_TRACE (logger, "invisibleFunc");
+  LOG4CXX_TRACE (mLogger, "invisibleFunc");
 
   groupState = Unrealized;
   delete mEdje;
@@ -304,19 +302,19 @@ void EdjeView::invisibleFunc (const std::string emmision, const std::string sour
 
 void EdjeView::visibleFunc (const std::string emmision, const std::string source)
 {
-  LOG4CXX_TRACE (logger, "visibleFunc");
+  LOG4CXX_TRACE (mLogger, "visibleFunc");
   
   groupState = Realized;
 }
 
 void EdjeView::statevalFunc (const std::string emmision, const std::string source)
 {
-  LOG4CXX_TRACE (logger, "statevalFunc: " << emmision << ", " << source);
+  LOG4CXX_TRACE (mLogger, "statevalFunc: " << emmision << ", " << source);
 }
 
 void EdjeView::edjeFunc (const std::string emmision, const std::string source)
 {
-  LOG4CXX_TRACE (logger, "edjeFunc: " << emmision << ", " << source);
+  LOG4CXX_TRACE (mLogger, "edjeFunc: " << emmision << ", " << source);
 }
 
 void EdjeView::allFunc (const std::string emmision, const std::string source)
@@ -325,7 +323,7 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
   {
     StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
     
-    LOG4CXX_DEBUG (logger, "allFunc: " << emmision << ", " << source);
+    LOG4CXX_DEBUG (mLogger, "allFunc: " << emmision << ", " << source);
     string event ("edje," + source + "," + emmision);
 
     // only push new events for realized screens
@@ -334,7 +332,7 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
     
     if (StateMachineAccessor.findMapingEvent (event) != -1)
     {
-      LOG4CXX_DEBUG (logger, "mStateMachineAccessor->pushEvent");
+      LOG4CXX_DEBUG (mLogger, "mStateMachineAccessor->pushEvent");
       StateMachineAccessor.pushEvent (event);
     }
   }
@@ -350,7 +348,7 @@ void EdjeView::pushEvent (int event)
     
     string eventString = StateMachineAccessor.findMapingEvent (event);
 
-    LOG4CXX_DEBUG (logger, "EdjeView::smEvents: " << event << " / " << eventString);
+    LOG4CXX_DEBUG (mLogger, "EdjeView::smEvents: " << event << " / " << eventString);
 
     if (eventString.substr (4) != "edje")
     {

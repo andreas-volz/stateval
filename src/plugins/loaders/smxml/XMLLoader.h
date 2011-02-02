@@ -1,14 +1,19 @@
+#ifndef XML_LOADER_H
+#define XML_LOADER_H
+
 /* STD */
 #include <iostream>
 #include <string>
 
 /* XML */
-
 #include <libxml++/libxml++.h>
 
 /* stateval */
 #include "stateval/stateval.h"
 #include "stateval/private/stateval_private.h"
+
+/* local */
+#include "Logger.h"
 
 class XMLLoader : public Loader
 {
@@ -62,6 +67,8 @@ protected:
   void parseViewWidgetNode (const xmlpp::Node* node, View *view);
   
 private:
+  Logger mLogger;
+  
   // -> these maps are only temporary needed while loading, after this they're freed!
   std::map <Glib::ustring, unsigned int> mStateNameMapper;
   std::map <Glib::ustring, unsigned int> mViewNameMapper;
@@ -71,3 +78,5 @@ private:
 
   Context *mContext;
 };
+
+#endif // XML_LOADER_H

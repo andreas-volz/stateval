@@ -1,14 +1,16 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-// TODO: put this into configure.ac
-//#define HAVE_LOG4CXX
-//#define LOGGING_NULL
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #ifdef HAVE_LOG4CXX
 /* log4cxx */
-#include <log4cxx/logger.h>
+#include "log4cxx/logger.h"
 #include "log4cxx/basicconfigurator.h"
+#include "log4cxx/propertyconfigurator.h"
+#include "log4cxx/helpers/exception.h"
 
 class Logger
 {

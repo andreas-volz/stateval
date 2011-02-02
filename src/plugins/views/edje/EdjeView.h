@@ -7,6 +7,7 @@
 
 /* local */
 #include "EcoreDispatcher.h"
+#include "Logger.h"
 
 /* STD */
 #include <string>
@@ -59,6 +60,8 @@ private:
   void viewUpdateFunc (const std::string emmision, const std::string source);
   
   /** Variables **/
+  Logger mLogger;
+  
   EdjeContext *mEdjeContext;
   
   Evasxx::Canvas *mEvas;
