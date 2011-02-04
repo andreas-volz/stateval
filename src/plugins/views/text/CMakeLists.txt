@@ -5,11 +5,11 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 # The libs to build to.
 ####################################################################################
-ADD_LIBRARY(text SHARED
+ADD_LIBRARY(stateval_views_text SHARED
     FileReader.cpp
     FileReader.h
     TextView.cpp
     TextView.h
 )
 
-# INSTALL(TARGETS text DESTINATION /usr/bin)
+# INSTALL(TARGETS stateval_views_text DESTINATION /usr/bin)

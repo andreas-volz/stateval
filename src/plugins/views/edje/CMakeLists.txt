@@ -5,7 +5,7 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 # The libs to build to.
 ####################################################################################
-ADD_LIBRARY(edje SHARED
+ADD_LIBRARY(stateval_views_edje SHARED
     EcoreDispatcher.cpp
     EcoreDispatcher.h
     EdjeContext.cpp
@@ -15,4 +15,4 @@ ADD_LIBRARY(edje SHARED
     Logger.h
 )
 
-# INSTALL(TARGETS edje DESTINATION /usr/bin)
+# INSTALL(TARGETS stateval_views_edje DESTINATION /usr/bin)

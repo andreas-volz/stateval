@@ -8,10 +8,20 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 PROJECT(stateval)
 
 # The base path for libsigc++
-SET(LIBSIGCPP_DIR "${PROJECT_SOURCE_DIR}/../libsigc++-2.2.8")
+SET(LIBSIGCPP_DIR "${PROJECT_SOURCE_DIR}/../../libsigc++-2.2.8")
 
 # The base path for pluxx
-SET(LIBPLUXX_DIR "${PROJECT_SOURCE_DIR}/../../pluxx")
+SET(LIBPLUXX_DIR "${PROJECT_SOURCE_DIR}/../pluxx")
+
+# build pluxx if there is a ${LIBPLUXX_DIR}/CMakeLists.txt
+IF (EXISTS ${LIBPLUXX_DIR}/CMakeLists.txt)
+    ADD_SUBDIRECTORY(${LIBPLUXX_DIR} pluxx)
+ENDIF()
+
+# build libsigc++ if there is a ${LIBSIGCPP_DIR}/CMakeLists.txt
+IF (EXISTS ${LIBSIGCPP_DIR}/CMakeLists.txt)
+    ADD_SUBDIRECTORY(${LIBSIGCPP_DIR} libsigc++)
+ENDIF()
 
 
 ####################################################################################
@@ -34,16 +44,7 @@ SET(EXTRA_LIBS pthread ${EXTRA_LIBS})
 INCLUDE_DIRECTORIES (
     ${PROJECT_SOURCE_DIR}/include
     ${LIBSIGCPP_DIR}
-) 
-
-# build pluxx if there is a ${LIBPLUXX_DIR}/CMakeLists.txt
-IF (EXISTS ${LIBPLUXX_DIR}/CMakeLists.txt)
-    ADD_SUBDIRECTORY(${LIBPLUXX_DIR} pluxx)
-ENDIF()
-
-IF (EXISTS ${LIBSIGCPP_DIR}/CMakeLists.txt)
-    ADD_SUBDIRECTORY(${LIBSIGCPP_DIR} libsigc++)
-ENDIF()
+)
 
 INCLUDE_DIRECTORIES (${LIBPLUXX_DIR}/include)
 

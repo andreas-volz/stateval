@@ -13,18 +13,23 @@ using namespace std;
 const std::string searchPluginFile (const std::string &type, const std::string &name)
 {
   list <string> nameList; // TODO: port to list and iterator usage
+#ifdef __APPLE__
+  const string ext (".dylib"); // on OS X shared objects are suffixed by .dylib
+#else
   const string ext (".so");
+#endif
+
   const string relPath ("plugins/" + type + "/" + name + "/");
   const string soName ("stateval_" + type + "_" + name + ext);
-  
+
   // as default search only on the current directory
   nameList.push_back (relPath + soName);
-  
+
 #ifdef HAVE_CONFIG_H
   nameList.push_back (string (PACKAGE_PLUGINS_DIR) + "/" + relPath + soName);
   nameList.push_back (string (PACKAGE_SOURCE_DIR) + "/src/" + relPath + LT_OBJDIR + soName);
 #endif
-  
+
   const string &file = searchFile (nameList);
 
   if (file.empty ())
@@ -40,12 +45,12 @@ const std::string searchDataDir ()
   list <string> nameList;
 
   nameList.push_back ("data");
-  
+
 #ifdef HAVE_CONFIG_H
   nameList.push_back (string (PACKAGE_SOURCE_DIR) + "/data");
   nameList.push_back (PACKAGE_DATA_DIR);
 #endif
-  
+
   return searchFile (nameList);
 }
 

@@ -5,7 +5,7 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 # The libs to build to.
 ####################################################################################
-ADD_LIBRARY(smxml SHARED
+ADD_LIBRARY(stateval_loaders_smxml SHARED
     Logger.h
     MemoryUtil.h
     searchFile.cpp
@@ -16,4 +16,4 @@ ADD_LIBRARY(smxml SHARED
     XMLLoader.h
 )
 
-# INSTALL(TARGETS smxml DESTINATION /usr/bin)
+# INSTALL(TARGETS stateval_loaders_smxml DESTINATION /usr/bin)
