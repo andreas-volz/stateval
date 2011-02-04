@@ -56,7 +56,9 @@ ADD_EXECUTABLE(testThread EXCLUDE_FROM_ALL
 
 ADD_SUBDIRECTORY(src)
 
-TARGET_LINK_LIBRARIES(testThread z sigc++ stateval pluxx ${EXTRA_LIBS})
+SET(STATEVAL_LIBS z sigc++ stateval pluxx ${EXTRA_LIBS})
+
+TARGET_LINK_LIBRARIES(testThread ${STATEVAL_LIBS})
 
 ####################################################################################
 # Additional Directories to deal with...

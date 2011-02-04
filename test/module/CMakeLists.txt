@@ -5,10 +5,11 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 # The libs to build to.
 ####################################################################################
-ADD_EXECUTABLE(tesmodule
+ADD_EXECUTABLE(testmodule
     testCommon.h
-    testTemplate.cpp
     testThread.cpp
 )
+
+TARGET_LINK_LIBRARIES(testmodule ${STATEVAL_LIBS})
 
 # INSTALL(TARGETS smtest DESTINATION /usr/bin)
