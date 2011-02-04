@@ -3,7 +3,16 @@ IF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 
 ####################################################################################
-# Additional Directories to deal with...
+# The libs to build to.
 ####################################################################################
-ADD_SUBDIRECTORY(smxml)
-ADD_SUBDIRECTORY(smtest)
+ADD_LIBRARY(edje SHARED
+    EcoreDispatcher.cpp
+    EcoreDispatcher.h
+    EdjeContext.cpp
+    EdjeContext.h
+    EdjeView.cpp
+    EdjeView.h
+    Logger.h
+)
+
+# INSTALL(TARGETS edje DESTINATION /usr/bin)

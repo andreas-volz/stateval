@@ -5,5 +5,5 @@ ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ####################################################################################
 # Additional Directories to deal with...
 ####################################################################################
-ADD_SUBDIRECTORY(smxml)
-ADD_SUBDIRECTORY(smtest)
+ADD_SUBDIRECTORY(edje_console)
+ADD_SUBDIRECTORY(text_views)

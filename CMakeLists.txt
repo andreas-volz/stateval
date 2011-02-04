@@ -62,3 +62,5 @@ TARGET_LINK_LIBRARIES(testThread z sigc++ stateval pluxx ${EXTRA_LIBS})
 # Additional Directories to deal with...
 ####################################################################################
 # INSTALL(TARGETS projectExe DESTINATION /usr/bin)
+
+ADD_SUBDIRECTORY(test)

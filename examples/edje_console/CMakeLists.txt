@@ -3,7 +3,15 @@ IF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 
 ####################################################################################
-# Additional Directories to deal with...
+# The libs to build to.
 ####################################################################################
-ADD_SUBDIRECTORY(smxml)
-ADD_SUBDIRECTORY(smtest)
+ADD_EXECUTABLE(edje_console
+    InputThread.cpp
+    InputThread.h
+    Main.cpp
+    Main.h
+    searchFile.cpp
+    searchFile.h
+)
+
+# INSTALL(TARGETS edje_console DESTINATION /usr/bin)

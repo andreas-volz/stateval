@@ -57,6 +57,6 @@ ADD_LIBRARY(stateval STATIC
 ####################################################################################
 # Additional Directories to deal with...
 ####################################################################################
-ADD_SUBDIRECTORY(plugins)
+ADD_SUBDIRECTORY(plugins EXCLUDE_FROM_ALL)
 
 # INSTALL(TARGETS projectExe DESTINATION /usr/bin)

@@ -3,7 +3,12 @@ IF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 
 ####################################################################################
-# Additional Directories to deal with...
+# The libs to build to.
 ####################################################################################
-ADD_SUBDIRECTORY(smxml)
-ADD_SUBDIRECTORY(smtest)
+ADD_LIBRARY(smtest SHARED
+    Logger.h
+    TestLoader.cpp
+    TestLoader.h
+)
+
+# INSTALL(TARGETS smtest DESTINATION /usr/bin)

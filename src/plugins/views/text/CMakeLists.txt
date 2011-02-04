@@ -3,7 +3,13 @@ IF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 
 ####################################################################################
-# Additional Directories to deal with...
+# The libs to build to.
 ####################################################################################
-ADD_SUBDIRECTORY(smxml)
-ADD_SUBDIRECTORY(smtest)
+ADD_LIBRARY(text SHARED
+    FileReader.cpp
+    FileReader.h
+    TextView.cpp
+    TextView.h
+)
+
+# INSTALL(TARGETS text DESTINATION /usr/bin)

@@ -3,35 +3,17 @@ IF( COMMAND CMAKE_MINIMUM_REQUIRED )
 ENDIF( COMMAND CMAKE_MINIMUM_REQUIRED )
 
 ####################################################################################
-# The name of the project
-####################################################################################
-PROJECT(XMLLoader)
-
-####################################################################################
-# Make sure the compiler can find include files from our project.
-####################################################################################
-INCLUDE_DIRECTORIES (
-    /usr/include/libxml++-2.6
-    /usr/include/glibmm-2.4
-) 
-
-####################################################################################
 # The libs to build to.
 ####################################################################################
-ADD_LIBRARY(XMLLoader SHARED 
-	XMLLoader.cpp
-	XMLLoader.h
-	searchFile.cpp
-	searchFile.h
-	MemoryUtil.h
-	stringUtil.cpp
-	stringUtil.h 
-	Logger.h
-	)
+ADD_LIBRARY(smxml SHARED
+    Logger.h
+    MemoryUtil.h
+    searchFile.cpp
+    searchFile.h
+    stringUtil.cpp
+    stringUtil.h
+    XMLLoader.cpp
+    XMLLoader.h
+)
 
-#TARGET_LINK_LIBRARIES(XMLLoader pthread)
-
-####################################################################################
-# Additional Directories to deal with...
-####################################################################################
-# INSTALL(TARGETS XMLLoader DESTINATION /usr/lib)
+# INSTALL(TARGETS smxml DESTINATION /usr/bin)
