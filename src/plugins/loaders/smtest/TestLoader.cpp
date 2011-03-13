@@ -51,10 +51,25 @@ bool TestLoader::load (Context *context, const std::string &test)
   if (test == "TEST1")
   {
     // test a special statemachine with test 1
+    // description: easiest case ever: two simple states with a default transition
+    SimpleState *simlpeState1 = new SimpleState (NULL);
+    SimpleState *simlpeState2 = new SimpleState (NULL);
+    
+    addState (simlpeState1);
+    addState (simlpeState2);
+
+    Transition *trans = new Transition (simlpeState2);
+    simlpeState1->addLeaveTransition (*trans);
+    
+    // TODO: -> to state should be a special test ViewState as this is the only 
+    //          way to get a result currently
   }
   else if (test == "TEST2")
   {
     // test a special statemachine with test 2
+    CompoundState *rootState = new CompoundState (NULL); // create a ROOT node
+    addState (rootState);
+    // ...
   }
   // ...{}
 }

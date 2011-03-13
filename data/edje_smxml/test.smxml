@@ -33,6 +33,7 @@
     <event name="CHANGE_MEDIA_TITLE"/>
     <event name="MAP_ZOOM_IN"/>
     <event name="MAP_ZOOM_OUT"/>
+    <event name="MAP_JUMP_CURSOR"/>
     <event name="MAP_SCROLL_LEFT"/>
     <event name="MAP_SCROLL_RIGHT"/>
     <event name="MAP_SCROLL_TOP"/>
@@ -49,6 +50,7 @@
     <event name="edje,,load"/>
     <event name="oispkey,One,down"/>
     <event name="oispkey,Two,down"/>
+    <event name="oispkey,Start,down"/>
     <event name="oispaxis,X,min"/>
     <event name="oispaxis,X,max"/>
     <event name="oispaxis,Y,min"/>
@@ -150,10 +152,11 @@
         <map from="edje,Button06,clicked" to="MAP_ZOOM_IN"/>
         <map from="oispkey,One,down" to="MAP_ZOOM_OUT"/>
         <map from="oispkey,Two,down" to="MAP_ZOOM_IN"/>
+        <map from="oispkey,Start,down" to="MAP_JUMP_CURSOR"/>
         <map from="oispaxis,X,min" to="MAP_SCROLL_LEFT"/>
         <map from="oispaxis,X,max" to="MAP_SCROLL_RIGHT"/>
-        <map from="oispaxis,Y,min" to="MAP_SCROLL_TOP"/>
-        <map from="oispaxis,Y,max" to="MAP_SCROLL_BOTTOM"/>
+        <map from="oispaxis,Y,min" to="MAP_SCROLL_BOTTOM"/>
+        <map from="oispaxis,Y,max" to="MAP_SCROLL_TOP"/>
 
       </mappings>
     </view>
