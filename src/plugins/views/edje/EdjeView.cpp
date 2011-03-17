@@ -95,8 +95,13 @@ void EdjeView::realizeDispatched (int missedEvents)
   mEdje = new Edjexx::Object (*mEvas, mFilename, mGroupname);
   
   // connect visible/invisible handler
+  // TODO: while changing names connect both -> remove later!
   mEdje->connect ("invisible_signal", "edje", sigc::mem_fun (this, &EdjeView::invisibleFunc));
   mEdje->connect ("visible_signal", "edje", sigc::mem_fun (this, &EdjeView::visibleFunc));
+  ////
+
+  mEdje->connect ("animation,end", "invisible", sigc::mem_fun (this, &EdjeView::invisibleFunc));
+  mEdje->connect ("animation,end", "visible", sigc::mem_fun (this, &EdjeView::visibleFunc));
 
   mEdje->connect ("*", "edje", sigc::mem_fun (this, &EdjeView::edjeFunc));
   mEdje->connect ("*", "stateval", sigc::mem_fun (this, &EdjeView::statevalFunc));
@@ -350,7 +355,7 @@ void EdjeView::pushEvent (int event)
 
     LOG4CXX_DEBUG (mLogger, "EdjeView::smEvents: " << event << " / " << eventString);
 
-    if (eventString.substr (4) != "edje")
+    if ((eventString.length () >= 4) && (eventString.substr (4) != "edje"))
     {
       mEdje->emit (eventString, "stateval");
     }

@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!DOCTYPE test PUBLIC "" "test.dtd">
+<!--TODO:
+  How to handle the dtd? I think it should be installed together with the smxml loader plugin...
+ -->
+
+<stateval>
+
+  <events>
+    <event name="VIEW_UPDATE"/>
+    <event name="edje,Image01,mouse,clicked,1"/>
+    <event name="edje,Image02,mouse,clicked,1"/>
+    <event name="edje,Image03,mouse,clicked,1"/>
+    <event name="edje,Image04,mouse,clicked,1"/>
+    <event name="edje,Image05,mouse,clicked,1"/>
+    <event name="edje,Image06,mouse,clicked,1"/>
+    <event name="edje,Image07,mouse,clicked,1"/>
+    <event name="edje,Image08,mouse,clicked,1"/>
+    <event name="edje,Image09,mouse,clicked,1"/>
+    <event name="edje,Image10,mouse,clicked,1"/>
+    <event name="edje,Button01,clicked"/>
+    <event name="edje,Button02,clicked"/>
+    <event name="edje,Button03,clicked"/>
+    <event name="edje,Button04,clicked"/>
+    <event name="edje,Button05,clicked"/>
+    <event name="edje,Button06,clicked"/>
+    <event name="edje,bar:Image03,mouse,clicked,1"/>
+    <event name="MAIN"/>
+    <event name="BROWSER"/>
+    <event name="SETTINGS"/>
+    <event name="EMAIL"/>
+    <event name="EMAIL_COMPOSE"/>
+    <event name="EMAIL_READ"/>
+    <event name="edje,,load"/>
+  </events>
+  
+  <variables>
+  </variables>
+  
+  <actions>
+  </actions>
+  
+  <states>
+    <state name="Root" type="CompoundState" parent="0"/>
+    <state name="Initial" type="SimpleState" parent="Root"/>
+    <state name="Main" type="ViewState" parent="Root" view="Main"/>
+    <state name="Browser" type="ViewState" parent="Root" view="Browser"/>
+    <state name="Settings" type="ViewState" parent="Root" view="Settings"/>
+    <state name="EMail_Compound" type="CompoundState" parent="Root"/>
+    <state name="EMail_Compound_Initial" type="SimpleState" parent="EMail_Compound"/>
+    <state name="EMail_Compound_History" type="HistoryState" parent="EMail_Compound"/>
+    <state name="EMail_Read" type="ViewState" parent="EMail_Compound" view="EMail_Read"/>
+    <state name="EMail_Compose" type="ViewState" parent="EMail_Compound" view="EMail_Compose"/>
+  </states>
+
+  <transitions>
+    <transition from="Root" to="Initial"/>
+    <transition from="Initial" to="Main"/>
+    <transition from="Root" to="Main" event="MAIN"/>
+    <transition from="Root" to="Browser" event="BROWSER"/>
+    <transition from="Root" to="Settings" event="SETTINGS"/>
+    <transition from="Root" to="EMail_Compound" event="EMAIL"/>
+    <transition from="EMail_Compound" to="EMail_Compound_Initial"/>
+    <transition from="EMail_Compound_Initial" to="EMail_Compound_History"/>
+    <transition from="EMail_Compound_History" to="EMail_Read"/>
+    <transition from="EMail_Compound" to="EMail_Compose" event="EMAIL_COMPOSE"/>
+    <transition from="EMail_Compound" to="EMail_Read" event="EMAIL_READ"/>
+  </transitions>
+  
+  <views plugin="edje">
+
+    <view name="Main">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param value="main"/>
+      </params>
+      <mappings>
+        <map from="edje,Image01,mouse,clicked,1" to="BROWSER"/>
+        <map from="edje,Image10,mouse,clicked,1" to="SETTINGS"/>
+        <map from="edje,Image08,mouse,clicked,1" to="EMAIL"/>
+      </mappings>
+    </view>
+
+    <view name="Browser">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param value="browser"/>
+      </params>
+      <mappings>
+        <map from="edje,bar:Image03,mouse,clicked,1" to="MAIN"/>
+      </mappings>
+    </view>
+    
+    <view name="Settings">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param value="settings"/>
+      </params>
+      <mappings>
+        <map from="edje,bar:Image03,mouse,clicked,1" to="MAIN"/>
+      </mappings>
+    </view>
+    
+    <view name="EMail_Read">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param value="email"/>
+      </params>
+      <mappings>
+        <map from="edje,bar:Image03,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Button02,clicked" to="EMAIL_COMPOSE"/>
+      </mappings>
+    </view>
+    
+    <view name="EMail_Compose">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param value="email_compose"/>
+      </params>
+      <mappings>
+        <map from="edje,bar:Image03,mouse,clicked,1" to="EMAIL_READ"/>
+        <map from="edje,Image01,mouse,clicked,1" to="SETTINGS"/>
+      </mappings>
+    </view>
+
+  </views>
+
+</stateval>

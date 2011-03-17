@@ -36,7 +36,8 @@ using namespace log4cxx;
 using namespace log4cxx::helpers;
 #endif // HAVE_LOG4CXX
 
-static const Eflxx::Size initialWindowSize (800, 600);
+//static const Eflxx::Size initialWindowSize (800, 600);
+static const Eflxx::Size initialWindowSize (320, 480);
 
 Main::Main (int argc, const char **argv) :
   mApp (argc, argv, "Simple stateval Test"),
@@ -62,7 +63,7 @@ Main::Main (int argc, const char **argv) :
   edjeContext.setResolution (initialWindowSize);
   
   StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
-  StateMachineAccessor.load ("smxml", searchDataDir () + "/edje_smxml/test.smxml", &edjeContext);
+  StateMachineAccessor.load ("smxml", searchDataDir () + "/mobile_smxml/mobile.smxml", &edjeContext);
 
   StateMachineAccessor.start ();
 
@@ -72,7 +73,7 @@ Main::Main (int argc, const char **argv) :
   
   // inital event
   // TODO Ecorexx::Job
-  StateMachineAccessor.pushEvent ("HK_NAV");
+  StateMachineAccessor.pushEvent ("MAIN");
 
   mWindow.show();
 

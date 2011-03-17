@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE test PUBLIC "" "test.dtd">
+<!--TODO:
+  How to handle the dtd? I think it should be installed together with the smxml loader plugin...
+ -->
+
+<stateval>
+
+  <events>
+    <event name="VIEW_UPDATE"/>
+    <event name="edje,Image01,mouse,clicked,1"/>
+    <event name="edje,Button01,clicked"/>
+    <event name="edje,Button02,clicked"/>
+    <event name="edje,Button03,clicked"/>
+    <event name="edje,Button04,clicked"/>
+    <event name="edje,Button05,clicked"/>
+    <event name="edje,Button06,clicked"/>
+    <event name="edje,Button06,clicked"/>
+    
+    <event name="MAIN"/>
+    <event name="RED"/>
+    <event name="edje,,load"/>
+  </events>
+  
+  <variables>
+  </variables>
+  
+  <actions>
+  </actions>
+  
+  <states>
+    <state name="Root" type="CompoundState" parent="0"/>
+    <state name="Initial" type="SimpleState" parent="Root"/>
+    <state name="Main" type="ViewState" parent="Root" view="Main"/>
+    <state name="Red" type="ViewState" parent="Root" view="Red"/>
+  </states>
+
+  <transitions>
+    <transition from="Root" to="Initial"/>
+    <transition from="Initial" to="Main"/>
+    <transition from="Root" to="Main" event="MAIN"/>
+    <transition from="Root" to="Red" event="RED"/>
+  </transitions>
+  
+  <views plugin="edje">
+
+    <view name="Main">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/demo.edj"/>
+        <param value="main"/>
+      </params>
+      <mappings>
+        <map from="edje,Image01,mouse,clicked,1" to="RED"/>
+      </mappings>
+    </view>
+
+    <view name="Red">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/editje_test.edj"/>
+        <param value="red"/>
+      </params>
+      <mappings>
+        <map from="edje,Button01,clicked" to="MAIN"/>
+      </mappings>
+    </view>
+
+  </views>
+
+</stateval>
