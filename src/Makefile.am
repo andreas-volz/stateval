@@ -42,7 +42,8 @@ libstateval_la_SOURCES = \
 	searchFile.cpp \
 	searchFile.h \
 	ChangeVariableAction.cpp \
-	StateMachineAccessorPImpl.h
+	StateMachineAccessorPImpl.h \
+	Widget.cpp
 
 libstateval_la_CXXFLAGS = \
 	-I \

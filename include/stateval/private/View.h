@@ -11,22 +11,7 @@
 
 /* local */
 #include "Logger.h"
-
-// TODO: move to separate header file
-class Widget
-{
-public:
-  Widget (const std::string &name, const std::string &variable);
-  virtual ~Widget () {};
-
-  const std::string getName () const;
-  const std::string getVariable () const;
-  
-private:
-  Logger mLogger;
-  std::string mName;
-  std::string mVariable;
-};
+#include "Widget.h"
 
 class View : public pluxx::Plugin
 {
