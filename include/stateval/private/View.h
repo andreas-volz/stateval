@@ -12,6 +12,7 @@
 /* local */
 #include "Logger.h"
 
+// TODO: move to separate header file
 class Widget
 {
 public:

@@ -30,8 +30,7 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   mEdjeContext (NULL),
   mEvas (NULL),
   mEdje (NULL),
-  groupState (Unrealized),
-  param ("label", "blub")
+  groupState (Unrealized)
 {
   assert (context);
   
@@ -74,7 +73,7 @@ void EdjeView::realize ()
 
 void EdjeView::unrealize ()
 {
-  LOG4CXX_TRACE (mLogger, "+EdjeView::unrealize ()");
+  LOG4CXX_TRACE (mLogger, "+unrealize ()");
   
   mUnrealizeDispatcher.signal ();
   
@@ -83,12 +82,12 @@ void EdjeView::unrealize ()
 
   groupState = Unrealized;
 
-  LOG4CXX_TRACE (mLogger, "-EdjeView::unrealize ()");
+  LOG4CXX_TRACE (mLogger, "-unrealize ()");
 }
 
 void EdjeView::realizeDispatched (int missedEvents)
 {
-  LOG4CXX_TRACE (mLogger, "EdjeView::realize ()");
+  LOG4CXX_TRACE (mLogger, "realizeDispatched()");
   
   LOG4CXX_INFO (mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
       
