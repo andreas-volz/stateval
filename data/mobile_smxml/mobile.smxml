@@ -43,14 +43,39 @@
   <states>
     <state name="Root" type="CompoundState" parent="0"/>
     <state name="Initial" type="SimpleState" parent="Root"/>
-    <state name="Main" type="ViewState" parent="Root" view="Main"/>
-    <state name="Browser" type="ViewState" parent="Root" view="Browser"/>
-    <state name="Settings" type="ViewState" parent="Root" view="Settings"/>
+    <state name="Main" type="ViewState" parent="Root">
+      <views>
+        <view ref="Bar"/>
+        <view ref="Main"/>
+      </views>
+    </state>
+    <state name="Browser" type="ViewState" parent="Root">
+      <views>
+        <view ref="Bar"/>
+        <view ref="Browser"/>
+      </views>
+    </state>
+    <state name="Settings" type="ViewState" parent="Root">
+      <views>
+        <view ref="Bar"/>
+        <view ref="Settings"/>
+      </views>
+    </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>
     <state name="EMail_Compound_Initial" type="SimpleState" parent="EMail_Compound"/>
     <state name="EMail_Compound_History" type="HistoryState" parent="EMail_Compound"/>
-    <state name="EMail_Read" type="ViewState" parent="EMail_Compound" view="EMail_Read"/>
-    <state name="EMail_Compose" type="ViewState" parent="EMail_Compound" view="EMail_Compose"/>
+    <state name="EMail_Read" type="ViewState" parent="EMail_Compound">
+      <views>
+        <view ref="Bar"/>
+        <view ref="EMail_Read"/>
+      </views>
+    </state>
+    <state name="EMail_Compose" type="ViewState" parent="EMail_Compound">
+      <views>
+        <view ref="Bar"/>
+        <view ref="EMail_Compose"/>
+      </views>
+    </state>
   </states>
 
   <transitions>
@@ -73,6 +98,18 @@
       <params>
         <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
         <param value="main"/>
+      </params>
+      <mappings>
+        <map from="edje,Image01,mouse,clicked,1" to="BROWSER"/>
+        <map from="edje,Image10,mouse,clicked,1" to="SETTINGS"/>
+        <map from="edje,Image08,mouse,clicked,1" to="EMAIL"/>
+      </mappings>
+    </view>
+    
+    <view name="Bar">
+      <params>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param value="bar"/>
       </params>
       <mappings>
         <map from="edje,Image01,mouse,clicked,1" to="BROWSER"/>

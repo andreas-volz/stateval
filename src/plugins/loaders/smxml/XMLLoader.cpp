@@ -658,10 +658,26 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
       }
       else if (type == "ViewState")
       {
-        // TODO: better use find() to detect if not found in map
-        int viewNum = mViewNameMapper[view_attribute->get_value ()];
-        View *view = mViewList[viewNum];
-        state = new ViewState (parentState, *view);
+        state = new ViewState (parentState, &mViewCache);
+        ViewState *viewState = static_cast <ViewState*> (state);
+        
+        if (view_attribute)
+        {
+          // TODO: better use find() to detect if not found in map
+          int viewNum = mViewNameMapper[view_attribute->get_value ()];
+          View *view = mViewList[viewNum];
+          viewState->addView (*view, 0);
+        }
+        else // multible view feature
+        {
+          // Recurse through child nodes
+          xmlpp::Node::NodeList list = node->get_children ();
+          for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+               iter != list.end (); ++iter)
+          {
+            parseStateViewsNode (*iter, state);
+          }
+        }
       }
       else
       {
@@ -687,6 +703,64 @@ void XMLLoader::parseStateNode (const xmlpp::Node * node)
     {
       // throw Exception
     }
+  }
+}
+
+void XMLLoader::parseStateViewsNode (const xmlpp::Node * node, State *state)
+{
+  const xmlpp::ContentNode * nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode * nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+  int viewCounter = 0;
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (!nodeText && !nodeComment && !nodename.empty ())	//Let's not say "name: text".
+  {
+    if (nodename == "views")
+    {
+      //Recurse through child nodes:
+      xmlpp::Node::NodeList list = node->get_children ();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin ();
+           iter != list.end (); ++iter)
+      {
+        parseStateViewNode (*iter, state, viewCounter);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseStateViewNode (const xmlpp::Node * node, State *state, int &viewCounterOut)
+{
+  const xmlpp::TextNode * nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element * nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+  
+  if (nodeText && nodeText->is_white_space ())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name ();
+
+  if (nodename == "view")
+  {
+    LOG4CXX_DEBUG (mLogger, "Node = " << node->get_name ());
+
+    const xmlpp::Attribute *ref_attribute = nodeElement->get_attribute ("ref");
+
+    if (ref_attribute)
+    {
+      LOG4CXX_DEBUG (mLogger, "Attribute ref = " << ref_attribute->get_value ());
+    }
+
+    // TODO: use find...
+    int viewNum = mViewNameMapper[ref_attribute->get_value ()];
+    View *view = mViewList[viewNum];
+    ViewState *viewState = static_cast <ViewState*> (state);
+    viewState->addView (*view, viewCounterOut);
+
+    ++viewCounterOut;
   }
 }
 

@@ -4,67 +4,81 @@
 
 /* local */
 #include "stateval/private/ViewState.h"
+#include "stateval/private/ViewCache.h"
 
 /* STD */
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
-ViewState::ViewState (CompoundState *parentState, View &view) :
+ViewState::ViewState (CompoundState *parentState, ViewCache *viewCache) :
   SimpleState (parentState),
-  mLogger ("stateval.ViewState"),
-  mView (&view)
+  mViewCache (viewCache),
+  mLogger ("stateval.ViewState")
+{
+}
+
+ViewState::~ViewState ()
 {
 }
 
 bool ViewState::hasView ()
 {
-  return mView;
-}
-
-View *ViewState::getView ()
-{
-  return mView;
+  mViewList.size ();
 }
 
 void ViewState::mapEvent (int &inOutEvent)
 {
-  if (hasView ())
+  int event = inOutEvent;
+
+  for (std::list <ViewSpec>::iterator v_it = mViewList.begin ();
+       v_it != mViewList.end ();
+       ++v_it)
   {
-    mView->mapEvent (inOutEvent);
+    ViewSpec &viewSpec = *v_it;
+    View *view = viewSpec.view;
+
+    // this maps all events from all views, if conflicting mappings exist, then
+    // the top most event view mapping wins
+    view->mapEvent (event);
   }
+
+  inOutEvent = event;
+}
+
+void ViewState::addView (View &view, int layer)
+{
+  ViewSpec viewSpec;
+  viewSpec.view = &view;
+  viewSpec.layer = layer;
+  mViewList.push_back (viewSpec);
 }
 
 void ViewState::beforeTransitionCode ()
 {
-  if (hasView ())
-  {
-    getView ()->unrealize ();
-  }
-  else
-  {
-    LOG4CXX_DEBUG (mLogger, "State has no view attached");
-  }
+  assert (hasView ());
+  
+  mViewCache->setUnrealizeViewList (mViewList);
 }
 
 void ViewState::afterTransitionCode ()
 {
-  changeHistory ();
+  assert (hasView ());
   
-  if (hasView ())
-  {
-    getView ()->realize ();
-  }
-  else
-  {
-    LOG4CXX_DEBUG (mLogger, "State has no view attached");
-  }
+  changeHistory ();
+
+  mViewCache->setRealizeViewList (mViewList);
 }
 
 void ViewState::pushEvent (int event)
 {
-  if (hasView ())
+  for (std::list <ViewSpec>::iterator v_it = mViewList.begin ();
+       v_it != mViewList.end ();
+       ++v_it)
   {
-    getView ()->pushEvent (event);
+    ViewSpec &viewSpec = *v_it;
+    View *view = viewSpec.view;
+    view->pushEvent (event);
   }
 }

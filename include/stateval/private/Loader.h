@@ -9,6 +9,7 @@
 /* local */
 #include "State.h"
 #include "Logger.h"
+#include "ViewCache.h"
 #include "stateval/Variable.h"
 
 /* pluxx */
@@ -62,6 +63,7 @@ protected:
   std::map <std::string, int> mEventList;
   std::vector <std::string> mEventListIndex;
   // <-
+  ViewCache mViewCache;
 
 private:
   Logger mLogger;

@@ -25,6 +25,10 @@ public:
   
   virtual void unrealize () = 0;
 
+  void setLayer (int layer);
+
+  int getLayer ();
+
   virtual void pushEvent (int event);
   
   void addEventMapping (const int rawEvent, const int mappedEvent);
@@ -35,11 +39,12 @@ public:
 
   WidgetIterator beginOfWidgets () {return mWidgetVariableList.begin ();}
   WidgetIterator endOfWidgets ()   {return mWidgetVariableList.end ();}
-
+  
 private:
   Logger mLogger;
   std::map <int, int> mEventMap;
   std::list <Widget> mWidgetVariableList;
+  int mLayer;
 };
 
 #endif // VIEW_H

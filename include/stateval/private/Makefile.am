@@ -18,6 +18,7 @@ libstateval_private_HEADERS = \
 	StateMachine.h             \
 	StateMachineThread.h             \
 	Thread.h             \
+	ViewCache.h
 	Logger.h             \
 	Widget.h
 

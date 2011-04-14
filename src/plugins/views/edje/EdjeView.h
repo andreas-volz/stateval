@@ -74,6 +74,9 @@ private:
   
   Threading::Condition condUnrealize;
   Threading::Mutex mutexUnrealize;
+
+  Threading::Condition condRealize;
+  Threading::Mutex mutexRealize;
   
   enum ViewState groupState;
 };

@@ -48,6 +48,9 @@ protected:
   void parseStateNodeIndex (const xmlpp::Node* node, unsigned int &i);
   void parseStateNode (const xmlpp::Node* node);
 
+  void parseStateViewsNode (const xmlpp::Node* node, State *state);
+  void parseStateViewNode (const xmlpp::Node* node, State *state, int &viewCounterOut);
+  
   void parseStateActionsNode (const xmlpp::Node* node, State *state);
   void parseStateActionNode (const xmlpp::Node* node, State *state);
 

@@ -46,6 +46,7 @@ Main::Main (int argc, const char **argv) :
 {
 #ifdef HAVE_LOG4CXX
   //BasicConfigurator::configure ();
+  cout << "searchDataDir ():" << searchDataDir () << endl;
   PropertyConfigurator::configure (searchDataDir () + "/logging.prop");
 #endif // HAVE_LOG4CXX
   
