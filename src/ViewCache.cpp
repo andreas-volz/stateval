@@ -50,7 +50,7 @@ void ViewCache::setRealizeViewList (std::list <ViewSpec> realizeViewList)
     if (found_view_it == realizeViewList.end ())
     {
       LOG4CXX_TRACE (mLogger, "push back unrealize view");
-      mReallyUnrealizeViewList.push_back (*found_view_it);
+      mReallyUnrealizeViewList.push_back (unrealizeViewSpec);
     }
   }
 
@@ -64,7 +64,7 @@ void ViewCache::setRealizeViewList (std::list <ViewSpec> realizeViewList)
 
     list <ViewSpec>::iterator found_view_it = find (mUnrealizeViewList.begin (), mUnrealizeViewList.end (), realizeViewSpec);
 
-    // if view isn't longer in active list mark it to unrealize
+    // if view isn't in old list mark it to realize
     if (found_view_it == mUnrealizeViewList.end ())
     {
       LOG4CXX_TRACE (mLogger, "push back realize view");

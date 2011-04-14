@@ -124,7 +124,7 @@
         <param value="browser"/>
       </params>
       <mappings>
-        <map from="edje,bar:Image03,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
       </mappings>
     </view>
     
@@ -134,7 +134,7 @@
         <param value="settings"/>
       </params>
       <mappings>
-        <map from="edje,bar:Image03,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
       </mappings>
     </view>
     
@@ -144,7 +144,7 @@
         <param value="email"/>
       </params>
       <mappings>
-        <map from="edje,bar:Image03,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
         <map from="edje,Button02,clicked" to="EMAIL_COMPOSE"/>
       </mappings>
     </view>
@@ -155,7 +155,7 @@
         <param value="email_compose"/>
       </params>
       <mappings>
-        <map from="edje,bar:Image03,mouse,clicked,1" to="EMAIL_READ"/>
+        <map from="edje,Image03,mouse,clicked,1" to="EMAIL_READ"/>
         <map from="edje,Image01,mouse,clicked,1" to="SETTINGS"/>
       </mappings>
     </view>
