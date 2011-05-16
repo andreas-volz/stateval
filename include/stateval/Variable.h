@@ -63,6 +63,20 @@ private:
   float mValue;
 };
 
+class Integer : public AbstractVariable
+{
+public:
+  Integer (int i);
+  
+  bool equals (AbstractVariable *var) const;
+  void assign (AbstractVariable *var);
+
+  int getData () const;
+  
+private:
+  int mValue;
+};
+
 class String : public AbstractVariable
 {
 public:

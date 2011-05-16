@@ -94,6 +94,41 @@ float Float::getData () const
 
 //////////////////////////
 
+Integer::Integer (int i) :
+  AbstractVariable (TYPE_INTEGER),
+  mValue (i)
+{
+  
+}
+
+bool Integer::equals (AbstractVariable *var) const
+{
+  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
+  assert (getType () == var->getType ());
+  
+  int ret = (static_cast <Integer*> (var))->mValue == mValue;
+  
+  return ret;
+}
+
+void Integer::assign (AbstractVariable *var)
+{
+  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
+  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
+  assert (getType () == var->getType ());
+
+  mValue = (static_cast <Integer*> (var))->mValue;
+}
+
+int Integer::getData () const
+{
+  return mValue;
+}
+
+
+//////////////////////////
+
 String::String (const std::string &s) :
   AbstractVariable (TYPE_STRING),
   mValue (s)

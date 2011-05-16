@@ -37,7 +37,7 @@ using namespace log4cxx::helpers;
 #endif // HAVE_LOG4CXX
 
 //static const Eflxx::Size initialWindowSize (800, 600);
-static const Eflxx::Size initialWindowSize (320, 480);
+static const Eflxx::Size initialWindowSize (420, 480);
 
 Main::Main (int argc, const char **argv) :
   mApp (argc, argv, "Simple stateval Test"),

@@ -294,6 +294,10 @@ AbstractVariable *XMLLoader::parseVariableNode (const xmlpp::Node * node)
     {
       var = new Float (fromString <float> (value_attribute->get_value ()));
     }
+    else if (type_attribute->get_value () == "Integer")
+    {
+      var = new Integer (fromString <int> (value_attribute->get_value ()));
+    }
     else if (type_attribute->get_value () == "Struct")
     {
       Struct* st = new Struct ();
