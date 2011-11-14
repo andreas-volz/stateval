@@ -12,9 +12,10 @@
 /* STD */
 #include <string>
 
-/* EFL */
+/* EFLxx */
 #include <evasxx/Evasxx.h>
 #include <edjexx/Edjexx.h>
+#include <elementaryxx/Elementaryxx.h>
 
 /* forward declarations */
 class StateMachineAccessor;
@@ -64,8 +65,11 @@ private:
   
   EdjeContext *mEdjeContext;
   
-  Evasxx::Canvas *mEvas;
-  Edjexx::Object *mEdje;
+  Elmxx::Button *bt; //tmp
+
+  Elmxx::Layout *mLayout;
+  Elmxx::Window *mWindow;
+
   std::string mFilename;
   std::string mGroupname;
   

@@ -1,8 +1,9 @@
 #ifndef EDJE_CONTEXT_H
 #define EDJE_CONTEXT_H
 
-/* EFL */
+/* Eflxx */
 #include <evasxx/Evasxx.h>
+#include <elementaryxx/Elementaryxx.h>
 
 /* pluxx */
 #include "stateval/stateval.h"
@@ -10,18 +11,18 @@
 class EdjeContext : public Context
 {
 public:
-  EdjeContext (Evasxx::Canvas &evas)  :
-    mEvas (&evas) {}
+  EdjeContext (Elmxx::Window *window)  :
+    mWindow (window) {}
   virtual ~EdjeContext () {}
 
   void setResolution (const Eflxx::Size &resolution) {mResolution = resolution;}
 
   const Eflxx::Size getResolution () {return mResolution;}
   
-  Evasxx::Canvas &getCanvas () {return *mEvas;}
+  Elmxx::Window *getWindow () {return mWindow;}
   
 private:
-  Evasxx::Canvas *mEvas;
+  Elmxx::Window *mWindow;
   Eflxx::Size mResolution;
 };
 

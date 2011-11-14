@@ -3,6 +3,7 @@
 
 /* EFL */
 #include <ecorexx/Ecorexx.h>
+#include <elementaryxx/Elementaryxx.h>
 
 class Main
 {
@@ -14,9 +15,15 @@ private:
   void resizeWindow (const Ecorexx::EvasWindow &win);
   void quit ();
 
-  Ecorexx::Application mApp;
-  Ecorexx::EvasWindowSoftwareX11 mWindow;
-  Evasxx::Rectangle mBackgroundRect;
+  Elmxx::Application mApp;
+  Elmxx::Window *mWindow;
+  Elmxx::Background *mBackground;
+
+  Elmxx::Layout *mLayout;
+  
+  //Ecorexx::Application mApp;
+  //Ecorexx::EvasWindowSoftwareX11 mWindow;
+  //Evasxx::Rectangle mBackgroundRect;
 };
 
 #endif // MAIN_H

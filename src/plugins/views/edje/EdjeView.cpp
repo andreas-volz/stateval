@@ -28,8 +28,6 @@ static const unsigned int minor_version = 1;
 EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   mLogger ("stateval.plugins.views.edje"),
   mEdjeContext (NULL),
-  mEvas (NULL),
-  mEdje (NULL),
   groupState (Unrealized)
 {
   assert (context);
@@ -45,7 +43,12 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   mGroupname = *params_it;
 
   mEdjeContext = static_cast <EdjeContext*> (context);
-  mEvas = &mEdjeContext->getCanvas ();
+
+  mWindow = mEdjeContext->getWindow ();
+  mLayout = Elmxx::Layout::factory (*mWindow);
+  mLayout->setWeightHintSize (EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mWindow->addObjectResize (*mLayout);
+  mLayout->show ();
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
@@ -67,10 +70,12 @@ const unsigned int EdjeView::getMinorVersion ()
 }
 
 void EdjeView::realize ()
-{  
+{ 
+  LOG4CXX_DEBUG (mLogger, "+wait for realize");
   mRealizeDispatcher.signal ();
 
   condRealize.wait (mutexRealize);
+  LOG4CXX_DEBUG (mLogger, "-wait for realize");
 }
 
 void EdjeView::unrealize ()
@@ -92,36 +97,37 @@ void EdjeView::realizeDispatched (int missedEvents)
   LOG4CXX_TRACE (mLogger, "+realizeDispatched()");
   
   LOG4CXX_INFO (mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
-      
-  mEdje = new Edjexx::Object (*mEvas, mFilename, mGroupname);
 
+  mLayout->setFile (mFilename, mGroupname);
+  
   LOG4CXX_INFO (mLogger, "Layer: " << getLayer ());
-  mEdje->setLayer (getLayer ());
+  mLayout->setLayer (getLayer ());
+
+  Eflxx::CountedPtr <Edjexx::Object> edjeObj (mLayout->getEdje ());
   
   // connect visible/invisible handler
-  // TODO: while changing names connect both -> remove later!
-  mEdje->connect ("invisible_signal", "edje", sigc::mem_fun (this, &EdjeView::invisibleFunc));
-  mEdje->connect ("visible_signal", "edje", sigc::mem_fun (this, &EdjeView::visibleFunc));
-  ////
+  // --> TODO: while changing names connect both -> remove later deprecated names!
+  edjeObj->connect ("invisible_signal", "edje", sigc::mem_fun (this, &EdjeView::invisibleFunc));
+  edjeObj->connect ("visible_signal", "edje", sigc::mem_fun (this, &EdjeView::visibleFunc));
+  //// <--
 
   // this is the new name of the spec!
-  mEdje->connect ("animation,end", "invisible", sigc::mem_fun (this, &EdjeView::invisibleFunc));
-  mEdje->connect ("animation,end", "visible", sigc::mem_fun (this, &EdjeView::visibleFunc));
+  edjeObj->connect ("animation,end", "invisible", sigc::mem_fun (this, &EdjeView::invisibleFunc));
+  edjeObj->connect ("animation,end", "visible", sigc::mem_fun (this, &EdjeView::visibleFunc));
 
-  mEdje->connect ("*", "edje", sigc::mem_fun (this, &EdjeView::edjeFunc));
-  mEdje->connect ("*", "stateval", sigc::mem_fun (this, &EdjeView::statevalFunc));
+  edjeObj->connect ("*", "edje", sigc::mem_fun (this, &EdjeView::edjeFunc));
+  edjeObj->connect ("*", "stateval", sigc::mem_fun (this, &EdjeView::statevalFunc));
 
-  mEdje->connect ("*", "*", sigc::mem_fun (this, &EdjeView::allFunc));
+  edjeObj->connect ("*", "*", sigc::mem_fun (this, &EdjeView::allFunc));
 
-  mEdje->resize (mEdjeContext->getResolution ());
+  mLayout->resize (mEdjeContext->getResolution ());
 
   updateContent ();
 
-  mEdje->setLayer (0);
-  mEdje->show ();
-
+  //mLayout->setLayer (0);
+  
   groupState = Realizing;
-  mEdje->emit ("visible", "stateval");
+  edjeObj->emit ("visible", "stateval");
 
   condRealize.signal ();
 
@@ -130,18 +136,21 @@ void EdjeView::realizeDispatched (int missedEvents)
 
 void EdjeView::unrealizeDispatched (int missedEvents)
 {
-  if (mEdje)
+  if (mLayout)
   {
     groupState = Unrealizing;
-    mEdje->emit ("invisible", "stateval");
+    Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje ();
+    edjeObj->emit ("invisible", "stateval");
   }
 }
 
 void EdjeView::updateContent ()
 { 
   // FIXME: seems first screen could not do a updateContent ()!!
-  if (!mEdje)
+  if (!mLayout)
     return;
+
+#if 0  // temporary!!
   
   StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
   
@@ -300,6 +309,8 @@ void EdjeView::updateContent ()
     LOG4CXX_INFO (mLogger, "Widget name: " << w.getName ());
     LOG4CXX_INFO (mLogger, "Widget variable: " << w.getVariable ());
   }
+
+#endif
 }
 
 void EdjeView::invisibleFunc (const std::string emmision, const std::string source)
@@ -307,8 +318,7 @@ void EdjeView::invisibleFunc (const std::string emmision, const std::string sour
   LOG4CXX_TRACE (mLogger, "invisibleFunc");
 
   groupState = Unrealized;
-  delete mEdje;
-  mEdje = NULL;
+  mLayout->setFile ("","");
   
   // signal the edje statemachine thread that the animation is finished
   condUnrealize.signal ();
@@ -366,7 +376,8 @@ void EdjeView::pushEvent (int event)
 
     if ((eventString.length () >= 4) && (eventString.substr (4) != "edje"))
     {
-      mEdje->emit (eventString, "stateval");
+      Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje ();
+      edjeObj->emit (eventString, "stateval");
     }
 
     if (event == VIEW_UPDATE_EVENT)

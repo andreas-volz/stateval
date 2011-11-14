@@ -40,27 +40,41 @@ using namespace log4cxx::helpers;
 static const Eflxx::Size initialWindowSize (420, 480);
 
 Main::Main (int argc, const char **argv) :
-  mApp (argc, argv, "Simple stateval Test"),
-  mWindow (initialWindowSize),
-  mBackgroundRect (mWindow.getCanvas())
+  mApp (argc, argv),
+  mWindow (Elmxx::Window::factory ("window1", ELM_WIN_BASIC)),
+  mBackground (Elmxx::Background::factory (*mWindow))
 {
 #ifdef HAVE_LOG4CXX
   //BasicConfigurator::configure ();
   cout << "searchDataDir ():" << searchDataDir () << endl;
   PropertyConfigurator::configure (searchDataDir () + "/logging.prop");
 #endif // HAVE_LOG4CXX
+
+  mWindow->setTitle ("Simple stateval Test");
+
+  mBackground->setWeightHintSize (EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mWindow->addObjectResize (*mBackground);
   
-  mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
+  mWindow->resize (initialWindowSize);
+  mWindow->setAutoDel (true);
+
+  /*mLayout = Elmxx::Layout::factory (*mWindow);
+  mLayout->setFile ("/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj", "main");
+  mLayout->setWeightHintSize (EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mWindow->addObjectResize (*mLayout);
+  mLayout->show ();*/
+ 
+  /*mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
   mWindow.resizeSignal.connect (sigc::mem_fun (this, &Main::resizeWindow));
-  mWindow.setAlpha (true); // enable transparency for the window
+  mWindow.setAlpha (true); // enable transparency for the window*/
 
   // setup background
-  mBackgroundRect.setColor (Eflxx::Color (0, 0, 0, 0)); // set a transparent background
+  /*mBackgroundRect.setColor (Eflxx::Color (0, 0, 0, 0)); // set a transparent background
   mBackgroundRect.resize (initialWindowSize);
   mBackgroundRect.setFocus (true);
-  mBackgroundRect.show ();
+  mBackgroundRect.show ();*/
     
-  EdjeContext edjeContext (mWindow.getCanvas());
+  EdjeContext edjeContext (mWindow);
   edjeContext.setResolution (initialWindowSize);
   
   StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
@@ -76,10 +90,11 @@ Main::Main (int argc, const char **argv) :
   // TODO Ecorexx::Job
   StateMachineAccessor.pushEvent ("MAIN");
 
-  mWindow.show();
+  mWindow->show ();
+  mBackground->show ();
 
   // Enter the application main loop
-  mApp.exec();
+  mApp.run ();
 
   StateMachineAccessor::destroy ();
   // <-- EFL
@@ -100,10 +115,10 @@ void Main::resizeWindow (const Ecorexx::EvasWindow &win)
 {
   //GraphicContext &graphicContext (GraphicContext::instance ());
   
-  const Eflxx::Size winSize (mWindow.geometry ().size ());
+  //const Eflxx::Size winSize (mWindow.geometry ().size ());
   
   //graphicContext.setResolution (winSize);
-  mBackgroundRect.resize (winSize);
+  //mBackgroundRect.resize (winSize);
 }
 
 /* Main */
