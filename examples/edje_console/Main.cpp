@@ -58,21 +58,9 @@ Main::Main (int argc, const char **argv) :
   mWindow->resize (initialWindowSize);
   mWindow->setAutoDel (true);
 
-  /*mLayout = Elmxx::Layout::factory (*mWindow);
-  mLayout->setFile ("/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj", "main");
-  mLayout->setWeightHintSize (EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  mWindow->addObjectResize (*mLayout);
-  mLayout->show ();*/
- 
   /*mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
   mWindow.resizeSignal.connect (sigc::mem_fun (this, &Main::resizeWindow));
   mWindow.setAlpha (true); // enable transparency for the window*/
-
-  // setup background
-  /*mBackgroundRect.setColor (Eflxx::Color (0, 0, 0, 0)); // set a transparent background
-  mBackgroundRect.resize (initialWindowSize);
-  mBackgroundRect.setFocus (true);
-  mBackgroundRect.show ();*/
     
   EdjeContext edjeContext (mWindow);
   edjeContext.setResolution (initialWindowSize);

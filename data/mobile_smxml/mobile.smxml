@@ -112,9 +112,7 @@
         <param value="bar"/>
       </params>
       <mappings>
-        <map from="edje,Image01,mouse,clicked,1" to="BROWSER"/>
-        <map from="edje,Image10,mouse,clicked,1" to="SETTINGS"/>
-        <map from="edje,Image08,mouse,clicked,1" to="EMAIL"/>
+        <map from="edje,Image03,mouse,clicked,1" to="EMAIL"/> 
       </mappings>
     </view>
 
@@ -123,9 +121,9 @@
         <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
         <param value="browser"/>
       </params>
-      <mappings>
+<!--      <mappings>
         <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
-      </mappings>
+      </mappings>-->
     </view>
     
     <view name="Settings">

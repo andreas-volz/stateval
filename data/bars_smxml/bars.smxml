@@ -15,8 +15,6 @@
     <event name="edje,Button04,clicked"/>
     <event name="edje,Button05,clicked"/>
     <event name="edje,Button06,clicked"/>
-    <event name="edje,Button06,clicked"/>
-    
     <event name="MAIN"/>
     <event name="RED"/>
     <event name="edje,,load"/>
@@ -46,7 +44,7 @@
 
     <view name="Main">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/demo.edj"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
         <param value="main"/>
       </params>
       <mappings>
@@ -56,7 +54,7 @@
 
     <view name="Red">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/editje_test.edj"/>
+        <param value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
         <param value="red"/>
       </params>
       <mappings>
