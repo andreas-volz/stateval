@@ -58,11 +58,9 @@ Main::Main (int argc, const char **argv) :
   mWindow->resize (initialWindowSize);
   mWindow->setAutoDel (true);
 
-  /*mWindow.deleteRequestSignal.connect (sigc::mem_fun (this, &Main::hideWindow));
-  mWindow.resizeSignal.connect (sigc::mem_fun (this, &Main::resizeWindow));
-  mWindow.setAlpha (true); // enable transparency for the window*/
-    
-  EdjeContext edjeContext (mWindow);
+  mWindow->getEventSignal ("delete,request")->connect (sigc::mem_fun (*this, &Main::elm_quit));
+  
+   EdjeContext edjeContext (mWindow);
   edjeContext.setResolution (initialWindowSize);
   
   StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
@@ -74,9 +72,9 @@ Main::Main (int argc, const char **argv) :
   InputThread iThread (StateMachineAccessor);
   iThread.start ();
   
-  // inital event
-  // TODO Ecorexx::Job
-  StateMachineAccessor.pushEvent ("MAIN");
+  Ecorexx::Job startupJob;
+  startupJob.signalCall.connect (sigc::mem_fun (this, &Main::startupDispatched));
+  startupJob.start ();
 
   mWindow->show ();
   mBackground->show ();
@@ -88,25 +86,21 @@ Main::Main (int argc, const char **argv) :
   // <-- EFL
 }
 
-void Main::quit ()
+void Main::elm_quit (Evasxx::Object &obj, void *event_info)
 {
   Ecorexx::Application::quit();
 }
 
-void Main::hideWindow (const Ecorexx::EvasWindow &win)
+/*!
+ * This functions runs on the Ecore thread dispatched by the EcoreDispatcher
+ */
+void Main::startupDispatched ()
 {
-  cout << "hide" << endl;
-  quit ();
-}
-
-void Main::resizeWindow (const Ecorexx::EvasWindow &win)
-{
-  //GraphicContext &graphicContext (GraphicContext::instance ());
+  StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
   
-  //const Eflxx::Size winSize (mWindow.geometry ().size ());
-  
-  //graphicContext.setResolution (winSize);
-  //mBackgroundRect.resize (winSize);
+  // inital event
+  cout << "initial event" << endl;
+  StateMachineAccessor.pushEvent ("MAIN");
 }
 
 /* Main */

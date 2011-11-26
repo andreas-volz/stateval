@@ -65,8 +65,6 @@ private:
   
   EdjeContext *mEdjeContext;
   
-  Elmxx::Button *bt; //tmp
-
   Elmxx::Layout *mLayout;
   Elmxx::Window *mWindow;
 

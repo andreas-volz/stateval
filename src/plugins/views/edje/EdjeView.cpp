@@ -35,20 +35,16 @@ EdjeView::EdjeView (Context *context, const std::list <std::string> &params) :
   if (params.size () != 2)
   {
     assert (false);
-  }
+  }  
   
   std::list <std::string>::const_iterator params_it = params.begin ();
   mFilename = *params_it;
   ++params_it;
   mGroupname = *params_it;
 
-  mEdjeContext = static_cast <EdjeContext*> (context);
+  LOG4CXX_TRACE (mLogger, "constructor: " << mFilename << "," << mGroupname);
 
-  mWindow = mEdjeContext->getWindow ();
-  mLayout = Elmxx::Layout::factory (*mWindow);
-  mLayout->setWeightHintSize (EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  mWindow->addObjectResize (*mLayout);
-  mLayout->show ();
+  mEdjeContext = static_cast <EdjeContext*> (context);
   
   mRealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect (sigc::mem_fun (this, &EdjeView::unrealizeDispatched));
@@ -98,6 +94,12 @@ void EdjeView::realizeDispatched (int missedEvents)
   
   LOG4CXX_INFO (mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
 
+  mWindow = mEdjeContext->getWindow ();
+  mLayout = Elmxx::Layout::factory (*mWindow);
+  mLayout->setWeightHintSize (EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mWindow->addObjectResize (*mLayout);
+  mLayout->show ();  
+  
   mLayout->setFile (mFilename, mGroupname);
   
   LOG4CXX_INFO (mLogger, "Layer: " << getLayer ());
@@ -150,9 +152,8 @@ void EdjeView::updateContent ()
   if (!mLayout)
     return;
 
-#if 0  // temporary!!
-  
   StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
+  Eflxx::CountedPtr <Edjexx::Object> edjeObj (mLayout->getEdje ());
   
   for (WidgetIterator wl_it = beginOfWidgets ();
        wl_it != endOfWidgets ();
@@ -165,7 +166,7 @@ void EdjeView::updateContent ()
 
     try
     {
-      Edjexx::Part &part = mEdje->getPart (w.getName ());
+      Edjexx::Part &part = edjeObj->getPart (w.getName ());
 
       if (val->getType () == AbstractVariable::TYPE_STRUCT)
       {
@@ -310,7 +311,7 @@ void EdjeView::updateContent ()
     LOG4CXX_INFO (mLogger, "Widget variable: " << w.getVariable ());
   }
 
-#endif
+
 }
 
 void EdjeView::invisibleFunc (const std::string emmision, const std::string source)
@@ -318,7 +319,10 @@ void EdjeView::invisibleFunc (const std::string emmision, const std::string sour
   LOG4CXX_TRACE (mLogger, "invisibleFunc");
 
   groupState = Unrealized;
-  mLayout->setFile ("","");
+  mWindow->delObjectResize (*mLayout);
+  mLayout->destroy ();
+  mLayout = NULL;
+  //elm_object_part_content_unset 	(mLayout->obj (), mGroupname.c_str ());
   
   // signal the edje statemachine thread that the animation is finished
   condUnrealize.signal ();
@@ -347,8 +351,8 @@ void EdjeView::allFunc (const std::string emmision, const std::string source)
   {
     StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
     
-    LOG4CXX_DEBUG (mLogger, "allFunc: " << emmision << ", " << source);
     string event ("edje," + source + "," + emmision);
+    LOG4CXX_DEBUG (mLogger, "allFunc: " << event << " (" << mGroupname << ")");
 
     // only push new events for realized screens
     // when I do this it leads into freezes as the invisible signal doesn't come

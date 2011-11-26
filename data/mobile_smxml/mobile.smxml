@@ -18,13 +18,13 @@
     <event name="edje,Image08,mouse,clicked,1"/>
     <event name="edje,Image09,mouse,clicked,1"/>
     <event name="edje,Image10,mouse,clicked,1"/>
+    <event name="edje,Back,mouse,clicked,1"/>
     <event name="edje,Button01,clicked"/>
     <event name="edje,Button02,clicked"/>
     <event name="edje,Button03,clicked"/>
     <event name="edje,Button04,clicked"/>
     <event name="edje,Button05,clicked"/>
     <event name="edje,Button06,clicked"/>
-    <event name="edje,bar:Image03,mouse,clicked,1"/>
     <event name="MAIN"/>
     <event name="BROWSER"/>
     <event name="SETTINGS"/>
@@ -112,7 +112,7 @@
         <param value="bar"/>
       </params>
       <mappings>
-        <map from="edje,Image03,mouse,clicked,1" to="EMAIL"/> 
+        
       </mappings>
     </view>
 
@@ -121,9 +121,9 @@
         <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
         <param value="browser"/>
       </params>
-<!--      <mappings>
-        <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
-      </mappings>-->
+      <mappings>
+        <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
+      </mappings>
     </view>
     
     <view name="Settings">
@@ -132,7 +132,7 @@
         <param value="settings"/>
       </params>
       <mappings>
-        <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
       </mappings>
     </view>
     
@@ -142,7 +142,7 @@
         <param value="email"/>
       </params>
       <mappings>
-        <map from="edje,Image03,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
         <map from="edje,Button02,clicked" to="EMAIL_COMPOSE"/>
       </mappings>
     </view>
@@ -153,7 +153,7 @@
         <param value="email_compose"/>
       </params>
       <mappings>
-        <map from="edje,Image03,mouse,clicked,1" to="EMAIL_READ"/>
+        <map from="edje,Back,mouse,clicked,1" to="EMAIL_READ"/>
         <map from="edje,Image01,mouse,clicked,1" to="SETTINGS"/>
       </mappings>
     </view>
