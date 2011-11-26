@@ -13,12 +13,12 @@ class StateMachineAccessor;
 class InputThread : public Threading::Thread
 {
 public:
-  InputThread (StateMachineAccessor &smAccess);
+  InputThread(StateMachineAccessor &smAccess);
 
 private:
-  void run ();
-  void updateEvent (int missedEvents);
-  
+  void run();
+  void updateEvent(int missedEvents);
+
   bool mRunning;
   StateMachineAccessor *mSMAccess;
 };

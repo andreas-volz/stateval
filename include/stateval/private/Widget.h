@@ -10,12 +10,12 @@
 class Widget
 {
 public:
-  Widget (const std::string &name, const std::string &variable);
-  virtual ~Widget () {};
+  Widget(const std::string &name, const std::string &variable);
+  virtual ~Widget() {};
 
-  const std::string getName () const;
-  const std::string getVariable () const;
-  
+  const std::string getName() const;
+  const std::string getVariable() const;
+
 private:
   Logger mLogger;
   std::string mName;

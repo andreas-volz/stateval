@@ -15,17 +15,21 @@
 class Logger
 {
 public:
-  Logger (const std::string& name) :
-    mLogger (log4cxx::Logger::getLogger (name)) {}
-    
-  Logger (const std::wstring& name) :
-    mLogger (log4cxx::Logger::getLogger (name)) {}
+  Logger(const std::string &name) :
+    mLogger(log4cxx::Logger::getLogger(name)) {}
 
-  log4cxx::LoggerPtr operator = (const Logger& logger)
-  {return mLogger;}
+  Logger(const std::wstring &name) :
+    mLogger(log4cxx::Logger::getLogger(name)) {}
+
+  log4cxx::LoggerPtr operator = (const Logger &logger)
+  {
+    return mLogger;
+  }
 
   log4cxx::LoggerPtr operator -> (void)
-  {return mLogger;}
+  {
+    return mLogger;
+  }
 
 private:
   log4cxx::LoggerPtr mLogger;
@@ -57,8 +61,8 @@ private:
 class Logger
 {
 public:
-  Logger (const std::string& name) {}
-  Logger (const std::wstring& name) {}
+  Logger(const std::string &name) {}
+  Logger(const std::wstring &name) {}
 };
 
 #endif // HAVE_LOG4CXX

@@ -14,111 +14,111 @@
 
 using namespace std;
 
-SimpleState::SimpleState ()
+SimpleState::SimpleState()
 {
 }
 
-SimpleState::SimpleState (CompoundState *parentState) :
-  State (parentState)
+SimpleState::SimpleState(CompoundState *parentState) :
+  State(parentState)
 {
 }
 
-SimpleState::~SimpleState ()
+SimpleState::~SimpleState()
 {
 }
 
-void SimpleState::addEntryAction (Action *action)
+void SimpleState::addEntryAction(Action *action)
 {
   if (action)
   {
-    mEntryActionList.push_back (action);
+    mEntryActionList.push_back(action);
   }
 }
 
-void SimpleState::addExitAction (Action *action)
+void SimpleState::addExitAction(Action *action)
 {
   if (action)
   {
-    mExitActionList.push_back (action);
+    mExitActionList.push_back(action);
   }
 }
 
-void SimpleState::runEntryActions ()
+void SimpleState::runEntryActions()
 {
-  runActions (mEntryActionList);
+  runActions(mEntryActionList);
 }
 
-void SimpleState::runExitActions ()
+void SimpleState::runExitActions()
 {
-  runActions (mExitActionList);
+  runActions(mExitActionList);
 }
 
-void SimpleState::runActions (std::list <Action*> &actionList)
+void SimpleState::runActions(std::list <Action *> &actionList)
 {
-  for (std::list <Action*>::const_iterator ac_it = actionList.begin ();
-     ac_it != actionList.end ();
-     ++ac_it)
+  for (std::list <Action *>::const_iterator ac_it = actionList.begin();
+       ac_it != actionList.end();
+       ++ac_it)
   {
     const Action *action = *ac_it;
-    assert (action);
-    action->run ();
+    assert(action);
+    action->run();
   }
 }
 
-const Transition *SimpleState::getWalkTransition (int event, bool walkDefaultTransition) const
+const Transition *SimpleState::getWalkTransition(int event, bool walkDefaultTransition) const
 {
   const Transition *defaultTransition = NULL;
-  
-  for (std::list <Transition*>::const_iterator tr_it = mLeaveTransitonList.begin ();
-       tr_it != mLeaveTransitonList.end ();
+
+  for (std::list <Transition *>::const_iterator tr_it = mLeaveTransitonList.begin();
+       tr_it != mLeaveTransitonList.end();
        ++tr_it)
   {
     const Transition *trans = *tr_it;
-    int tevent = trans->getEvent ();
-    
+    int tevent = trans->getEvent();
+
     if (tevent == event)
-    {      
-      return trans; 
+    {
+      return trans;
     }
     else if (tevent == -1) // default transition
     {
       defaultTransition = trans;
     }
   }
-  
+
   // if no Transition for a event was found then return the default Transition
   // if one is available...
   if (defaultTransition && walkDefaultTransition)
   {
     return defaultTransition;
   }
-  
+
   return NULL; // really no walk transition for this state found
 }
 
-void SimpleState::beforeTransitionCode ()
-{ 
-}
-
-void SimpleState::afterTransitionCode ()
-{
-  changeHistory ();
-}
-
-void SimpleState::mapEvent (int &inOutEvent)
+void SimpleState::beforeTransitionCode()
 {
 }
 
-void SimpleState::changeHistory ()
+void SimpleState::afterTransitionCode()
+{
+  changeHistory();
+}
+
+void SimpleState::mapEvent(int &inOutEvent)
+{
+}
+
+void SimpleState::changeHistory()
 {
   if (mParentState)
   {
-    HistoryState *hState = mParentState->getHistory ();
-      
+    HistoryState *hState = mParentState->getHistory();
+
     if (hState)
     {
       cout << "change history transition" << endl;
-      hState->changeTransition (this);
+      hState->changeTransition(this);
     }
   }
 }

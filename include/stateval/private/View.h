@@ -17,29 +17,35 @@ class View : public pluxx::Plugin
 {
 public:
   typedef std::list <Widget>::const_iterator WidgetIterator;
-  
-  View ();
-  virtual ~View () {};
 
-  virtual void realize () = 0;
-  
-  virtual void unrealize () = 0;
+  View();
+  virtual ~View() {};
 
-  void setLayer (int layer);
+  virtual void realize() = 0;
 
-  int getLayer ();
+  virtual void unrealize() = 0;
 
-  virtual void pushEvent (int event);
-  
-  void addEventMapping (const int rawEvent, const int mappedEvent);
-  
-  void mapEvent (int &inOutEvent);
+  void setLayer(int layer);
 
-  void addWidget (const Widget &w);
+  int getLayer();
 
-  WidgetIterator beginOfWidgets () {return mWidgetVariableList.begin ();}
-  WidgetIterator endOfWidgets ()   {return mWidgetVariableList.end ();}
-  
+  virtual void pushEvent(int event);
+
+  void addEventMapping(const int rawEvent, const int mappedEvent);
+
+  void mapEvent(int &inOutEvent);
+
+  void addWidget(const Widget &w);
+
+  WidgetIterator beginOfWidgets()
+  {
+    return mWidgetVariableList.begin();
+  }
+  WidgetIterator endOfWidgets()
+  {
+    return mWidgetVariableList.end();
+  }
+
 private:
   Logger mLogger;
   std::map <int, int> mEventMap;

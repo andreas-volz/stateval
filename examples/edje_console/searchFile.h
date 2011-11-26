@@ -6,9 +6,9 @@
 
 // public search functions
 
-const std::string searchDataDir ();
+const std::string searchDataDir();
 
 // private
-const std::string searchFile (std::vector <std::string> &name_vector);
+const std::string searchFile(std::vector <std::string> &name_vector);
 
 #endif // SEARCHFILE_H

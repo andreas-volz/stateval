@@ -13,13 +13,13 @@
 class Condition
 {
 public:
-  Condition ();
-  virtual ~Condition ();
-  
-  bool evaluate () const;
+  Condition();
+  virtual ~Condition();
 
-  void addComparison (const std::string &var, const AbstractVariable *val);
-  
+  bool evaluate() const;
+
+  void addComparison(const std::string &var, const AbstractVariable *val);
+
 private:
   std::string mVar;
   const AbstractVariable *mVal;

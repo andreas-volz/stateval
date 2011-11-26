@@ -1,5 +1,5 @@
 #ifdef HAVE_CONFIG_H
-  #include <config.h>
+#include <config.h>
 #endif
 
 #include <cctype>
@@ -9,11 +9,11 @@
 
 using namespace std;
 
-void UtilStringDelFollow (std::string &str, const std::string &characters)
+void UtilStringDelFollow(std::string &str, const std::string &characters)
 {
   string::size_type pos = str.find_last_not_of(characters);
   if (string::npos != pos)
-    str = str.substr(0, pos+1);
+    str = str.substr(0, pos + 1);
   else
   {
     // it is still possible that 'str' contains only 'characters':
@@ -23,7 +23,7 @@ void UtilStringDelFollow (std::string &str, const std::string &characters)
 
 }
 
-void UtilStringDelLead (std::string &str, const std::string &characters)
+void UtilStringDelLead(std::string &str, const std::string &characters)
 {
   string::size_type pos = str.find_first_not_of(characters);
   if (string::npos != pos)
@@ -37,7 +37,7 @@ void UtilStringDelLead (std::string &str, const std::string &characters)
 
 }
 
-void UtilStringDelSurround (std::string &str, const std::string &characters)
+void UtilStringDelSurround(std::string &str, const std::string &characters)
 {
   string::size_type pos = str.find_first_not_of(characters);
   if (string::npos != pos)
@@ -45,7 +45,7 @@ void UtilStringDelSurround (std::string &str, const std::string &characters)
 
   pos = str.find_last_not_of(characters);
   if (string::npos != pos)
-    str = str.substr(0, pos+1);
+    str = str.substr(0, pos + 1);
   else
   {
     // it is still possible that 'str' contains only 'characters':
@@ -54,11 +54,11 @@ void UtilStringDelSurround (std::string &str, const std::string &characters)
   }
 }
 
-bool hasFileEnding (const std::string &filename, const std::string &ending)
+bool hasFileEnding(const std::string &filename, const std::string &ending)
 {
-  const size_t loc = filename.find (ending, filename.length () - ending.length ());
+  const size_t loc = filename.find(ending, filename.length() - ending.length());
 
-  if (loc != string::npos )
+  if (loc != string::npos)
   {
     return true;
   }
@@ -66,25 +66,25 @@ bool hasFileEnding (const std::string &filename, const std::string &ending)
   return false;
 }
 
-std::string cutFileEnding (std::string filename, const std::string &ending)
+std::string cutFileEnding(std::string filename, const std::string &ending)
 {
   if (ending == "")
   {
-    const size_t loc = filename.find_last_of('.', filename.length ());
+    const size_t loc = filename.find_last_of('.', filename.length());
 
-    if (loc != string::npos )
+    if (loc != string::npos)
     {
-      filename.erase (loc);
+      filename.erase(loc);
       return filename;
     }
   }
   else
   {
-    const size_t loc = filename.find (ending, filename.length () - ending.length ());
+    const size_t loc = filename.find(ending, filename.length() - ending.length());
 
-    if (loc != string::npos )
+    if (loc != string::npos)
     {
-      filename.erase (loc);
+      filename.erase(loc);
       return filename;
     }
   }
@@ -99,26 +99,26 @@ std::string cutFileEnding (std::string filename, const std::string &ending)
  * @param str The string that is matched and replaced.
  * @param maxReplace Give a int to limit the replace matches. If 0 is given there's no limit.
  */
-int replaceString (const string& match, const string& replace, string& str, unsigned int maxReplace)
+int replaceString(const string &match, const string &replace, string &str, unsigned int maxReplace)
 {
   int start = 0;
   unsigned int i = 0;
 
   if (maxReplace == 0)
-    maxReplace = str.length ();
+    maxReplace = str.length();
 
   for (; i < maxReplace; i++)
   {
-    string::size_type loc = str.find (match, start);
+    string::size_type loc = str.find(match, start);
 
     if (loc != string::npos)
     {
-      str.replace (loc, match.length(), replace);
-   }
-   else
-   {
-     return i;
-   }
+      str.replace(loc, match.length(), replace);
+    }
+    else
+    {
+      return i;
+    }
 
     start = loc;
   }
@@ -130,13 +130,13 @@ int replaceString (const string& match, const string& replace, string& str, unsi
  * Convert both strings to upper case by transfrom() before compare.
  * @todo optimization possible with compare of each char after toupper; may help for very long strings
  */
-bool compareCaseInsensitive (std::string strFirst, std::string strSecond)
+bool compareCaseInsensitive(std::string strFirst, std::string strSecond)
 {
   std::transform(strFirst.begin(), strFirst.end(), strFirst.begin(), ::toupper);
   std::transform(strSecond.begin(), strSecond.end(), strSecond.begin(), ::toupper);
 
-  if(strFirst == strSecond) 
+  if (strFirst == strSecond)
     return true;
-  else 
+  else
     return false;
 }

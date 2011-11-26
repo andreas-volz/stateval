@@ -16,18 +16,18 @@ using namespace std;
 /* static member variable initialization */
 StateMachineAccessor *StateMachineAccessor::mInstance = NULL;
 
-StateMachineAccessor::StateMachineAccessor () :
-  mPImpl (new StateMachineAccessorPImpl ())
+StateMachineAccessor::StateMachineAccessor() :
+  mPImpl(new StateMachineAccessorPImpl())
 {
 
 }
 
-StateMachineAccessor::~StateMachineAccessor ()
+StateMachineAccessor::~StateMachineAccessor()
 {
   delete mPImpl;
 }
 
-void StateMachineAccessor::destroy ()
+void StateMachineAccessor::destroy()
 {
   if (mInstance)
   {
@@ -36,162 +36,162 @@ void StateMachineAccessor::destroy ()
   mInstance = NULL;
 }
 
-StateMachineAccessor &StateMachineAccessor::getInstance ()
+StateMachineAccessor &StateMachineAccessor::getInstance()
 {
   if (!mInstance)
   {
-    mInstance = new StateMachineAccessor ();
+    mInstance = new StateMachineAccessor();
   }
   return *mInstance;
 }
 
 // TODO: unload before load?
-void StateMachineAccessor::load (const std::string &loader, const std::string &file, Context *context)
+void StateMachineAccessor::load(const std::string &loader, const std::string &file, Context *context)
 {
-  mPImpl->mSM = new StateMachine (loader);
-  mPImpl->mSMThread = new StateMachineThread (*mPImpl->mSM);
-  mPImpl->mSM->load (context, file);
+  mPImpl->mSM = new StateMachine(loader);
+  mPImpl->mSMThread = new StateMachineThread(*mPImpl->mSM);
+  mPImpl->mSM->load(context, file);
 }
 
-void StateMachineAccessor::start ()
+void StateMachineAccessor::start()
 {
-  mPImpl->mSMThread->start (); 
-  mPImpl->mSM->start ();
+  mPImpl->mSMThread->start();
+  mPImpl->mSM->start();
 }
 
-bool StateMachineAccessor::isInitialized ()
+bool StateMachineAccessor::isInitialized()
 {
   return (mPImpl->mSM && mPImpl->mSMThread);
 }
 
-void StateMachineAccessor::pushEvent (int event)
+void StateMachineAccessor::pushEvent(int event)
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    mPImpl->mSMThread->pushEvent (event);
+    mPImpl->mSMThread->pushEvent(event);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }
 
-void StateMachineAccessor::pushEvent (const std::string &event)
+void StateMachineAccessor::pushEvent(const std::string &event)
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    mPImpl->mSMThread->pushEvent (event);
+    mPImpl->mSMThread->pushEvent(event);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }
 
-void StateMachineAccessor::addVariable (const std::string &var, AbstractVariable &av)
+void StateMachineAccessor::addVariable(const std::string &var, AbstractVariable &av)
 {
   // TODO: locking
-  mPImpl->mSM->addVariable (var, av);
+  mPImpl->mSM->addVariable(var, av);
 }
 
-AbstractVariable *StateMachineAccessor::getVariable (const std::string &var)
+AbstractVariable *StateMachineAccessor::getVariable(const std::string &var)
 {
   // TODO: locking
-  mPImpl->mSM->getVariable (var);
+  mPImpl->mSM->getVariable(var);
 }
 
-void StateMachineAccessor::changeVariable (const std::string &var, AbstractVariable &av)
+void StateMachineAccessor::changeVariable(const std::string &var, AbstractVariable &av)
 {
   // TODO: locking
-  mPImpl->mSM->changeVariable (var, av);
+  mPImpl->mSM->changeVariable(var, av);
 }
 
-int StateMachineAccessor::findMapingEvent (const std::string &event)
+int StateMachineAccessor::findMapingEvent(const std::string &event)
 {
   int ret = -1;
-  if (isInitialized ())
+  if (isInitialized())
   {
-    ret = mPImpl->mSM->findMapingEvent (event);
+    ret = mPImpl->mSM->findMapingEvent(event);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
-  
+
   return ret;
 }
 
-std::string StateMachineAccessor::findMapingEvent (int event)
+std::string StateMachineAccessor::findMapingEvent(int event)
 {
   string ret;
-  if (isInitialized ())
+  if (isInitialized())
   {
-    return ret = mPImpl->mSM->findMapingEvent (event);
+    return ret = mPImpl->mSM->findMapingEvent(event);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
-  
+
   return "";
 }
 
-void StateMachineAccessor::connect (int event, const SignalSlot& slot)
+void StateMachineAccessor::connect(int event, const SignalSlot &slot)
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    mPImpl->mSMThread->connect (event, slot);
+    mPImpl->mSMThread->connect(event, slot);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }
 
-void StateMachineAccessor::connect (const std::string &event, const SignalSlot& slot)
+void StateMachineAccessor::connect(const std::string &event, const SignalSlot &slot)
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    connect (findMapingEvent (event), slot);
+    connect(findMapingEvent(event), slot);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }
 
-void StateMachineAccessor::connect (const SignalSlot& slot)
+void StateMachineAccessor::connect(const SignalSlot &slot)
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    mPImpl->mSMThread->connect (slot);
+    mPImpl->mSMThread->connect(slot);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }
 
-void StateMachineAccessor::disconnect (int event)
+void StateMachineAccessor::disconnect(int event)
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    mPImpl->mSMThread->disconnect (event);
+    mPImpl->mSMThread->disconnect(event);
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }
 
-void StateMachineAccessor::disconnectAll ()
+void StateMachineAccessor::disconnectAll()
 {
-  if (isInitialized ())
+  if (isInitialized())
   {
-    mPImpl->mSMThread->disconnectAll ();
+    mPImpl->mSMThread->disconnectAll();
   }
   else
   {
-    assert (false);
+    assert(false);
   }
 }

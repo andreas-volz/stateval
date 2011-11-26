@@ -8,57 +8,57 @@
 /* STD */
 #include <cassert>
 
-HistoryState::HistoryState (CompoundState *parentState) :
-  State (parentState)
+HistoryState::HistoryState(CompoundState *parentState) :
+  State(parentState)
 {
-  
+
 }
 
-void HistoryState::beforeTransitionCode ()
-{
-}
-
-void HistoryState::afterTransitionCode ()
+void HistoryState::beforeTransitionCode()
 {
 }
 
-void HistoryState::mapEvent (int &inOutEvent)
+void HistoryState::afterTransitionCode()
 {
-  
 }
 
-void HistoryState::changeTransition (State *state)
+void HistoryState::mapEvent(int &inOutEvent)
+{
+
+}
+
+void HistoryState::changeTransition(State *state)
 {
   // warn while development time...
-  assert (mLeaveTransitonList.size () == 1);
-  
+  assert(mLeaveTransitonList.size() == 1);
+
   // ignore more than one and take first one
-  if (mLeaveTransitonList.size () >= 1)
+  if (mLeaveTransitonList.size() >= 1)
   {
-    Transition *historyTrans = *(mLeaveTransitonList.begin ());
+    Transition *historyTrans = *(mLeaveTransitonList.begin());
 
     // only react on default transition
-    if (historyTrans->getEvent () == Transition::NoEvent)
+    if (historyTrans->getEvent() == Transition::NoEvent)
     {
-      historyTrans->setEndState (state);
+      historyTrans->setEndState(state);
     }
   }
 }
 
-const Transition *HistoryState::getWalkTransition (int event, bool walkDefaultTransition) const
+const Transition *HistoryState::getWalkTransition(int event, bool walkDefaultTransition) const
 {
   Transition *historyTrans = NULL;
 
   // warn while development time...
-  assert (mLeaveTransitonList.size () == 1);
-  
+  assert(mLeaveTransitonList.size() == 1);
+
   // ignore more than one and take first one
-  if (mLeaveTransitonList.size () >= 1)
+  if (mLeaveTransitonList.size() >= 1)
   {
-    historyTrans = *(mLeaveTransitonList.begin ());
+    historyTrans = *(mLeaveTransitonList.begin());
 
     // only react on default transition
-    if (historyTrans->getEvent () != Transition::NoEvent)
+    if (historyTrans->getEvent() != Transition::NoEvent)
     {
       // a history without outgoing transition isn't really useful...
       historyTrans = NULL;
@@ -68,12 +68,12 @@ const Transition *HistoryState::getWalkTransition (int event, bool walkDefaultTr
   return historyTrans;
 }
 
-void HistoryState::runEntryActions ()
+void HistoryState::runEntryActions()
 {
-  
+
 }
 
-void HistoryState::runExitActions ()
+void HistoryState::runExitActions()
 {
-  
+
 }

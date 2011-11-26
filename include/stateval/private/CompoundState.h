@@ -9,14 +9,14 @@ class HistoryState;
 class CompoundState : public SimpleState
 {
 public:
-  CompoundState ();
-  CompoundState (CompoundState *parentState);
+  CompoundState();
+  CompoundState(CompoundState *parentState);
 
-  HistoryState *getHistory ();
-  void setHistory (HistoryState *hState);
-  
+  HistoryState *getHistory();
+  void setHistory(HistoryState *hState);
+
 protected:
-  
+
 private:
   HistoryState *mHistoryState;
 };

@@ -17,160 +17,160 @@
 
 using namespace std;
 
-StateMachine::StateMachine (const std::string &loaderPlugin) :
-  mActiveState (NULL), // link to root state
-  mSMInit (false),
-  mLogger ("stateval.StateMachine")
+StateMachine::StateMachine(const std::string &loaderPlugin) :
+  mActiveState(NULL),  // link to root state
+  mSMInit(false),
+  mLogger("stateval.StateMachine")
 {
-  string pluginFile (searchPluginFile ("loaders", loaderPlugin));
-  
+  string pluginFile(searchPluginFile("loaders", loaderPlugin));
+
   try
   {
-    mLoader = (Loader*) pluxx::PluginLoader::loadFactory (pluginFile, "Loader", 1);
+    mLoader = (Loader *) pluxx::PluginLoader::loadFactory(pluginFile, "Loader", 1);
 
     // TODO: correct exception handling!
 
-    LOG4CXX_INFO (mLogger, "Type: " << mLoader->getType ());
-    LOG4CXX_INFO (mLogger, "Major Version: " << mLoader->getMajorVersion ());
-    LOG4CXX_INFO (mLogger, "Minor Version: " << mLoader->getMinorVersion ());
+    LOG4CXX_INFO(mLogger, "Type: " << mLoader->getType());
+    LOG4CXX_INFO(mLogger, "Major Version: " << mLoader->getMajorVersion());
+    LOG4CXX_INFO(mLogger, "Minor Version: " << mLoader->getMinorVersion());
   }
   catch (pluxx::PluginTypeMismatchException typeEx)
   {
-    LOG4CXX_FATAL (mLogger, "catched an PluginTypeMismatchException exception...");
-    LOG4CXX_FATAL (mLogger, "Loader Type: " << typeEx.getLoaderType ());
-    LOG4CXX_FATAL (mLogger, "Plugin Type: " << typeEx.getPluginType ());
+    LOG4CXX_FATAL(mLogger, "catched an PluginTypeMismatchException exception...");
+    LOG4CXX_FATAL(mLogger, "Loader Type: " << typeEx.getLoaderType());
+    LOG4CXX_FATAL(mLogger, "Plugin Type: " << typeEx.getPluginType());
   }
   catch (pluxx::PluginMajorVersionMismatchException verEx)
   {
-    LOG4CXX_FATAL (mLogger, "catched an PluginMajorVersionMismatchException exception...");
-    LOG4CXX_FATAL (mLogger, "Loader Major Version: " << verEx.getLoaderMajorVersion ());
-    LOG4CXX_FATAL (mLogger, "Plugin Major Version: " << verEx.getPluginMajorVersion ());
+    LOG4CXX_FATAL(mLogger, "catched an PluginMajorVersionMismatchException exception...");
+    LOG4CXX_FATAL(mLogger, "Loader Major Version: " << verEx.getLoaderMajorVersion());
+    LOG4CXX_FATAL(mLogger, "Plugin Major Version: " << verEx.getPluginMajorVersion());
   }
 }
 
-StateMachine::~StateMachine ()
+StateMachine::~StateMachine()
 {
   // the Loader has to be destroyed in a special way, because it's a plugin!!
-  pluxx::PluginLoader::destroyFactory ((pluxx::Plugin*) mLoader);  
+  pluxx::PluginLoader::destroyFactory((pluxx::Plugin *) mLoader);
 }
 
-void StateMachine::start ()
+void StateMachine::start()
 {
-  mActiveState = mLoader->getInitialState ();
-  assert (mActiveState);
-  
+  mActiveState = mLoader->getInitialState();
+  assert(mActiveState);
+
   mSMInit = true;
 }
 
-bool StateMachine::load (Context *context, const std::string &smDir)
+bool StateMachine::load(Context *context, const std::string &smDir)
 {
-  return mLoader->load (context, smDir);
+  return mLoader->load(context, smDir);
 }
 
-void StateMachine::pushEvent (int event)
+void StateMachine::pushEvent(int event)
 {
-  eventQueue.push (event);
+  eventQueue.push(event);
 }
 
-void StateMachine::popEvent ()
+void StateMachine::popEvent()
 {
   eventQueue.pop();
 }
 
-int StateMachine::findMapingEvent (const std::string &event)
+int StateMachine::findMapingEvent(const std::string &event)
 {
-  return mLoader->findMapingEvent (event);
+  return mLoader->findMapingEvent(event);
 }
 
-std::string StateMachine::findMapingEvent (int event)
+std::string StateMachine::findMapingEvent(int event)
 {
-  return mLoader->findMapingEvent (event);
+  return mLoader->findMapingEvent(event);
 }
 
-void StateMachine::evaluateState (int &inOutEvent)
+void StateMachine::evaluateState(int &inOutEvent)
 {
   const Transition *trans = NULL;
-  
-  LOG4CXX_DEBUG (mLogger, "Now serving: " << inOutEvent);
-  
-  bool transit = walkDown (inOutEvent);
-  
+
+  LOG4CXX_DEBUG(mLogger, "Now serving: " << inOutEvent);
+
+  bool transit = walkDown(inOutEvent);
+
   if (!transit)
   {
-    LOG4CXX_DEBUG (mLogger, "nothing found -> searching in hierarchie...");
-    assert (mActiveState);
-    
+    LOG4CXX_DEBUG(mLogger, "nothing found -> searching in hierarchie...");
+    assert(mActiveState);
+
     // map event if state has a view...
-    mActiveState->mapEvent (inOutEvent);
+    mActiveState->mapEvent(inOutEvent);
 
     // push event to active state
     // this is e.g. useful to push event to a external GUI event loop
-    mActiveState->pushEvent (inOutEvent);
-    
-    State *foundState = searchHierarchie (inOutEvent);
+    mActiveState->pushEvent(inOutEvent);
+
+    State *foundState = searchHierarchie(inOutEvent);
     //cout << "found state that fits: " << foundState << endl;
-    
+
     if (foundState != NULL)
-    {      
+    {
       // run exit and entry actions
-      mActiveState->runExitActions ();
-      
-      mActiveState->beforeTransitionCode ();
-      
+      mActiveState->runExitActions();
+
+      mActiveState->beforeTransitionCode();
+
       mActiveState = foundState;
-      foundState->runEntryActions ();
+      foundState->runEntryActions();
       // -->
-      
+
       // do transitions
-      walkDown (inOutEvent);
+      walkDown(inOutEvent);
       transit = true;
     }
   }
 
   if (transit)
   {
-    mActiveState->afterTransitionCode ();
+    mActiveState->afterTransitionCode();
   }
 }
 
-State *StateMachine::searchHierarchie (int event)
+State *StateMachine::searchHierarchie(int event)
 {
   State *parentState = mActiveState;
   const Transition *trans = NULL;
-  
+
   do
   {
     // evaluate new active state
-    parentState = parentState->getParentState ();
+    parentState = parentState->getParentState();
     if (parentState == NULL)
-        break;
-    
-    assert (parentState);
-    
+      break;
+
+    assert(parentState);
+
     // doesn't find default transition
-    trans = parentState->getWalkTransition (event, false);
-    
+    trans = parentState->getWalkTransition(event, false);
+
     if (trans)
     {
-      LOG4CXX_DEBUG (mLogger, "searchHierarchie: father state '" << parentState-> getID () << "' has searched transition");
-      LOG4CXX_DEBUG (mLogger, "searchHierarchie: getEvent (): " << trans->getEvent ());
-      LOG4CXX_DEBUG (mLogger, "searchHierarchie: getEndState (): " << trans->getEndState ()->getID ());
-      
-      return trans->getEndState (); // return found state from hierarchie
+      LOG4CXX_DEBUG(mLogger, "searchHierarchie: father state '" << parentState-> getID() << "' has searched transition");
+      LOG4CXX_DEBUG(mLogger, "searchHierarchie: getEvent (): " << trans->getEvent());
+      LOG4CXX_DEBUG(mLogger, "searchHierarchie: getEndState (): " << trans->getEndState()->getID());
+
+      return trans->getEndState();  // return found state from hierarchie
     }
     else
     {
-      LOG4CXX_DEBUG (mLogger, "searchHierarchie: father state '" << parentState-> getID () << "' hasn't searched event '" << event << "'");
+      LOG4CXX_DEBUG(mLogger, "searchHierarchie: father state '" << parentState-> getID() << "' hasn't searched event '" << event << "'");
     }
   }
-  while (parentState->getParentState () != NULL);
+  while (parentState->getParentState() != NULL);
 
   return NULL; // indicate that search wasn't successful
 }
 
-bool StateMachine::walkDown (int event)
+bool StateMachine::walkDown(int event)
 {
-  // check all possible transitions from current state 
+  // check all possible transitions from current state
   // this loops several times if default transitions are found... ->
   const Transition *trans = NULL;
 
@@ -178,67 +178,67 @@ bool StateMachine::walkDown (int event)
   do
   {
     // evaluate new active state
-    assert (mActiveState);
+    assert(mActiveState);
 
     // map events...
-    mActiveState->mapEvent (event);
-    
-    trans = mActiveState->getWalkTransition (event);
-    
+    mActiveState->mapEvent(event);
+
+    trans = mActiveState->getWalkTransition(event);
+
     if (trans)
     {
-      LOG4CXX_DEBUG (mLogger, "getEvent (): " << trans->getEvent ());
-      LOG4CXX_DEBUG (mLogger, "getEndState (): " << trans->getEndState ());
-      
-      LOG4CXX_DEBUG (mLogger, "getName (): " << mActiveState->getName ());
-      LOG4CXX_DEBUG (mLogger, "getID (): " << mActiveState->getID ());
+      LOG4CXX_DEBUG(mLogger, "getEvent (): " << trans->getEvent());
+      LOG4CXX_DEBUG(mLogger, "getEndState (): " << trans->getEndState());
 
-      mActiveState->runExitActions ();
-      
-      mActiveState->beforeTransitionCode ();
-      
-      mActiveState = trans->getEndState (); // do state change transition
+      LOG4CXX_DEBUG(mLogger, "getName (): " << mActiveState->getName());
+      LOG4CXX_DEBUG(mLogger, "getID (): " << mActiveState->getID());
 
-      LOG4CXX_DEBUG (mLogger, "getName (): " << mActiveState->getName ());
-      LOG4CXX_DEBUG (mLogger, "getID (): " << mActiveState->getID ());
-      
-      mActiveState->runEntryActions ();
-      
+      mActiveState->runExitActions();
+
+      mActiveState->beforeTransitionCode();
+
+      mActiveState = trans->getEndState();  // do state change transition
+
+      LOG4CXX_DEBUG(mLogger, "getName (): " << mActiveState->getName());
+      LOG4CXX_DEBUG(mLogger, "getID (): " << mActiveState->getID());
+
+      mActiveState->runEntryActions();
+
       transit = true; // down transition was possible
     }
   }
   while (trans != NULL);
   // <-
-  
+
   return transit;
 }
 
-bool StateMachine::hasEvents ()
+bool StateMachine::hasEvents()
 {
-  return !eventQueue.empty ();
+  return !eventQueue.empty();
 }
 
-unsigned int StateMachine::getEventCount ()
+unsigned int StateMachine::getEventCount()
 {
-  return eventQueue.size ();
+  return eventQueue.size();
 }
 
-int StateMachine::getNextEvent ()
+int StateMachine::getNextEvent()
 {
-  return eventQueue.front ();
+  return eventQueue.front();
 }
 
-void StateMachine::addVariable (const std::string &var, AbstractVariable &av)
+void StateMachine::addVariable(const std::string &var, AbstractVariable &av)
 {
-  mLoader->addVariable (var, av);
+  mLoader->addVariable(var, av);
 }
 
-AbstractVariable *StateMachine::getVariable (const std::string &var)
+AbstractVariable *StateMachine::getVariable(const std::string &var)
 {
-  mLoader->getVariable (var);
+  mLoader->getVariable(var);
 }
 
-void StateMachine::changeVariable (const std::string &var, AbstractVariable &av)
+void StateMachine::changeVariable(const std::string &var, AbstractVariable &av)
 {
-  mLoader->changeVariable (var, av);
+  mLoader->changeVariable(var, av);
 }

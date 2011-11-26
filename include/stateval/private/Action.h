@@ -7,10 +7,10 @@ class Action
 {
 public:
 
-  virtual ~Action(){}
-    
-  virtual void run () const = 0;
-    
+  virtual ~Action() {}
+
+  virtual void run() const = 0;
+
 private:
 };
 

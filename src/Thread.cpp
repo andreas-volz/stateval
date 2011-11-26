@@ -8,13 +8,14 @@
 #include <stdio.h>
 #include <errno.h>
 
-namespace Threading {
+namespace Threading
+{
 
 // ===============================================================================================
 // = class Mutex
 // ===============================================================================================
 Mutex::Mutex()
-: m_Mutex()
+  : m_Mutex()
 {
   const int rc(::pthread_mutex_init(&m_Mutex, NULL));
   assert(0 == rc);
@@ -37,7 +38,7 @@ Mutex::EError Mutex::trylock()
 {
   const int rc(::pthread_mutex_trylock(&m_Mutex));
   assert(EINVAL != rc);
-  return (0     == rc) ? eErrorOK : 
+  return (0     == rc) ? eErrorOK :
          (EBUSY == rc) ? eErrorLocked : eErrorLock;
 }
 
@@ -51,8 +52,8 @@ Mutex::EError Mutex::unlock()
 // ===============================================================================================
 // = class MutexGrabber
 // ===============================================================================================
-MutexGrabber::MutexGrabber(Mutex& inMutex)
-: m_Mutex(inMutex)
+MutexGrabber::MutexGrabber(Mutex &inMutex)
+  : m_Mutex(inMutex)
 {
   m_Mutex.lock();
 }
@@ -66,7 +67,7 @@ MutexGrabber::~MutexGrabber()
 // = class Condition
 // ===============================================================================================
 Condition::Condition()
-: m_Condition()
+  : m_Condition()
 {
   const int rc(::pthread_cond_init(&m_Condition, NULL));
   assert(0 == rc);
@@ -84,7 +85,7 @@ void Condition::signal()
   assert(0 == rc);
 }
 
-void Condition::wait(Mutex& inMutex)
+void Condition::wait(Mutex &inMutex)
 {
   int rc = ::pthread_cond_wait(&m_Condition, &inMutex.m_Mutex);
   assert(0 == rc);
@@ -95,9 +96,9 @@ void Condition::wait(Mutex& inMutex)
 // ===============================================================================================
 // public
 Thread::Thread()
-: m_AccessGuard()
-, m_ThreadHd(0)
-, m_State(eStopped)
+  : m_AccessGuard()
+  , m_ThreadHd(0)
+  , m_State(eStopped)
 {}
 
 Thread::EError Thread::start()
@@ -107,7 +108,7 @@ Thread::EError Thread::start()
   {
     m_State = eStarting;
     const int rc(::pthread_create(&m_ThreadHd, NULL, _run, this));
-    assert(0==rc);
+    assert(0 == rc);
 
     // Was the cthread created successfully?
     if (rc != 0)
@@ -127,9 +128,9 @@ Thread::EError Thread::cancel()
   {
     m_State = eStopping;
     m_AccessGuard.unlock();
-    
+
     signal_cancel();
-    
+
     const Thread::EError err(join());
     assert(eStopped == m_State);
     m_AccessGuard.lock();
@@ -157,15 +158,15 @@ void Thread::sleepMS(uint32_t inTimeMS)
 }
 
 // Thread - static, private
-void* Thread::_run(void* inArg)
+void *Thread::_run(void *inArg)
 {
-  Thread* inst = reinterpret_cast<Thread*> (inArg);
+  Thread *inst = reinterpret_cast<Thread *>(inArg);
   inst->m_AccessGuard.lock();
   inst->m_State = eRunning;
   inst->m_AccessGuard.unlock();
 
   inst->run();
-    
+
   inst->m_AccessGuard.lock();
   inst->m_State = eStopped;
   inst->m_AccessGuard.unlock();

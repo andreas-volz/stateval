@@ -14,20 +14,20 @@ class Context;
 class TextView : public View
 {
 public:
-  TextView (Context *context, const std::list <std::string> &params);
-  virtual ~TextView () {};
+  TextView(Context *context, const std::list <std::string> &params);
+  virtual ~TextView() {};
 
-  const std::string getType ();
-  
-  const unsigned int getMajorVersion ();
+  const std::string getType();
 
-  const unsigned int getMinorVersion ();
-  
-  void realize ();
-  void unrealize ();
+  const unsigned int getMajorVersion();
 
-  void updateContent ();
-  
+  const unsigned int getMinorVersion();
+
+  void realize();
+  void unrealize();
+
+  void updateContent();
+
 private:
   std::string mFileName;
 };

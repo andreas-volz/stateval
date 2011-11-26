@@ -12,28 +12,28 @@
 
 using namespace std;
 
-ViewState::ViewState (CompoundState *parentState, ViewCache *viewCache) :
-  SimpleState (parentState),
-  mViewCache (viewCache),
-  mLogger ("stateval.ViewState")
+ViewState::ViewState(CompoundState *parentState, ViewCache *viewCache) :
+  SimpleState(parentState),
+  mViewCache(viewCache),
+  mLogger("stateval.ViewState")
 {
 }
 
-ViewState::~ViewState ()
+ViewState::~ViewState()
 {
 }
 
-bool ViewState::hasView ()
+bool ViewState::hasView()
 {
-  mViewList.size ();
+  mViewList.size();
 }
 
-void ViewState::mapEvent (int &inOutEvent)
+void ViewState::mapEvent(int &inOutEvent)
 {
   int event = inOutEvent;
 
-  for (std::list <ViewSpec>::iterator v_it = mViewList.begin ();
-       v_it != mViewList.end ();
+  for (std::list <ViewSpec>::iterator v_it = mViewList.begin();
+       v_it != mViewList.end();
        ++v_it)
   {
     ViewSpec &viewSpec = *v_it;
@@ -41,44 +41,44 @@ void ViewState::mapEvent (int &inOutEvent)
 
     // this maps all events from all views, if conflicting mappings exist, then
     // the top most event view mapping wins
-    view->mapEvent (event);
+    view->mapEvent(event);
   }
 
   inOutEvent = event;
 }
 
-void ViewState::addView (View &view, int layer)
+void ViewState::addView(View &view, int layer)
 {
   ViewSpec viewSpec;
   viewSpec.view = &view;
   viewSpec.layer = layer;
-  mViewList.push_back (viewSpec);
+  mViewList.push_back(viewSpec);
 }
 
-void ViewState::beforeTransitionCode ()
+void ViewState::beforeTransitionCode()
 {
-  assert (hasView ());
-  
-  mViewCache->setUnrealizeViewList (mViewList);
+  assert(hasView());
+
+  mViewCache->setUnrealizeViewList(mViewList);
 }
 
-void ViewState::afterTransitionCode ()
+void ViewState::afterTransitionCode()
 {
-  assert (hasView ());
-  
-  changeHistory ();
+  assert(hasView());
 
-  mViewCache->setRealizeViewList (mViewList);
+  changeHistory();
+
+  mViewCache->setRealizeViewList(mViewList);
 }
 
-void ViewState::pushEvent (int event)
+void ViewState::pushEvent(int event)
 {
-  for (std::list <ViewSpec>::iterator v_it = mViewList.begin ();
-       v_it != mViewList.end ();
+  for (std::list <ViewSpec>::iterator v_it = mViewList.begin();
+       v_it != mViewList.end();
        ++v_it)
   {
     ViewSpec &viewSpec = *v_it;
     View *view = viewSpec.view;
-    view->pushEvent (event);
+    view->pushEvent(event);
   }
 }

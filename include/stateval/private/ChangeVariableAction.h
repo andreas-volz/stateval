@@ -15,11 +15,11 @@ class StateMachine;
 class ChangeVariableAction : public Action
 {
 public:
-  ChangeVariableAction (const std::string &changeVar, AbstractVariable *var);
-  ~ChangeVariableAction ();
+  ChangeVariableAction(const std::string &changeVar, AbstractVariable *var);
+  ~ChangeVariableAction();
 
-  void run () const;
-    
+  void run() const;
+
 private:
   AbstractVariable *mVar;
   std::string mChangeVar;

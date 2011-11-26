@@ -10,11 +10,11 @@
 class FileNotFoundException : public std::exception
 {
 public:
-  FileNotFoundException (const std:: string &file) : txt (file) {}
-  
-  virtual ~FileNotFoundException () throw() {}
+  FileNotFoundException(const std:: string &file) : txt(file) {}
 
-  const char* what () const throw ();
+  virtual ~FileNotFoundException() throw() {}
+
+  const char *what() const throw();
 
 private:
   std::string txt;
@@ -23,11 +23,11 @@ private:
 class ConvertFromStringException : public std::exception
 {
 public:
-  ConvertFromStringException (const std:: string &str) : txt (str) {}
-  
-  virtual ~ConvertFromStringException () throw() {}
+  ConvertFromStringException(const std:: string &str) : txt(str) {}
 
-  const char* what () const throw ();
+  virtual ~ConvertFromStringException() throw() {}
+
+  const char *what() const throw();
 
 private:
   std::string txt;

@@ -14,20 +14,20 @@
 
 class TestLoader : public Loader
 {
-public:  
-  TestLoader ();
-  ~TestLoader ();
+public:
+  TestLoader();
+  ~TestLoader();
 
-  const std::string getType ();
-  
-  const unsigned int getMajorVersion ();
+  const std::string getType();
 
-  const unsigned int getMinorVersion ();
-  
-  bool load (Context *context, const std::string &test);
-    
-protected:  
-  
+  const unsigned int getMajorVersion();
+
+  const unsigned int getMinorVersion();
+
+  bool load(Context *context, const std::string &test);
+
+protected:
+
 private:
   Logger mLogger;
   Context *mContext;

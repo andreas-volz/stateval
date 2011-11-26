@@ -7,9 +7,9 @@
 // public search functions
 
 /// ".so" is added....
-const std::string searchPluginFile (const std::string &type, const std::string &name);
+const std::string searchPluginFile(const std::string &type, const std::string &name);
 
 // private
-const std::string searchFile (std::list <std::string> &nameList);
+const std::string searchFile(std::list <std::string> &nameList);
 
 #endif // SEARCHFILE_H

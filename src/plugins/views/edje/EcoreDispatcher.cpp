@@ -7,17 +7,17 @@
 
 using namespace std;
 
-EcoreDispatcher::EcoreDispatcher ()
+EcoreDispatcher::EcoreDispatcher()
 {
-  init ();
+  init();
 }
 
-EcoreDispatcher::~EcoreDispatcher ()
+EcoreDispatcher::~EcoreDispatcher()
 {
 
 }
 
-void EcoreDispatcher::init ()
+void EcoreDispatcher::init()
 {
   int fd[2];
   Ecore_Fd_Handler *fd_handler;
@@ -28,30 +28,30 @@ void EcoreDispatcher::init ()
     fd_read = fd[0];
     fd_write = fd[1];
     fcntl(fd_read, F_SETFL, O_NONBLOCK);
-    fd_handler = ecore_main_fd_handler_add (fd_read,
-                                            ECORE_FD_READ,
-                                            dispatcher_async_handler,
-                                            this,
-                                            NULL, NULL);
+    fd_handler = ecore_main_fd_handler_add(fd_read,
+                                           ECORE_FD_READ,
+                                           dispatcher_async_handler,
+                                           this,
+                                           NULL, NULL);
     ecore_main_fd_handler_active_set(fd_handler, ECORE_FD_READ);
   }
   else
   {
     cerr << "pipe() failed" << endl;
-    exit (1);
+    exit(1);
   }
 }
 
-void EcoreDispatcher::signal ()
+void EcoreDispatcher::signal()
 {
   write(fd_write, "1", 2);
 }
 
-Eina_Bool EcoreDispatcher::dispatcher_async_handler (void *data, Ecore_Fd_Handler *fdh)
+Eina_Bool EcoreDispatcher::dispatcher_async_handler(void *data, Ecore_Fd_Handler *fdh)
 {
   int fd;
   char buf[1];
-  EcoreDispatcher *dispatcher = static_cast <EcoreDispatcher*> (data);
+  EcoreDispatcher *dispatcher = static_cast <EcoreDispatcher *>(data);
 
   fd = ecore_main_fd_handler_fd_get(fdh);
 
@@ -59,12 +59,12 @@ Eina_Bool EcoreDispatcher::dispatcher_async_handler (void *data, Ecore_Fd_Handle
   int missedEvents = 0;
   do
   {
-    recBytes = read (fd, buf, sizeof (buf));
+    recBytes = read(fd, buf, sizeof(buf));
     missedEvents++;
   }
   while (recBytes > 0);
 
-  dispatcher->signalDispatch.emit (missedEvents);
+  dispatcher->signalDispatch.emit(missedEvents);
 
   return 1;
 }

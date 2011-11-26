@@ -10,22 +10,22 @@
 
 using namespace std;
 
-const char* FileNotFoundException::what () const throw ()
+const char *FileNotFoundException::what() const throw()
 {
   static string s;
   s = "File not found: '";
   s += txt;
   s += "'.";
 
-  return static_cast <const char*> (s.c_str ());
+  return static_cast <const char *>(s.c_str());
 }
 
-const char* ConvertFromStringException::what () const throw ()
+const char *ConvertFromStringException::what() const throw()
 {
   static string s;
   s = "Coudn't convert '";
   s += txt;
   s += "' to number..";
 
-  return static_cast <const char*> (s.c_str ());
+  return static_cast <const char *>(s.c_str());
 }

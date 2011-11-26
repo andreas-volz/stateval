@@ -8,11 +8,11 @@
 class Main
 {
 public:
-  Main (int argc, const char **argv);
-  
+  Main(int argc, const char **argv);
+
 private:
-  void elm_quit (Evasxx::Object &obj, void *event_info);
-  void startupDispatched ();
+  void elm_quit(Evasxx::Object &obj, void *event_info);
+  void startupDispatched();
 
   Elmxx::Application mApp;
   Elmxx::Window *mWindow;

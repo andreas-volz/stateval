@@ -6,35 +6,35 @@
 #include "stateval/private/Transition.h"
 #include "stateval/private/State.h"
 
-Transition::Transition (State *state) :
-  mEndState (state),
-  mEvent (NoEvent)
+Transition::Transition(State *state) :
+  mEndState(state),
+  mEvent(NoEvent)
 {
 
 }
 
-Transition::Transition (State *state, int event) :
-  mEndState (state),
-  mEvent (event)
+Transition::Transition(State *state, int event) :
+  mEndState(state),
+  mEvent(event)
 {
 
 }
 
-Transition::~Transition ()
+Transition::~Transition()
 {
 }
 
-int Transition::getEvent () const
+int Transition::getEvent() const
 {
   return mEvent;
 }
 
-State *Transition::getEndState () const
+State *Transition::getEndState() const
 {
   return mEndState;
 }
 
-void Transition::setEndState (State *state)
+void Transition::setEndState(State *state)
 {
   mEndState = state;
 }

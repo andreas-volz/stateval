@@ -14,27 +14,27 @@
 class DecisionState : public State
 {
 public:
-  DecisionState (CompoundState *parentState);
-  virtual ~DecisionState ();
-  
-  void addConditionTransition (const std::pair <Condition*, Transition*> &conTrans);
+  DecisionState(CompoundState *parentState);
+  virtual ~DecisionState();
 
-  void addLeaveTransition (Transition &trans);
+  void addConditionTransition(const std::pair <Condition *, Transition *> &conTrans);
+
+  void addLeaveTransition(Transition &trans);
 
 protected:
-  void beforeTransitionCode ();
-  void afterTransitionCode ();
-  
-  void mapEvent (int &inOutEvent);
+  void beforeTransitionCode();
+  void afterTransitionCode();
 
-  const Transition *getWalkTransition (int event, bool walkDefaultTransition = true) const;
-  
-  void runEntryActions ();
-  
-  void runExitActions ();
-  
+  void mapEvent(int &inOutEvent);
+
+  const Transition *getWalkTransition(int event, bool walkDefaultTransition = true) const;
+
+  void runEntryActions();
+
+  void runExitActions();
+
 private:
-  std::list <std::pair <Condition*, Transition*> > mConditionList;
+  std::list <std::pair <Condition *, Transition *> > mConditionList;
   Transition *mElseTrans;
 };
 

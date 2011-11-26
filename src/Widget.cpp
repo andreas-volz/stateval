@@ -7,19 +7,19 @@
 
 using namespace std;
 
-Widget::Widget (const std::string &name, const std::string &variable) :
-  mLogger ("stateval.Widget"),
-  mName (name),
-  mVariable (variable)
+Widget::Widget(const std::string &name, const std::string &variable) :
+  mLogger("stateval.Widget"),
+  mName(name),
+  mVariable(variable)
 {
 }
 
-const std::string Widget::getName () const
+const std::string Widget::getName() const
 {
   return mName;
 }
 
-const std::string Widget::getVariable () const
+const std::string Widget::getVariable() const
 {
   return mVariable;
 }

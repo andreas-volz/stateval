@@ -22,14 +22,14 @@ public:
     TYPE_STRUCT
   };
 
-  virtual bool equals (AbstractVariable *var) const = 0;
-  virtual void assign (AbstractVariable *var) = 0;
-  
-  Type getType () const;
-  
+  virtual bool equals(AbstractVariable *var) const = 0;
+  virtual void assign(AbstractVariable *var) = 0;
+
+  Type getType() const;
+
 protected:
-  AbstractVariable (Type type);
-  
+  AbstractVariable(Type type);
+
 private:
   Type mType;
 };
@@ -37,13 +37,13 @@ private:
 class Bool : public AbstractVariable
 {
 public:
-  Bool (bool b);
-  
-  bool equals (AbstractVariable *var) const;
-  void assign (AbstractVariable *var);
+  Bool(bool b);
 
-  bool getData () const;
-  
+  bool equals(AbstractVariable *var) const;
+  void assign(AbstractVariable *var);
+
+  bool getData() const;
+
 private:
   bool mValue;
 };
@@ -52,13 +52,13 @@ private:
 class Float : public AbstractVariable
 {
 public:
-  Float (float f);
-  
-  bool equals (AbstractVariable *var) const;
-  void assign (AbstractVariable *var);
+  Float(float f);
 
-  float getData () const;
-  
+  bool equals(AbstractVariable *var) const;
+  void assign(AbstractVariable *var);
+
+  float getData() const;
+
 private:
   float mValue;
 };
@@ -66,13 +66,13 @@ private:
 class Integer : public AbstractVariable
 {
 public:
-  Integer (int i);
-  
-  bool equals (AbstractVariable *var) const;
-  void assign (AbstractVariable *var);
+  Integer(int i);
 
-  int getData () const;
-  
+  bool equals(AbstractVariable *var) const;
+  void assign(AbstractVariable *var);
+
+  int getData() const;
+
 private:
   int mValue;
 };
@@ -80,15 +80,15 @@ private:
 class String : public AbstractVariable
 {
 public:
-  String (const std::string &s);
-  
-  bool equals (AbstractVariable *var) const;
-  void assign (AbstractVariable *var);
+  String(const std::string &s);
 
-  void change (const std::string &str);
+  bool equals(AbstractVariable *var) const;
+  void assign(AbstractVariable *var);
 
-  std::string getData () const;
-  
+  void change(const std::string &str);
+
+  std::string getData() const;
+
 private:
   std::string mValue;
 };
@@ -96,46 +96,46 @@ private:
 class Struct : public AbstractVariable
 {
 public:
-  typedef std::map <std::string, AbstractVariable*>::const_iterator Iterator;
-  
-  Struct ();
-  ~Struct ();
-  
-  bool equals (AbstractVariable *var) const;
-  void assign (AbstractVariable *var);
-  void add (const std::string &s, AbstractVariable *var);
+  typedef std::map <std::string, AbstractVariable *>::const_iterator Iterator;
 
-  AbstractVariable *getData (const std::string &s);
+  Struct();
+  ~Struct();
+
+  bool equals(AbstractVariable *var) const;
+  void assign(AbstractVariable *var);
+  void add(const std::string &s, AbstractVariable *var);
+
+  AbstractVariable *getData(const std::string &s);
   // TODO: implement [] operator
 
-  Iterator begin ();
-  Iterator end ();
-  
+  Iterator begin();
+  Iterator end();
+
 private:
-  std::map <std::string, AbstractVariable*> mValueMap;
+  std::map <std::string, AbstractVariable *> mValueMap;
 };
 
 class List : public AbstractVariable
 {
 public:
-  typedef std::list <AbstractVariable*>::const_iterator Iterator;
-  
-  List ();
-  ~List ();
-  
-  bool equals (AbstractVariable *var) const;
-  void assign (AbstractVariable *var);
-  
-  void pushBack (AbstractVariable *var);
-  void pushFront (AbstractVariable *var);
+  typedef std::list <AbstractVariable *>::const_iterator Iterator;
 
-  void clear ();
+  List();
+  ~List();
 
-  Iterator begin ();
-  Iterator end ();
-  
+  bool equals(AbstractVariable *var) const;
+  void assign(AbstractVariable *var);
+
+  void pushBack(AbstractVariable *var);
+  void pushFront(AbstractVariable *var);
+
+  void clear();
+
+  Iterator begin();
+  Iterator end();
+
 private:
-  std::list <AbstractVariable*> mValueList;
+  std::list <AbstractVariable *> mValueList;
 };
 
 

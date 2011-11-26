@@ -17,23 +17,26 @@ private:
 
 // Intentionally declared as private because not implemented yet
 private:
-   FileReader           (const FileReader&);
-   FileReader& operator=(const FileReader&);
+  FileReader(const FileReader &);
+  FileReader &operator=(const FileReader &);
 
 public:
-  FileReader () : locale (NULL) {}
+  FileReader() : locale(NULL) {}
 
   /// destructor closes the file
-  virtual ~FileReader () {close ();}
+  virtual ~FileReader()
+  {
+    close();
+  }
 
   /*!
   * \param filename the file to open for reading
   * \return true if the file could be opened.
   */
-  virtual bool open (const std::string& filename);
+  virtual bool open(const std::string &filename);
 
   /// closes the currently opened file
-  virtual void close ();
+  virtual void close();
 
 };
 

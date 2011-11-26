@@ -26,38 +26,38 @@ typedef sigc::slot1<void, int> SignalSlot;
 class StateMachineAccessor
 {
 public:
-  static StateMachineAccessor& getInstance ();
+  static StateMachineAccessor &getInstance();
 
-  static void destroy ();
-  
-  void load (const std::string &loader, const std::string &file, Context *context);
+  static void destroy();
 
-  void start ();
-  
-  void pushEvent (int event);
-  void pushEvent (const std::string &event);
+  void load(const std::string &loader, const std::string &file, Context *context);
 
-  void addVariable (const std::string &var, AbstractVariable &av);
+  void start();
 
-  AbstractVariable *getVariable (const std::string &var);
-  
-  void changeVariable (const std::string &var, AbstractVariable &av);
-  
-  int findMapingEvent (const std::string &event);
-  std::string findMapingEvent (int event);
+  void pushEvent(int event);
+  void pushEvent(const std::string &event);
 
-  void connect (int event, const SignalSlot& slot);
-  void connect (const std::string &event, const SignalSlot& slot);
-  void connect (const SignalSlot& slot);
-  void disconnect (int event);
-  void disconnectAll ();
+  void addVariable(const std::string &var, AbstractVariable &av);
 
-  bool isInitialized ();
-  
+  AbstractVariable *getVariable(const std::string &var);
+
+  void changeVariable(const std::string &var, AbstractVariable &av);
+
+  int findMapingEvent(const std::string &event);
+  std::string findMapingEvent(int event);
+
+  void connect(int event, const SignalSlot &slot);
+  void connect(const std::string &event, const SignalSlot &slot);
+  void connect(const SignalSlot &slot);
+  void disconnect(int event);
+  void disconnectAll();
+
+  bool isInitialized();
+
 private:
-  StateMachineAccessor ();
-  StateMachineAccessor (const StateMachineAccessor&);
-  virtual ~StateMachineAccessor ();
+  StateMachineAccessor();
+  StateMachineAccessor(const StateMachineAccessor &);
+  virtual ~StateMachineAccessor();
 
   static StateMachineAccessor *mInstance;
 

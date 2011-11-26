@@ -12,33 +12,33 @@
 class SimpleState : public State
 {
 public:
-  SimpleState (CompoundState *parentState);
-  virtual ~SimpleState ();
+  SimpleState(CompoundState *parentState);
+  virtual ~SimpleState();
 
-  void beforeTransitionCode ();
-  
-  void addEntryAction (Action *action);
-  void addExitAction (Action *action);
+  void beforeTransitionCode();
+
+  void addEntryAction(Action *action);
+  void addExitAction(Action *action);
 
 protected:
-  SimpleState ();
+  SimpleState();
 
-  void changeHistory ();
-  
+  void changeHistory();
+
 private:
-  void afterTransitionCode ();
-  
-  void mapEvent (int &inOutEvent);
+  void afterTransitionCode();
 
-  const Transition *getWalkTransition (int event, bool walkDefaultTransition = true) const;
-  
-  void runEntryActions ();
-  void runExitActions ();
-  
-  void runActions (std::list <Action*> &actionList);
-  
-  std::list <Action*> mEntryActionList; // pointers are freed by Loader!
-  std::list <Action*> mExitActionList; // pointers are freed by Loader!
+  void mapEvent(int &inOutEvent);
+
+  const Transition *getWalkTransition(int event, bool walkDefaultTransition = true) const;
+
+  void runEntryActions();
+  void runExitActions();
+
+  void runActions(std::list <Action *> &actionList);
+
+  std::list <Action *> mEntryActionList; // pointers are freed by Loader!
+  std::list <Action *> mExitActionList; // pointers are freed by Loader!
 };
 
 #endif // SIMPLE_STATE_H

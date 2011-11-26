@@ -26,21 +26,21 @@ static bool initialized = false;
 class EdjeView : public View
 {
 public:
-  EdjeView (Context *context, const std::list <std::string> &params);
+  EdjeView(Context *context, const std::list <std::string> &params);
 
-  const std::string getType ();
-  
-  const unsigned int getMajorVersion ();
+  const std::string getType();
 
-  const unsigned int getMinorVersion ();
-  
-  void realize ();
-  void unrealize ();
+  const unsigned int getMajorVersion();
 
-  void updateContent ();
+  const unsigned int getMinorVersion();
 
-  void pushEvent (int event);
-  
+  void realize();
+  void unrealize();
+
+  void updateContent();
+
+  void pushEvent(int event);
+
 private:
   enum ViewState
   {
@@ -49,37 +49,37 @@ private:
     Realizing,
     Unrealizing
   };
-  
-  void realizeDispatched (int missedEvents);
-  void unrealizeDispatched (int missedEvents);
-  
-  void invisibleFunc (const std::string emmision, const std::string source);
-  void visibleFunc (const std::string emmision, const std::string source);
-  void statevalFunc (const std::string emmision, const std::string source);
-  void edjeFunc (const std::string emmision, const std::string source);
-  void allFunc (const std::string emmision, const std::string source);
-  void viewUpdateFunc (const std::string emmision, const std::string source);
-  
+
+  void realizeDispatched(int missedEvents);
+  void unrealizeDispatched(int missedEvents);
+
+  void invisibleFunc(const std::string emmision, const std::string source);
+  void visibleFunc(const std::string emmision, const std::string source);
+  void statevalFunc(const std::string emmision, const std::string source);
+  void edjeFunc(const std::string emmision, const std::string source);
+  void allFunc(const std::string emmision, const std::string source);
+  void viewUpdateFunc(const std::string emmision, const std::string source);
+
   /** Variables **/
   Logger mLogger;
-  
+
   EdjeContext *mEdjeContext;
-  
+
   Elmxx::Layout *mLayout;
   Elmxx::Window *mWindow;
 
   std::string mFilename;
   std::string mGroupname;
-  
+
   EcoreDispatcher mRealizeDispatcher;
   EcoreDispatcher mUnrealizeDispatcher;
-  
+
   Threading::Condition condUnrealize;
   Threading::Mutex mutexUnrealize;
 
   Threading::Condition condRealize;
   Threading::Mutex mutexRealize;
-  
+
   enum ViewState groupState;
 };
 

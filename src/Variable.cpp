@@ -11,117 +11,82 @@
 #include <cassert>
 
 // TODO: move into each specific variable class and PImpl
-static Logger logger ("stateval.Variable");
+static Logger logger("stateval.Variable");
 
-AbstractVariable::AbstractVariable (Type type) :
-  mType (type)
-{ 
+AbstractVariable::AbstractVariable(Type type) :
+  mType(type)
+{
 }
 
-AbstractVariable::Type AbstractVariable::getType () const
+AbstractVariable::Type AbstractVariable::getType() const
 {
   return mType;
 }
 
 //////////////////////////
 
-Bool::Bool (bool b) :
-  AbstractVariable (TYPE_BOOL),
-  mValue (b)
+Bool::Bool(bool b) :
+  AbstractVariable(TYPE_BOOL),
+  mValue(b)
 {
-  
+
 }
 
-bool Bool::equals (AbstractVariable *var) const
+bool Bool::equals(AbstractVariable *var) const
 {
-  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
-  
-  bool ret = (static_cast <Bool*> (var))->mValue == mValue;
-  
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  bool ret = (static_cast <Bool *>(var))->mValue == mValue;
+
   return ret;
 }
 
-void Bool::assign (AbstractVariable *var)
+void Bool::assign(AbstractVariable *var)
 {
-  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
-  mValue = (static_cast <Bool*> (var))->mValue;
+  mValue = (static_cast <Bool *>(var))->mValue;
 }
 
-bool Bool::getData () const
+bool Bool::getData() const
 {
   return mValue;
 }
 
 //////////////////////////
 
-Float::Float (float f) :
-  AbstractVariable (TYPE_FLOAT),
-  mValue (f)
+Float::Float(float f) :
+  AbstractVariable(TYPE_FLOAT),
+  mValue(f)
 {
-  
+
 }
 
-bool Float::equals (AbstractVariable *var) const
+bool Float::equals(AbstractVariable *var) const
 {
-  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
-  
-  float ret = (static_cast <Float*> (var))->mValue == mValue;
-  
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  float ret = (static_cast <Float *>(var))->mValue == mValue;
+
   return ret;
 }
 
-void Float::assign (AbstractVariable *var)
+void Float::assign(AbstractVariable *var)
 {
-  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
-  mValue = (static_cast <Float*> (var))->mValue;
+  mValue = (static_cast <Float *>(var))->mValue;
 }
 
-float Float::getData () const
-{
-  return mValue;
-}
-
-
-//////////////////////////
-
-Integer::Integer (int i) :
-  AbstractVariable (TYPE_INTEGER),
-  mValue (i)
-{
-  
-}
-
-bool Integer::equals (AbstractVariable *var) const
-{
-  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
-  
-  int ret = (static_cast <Integer*> (var))->mValue == mValue;
-  
-  return ret;
-}
-
-void Integer::assign (AbstractVariable *var)
-{
-  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
-
-  mValue = (static_cast <Integer*> (var))->mValue;
-}
-
-int Integer::getData () const
+float Float::getData() const
 {
   return mValue;
 }
@@ -129,157 +94,192 @@ int Integer::getData () const
 
 //////////////////////////
 
-String::String (const std::string &s) :
-  AbstractVariable (TYPE_STRING),
-  mValue (s)
+Integer::Integer(int i) :
+  AbstractVariable(TYPE_INTEGER),
+  mValue(i)
 {
-  
+
 }
 
-bool String::equals (AbstractVariable *var) const
+bool Integer::equals(AbstractVariable *var) const
 {
-  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
-  
-  bool ret = (static_cast <String*> (var))->mValue == mValue;
-  
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  int ret = (static_cast <Integer *>(var))->mValue == mValue;
+
   return ret;
 }
 
-void String::assign (AbstractVariable *var)
+void Integer::assign(AbstractVariable *var)
 {
-  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
-  mValue = (static_cast <String*> (var))->mValue;
+  mValue = (static_cast <Integer *>(var))->mValue;
 }
 
-void String::change (const std::string &str)
+int Integer::getData() const
+{
+  return mValue;
+}
+
+
+//////////////////////////
+
+String::String(const std::string &s) :
+  AbstractVariable(TYPE_STRING),
+  mValue(s)
+{
+
+}
+
+bool String::equals(AbstractVariable *var) const
+{
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  bool ret = (static_cast <String *>(var))->mValue == mValue;
+
+  return ret;
+}
+
+void String::assign(AbstractVariable *var)
+{
+  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  mValue = (static_cast <String *>(var))->mValue;
+}
+
+void String::change(const std::string &str)
 {
   mValue = str;
 }
 
-std::string String::getData () const
+std::string String::getData() const
 {
   return mValue;
 }
 
 //////////////////////////
 
-Struct::Struct () :
-  AbstractVariable (TYPE_STRUCT)
+Struct::Struct() :
+  AbstractVariable(TYPE_STRUCT)
 {
 }
 
-Struct::~Struct ()
+Struct::~Struct()
 {
-  delete_stl_container (mValueMap);
+  delete_stl_container(mValueMap);
 }
 
-bool Struct::equals (AbstractVariable *var) const
+bool Struct::equals(AbstractVariable *var) const
 {
-  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
   // TODO: implement
   bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
-  assert (false);
-  
+  assert(false);
+
   return ret;
 }
 
-void Struct::assign (AbstractVariable *var)
+void Struct::assign(AbstractVariable *var)
 {
-  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
   // TODO: implement
   //mValue = (static_cast <String*> (var))->mValue;
-  assert (false);
+  assert(false);
 }
 
-void Struct::add (const std::string &s, AbstractVariable *var)
+void Struct::add(const std::string &s, AbstractVariable *var)
 {
   mValueMap[s] = var;
 }
 
-AbstractVariable *Struct::getData (const std::string &s)
+AbstractVariable *Struct::getData(const std::string &s)
 {
-  LOG4CXX_DEBUG (logger, "mValueMap size: " << mValueMap.size ());
+  LOG4CXX_DEBUG(logger, "mValueMap size: " << mValueMap.size());
   return mValueMap[s];
 }
 
-Struct::Iterator Struct::begin ()
+Struct::Iterator Struct::begin()
 {
-  return mValueMap.begin ();
+  return mValueMap.begin();
 }
 
-Struct::Iterator Struct::end ()
+Struct::Iterator Struct::end()
 {
-  return mValueMap.end ();
+  return mValueMap.end();
 }
 
 //////////////////////////
 
-List::List () :
-  AbstractVariable (TYPE_LIST)
+List::List() :
+  AbstractVariable(TYPE_LIST)
 {
 }
 
-List::~List ()
+List::~List()
 {
-  clear ();
+  clear();
 }
 
-bool List::equals (AbstractVariable *var) const
+bool List::equals(AbstractVariable *var) const
 {
-  LOG4CXX_DEBUG (logger, "equals this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
   // TODO: implement
   bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
-  assert (false);
-  
+  assert(false);
+
   return ret;
 }
 
-void List::assign (AbstractVariable *var)
+void List::assign(AbstractVariable *var)
 {
-  LOG4CXX_DEBUG (logger, "assign this:Type: " << getType ());
-  LOG4CXX_DEBUG (logger, "var:Type: " << var->getType ());
-  assert (getType () == var->getType ());
+  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
 
   // TODO: implement
   //mValue = (static_cast <String*> (var))->mValue;
-  assert (false);
+  assert(false);
 }
 
-void List::pushBack (AbstractVariable *var)
+void List::pushBack(AbstractVariable *var)
 {
-  mValueList.push_back (var);
+  mValueList.push_back(var);
 }
 
-void List::pushFront (AbstractVariable *var)
+void List::pushFront(AbstractVariable *var)
 {
-  mValueList.push_front (var);
+  mValueList.push_front(var);
 }
 
-void List::clear ()
+void List::clear()
 {
-  delete_stl_container (mValueList);
+  delete_stl_container(mValueList);
 }
 
-List::Iterator List::begin ()
+List::Iterator List::begin()
 {
-  return mValueList.begin ();
+  return mValueList.begin();
 }
 
-List::Iterator List::end ()
+List::Iterator List::end()
 {
-  return mValueList.end ();
+  return mValueList.end();
 }

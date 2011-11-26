@@ -16,21 +16,21 @@ class ViewSpec;
 class ViewState : public SimpleState
 {
 public:
-  ViewState (CompoundState *parentState, ViewCache *viewCache);
-  ~ViewState ();
+  ViewState(CompoundState *parentState, ViewCache *viewCache);
+  ~ViewState();
 
-  void addView (View &view, int layer);
-  
+  void addView(View &view, int layer);
+
 protected:
-  void pushEvent (int event);
-  
-private:
-  void beforeTransitionCode ();
-  void afterTransitionCode ();
+  void pushEvent(int event);
 
-  bool hasView ();
-  
-  void mapEvent (int &inOutEvent);
+private:
+  void beforeTransitionCode();
+  void afterTransitionCode();
+
+  bool hasView();
+
+  void mapEvent(int &inOutEvent);
 
   std::list <ViewSpec> mViewList;
   ViewCache *mViewCache;

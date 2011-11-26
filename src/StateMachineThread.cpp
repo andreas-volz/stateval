@@ -15,9 +15,9 @@
 
 using namespace std;
 
-StateMachineThread::StateMachineThread (StateMachine &sm) :
+StateMachineThread::StateMachineThread(StateMachine &sm) :
   Threading::Thread(),
-  mLogger ("stateval.StateMachineThread"),
+  mLogger("stateval.StateMachineThread"),
   mEventMutex(),
   mEventsInQueue(),
   mSM(&sm),
@@ -26,139 +26,139 @@ StateMachineThread::StateMachineThread (StateMachine &sm) :
 {
 }
 
-StateMachineThread::~StateMachineThread ()
+StateMachineThread::~StateMachineThread()
 {
-  LOG4CXX_TRACE (mLogger, "~StateMachineThread");
+  LOG4CXX_TRACE(mLogger, "~StateMachineThread");
 
-  cancel ();
+  cancel();
 
-  LOG4CXX_TRACE (mLogger, "~StateMachineThread (canceled)");
-  
-  join ();
+  LOG4CXX_TRACE(mLogger, "~StateMachineThread (canceled)");
 
-  LOG4CXX_TRACE (mLogger, "~StateMachineThread (joined)");
+  join();
+
+  LOG4CXX_TRACE(mLogger, "~StateMachineThread (joined)");
 }
 
-void StateMachineThread::start ()
+void StateMachineThread::start()
 {
-  LOG4CXX_TRACE (mLogger, "+StateMachineThread::start ()");
+  LOG4CXX_TRACE(mLogger, "+StateMachineThread::start ()");
   Thread::start();
-  LOG4CXX_TRACE (mLogger, "-StateMachineThread::start ()");
+  LOG4CXX_TRACE(mLogger, "-StateMachineThread::start ()");
 }
 
 void StateMachineThread::signal_cancel() // from thread
 {
-  mEventsInQueue.signal ();
+  mEventsInQueue.signal();
 }
 
-void StateMachineThread::run ()
+void StateMachineThread::run()
 {
-  LOG4CXX_TRACE (mLogger, "+run");
-  
+  LOG4CXX_TRACE(mLogger, "+run");
+
   while (isRunning())
   {
-    LOG4CXX_TRACE (mLogger, "+run::running while");
+    LOG4CXX_TRACE(mLogger, "+run::running while");
 
-    mEventMutex.lock ();
+    mEventMutex.lock();
 
     // this waiting loop runs until someone pushed an event to the event queue
-    while (!mSM->hasEvents ())
+    while (!mSM->hasEvents())
     {
-      LOG4CXX_TRACE (mLogger, "!mSM->eventQueue.empty()");
+      LOG4CXX_TRACE(mLogger, "!mSM->eventQueue.empty()");
       // here is the point the loop waits if no event is in the event queue
-      mEventsInQueue.wait (mEventMutex);
+      mEventsInQueue.wait(mEventMutex);
       if (!isRunning())
       {
-        mEventMutex.unlock ();
-        LOG4CXX_TRACE (mLogger, "!isRunning()");
+        mEventMutex.unlock();
+        LOG4CXX_TRACE(mLogger, "!isRunning()");
         return;
       }
     }
-    LOG4CXX_TRACE (mLogger, "mSM->eventQueue.empty()");
+    LOG4CXX_TRACE(mLogger, "mSM->eventQueue.empty()");
 
-    int event = mSM->getNextEvent ();
-    mEventMutex.unlock ();
-  
-    LOG4CXX_DEBUG (mLogger, "+EventQueue size: " << mSM->getEventCount ());
+    int event = mSM->getNextEvent();
+    mEventMutex.unlock();
 
-    mSM->evaluateState (event);
-  
+    LOG4CXX_DEBUG(mLogger, "+EventQueue size: " << mSM->getEventCount());
+
+    mSM->evaluateState(event);
+
     // pop element after working
-    LOG4CXX_DEBUG (mLogger, "-EventQueue size: " << mSM->getEventCount ());
+    LOG4CXX_DEBUG(mLogger, "-EventQueue size: " << mSM->getEventCount());
 
-        // emit event signals
-    multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
-    multimap <int, SignalSignal*>::iterator lastElement = mSignalList.upper_bound (event);
-  
-    if (findResult != mSignalList.end ())
+    // emit event signals
+    multimap <int, SignalSignal *>::iterator findResult = mSignalList.find(event);
+    multimap <int, SignalSignal *>::iterator lastElement = mSignalList.upper_bound(event);
+
+    if (findResult != mSignalList.end())
     {
       // emit also multible signals...
-      for ( ; findResult != lastElement; ++findResult)
+      for (; findResult != lastElement; ++findResult)
       {
-        LOG4CXX_DEBUG (mLogger, "call event '" << event << "' to app");
+        LOG4CXX_DEBUG(mLogger, "call event '" << event << "' to app");
         SignalSignal *signal = (*findResult).second;
-        signal->emit (event);
+        signal->emit(event);
       }
     }
-    LOG4CXX_TRACE (mLogger, "-run::running while");
+    LOG4CXX_TRACE(mLogger, "-run::running while");
 
     // emit the signal broadcast
     // this is e.g. useful to dispatch signals to another thread
-    mSignalBroadcast.emit (event);
-  
-    mEventMutex.lock ();
-    mSM->popEvent ();
-    mEventMutex.unlock ();
-    
-    LOG4CXX_TRACE (mLogger, "-run");
+    mSignalBroadcast.emit(event);
+
+    mEventMutex.lock();
+    mSM->popEvent();
+    mEventMutex.unlock();
+
+    LOG4CXX_TRACE(mLogger, "-run");
   }
 }
 
-void StateMachineThread::pushEvent (int event)
+void StateMachineThread::pushEvent(int event)
 {
-  mEventMutex.lock ();
-  mSM->pushEvent (event);
-  mEventsInQueue.signal ();
-  mEventMutex.unlock ();
+  mEventMutex.lock();
+  mSM->pushEvent(event);
+  mEventsInQueue.signal();
+  mEventMutex.unlock();
 }
 
-void StateMachineThread::pushEvent (const std::string &event)
+void StateMachineThread::pushEvent(const std::string &event)
 {
-  pushEvent (mSM->findMapingEvent (event));
+  pushEvent(mSM->findMapingEvent(event));
 }
 
-void StateMachineThread::connect (int event, const SignalSlot& slot)
+void StateMachineThread::connect(int event, const SignalSlot &slot)
 {
-  SignalSignal* signal = new SignalSignal();
-	mSignalList.insert (pair <int, SignalSignal*> (event, signal));
+  SignalSignal *signal = new SignalSignal();
+  mSignalList.insert(pair <int, SignalSignal *> (event, signal));
 
-  signal->connect (slot);
+  signal->connect(slot);
 }
 
-void StateMachineThread::connect (const SignalSlot& slot)
+void StateMachineThread::connect(const SignalSlot &slot)
 {
-  mSignalBroadcast.connect (slot);
+  mSignalBroadcast.connect(slot);
 }
 
-void StateMachineThread::disconnect (int event)
+void StateMachineThread::disconnect(int event)
 {
-	// delete event signals
-  multimap <int, SignalSignal*>::iterator findResult = mSignalList.find (event);
-  multimap <int, SignalSignal*>::iterator lastElement = mSignalList.upper_bound (event);
-  
-  if (findResult != mSignalList.end ())
+  // delete event signals
+  multimap <int, SignalSignal *>::iterator findResult = mSignalList.find(event);
+  multimap <int, SignalSignal *>::iterator lastElement = mSignalList.upper_bound(event);
+
+  if (findResult != mSignalList.end())
   {
     // delete all connected handlers
-    for ( ; findResult != lastElement; ++findResult)
+    for (; findResult != lastElement; ++findResult)
     {
       SignalSignal *signal = findResult->second;
       delete signal;
-      mSignalList.erase (findResult);
+      mSignalList.erase(findResult);
     }
   }
 }
 
-void StateMachineThread::disconnectAll ()
+void StateMachineThread::disconnectAll()
 {
-  delete_stl_container (mSignalList);
+  delete_stl_container(mSignalList);
 }

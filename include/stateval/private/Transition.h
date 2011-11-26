@@ -8,17 +8,17 @@ class Transition
 {
 public:
   static const int NoEvent = -1;
-  
-  Transition (State *state);
-  Transition (State *state, int event);
-  virtual ~Transition ();
 
-  int getEvent () const;
+  Transition(State *state);
+  Transition(State *state, int event);
+  virtual ~Transition();
 
-  void setEndState (State *state);
+  int getEvent() const;
 
-  State *getEndState () const;
-  
+  void setEndState(State *state);
+
+  State *getEndState() const;
+
 private:
   State *mEndState; // no need to free this as Loader holds it!
   int mEvent;

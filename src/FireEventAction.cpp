@@ -11,13 +11,13 @@
 
 using namespace std;
 
-FireEventAction::FireEventAction (int event) :
-  mEvent (event)
+FireEventAction::FireEventAction(int event) :
+  mEvent(event)
 {
 }
 
-void FireEventAction::run () const
+void FireEventAction::run() const
 {
-  StateMachineAccessor &StateMachineAccessor (StateMachineAccessor::getInstance ());
-  StateMachineAccessor.pushEvent (mEvent);
+  StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
+  StateMachineAccessor.pushEvent(mEvent);
 }

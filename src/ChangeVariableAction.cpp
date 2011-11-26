@@ -11,19 +11,19 @@
 
 using namespace std;
 
-ChangeVariableAction::ChangeVariableAction (const std::string &changeVar, AbstractVariable *var) :
-  mVar (var),
-  mChangeVar (changeVar)
+ChangeVariableAction::ChangeVariableAction(const std::string &changeVar, AbstractVariable *var) :
+  mVar(var),
+  mChangeVar(changeVar)
 {
 }
 
-ChangeVariableAction::~ChangeVariableAction ()
+ChangeVariableAction::~ChangeVariableAction()
 {
   // no need to free 'mVar' as it's only a pointer to a Loader managed variable...
 }
 
-void ChangeVariableAction::run () const
+void ChangeVariableAction::run() const
 {
-  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
-  stateMachineAccessor.changeVariable (mChangeVar, *mVar);
+  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance();
+  stateMachineAccessor.changeVariable(mChangeVar, *mVar);
 }

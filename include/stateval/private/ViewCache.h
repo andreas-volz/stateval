@@ -25,10 +25,10 @@ bool operator == (const ViewSpec &viewSpec1, const ViewSpec &viewSpec2);
 class ViewCache
 {
 public:
-  ViewCache ();
-  
-  void setUnrealizeViewList (std::list <ViewSpec> unrealizeViewList);
-  void setRealizeViewList (std::list <ViewSpec> realizeViewList);
+  ViewCache();
+
+  void setUnrealizeViewList(std::list <ViewSpec> unrealizeViewList);
+  void setRealizeViewList(std::list <ViewSpec> realizeViewList);
 
 private:
   std::list <ViewSpec> mUnrealizeViewList;

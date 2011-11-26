@@ -4,9 +4,9 @@
 class LoaderPluginLoader
 {
 public:
-  static pluxx::Plugin *loadFactory (const std::string &filename, const std::string& type, unsigned int majorVersion,
-                                     Context *context);
-  
+  static pluxx::Plugin *loadFactory(const std::string &filename, const std::string &type, unsigned int majorVersion,
+                                    Context *context);
+
 private:
 };
 

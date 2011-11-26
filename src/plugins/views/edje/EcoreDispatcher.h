@@ -15,17 +15,17 @@ public:
    */
   sigc::signal <void, int> signalDispatch;
 
-  EcoreDispatcher ();
-  virtual ~EcoreDispatcher ();
+  EcoreDispatcher();
+  virtual ~EcoreDispatcher();
 
-  void signal ();
+  void signal();
 
 private:
   int fd_read;
   int fd_write;
 
-  void init ();
-  static Eina_Bool dispatcher_async_handler (void *data, Ecore_Fd_Handler *fdh);
+  void init();
+  static Eina_Bool dispatcher_async_handler(void *data, Ecore_Fd_Handler *fdh);
 };
 
 #endif // ECOREDISPATCHER_H

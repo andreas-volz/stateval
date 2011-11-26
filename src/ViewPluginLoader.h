@@ -13,9 +13,9 @@
 class ViewPluginLoader : public pluxx::PluginLoader
 {
 public:
-  static pluxx::Plugin *loadFactory (const std::string &filename, const std::string& type, unsigned int majorVersion,
-                                     Context *context, const std::list <std::string> &params);
-  
+  static pluxx::Plugin *loadFactory(const std::string &filename, const std::string &type, unsigned int majorVersion,
+                                    Context *context, const std::list <std::string> &params);
+
 private:
 
 };

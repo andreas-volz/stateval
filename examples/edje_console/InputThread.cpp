@@ -13,31 +13,31 @@
 
 using namespace std;
 
-InputThread::InputThread (StateMachineAccessor &smAccess) :
-  mRunning (true),
-  mSMAccess (&smAccess)
+InputThread::InputThread(StateMachineAccessor &smAccess) :
+  mRunning(true),
+  mSMAccess(&smAccess)
 {
 }
 
-void InputThread::run ()
+void InputThread::run()
 {
   while (mRunning)
   {
-    string input;  
-    
+    string input;
+
     cout << "Waiting for command..." << endl << endl << endl;
-    
+
     cin >> input;
 
     cout << "Typed: " << input << endl;
-    
-    mSMAccess->pushEvent (mSMAccess->findMapingEvent (input));
-          
+
+    mSMAccess->pushEvent(mSMAccess->findMapingEvent(input));
+
     if (input == "quit")
     {
       mRunning = false;
       cout << "Exiting..." << endl;
-      exit (0);
+      exit(0);
     }
   }
 }

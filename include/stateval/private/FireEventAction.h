@@ -14,10 +14,10 @@ class StateMachine;
 class FireEventAction : public Action
 {
 public:
-  FireEventAction (int event);
+  FireEventAction(int event);
 
-  void run () const;
-    
+  void run() const;
+
 private:
   int mEvent;
 };

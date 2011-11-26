@@ -1,5 +1,5 @@
 #ifdef HAVE_CONFIG_H
-  #include <config.h>
+#include <config.h>
 #endif
 
 /* local */
@@ -10,29 +10,29 @@
 /* STD */
 #include <cassert>
 
-Condition::Condition () :
-  mVal (NULL)
+Condition::Condition() :
+  mVal(NULL)
 {
 }
 
-Condition::~Condition ()
+Condition::~Condition()
 {
   // no need to free 'mVal' as it's only a pointer to a Loader managed variable...
 }
 
-bool Condition::evaluate () const
+bool Condition::evaluate() const
 {
-  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance ();
-  
-  AbstractVariable *val = stateMachineAccessor.getVariable (mVar);
-  assert (val);
+  StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance();
+
+  AbstractVariable *val = stateMachineAccessor.getVariable(mVar);
+  assert(val);
 
   // TODO: not sure what happens if it compares two different variable types...
-  
-  return mVal->equals (val);
+
+  return mVal->equals(val);
 }
 
-void  Condition::addComparison (const std::string &var, const AbstractVariable *val)
+void  Condition::addComparison(const std::string &var, const AbstractVariable *val)
 {
   mVar = var;
   mVal = val;

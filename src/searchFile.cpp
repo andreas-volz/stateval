@@ -10,61 +10,61 @@
 
 using namespace std;
 
-const std::string searchPluginFile (const std::string &type, const std::string &name)
+const std::string searchPluginFile(const std::string &type, const std::string &name)
 {
   list <string> nameList; // TODO: port to list and iterator usage
 #ifdef __APPLE__
-  const string ext (".dylib"); // on OS X shared objects are suffixed by .dylib
+  const string ext(".dylib");  // on OS X shared objects are suffixed by .dylib
 #else
-  const string ext (".so");
+  const string ext(".so");
 #endif
 
-  const string relPath ("plugins/" + type + "/" + name + "/");
-  const string soName ("stateval_" + type + "_" + name + ext);
+  const string relPath("plugins/" + type + "/" + name + "/");
+  const string soName("stateval_" + type + "_" + name + ext);
 
   // as default search only on the current directory
-  nameList.push_back (relPath + soName);
+  nameList.push_back(relPath + soName);
 
 #ifdef HAVE_CONFIG_H
-  nameList.push_back (string (PACKAGE_PLUGINS_DIR) + "/" + relPath + soName);
-  nameList.push_back (string (PACKAGE_SOURCE_DIR) + "/src/" + relPath + LT_OBJDIR + soName);
+  nameList.push_back(string(PACKAGE_PLUGINS_DIR) + "/" + relPath + soName);
+  nameList.push_back(string(PACKAGE_SOURCE_DIR) + "/src/" + relPath + LT_OBJDIR + soName);
 #endif
 
-  const string &file = searchFile (nameList);
+  const string &file = searchFile(nameList);
 
-  if (file.empty ())
+  if (file.empty())
   {
-    throw FileNotFoundException (relPath + soName);
+    throw FileNotFoundException(relPath + soName);
   }
 
   return file;
 }
 
-const std::string searchDataDir ()
+const std::string searchDataDir()
 {
   list <string> nameList;
 
-  nameList.push_back ("data");
+  nameList.push_back("data");
 
 #ifdef HAVE_CONFIG_H
-  nameList.push_back (string (PACKAGE_SOURCE_DIR) + "/data");
-  nameList.push_back (PACKAGE_DATA_DIR);
+  nameList.push_back(string(PACKAGE_SOURCE_DIR) + "/data");
+  nameList.push_back(PACKAGE_DATA_DIR);
 #endif
 
-  return searchFile (nameList);
+  return searchFile(nameList);
 }
 
-const std::string searchFile (std::list <std::string> &nameList)
+const std::string searchFile(std::list <std::string> &nameList)
 {
   struct stat buf;
 
-  for (std::list <std::string>::const_iterator li_it = nameList.begin ();
-       li_it != nameList.end ();
+  for (std::list <std::string>::const_iterator li_it = nameList.begin();
+       li_it != nameList.end();
        ++li_it)
   {
     const string &try_name = *li_it;
 
-    bool found = !(stat (try_name.c_str (), &buf));
+    bool found = !(stat(try_name.c_str(), &buf));
     //cout << "try_name: " << try_name << endl;
 
     if (found)
