@@ -11,12 +11,12 @@ text_views_SOURCES = \
 	searchFile.h
 
 text_views_CXXFLAGS = \
-	-I../../include \
+	$(top_srcdir)/include \
 	$(SIGC_CFLAGS) \
 	$(EFL_CFLAGS)
 
 text_views_LDADD = \
-	../../src/libstateval.la \
+	$(top_srcdir)/src/libstateval.la \
 	$(SIGC_LIBS) \
 	$(EFL_LIBS) \
 	$(PLUXX_LIBS) \

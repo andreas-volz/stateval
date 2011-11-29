@@ -13,8 +13,7 @@ stateval_loaders_smtest_la_LIBADD = \
 	$(SIGC_LIBS)
 
 stateval_loaders_smtest_la_CXXFLAGS = \
-	-I \
-	../../../../include
+	$(top_srcdir)/include
 
 stateval_loaders_smtest_la_LDFLAGS = \
 	-module \

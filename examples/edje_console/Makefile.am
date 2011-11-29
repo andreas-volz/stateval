@@ -11,13 +11,13 @@ edje_console_SOURCES = \
 	Main.cpp 
 
 edje_console_CXXFLAGS = \
-	-I../../include \
+	-I$(top_srcdir)/include \
 	$(EFL_CFLAGS) \
 	$(SIGC_CFLAGS) \
-	-I../../src
+	-I$(top_srcdir)/src
 
 edje_console_LDADD = \
-	../../src/libstateval.la \
+	$(top_srcdir)/src/libstateval.la \
 	$(EFL_LIBS) \
 	$(SIGC_LIBS) \
 	$(PLUXX_LIBS) \

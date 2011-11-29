@@ -17,8 +17,7 @@ stateval_views_edje_la_LDFLAGS = \
 	-shared
 
 stateval_views_edje_la_CXXFLAGS = \
-	-I \
-	../../../../include
+	$(top_srcdir)/include
 
 stateval_views_edje_la_LIBADD = \
 	$(PLUXX_LIBS) \
