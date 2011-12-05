@@ -11,7 +11,7 @@ text_views_SOURCES = \
 	searchFile.h
 
 text_views_CXXFLAGS = \
-	$(top_srcdir)/include \
+	-I$(top_srcdir)/include \
 	$(SIGC_CFLAGS) \
 	$(EFL_CFLAGS)
 

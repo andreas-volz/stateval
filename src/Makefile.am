@@ -47,8 +47,7 @@ libstateval_la_SOURCES = \
 	Widget.cpp
 
 libstateval_la_CXXFLAGS = \
-	-I \
-	../include
+	-I$(top_srcdir)/include
 
 libstateval_la_LIBADD =      \
 	$(EFL_LIBS)      \

@@ -17,7 +17,7 @@ stateval_views_text_la_LIBADD = \
 	$(PLUXX_LIBS)
 
 stateval_views_text_la_CXXFLAGS = \
-	$(top_srcdir)/include
+	-I$(top_srcdir)/include
 
 AM_CPPFLAGS = \
 	$(PLUXX_CFLAGS)

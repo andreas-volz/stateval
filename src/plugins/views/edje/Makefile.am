@@ -17,15 +17,17 @@ stateval_views_edje_la_LDFLAGS = \
 	-shared
 
 stateval_views_edje_la_CXXFLAGS = \
-	$(top_srcdir)/include
+	-I$(top_srcdir)/include
 
 stateval_views_edje_la_LIBADD = \
 	$(PLUXX_LIBS) \
-	$(EFL_LIBS)
+	$(EFL_LIBS) \
+	$(SIGC_LIBS)
 
 AM_CPPFLAGS = \
 	$(PLUXX_CFLAGS) \
-	$(EFL_CFLAGS) 
+	$(EFL_CFLAGS) \
+	$(SIGC_CFLAGS)
 	
 endif
 

@@ -14,7 +14,7 @@ stateval_loaders_smxml_la_SOURCES = \
 	Logger.h
 
 stateval_loaders_smxml_la_CXXFLAGS = \
-	$(top_srcdir)/include
+	-I$(top_srcdir)/include
 
 stateval_loaders_smxml_la_LDFLAGS = \
 	-module \
