@@ -1,3 +1,4 @@
+if HAVE_CPPUNIT
 
 lib_LTLIBRARIES = \
 	stateval_loaders_smtest.la
@@ -24,6 +25,8 @@ AM_CPPFLAGS = \
 	$(LOG4CXX_CFLAGS) \
 	$(PLUXX_CFLAGS) \
 	$(SIGC_CFLAGS)
+
+endif
 
 ## File created by the gnome-build tools
 

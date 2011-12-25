@@ -79,6 +79,14 @@ AC_MSG_CHECKING(whether to enable logging)
 AC_ARG_ENABLE(logging,
         [  --enable-logging=[no/yes]        enables logging build (default=yes)],,
                  enable_logging=yes)              
+
+
+dnl Check for option to enable test applications
+AC_MSG_CHECKING(whether to enable test applications)
+AC_ARG_ENABLE(tests,
+        [  --enable-tests=[no/yes]        enables test applications build (default=yes)],,
+                 enable_tests=yes)
+
                  
 if [ ! test "$enable_logging" != "yes"]; then
   AC_DEFINE(HAVE_LOGGING, 1, [Define to enable logging build])
@@ -92,8 +100,20 @@ else
   AC_MSG_RESULT(no)
 fi
 
+if [ ! test "$enable_tests" != "yes"]; then
+  AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])
+  AC_MSG_RESULT(yes)
+  PKG_CHECK_MODULES([CPPUNIT], cppunit,
+        AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build]),
+        AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
+  )
+else
+  AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
+  AC_MSG_RESULT(no)
+fi
+
 PKG_CHECK_MODULES(SIGC, sigc++-2.0)
-PKG_CHECK_MODULES(CPPUNIT, cppunit)
+
 PKG_CHECK_MODULES(PLUXX, pluxx)
 
 AC_OUTPUT([

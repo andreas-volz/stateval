@@ -1,3 +1,4 @@
+if HAVE_CPPUNIT
 
 bin_PROGRAMS = \
 	testThread
@@ -21,6 +22,8 @@ AM_CPPFLAGS = \
 	$(CPPUNIT_CFLAGS) \
 	$(PLUXX_CFLAGS) \
 	$(LOG4CXX_CFLAGS)
+
+endif
 
 ## File created by the gnome-build tools
 
