@@ -104,11 +104,14 @@ if [ ! test "$enable_tests" != "yes"]; then
   AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])
   AC_MSG_RESULT(yes)
   PKG_CHECK_MODULES([CPPUNIT], cppunit,
-        AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build]),
-        AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
+        [AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])
+	 AM_CONDITIONAL(HAVE_CPPUNIT, test 1=1)],
+        [AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
+	 AM_CONDITIONAL(HAVE_CPPUNIT, test 0=1)]
   )
 else
   AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
+  AM_CONDITIONAL(HAVE_CPPUNIT, test 0=1)
   AC_MSG_RESULT(no)
 fi
 
