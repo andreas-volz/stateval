@@ -62,16 +62,12 @@ AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 
 PKG_CHECK_MODULES([EFL], evasxx eflxx edjexx ecorexx einaxx elementaryxx,
     [AC_DEFINE(HAVE_EFL, 1,[enables EFL plugin build])
-     AM_CONDITIONAL(HAVE_EFL, test 1=1)],
-    [AC_DEFINE(HAVE_EFL, 0, [disables EFL plugin build])
-     AM_CONDITIONAL(HAVE_EFL, test 0=1)]
+     AM_CONDITIONAL(HAVE_EFL, true)]
 )
 
 PKG_CHECK_MODULES([XML], libxml++-2.6,
-    [AC_DEFINE(HAVE_XML, 1,[enables SMXML plugin build])
-     AM_CONDITIONAL(HAVE_XML, test 1=1)],
-    [AC_DEFINE(HAVE_XML, 0, [disables SMXML plugin build])
-     AM_CONDITIONAL(HAVE_XML, test 0=1)]
+     AM_CONDITIONAL(HAVE_XML, true),
+     AM_CONDITIONAL(HAVE_XML, false)
 )
 
 dnl Check for option to enable logging
@@ -92,12 +88,8 @@ if [ ! test "$enable_logging" != "yes"]; then
   AC_DEFINE(HAVE_LOGGING, 1, [Define to enable logging build])
   AC_MSG_RESULT(yes)
   PKG_CHECK_MODULES([LOG4CXX], liblog4cxx,
-        AC_DEFINE(HAVE_LOG4CXX, 1, [Define to enable logging build]),
-        AC_DEFINE(HAVE_LOG4CXX, 0, [Define to enable logging build])
+        AC_DEFINE(HAVE_LOG4CXX, 1, [Define to enable logging build])
   )
-else
-  AC_DEFINE(HAVE_LOG4CXX, 0, [Define to enable logging build])
-  AC_MSG_RESULT(no)
 fi
 
 if [ ! test "$enable_tests" != "yes"]; then
@@ -105,14 +97,8 @@ if [ ! test "$enable_tests" != "yes"]; then
   AC_MSG_RESULT(yes)
   PKG_CHECK_MODULES([CPPUNIT], cppunit,
         [AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])
-	 AM_CONDITIONAL(HAVE_CPPUNIT, test 1=1)],
-        [AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
-	 AM_CONDITIONAL(HAVE_CPPUNIT, test 0=1)]
+	 AM_CONDITIONAL(HAVE_CPPUNIT, true)]
   )
-else
-  AC_DEFINE(HAVE_CPPUNIT, 0, [Define to enable test application build])
-  AM_CONDITIONAL(HAVE_CPPUNIT, test 0=1)
-  AC_MSG_RESULT(no)
 fi
 
 PKG_CHECK_MODULES(SIGC, sigc++-2.0)
