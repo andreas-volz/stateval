@@ -61,13 +61,13 @@ AC_DEFINE_UNQUOTED(SYSTEM_PLUGINS_DIR, "${packageprefix}/${systempluginsdir}",""
 AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 
 PKG_CHECK_MODULES([EFL], evasxx eflxx edjexx ecorexx einaxx elementaryxx,
-    [AC_DEFINE(HAVE_EFL, 1,[enables EFL plugin build])
-     AM_CONDITIONAL(HAVE_EFL, true)]
+     AM_CONDITIONAL(HAVE_EFL, [test 1 = 1]),
+     AM_CONDITIONAL(HAVE_EFL, [test 0 = 1]),
 )
 
 PKG_CHECK_MODULES([XML], libxml++-2.6,
-     AM_CONDITIONAL(HAVE_XML, true),
-     AM_CONDITIONAL(HAVE_XML, false)
+     AM_CONDITIONAL(HAVE_XML, [test 1 = 1]),
+     AM_CONDITIONAL(HAVE_XML, [test 0 = 1])
 )
 
 dnl Check for option to enable logging
@@ -96,8 +96,8 @@ if [ ! test "$enable_tests" != "yes"]; then
   AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])
   AC_MSG_RESULT(yes)
   PKG_CHECK_MODULES([CPPUNIT], cppunit,
-        [AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])
-	 AM_CONDITIONAL(HAVE_CPPUNIT, true)]
+	 AM_CONDITIONAL(HAVE_CPPUNIT, [test 1 = 1]),
+	 AM_CONDITIONAL(HAVE_CPPUNIT, [test 0 = 1])
   )
 fi
 
