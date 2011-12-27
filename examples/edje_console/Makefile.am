@@ -1,3 +1,4 @@
+if HAVE_EFL
 
 bin_PROGRAMS = \
 	edje_console
@@ -26,6 +27,8 @@ edje_console_LDADD = \
 AM_CPPFLAGS = \
 	$(PLUXX_CFLAGS)\
 	$(LOG4CXX_CFLAGS)
+
+endif
 
 ## File created by the gnome-build tools
 
