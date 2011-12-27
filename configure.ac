@@ -88,7 +88,8 @@ if [ ! test "$enable_logging" != "yes"]; then
   AC_DEFINE(HAVE_LOGGING, 1, [Define to enable logging build])
   AC_MSG_RESULT(yes)
   PKG_CHECK_MODULES([LOG4CXX], liblog4cxx,
-        AC_DEFINE(HAVE_LOG4CXX, 1, [Define to enable logging build])
+        AC_DEFINE(HAVE_LOG4CXX, 1, [Define to enable logging build]),
+	[test 1 = 1]
   )
 fi
 
