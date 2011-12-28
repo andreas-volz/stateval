@@ -6,7 +6,8 @@ AM_CPPFLAGS = \
 	$(EFL_CFLAGS) \
 	$(SIGC_CFLAGS) \
 	$(PLUXX_CFLAGS) \
-	$(LOG4CXX_CFLAGS)
+	$(LOG4CXX_CFLAGS) \
+	$(PTHREAD_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -53,7 +54,8 @@ libstateval_la_LIBADD =      \
 	$(EFL_LIBS)      \
 	$(SIGC_LIBS)      \
 	$(PLUXX_LIBS)      \
-	$(LOG4CXX_LIBS)
+	$(LOG4CXX_LIBS) \
+	$(PTHREAD_LIBS)
 
 SUBDIRS = \
 	plugins
