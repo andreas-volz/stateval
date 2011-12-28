@@ -147,7 +147,7 @@ int Loader::findMapingEvent(const std::string &event)
 
 std::string Loader::findMapingEvent(int event)
 {
-  if (mEventListIndex.size() >= event)
+  if (static_cast <int> (mEventListIndex.size()) >= event)
   {
     return mEventListIndex[event];
   }

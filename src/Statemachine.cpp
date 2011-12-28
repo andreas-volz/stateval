@@ -18,9 +18,9 @@
 using namespace std;
 
 StateMachine::StateMachine(const std::string &loaderPlugin) :
+  mLogger("stateval.StateMachine"),
   mActiveState(NULL),  // link to root state
-  mSMInit(false),
-  mLogger("stateval.StateMachine")
+  mSMInit(false)
 {
   string pluginFile(searchPluginFile("loaders", loaderPlugin));
 
@@ -89,8 +89,6 @@ std::string StateMachine::findMapingEvent(int event)
 
 void StateMachine::evaluateState(int &inOutEvent)
 {
-  const Transition *trans = NULL;
-
   LOG4CXX_DEBUG(mLogger, "Now serving: " << inOutEvent);
 
   bool transit = walkDown(inOutEvent);
@@ -235,7 +233,7 @@ void StateMachine::addVariable(const std::string &var, AbstractVariable &av)
 
 AbstractVariable *StateMachine::getVariable(const std::string &var)
 {
-  mLoader->getVariable(var);
+  return mLoader->getVariable(var);
 }
 
 void StateMachine::changeVariable(const std::string &var, AbstractVariable &av)

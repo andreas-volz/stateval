@@ -25,7 +25,7 @@ ViewState::~ViewState()
 
 bool ViewState::hasView()
 {
-  mViewList.size();
+  return mViewList.size();
 }
 
 void ViewState::mapEvent(int &inOutEvent)
