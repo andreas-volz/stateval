@@ -7,25 +7,3 @@
 
 using namespace std;
 
-EdjeContext::EdjeContext(Evasxx::Canvas &evas)
-{
-}
-
-EdjeContext::~EdjeContext()
-{
-}
-
-Evasxx::Canvas &EdjeContext::getCanvas()
-{
-
-}
-
-void EdjeContext::setResolution(const Eflxx::Size &resolution)
-{
-
-}
-
-const Eflxx::Size EdjeContext::getResolution()
-{
-
-}
