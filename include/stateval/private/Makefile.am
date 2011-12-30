@@ -1,5 +1,5 @@
 
-libstateval_private_HEADERS = \
+noinst_HEADERS = \
 	Action.h             \
 	ChangeVariableAction.h             \
 	CompoundState.h             \
