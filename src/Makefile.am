@@ -3,7 +3,6 @@
 ## Created by Anjuta
 
 AM_CPPFLAGS = \
-	$(EFL_CFLAGS) \
 	$(SIGC_CFLAGS) \
 	$(PLUXX_CFLAGS) \
 	$(LOG4CXX_CFLAGS) \
@@ -51,7 +50,6 @@ libstateval_la_CXXFLAGS = \
 	-I$(top_srcdir)/include
 
 libstateval_la_LIBADD =      \
-	$(EFL_LIBS)      \
 	$(SIGC_LIBS)      \
 	$(PLUXX_LIBS)      \
 	$(LOG4CXX_LIBS) \
