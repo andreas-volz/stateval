@@ -12,7 +12,8 @@ testThread_LDADD = \
 	$(SIGC_LIBS) \
 	$(CPPUNIT_LIBS) \
 	$(PLUXX_LIBS) \
-	$(LOG4CXX_LIBS)
+	$(LOG4CXX_LIBS) \
+	-lz
 
 testThread_CXXFLAGS = \
 	-I../../include
