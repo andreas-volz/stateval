@@ -60,7 +60,8 @@ AC_DEFINE_UNQUOTED(PACKAGE_PLUGINS_DIR, "${packageprefix}/${packagepluginsdir}",
 AC_DEFINE_UNQUOTED(SYSTEM_PLUGINS_DIR, "${packageprefix}/${systempluginsdir}","")
 AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 
-PKG_CHECK_MODULES([EFL], evasxx eflxx edjexx ecorexx einaxx elementaryxx,
+## TODO: ecorexx only needed for edje_console example...
+PKG_CHECK_MODULES([EFL], elementaryxx ecorexx,
      AM_CONDITIONAL(HAVE_EFL, [test 1 = 1]),
      AM_CONDITIONAL(HAVE_EFL, [test 0 = 1]),
 )
