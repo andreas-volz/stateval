@@ -97,7 +97,7 @@ void StateMachineAccessor::addVariable(const std::string &var, AbstractVariable 
 AbstractVariable *StateMachineAccessor::getVariable(const std::string &var)
 {
   // TODO: locking
-  mPImpl->mSM->getVariable(var);
+  return mPImpl->mSM->getVariable(var);
 }
 
 void StateMachineAccessor::changeVariable(const std::string &var, AbstractVariable &av)
