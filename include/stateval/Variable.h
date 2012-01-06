@@ -27,11 +27,15 @@ public:
 
   Type getType() const;
 
+  bool needsUpdate ();
+  void setUpdateFlag(bool flag);
+
 protected:
   AbstractVariable(Type type);
-
+  
 private:
   Type mType;
+  bool mNeedsUpdate;
 };
 
 class Bool : public AbstractVariable

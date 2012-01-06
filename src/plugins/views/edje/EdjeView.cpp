@@ -155,6 +155,9 @@ void EdjeView::updateContent()
   StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance();
   Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
 
+  /* FIXME: this logic below is not correct because if a variable is connected to two different widgets it
+            may not be updated correct. TODO: check this!
+   */
   for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
        ++wl_it)
@@ -164,153 +167,160 @@ void EdjeView::updateContent()
     AbstractVariable *val = stateMachineAccessor.getVariable(w.getVariable());
     assert(val);
 
-    try
+    // update widget data only if update is needed
+    if (val->needsUpdate ())
     {
-      Edjexx::Part &part = edjeObj->getPart(w.getName());
-
-      if (val->getType() == AbstractVariable::TYPE_STRUCT)
+      try
       {
-        Struct *st = static_cast <Struct *>(val);
-        bool specialHandled = false;
+        Edjexx::Part &part = edjeObj->getPart(w.getName());
 
-        // TODO: is there a special handling for struct types needed?
-        try
+        if (val->getType() == AbstractVariable::TYPE_STRUCT)
         {
-          Evasxx::Object &ext_eo3 = part.getExternalObject();
-          Evasxx::Object &eo3 = part.getSwallow();
-          LOG4CXX_DEBUG(mLogger, "Edje External Widget type: " << ext_eo3.getType());
-          LOG4CXX_DEBUG(mLogger, "Edje Part Widget type: " << eo3.getType());
+          Struct *st = static_cast <Struct *>(val);
+          bool specialHandled = false;
 
-          if (ext_eo3.getType() == "elm_widget")
+          // TODO: is there a special handling for struct types needed?
+          try
           {
-            Elmxx::Object &elm_object = *(static_cast <Elmxx::Object *>(&ext_eo3));
+            Evasxx::Object &ext_eo3 = part.getExternalObject();
+            Evasxx::Object &eo3 = part.getSwallow();
+            LOG4CXX_DEBUG(mLogger, "Edje External Widget type: " << ext_eo3.getType());
+            LOG4CXX_DEBUG(mLogger, "Edje Part Widget type: " << eo3.getType());
 
-            LOG4CXX_DEBUG(mLogger, "Elm Widget type: " << elm_object.getWidgetType());
-            // TODO: slider is now generic supported. But ElmList needs to be implemented...
-            /*if (elm_object.getWidgetType () == "slider")
+            if (ext_eo3.getType() == "elm_widget")
             {
-              Elmxx::Slider &slider = *(static_cast <Elmxx::Slider*> (&elm_object));
-              AbstractVariable *av1 = st->getData ("label");
-              if (av1->getType () == AbstractVariable::TYPE_STRING)
-              {
-                String *s1 = static_cast <String*> (av1);
-                slider.setLabel (s1->getData ());
-              }
+              Elmxx::Object &elm_object = *(static_cast <Elmxx::Object *>(&ext_eo3));
 
-              AbstractVariable *av2 = st->getData ("value");
-              if (av2->getType () == AbstractVariable::TYPE_FLOAT)
+              LOG4CXX_DEBUG(mLogger, "Elm Widget type: " << elm_object.getWidgetType());
+              // TODO: slider is now generic supported. But ElmList needs to be implemented...
+              /*if (elm_object.getWidgetType () == "slider")
               {
-                Float *f1 = static_cast <Float*> (av2);
-                slider.setValue (f1->getData ());
-              }
-              specialHandled = true;
-            }*/
-          }
-        }
-        catch (Edjexx::ExternalNotExistingException ene)
-        {
-          cerr << ene.what() << endl;
-        }
+                Elmxx::Slider &slider = *(static_cast <Elmxx::Slider*> (&elm_object));
+                AbstractVariable *av1 = st->getData ("label");
+                if (av1->getType () == AbstractVariable::TYPE_STRING)
+                {
+                  String *s1 = static_cast <String*> (av1);
+                  slider.setLabel (s1->getData ());
+                }
 
-        // generic widget type handling
-        if (!specialHandled)
-        {
-          for (Struct::Iterator s_it = st->begin();
-               s_it != st->end();
-               ++s_it)
-          {
-            const string &name = s_it->first;
-            AbstractVariable *av = s_it->second;
-
-            if (av)
-            {
-              if (av->getType() == AbstractVariable::TYPE_STRING)
-              {
-                String *str = static_cast <String *>(av);
-                Edjexx::ExternalParam param(name, str->getData());
-                part.setParam(&param);
-              }
-              else if (av->getType() == AbstractVariable::TYPE_FLOAT)
-              {
-                Float *f = static_cast <Float *>(av);
-                Edjexx::ExternalParam param(name, f->getData());
-                part.setParam(&param);
-              }
-              else if (av->getType() == AbstractVariable::TYPE_BOOL)
-              {
-                Bool *b = static_cast <Bool *>(av);
-                Edjexx::ExternalParam param(name, b->getData());
-                part.setParam(&param);
-              }
+                AbstractVariable *av2 = st->getData ("value");
+                if (av2->getType () == AbstractVariable::TYPE_FLOAT)
+                {
+                  Float *f1 = static_cast <Float*> (av2);
+                  slider.setValue (f1->getData ());
+                }
+                specialHandled = true;
+              }*/
             }
           }
-        }
-      }
-      else if (val->getType() == AbstractVariable::TYPE_LIST)
-      {
-        try
-        {
-          List *ls = static_cast <List *>(val);
-
-          Evasxx::Object &ext_eo3 = part.getExternalObject();
-          Evasxx::Object &eo3 = part.getSwallow();
-          LOG4CXX_DEBUG(mLogger, "Edje External Widget type: " << ext_eo3.getType());
-          LOG4CXX_DEBUG(mLogger, "Edje Part Widget type: " << eo3.getType());
-
-          if (ext_eo3.getType() == "elm_widget")
+          catch (Edjexx::ExternalNotExistingException ene)
           {
-            Elmxx::Object &elm_object = *(static_cast <Elmxx::Object *>(&ext_eo3));
+            cerr << ene.what() << endl;
+          }
 
-            LOG4CXX_DEBUG(mLogger, "Elm Widget type: " << elm_object.getWidgetType());
-
-            if (elm_object.getWidgetType() == "list")
+          // generic widget type handling
+          if (!specialHandled)
+          {
+            for (Struct::Iterator s_it = st->begin();
+                 s_it != st->end();
+                 ++s_it)
             {
-              Elmxx::List &list = *(static_cast <Elmxx::List *>(&elm_object));
+              const string &name = s_it->first;
+              AbstractVariable *av = s_it->second;
 
-              // TODO: I think until the edited/merge feature is implemented it's the
-              // best to clear the list before adding new elements...
-              list.clear();
-              for (List::Iterator ls_it = ls->begin();
-                   ls_it != ls->end();
-                   ++ls_it)
+              if (av)
               {
-                AbstractVariable *av = *ls_it;
-
                 if (av->getType() == AbstractVariable::TYPE_STRING)
                 {
                   String *str = static_cast <String *>(av);
-                  list.append(str->getData(), NULL, NULL);
+                  Edjexx::ExternalParam param(name, str->getData());
+                  part.setParam(&param);
                 }
-                list.go();
+                else if (av->getType() == AbstractVariable::TYPE_FLOAT)
+                {
+                  Float *f = static_cast <Float *>(av);
+                  Edjexx::ExternalParam param(name, f->getData());
+                  part.setParam(&param);
+                }
+                else if (av->getType() == AbstractVariable::TYPE_BOOL)
+                {
+                  Bool *b = static_cast <Bool *>(av);
+                  Edjexx::ExternalParam param(name, b->getData());
+                  part.setParam(&param);
+                }
               }
             }
           }
         }
-        catch (Edjexx::ExternalNotExistingException ene)
+        else if (val->getType() == AbstractVariable::TYPE_LIST)
         {
-          cerr << ene.what() << endl;
+          try
+          {
+            List *ls = static_cast <List *>(val);
+
+            Evasxx::Object &ext_eo3 = part.getExternalObject();
+            Evasxx::Object &eo3 = part.getSwallow();
+            LOG4CXX_DEBUG(mLogger, "Edje External Widget type: " << ext_eo3.getType());
+            LOG4CXX_DEBUG(mLogger, "Edje Part Widget type: " << eo3.getType());
+
+            if (ext_eo3.getType() == "elm_widget")
+            {
+              Elmxx::Object &elm_object = *(static_cast <Elmxx::Object *>(&ext_eo3));
+
+              LOG4CXX_DEBUG(mLogger, "Elm Widget type: " << elm_object.getWidgetType());
+
+              if (elm_object.getWidgetType() == "list")
+              {
+                Elmxx::List &list = *(static_cast <Elmxx::List *>(&elm_object));
+
+                // TODO: I think until the edited/merge feature is implemented it's the
+                // best to clear the list before adding new elements...
+                list.clear();
+                for (List::Iterator ls_it = ls->begin();
+                     ls_it != ls->end();
+                     ++ls_it)
+                {
+                  AbstractVariable *av = *ls_it;
+
+                  if (av->getType() == AbstractVariable::TYPE_STRING)
+                  {
+                    String *str = static_cast <String *>(av);
+                    list.append(str->getData(), NULL, NULL);
+                  }
+                  list.go();
+                }
+              }
+            }
+          }
+          catch (Edjexx::ExternalNotExistingException ene)
+          {
+            cerr << ene.what() << endl;
+          }
+        }
+        else if (val->getType() == AbstractVariable::TYPE_STRING)
+        {
+          String *str = static_cast <String *>(val);
+
+          part.setText(str->getData());
+        }
+        else
+        {
+          LOG4CXX_WARN(mLogger, "Currently not supported AbstractVariable Type!");
         }
       }
-      else if (val->getType() == AbstractVariable::TYPE_STRING)
+      catch (Edjexx::PartNotExistingException pne)
       {
-        String *str = static_cast <String *>(val);
-
-        part.setText(str->getData());
+        cerr << pne.what() << endl;
       }
-      else
-      {
-        LOG4CXX_WARN(mLogger, "Currently not supported AbstractVariable Type!");
-      }
-    }
-    catch (Edjexx::PartNotExistingException pne)
-    {
-      cerr << pne.what() << endl;
-    }
 
-    LOG4CXX_INFO(mLogger, "Widget name: " << w.getName());
-    LOG4CXX_INFO(mLogger, "Widget variable: " << w.getVariable());
+      // widget is updated, so reset need for update
+      val->setUpdateFlag (false);
+
+      LOG4CXX_INFO(mLogger, "Widget name: " << w.getName());
+      LOG4CXX_INFO(mLogger, "Widget variable: " << w.getVariable());
+    }
+    
   }
-
 
 }
 

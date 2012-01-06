@@ -14,13 +14,24 @@
 static Logger logger("stateval.Variable");
 
 AbstractVariable::AbstractVariable(Type type) :
-  mType(type)
+  mType(type),
+  mNeedsUpdate(false)
 {
 }
 
 AbstractVariable::Type AbstractVariable::getType() const
 {
   return mType;
+}
+
+void AbstractVariable::setUpdateFlag(bool flag)
+{
+  mNeedsUpdate = flag;
+}
+
+bool AbstractVariable::needsUpdate ()
+{
+  return mNeedsUpdate;
 }
 
 //////////////////////////
@@ -50,6 +61,7 @@ void Bool::assign(AbstractVariable *var)
   assert(getType() == var->getType());
 
   mValue = (static_cast <Bool *>(var))->mValue;
+  setUpdateFlag(true);
 }
 
 bool Bool::getData() const
@@ -84,6 +96,7 @@ void Float::assign(AbstractVariable *var)
   assert(getType() == var->getType());
 
   mValue = (static_cast <Float *>(var))->mValue;
+  setUpdateFlag(true);
 }
 
 float Float::getData() const
@@ -119,6 +132,7 @@ void Integer::assign(AbstractVariable *var)
   assert(getType() == var->getType());
 
   mValue = (static_cast <Integer *>(var))->mValue;
+  setUpdateFlag(true);
 }
 
 int Integer::getData() const
@@ -154,11 +168,13 @@ void String::assign(AbstractVariable *var)
   assert(getType() == var->getType());
 
   mValue = (static_cast <String *>(var))->mValue;
+  setUpdateFlag(true);
 }
 
 void String::change(const std::string &str)
 {
   mValue = str;
+  setUpdateFlag(true);
 }
 
 std::string String::getData() const
@@ -200,11 +216,13 @@ void Struct::assign(AbstractVariable *var)
   // TODO: implement
   //mValue = (static_cast <String*> (var))->mValue;
   assert(false);
+  setUpdateFlag(true);
 }
 
 void Struct::add(const std::string &s, AbstractVariable *var)
 {
   mValueMap[s] = var;
+  setUpdateFlag(true);
 }
 
 AbstractVariable *Struct::getData(const std::string &s)
@@ -257,21 +275,25 @@ void List::assign(AbstractVariable *var)
   // TODO: implement
   //mValue = (static_cast <String*> (var))->mValue;
   assert(false);
+  setUpdateFlag(true);
 }
 
 void List::pushBack(AbstractVariable *var)
 {
   mValueList.push_back(var);
+  setUpdateFlag(true);
 }
 
 void List::pushFront(AbstractVariable *var)
 {
   mValueList.push_front(var);
+  setUpdateFlag(true);
 }
 
 void List::clear()
 {
   delete_stl_container(mValueList);
+  setUpdateFlag(true);
 }
 
 List::Iterator List::begin()
