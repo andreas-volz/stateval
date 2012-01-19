@@ -47,7 +47,7 @@ public:
   std::string findMapingEvent(int event);
 
 protected:
-  View *loadView(const std::string &viewPlugin, Context *context, const std::list <std::string> &params);
+  View *loadView(const std::string &viewPlugin, Context *context, const std::map <std::string, std::string> &params);
 
   /* -> These data containers are basicly the complete statemachine data.
    *    This data is freed by the Loader destructor.

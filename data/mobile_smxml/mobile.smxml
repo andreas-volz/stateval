@@ -96,8 +96,8 @@
 
     <view name="Main">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
-        <param value="main"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="groupname" value="main"/>
       </params>
       <mappings>
         <map from="edje,Image01,mouse,clicked,1" to="BROWSER"/>
@@ -108,8 +108,8 @@
     
     <view name="Bar">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
-        <param value="bar"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="groupname" value="bar"/>
       </params>
       <mappings>
         
@@ -118,8 +118,8 @@
 
     <view name="Browser">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
-        <param value="browser"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="groupname" value="browser"/>
       </params>
       <mappings>
         <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
@@ -128,8 +128,8 @@
     
     <view name="Settings">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
-        <param value="settings"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="groupname" value="settings"/>
       </params>
       <mappings>
         <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
@@ -138,8 +138,8 @@
     
     <view name="EMail_Read">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
-        <param value="email"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="groupname" value="email"/>
       </params>
       <mappings>
         <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
@@ -149,8 +149,8 @@
     
     <view name="EMail_Compose">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
-        <param value="email_compose"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="groupname" value="email_compose"/>
       </params>
       <mappings>
         <map from="edje,Back,mouse,clicked,1" to="EMAIL_READ"/>

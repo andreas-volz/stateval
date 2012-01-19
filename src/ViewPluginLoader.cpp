@@ -3,10 +3,10 @@
 
 using namespace pluxx;
 
-typedef Plugin *plugin_create_t (Context *context, const std::list <std::string> &params);
+typedef Plugin *plugin_create_t (Context *context, const std::map <std::string, std::string> &params);
 
 Plugin *ViewPluginLoader::loadFactory(const std::string &filename, const std::string &type, unsigned int majorVersion,
-                                      Context *context, const std::list <std::string> &params)
+                                      Context *context, const std::map <std::string, std::string> &params)
 {
   void *pluginHandle = loadFactoryInternal(filename, type, majorVersion);
 

@@ -1013,7 +1013,7 @@ void XMLLoader::parseViewNode(const xmlpp::Node *node, const Glib::ustring &plug
         // throw exception
       }
 
-      list <std::string> params;
+      map <std::string, std::string> params;
 
       // Recurse through child nodes
       xmlpp::Node::NodeList list = node->get_children();
@@ -1046,7 +1046,7 @@ void XMLLoader::parseViewNode(const xmlpp::Node *node, const Glib::ustring &plug
   }
 }
 
-void XMLLoader::parseViewParamsNode(const xmlpp::Node *node, std::list <std::string> &params)
+void XMLLoader::parseViewParamsNode(const xmlpp::Node *node, std::map <std::string, std::string> &params)
 {
   const xmlpp::ContentNode *nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
@@ -1072,7 +1072,7 @@ void XMLLoader::parseViewParamsNode(const xmlpp::Node *node, std::list <std::str
   }
 }
 
-void XMLLoader::parseViewParamNode(const xmlpp::Node *node, std::list <std::string> &params)
+void XMLLoader::parseViewParamNode(const xmlpp::Node *node, std::map <std::string, std::string> &params)
 {
   const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element *nodeElement = dynamic_cast < const xmlpp::Element * >(node);
@@ -1086,13 +1086,15 @@ void XMLLoader::parseViewParamNode(const xmlpp::Node *node, std::list <std::stri
   {
     LOG4CXX_DEBUG(mLogger, "Node = " << node->get_name());
 
+    const xmlpp::Attribute *key_attribute = nodeElement->get_attribute("key");
     const xmlpp::Attribute *value_attribute = nodeElement->get_attribute("value");
 
-    if (value_attribute)
+    if (key_attribute && value_attribute)
     {
+      LOG4CXX_DEBUG(mLogger, "Attribute key = " << key_attribute->get_value());
       LOG4CXX_DEBUG(mLogger, "Attribute value = " << value_attribute->get_value());
 
-      params.push_back(value_attribute->get_value());
+      params[key_attribute->get_value()] = value_attribute->get_value();
     }
   }
 }

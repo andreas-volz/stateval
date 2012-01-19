@@ -155,7 +155,7 @@ std::string Loader::findMapingEvent(int event)
   return ""; // TODO: hm, should I return an Exception or so??
 }
 
-View *Loader::loadView(const std::string &viewPlugin, Context *context, const std::list <std::string> &params)
+View *Loader::loadView(const std::string &viewPlugin, Context *context, const std::map <std::string, std::string> &params)
 {
   View *view = NULL;
 

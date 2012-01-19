@@ -25,22 +25,36 @@ static const char *type = "View";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-EdjeView::EdjeView(Context *context, const std::list <std::string> &params) :
+EdjeView::EdjeView(Context *context, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.views.edje"),
   mEdjeContext(NULL),
   groupState(Unrealized)
 {
   assert(context);
 
-  if (params.size() != 2)
+  std::map <std::string, std::string>::const_iterator param_it;
+
+  param_it = params.find ("filename");
+  if (param_it != params.end ())
   {
-    assert(false);
+    mFilename = param_it->second;
+  }
+  else
+  {
+    // TODO: needed error handling
+    assert (false);      
   }
 
-  std::list <std::string>::const_iterator params_it = params.begin();
-  mFilename = *params_it;
-  ++params_it;
-  mGroupname = *params_it;
+  param_it = params.find ("groupname");
+  if (param_it != params.end ())
+  {
+    mGroupname = param_it->second;
+  }
+  else
+  {
+    // TODO: needed error handling
+    assert (false);      
+  }
 
   LOG4CXX_TRACE(mLogger, "constructor: " << mFilename << "," << mGroupname);
 
@@ -405,7 +419,7 @@ void EdjeView::pushEvent(int event)
 /* Plugin needed C functions */
 /*****************************/
 
-PLUGIN_EXPORT EdjeView *plugin_create(Context *context, const std::list <std::string> &params)
+PLUGIN_EXPORT EdjeView *plugin_create(Context *context, const std::map <std::string, std::string> &params)
 {
   return new EdjeView(context, params);
 }

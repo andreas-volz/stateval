@@ -44,8 +44,8 @@
 
     <view name="Main">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
-        <param value="main"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
+        <param key="groupname" value="main"/>
       </params>
       <mappings>
         <map from="edje,Image01,mouse,clicked,1" to="RED"/>
@@ -54,8 +54,8 @@
 
     <view name="Red">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
-        <param value="red"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
+        <param key="groupname" value="red"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="MAIN"/>

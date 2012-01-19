@@ -18,16 +18,21 @@ static const char *type = "View";
 static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
-TextView::TextView(Context *context, const std::list <std::string> &params)
+TextView::TextView(Context *context, const std::map <std::string, std::string> &params)
 {
-  //if (params.length () != 1)
-  //throw something
-
   assert(!context);
 
-  std::list <std::string>::const_iterator params_it = params.begin();
-
-  mFileName = *params_it;
+  std::map <std::string, std::string>::const_iterator param_it = params.find ("filename");
+  if (param_it != params.end ())
+  {
+    mFileName = param_it->second;
+  }
+  else
+  {
+    // TODO: needed error handling
+    assert (false);      
+  }
+  
 }
 
 const std::string TextView::getType()
@@ -75,7 +80,7 @@ void TextView::updateContent()
 /* Plugin needed C functions */
 /*****************************/
 
-PLUGIN_EXPORT TextView *plugin_create(Context *context, const std::list <std::string> &params)
+PLUGIN_EXPORT TextView *plugin_create(Context *context, const std::map <std::string, std::string> &params)
 {
   return new TextView(context, params);
 }

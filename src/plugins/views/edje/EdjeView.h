@@ -26,7 +26,7 @@ static bool initialized = false;
 class EdjeView : public View
 {
 public:
-  EdjeView(Context *context, const std::list <std::string> &params);
+  EdjeView(Context *context, const std::map <std::string, std::string> &params);
 
   const std::string getType();
 

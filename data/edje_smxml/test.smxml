@@ -140,8 +140,8 @@
   <views plugin="edje">
     <view name="NavMainView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="navigation_main"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="navigation_main"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="HK_TUNER"/>
@@ -163,8 +163,8 @@
 
     <view name="NavCountryView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="navigation_country"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="navigation_country"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="NAV_CITY"/>
@@ -173,8 +173,8 @@
     
     <view name="NavCityView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="navigation_city"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="navigation_city"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="NAV_STREET"/>
@@ -183,8 +183,8 @@
     
     <view name="NavStreetView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="navigation_street"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="navigation_street"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="NAV_MAIN"/>
@@ -193,8 +193,8 @@
 
     <view name="TunerListView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="tuner_list"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="tuner_list"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="HK_NAV"/>
@@ -204,8 +204,8 @@
 
     <view name="TunerFrequencyView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="tuner_frequenz"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="tuner_frequenz"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="TUNER_LIST"/>
@@ -217,8 +217,8 @@
     
     <view name="NavInfoView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="navigation_info"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="navigation_info"/>
       </params>
       <mappings>
         <map from="edje,Button01,clicked" to="NAV_MAIN"/>
@@ -232,8 +232,8 @@
     
     <view name="MediaListView">
       <params>
-        <param value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
-        <param value="media_list"/>
+        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="groupname" value="media_list"/>
       </params>
       <mappings>
         <map from="edje,,load" to="MEDIA_LOAD"/>

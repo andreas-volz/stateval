@@ -4,6 +4,7 @@
 /* STD */
 #include <iostream>
 #include <string>
+#include <map>
 
 /* XML */
 #include <libxml++/libxml++.h>
@@ -60,8 +61,8 @@ protected:
   void parseViewsNode(const xmlpp::Node *node);
   void parseViewNode(const xmlpp::Node *node, const Glib::ustring &plugin, unsigned int &i);
 
-  void parseViewParamsNode(const xmlpp::Node *node, std::list <std::string> &params);
-  void parseViewParamNode(const xmlpp::Node *node, std::list <std::string> &params);
+  void parseViewParamsNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);
+  void parseViewParamNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);
 
   void parseViewMappingsNode(const xmlpp::Node *node, View *view);
   void parseViewMapNode(const xmlpp::Node *node, View *view);
