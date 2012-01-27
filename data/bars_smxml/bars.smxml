@@ -40,7 +40,7 @@
     <transition from="Root" to="Red" event="RED"/>
   </transitions>
   
-  <views plugin="edje">
+  <viewmanager plugin="edje">
 
     <view name="Main">
       <params>
@@ -62,6 +62,6 @@
       </mappings>
     </view>
 
-  </views>
+  </viewmanager>
 
 </stateval>

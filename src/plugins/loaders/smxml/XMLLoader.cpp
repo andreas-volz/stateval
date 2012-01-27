@@ -18,8 +18,7 @@ static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
 XMLLoader::XMLLoader() :
-  mLogger("stateval.plugins.loaders.smxml"),
-  mContext(NULL)
+  mLogger("stateval.plugins.loaders.smxml")
 {
 }
 
@@ -42,10 +41,8 @@ const unsigned int XMLLoader::getMinorVersion()
   return minor_version;
 }
 
-bool XMLLoader::load(Context *context, const std::string &sm)
+bool XMLLoader::load(const std::string &sm)
 {
-  mContext = context;
-
   try
   {
     xmlpp::DomParser parser;
@@ -664,12 +661,13 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
       {
         state = new ViewState(parentState, &mViewCache);
         ViewState *viewState = static_cast <ViewState *>(state);
+        assert (viewState);
 
         if (view_attribute)
         {
           // TODO: better use find() to detect if not found in map
-          int viewNum = mViewNameMapper[view_attribute->get_value()];
-          View *view = mViewList[viewNum];
+          View *view = mViewNameMapper[view_attribute->get_value()];
+          assert (view);
           viewState->addView(*view, 0);
         }
         else // multible view feature
@@ -759,9 +757,10 @@ void XMLLoader::parseStateViewNode(const xmlpp::Node *node, State *state, int &v
     }
 
     // TODO: use find...
-    int viewNum = mViewNameMapper[ref_attribute->get_value()];
-    View *view = mViewList[viewNum];
+    View *view = mViewNameMapper[ref_attribute->get_value()];
+    assert (view);
     ViewState *viewState = static_cast <ViewState *>(state);
+    assert (viewState);
     viewState->addView(*view, viewCounterOut);
 
     ++viewCounterOut;
@@ -958,16 +957,20 @@ void XMLLoader::parseViewsNode(const xmlpp::Node *node)
 
   if (!nodeText && !nodeComment && !nodename.empty())	//Let's not say "name: text".
   {
-    if (nodename == "views")
+    if (nodename == "viewmanager")
     {
       const xmlpp::Attribute *plugin_attribute = nodeElement->get_attribute("plugin");
 
       if (plugin_attribute)
       {
+        std::map <string, string> params; // TODO: read params from XML
+        
         LOG4CXX_DEBUG(mLogger, "Attribute plugin = " << plugin_attribute->get_value());
+        loadViewManager (plugin_attribute->get_value(), params);        
       }
       else
       {
+        assert (false);
         // throw exception
       }
 
@@ -977,13 +980,13 @@ void XMLLoader::parseViewsNode(const xmlpp::Node *node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin();
            iter != list.end(); ++iter)
       {
-        parseViewNode(*iter, plugin_attribute->get_value(), i);
+        parseViewNode(*iter, i);
       }
     }
   }
 }
 
-void XMLLoader::parseViewNode(const xmlpp::Node *node, const Glib::ustring &plugin, unsigned int &i)
+void XMLLoader::parseViewNode(const xmlpp::Node *node, unsigned int &i)
 {
   const xmlpp::ContentNode *nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
@@ -1005,11 +1008,11 @@ void XMLLoader::parseViewNode(const xmlpp::Node *node, const Glib::ustring &plug
       if (name_attribute)
       {
         LOG4CXX_DEBUG(mLogger, "Attribute name = " << name_attribute->get_value());
-        mViewNameMapper[name_attribute->get_value()] = i;
-        ++i; // modifies also outside of function!
+        ++i; // modifies ref variable also outside of function!
       }
       else
       {
+        assert (false);
         // throw exception
       }
 
@@ -1023,9 +1026,10 @@ void XMLLoader::parseViewNode(const xmlpp::Node *node, const Glib::ustring &plug
         parseViewParamsNode(*iter, params);
       }
 
-      string pluginFile(searchPluginFile("views", plugin));
-      view = loadView(pluginFile, mContext, params);
-      mViewList.push_back(view);
+      // load view and insert into temporary load mapper
+      view = mViewManager->loadView(params);
+      assert (view);
+      mViewNameMapper[name_attribute->get_value()] = view;
 
       // Recurse through child nodes
       list = node->get_children();
@@ -1160,8 +1164,15 @@ void XMLLoader::parseViewMapNode(const xmlpp::Node *node, View *view)
       // throw exception
     }
 
-    view->addEventMapping(findMapingEvent(from_attribute->get_value()),
-                          findMapingEvent(to_attribute->get_value()));
+    if (view)
+    {
+      view->addEventMapping(findMapingEvent(from_attribute->get_value()),
+                            findMapingEvent(to_attribute->get_value()));
+    }
+    else
+    {
+      assert (false);
+    }
   }
 }
 
@@ -1236,7 +1247,7 @@ void XMLLoader::parseViewWidgetNode(const xmlpp::Node *node, View *view)
 
 PLUGIN_EXPORT XMLLoader *plugin_create()
 {
-  return new XMLLoader();
+  return new XMLLoader;
 }
 
 PLUGIN_EXPORT void plugin_destroy(Loader *plugin)

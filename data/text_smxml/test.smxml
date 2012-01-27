@@ -101,7 +101,7 @@
     <transition from="MediaAvailable" to="TunerCompound" decision="MediaIsNotAvailable"/>
   </transitions>
   
-  <views plugin="text">
+  <viewmanager plugin="text">
     <view name="NavMainView">
       <params>
         <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/text_smxml/NavMainView.view"/>
@@ -179,6 +179,6 @@
         <map from="HK_RETURN" to="HK_NAV"/>
       </mappings>
     </view>
-  </views>
+  </viewmanager>
 
 </stateval>

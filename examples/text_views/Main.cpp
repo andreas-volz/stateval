@@ -5,7 +5,6 @@
 /* Project */
 #include <stateval/stateval.h>
 #include "searchFile.h"
-#include "InputThread.h"
 #include "Main.h"
 
 /* log4cxx */
@@ -30,15 +29,9 @@ Main::Main()
 #endif // HAVE_LOG4CXX
 
   StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
-  StateMachineAccessor.load("smxml", searchDataDir() + "/text_smxml/test.smxml", NULL);
+  StateMachineAccessor.load("smxml", searchDataDir() + "/text_smxml/test.smxml");
 
   StateMachineAccessor.start();
-
-  // create an input thread
-  // yes, I know an input thread isn't really needed here.
-  // but as it was done like this in the edje_console example...
-  InputThread iThread(StateMachineAccessor);
-  iThread.start();
 
   // inital event
   StateMachineAccessor.pushEvent("HK_NAV");

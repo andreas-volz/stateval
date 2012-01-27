@@ -119,9 +119,9 @@ src/plugins/Makefile
 src/plugins/loaders/Makefile
 src/plugins/loaders/smxml/Makefile
 src/plugins/loaders/smtest/Makefile
-src/plugins/views/Makefile
-src/plugins/views/edje/Makefile
-src/plugins/views/text/Makefile
+src/plugins/viewmanager/Makefile
+src/plugins/viewmanager/edje/Makefile
+src/plugins/viewmanager/text/Makefile
 stateval.pc
 stateval-uninstalled.pc
 examples/Makefile

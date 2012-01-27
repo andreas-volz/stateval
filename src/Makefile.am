@@ -37,14 +37,15 @@ libstateval_la_SOURCES = \
 	stringUtil.h      \
 	Thread.cpp \
 	MemoryUtil.h \
-	ViewPluginLoader.cpp \
-	ViewPluginLoader.h \
+	ViewManagerPluginLoader.cpp \
+	ViewManagerPluginLoader.h \
 	searchFile.cpp \
 	searchFile.h \
 	ChangeVariableAction.cpp \
 	StateMachineAccessorPImpl.h \
 	ViewCache.cpp \
-	Widget.cpp
+	Widget.cpp      \
+	ViewManager.cpp
 
 libstateval_la_CXXFLAGS = \
 	-I$(top_srcdir)/include

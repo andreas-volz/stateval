@@ -137,7 +137,7 @@
     <transition from="MediaInitial" to="MediaList"/>
   </transitions>
   
-  <views plugin="edje">
+  <viewmanager plugin="edje">
     <view name="NavMainView">
       <params>
         <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
@@ -247,6 +247,6 @@
         <widget name="Text01" variable="MediaListTitle"/>
       </widgets>
     </view>
-  </views>
+  </viewmanager>
 
 </stateval>

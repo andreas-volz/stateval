@@ -7,6 +7,5 @@
 
 #include "StateMachineAccessor.h"
 #include "Variable.h"
-#include "Context.h"
 
 #endif // STATEVAL_H

@@ -8,7 +8,6 @@
 /* local */
 #include "State.h"
 #include "Loader.h"
-#include "stateval/Context.h"
 #include "Logger.h"
 #include "stateval/Variable.h"
 
@@ -23,7 +22,7 @@ public:
 
   void start();
 
-  bool load(Context *context, const std::string &smDir);
+  bool load(const std::string &smDir);
 
   void pushEvent(int event);
 

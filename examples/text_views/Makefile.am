@@ -5,8 +5,6 @@ bin_PROGRAMS = \
 text_views_SOURCES = \
 	Main.cpp    \
 	Main.h    \
-	InputThread.cpp    \
-	InputThread.h    \
 	searchFile.cpp    \
 	searchFile.h
 

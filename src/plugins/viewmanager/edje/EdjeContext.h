@@ -8,7 +8,7 @@
 /* pluxx */
 #include "stateval/stateval.h"
 
-class EdjeContext : public Context
+class EdjeContext 
 {
 public:
   EdjeContext(Elmxx::Window *window)  :

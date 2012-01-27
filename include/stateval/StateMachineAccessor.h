@@ -5,7 +5,6 @@
 #include <string>
 
 /* local */
-#include "Context.h"
 #include "Variable.h"
 
 /* SIGC */
@@ -30,7 +29,7 @@ public:
 
   static void destroy();
 
-  void load(const std::string &loader, const std::string &file, Context *context);
+  void load(const std::string &loader, const std::string &file);
 
   void start();
 

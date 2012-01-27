@@ -62,9 +62,9 @@ void StateMachine::start()
   mSMInit = true;
 }
 
-bool StateMachine::load(Context *context, const std::string &smDir)
+bool StateMachine::load(const std::string &smDir)
 {
-  return mLoader->load(context, smDir);
+  return mLoader->load(smDir);
 }
 
 void StateMachine::pushEvent(int event)

@@ -2,8 +2,7 @@
 libstateval_HEADERS = \
 	stateval.h     \
 	StateMachineAccessor.h     \
-	Variable.h     \
-	Context.h
+	Variable.h
 
 libstatevaldir = \
 	$(pkgincludedir)

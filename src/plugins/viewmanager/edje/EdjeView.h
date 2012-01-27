@@ -26,13 +26,8 @@ static bool initialized = false;
 class EdjeView : public View
 {
 public:
-  EdjeView(Context *context, const std::map <std::string, std::string> &params);
+  EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params);
 
-  const std::string getType();
-
-  const unsigned int getMajorVersion();
-
-  const unsigned int getMinorVersion();
 
   void realize();
   void unrealize();

@@ -13,14 +13,15 @@
 
 using namespace std;
 
-InputThread::InputThread(StateMachineAccessor &smAccess) :
-  mRunning(true),
-  mSMAccess(&smAccess)
+InputThread::InputThread() :
+  mRunning(true)
 {
 }
 
 void InputThread::run()
 {
+  StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
+  
   while (mRunning)
   {
     string input;
@@ -31,7 +32,7 @@ void InputThread::run()
 
     cout << "Typed: " << input << endl;
 
-    mSMAccess->pushEvent(mSMAccess->findMapingEvent(input));
+    stateMachineAccessor.pushEvent(stateMachineAccessor.findMapingEvent(input));
 
     if (input == "quit")
     {

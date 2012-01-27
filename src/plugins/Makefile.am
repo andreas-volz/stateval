@@ -1,7 +1,7 @@
 
 SUBDIRS = \
 	loaders\
-	views 
+	viewmanager
 
 ## File created by the gnome-build tools
 

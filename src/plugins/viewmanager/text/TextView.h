@@ -14,14 +14,8 @@ class Context;
 class TextView : public View
 {
 public:
-  TextView(Context *context, const std::map <std::string, std::string> &params);
+  TextView(const std::map <std::string, std::string> &params);
   virtual ~TextView() {};
-
-  const std::string getType();
-
-  const unsigned int getMajorVersion();
-
-  const unsigned int getMinorVersion();
 
   void realize();
   void unrealize();

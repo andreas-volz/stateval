@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	State.h             \
 	Transition.h             \
 	View.h             \
+	ViewManager.h \
 	ViewState.h             \
 	stateval_private.h             \
 	StateMachine.h             \

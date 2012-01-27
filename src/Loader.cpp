@@ -16,14 +16,15 @@
 #include "stateval/private/DecisionState.h"
 #include "stateval/private/ViewState.h"
 #include "MemoryUtil.h"
-
 #include "stringUtil.h"
-#include "ViewPluginLoader.h"
+#include "ViewManagerPluginLoader.h"
+#include "searchFile.h"
 
 using namespace std;
 
 Loader::Loader() :
   mLogger("stateval.Loader"),
+  mViewManager (NULL),
   eventCounter(0)
 {
 }
@@ -37,16 +38,8 @@ Loader::~Loader()
   delete_stl_container(mActionList);
   delete_stl_container(mStateList);
 
-  // the view has to be destroyed in a special way because it's a plugin!!
-  for (std::vector <View *>::iterator view_it = mViewList.begin();
-       view_it != mViewList.end();
-       ++view_it)
-  {
-    View *view = *view_it;
-    pluxx::PluginLoader::destroyFactory(view);
-  }
-  mViewList.clear();
-  // <-
+  // the ViewManager has to be destroyed in a special way because it's a plugin!!
+  pluxx::PluginLoader::destroyFactory(mViewManager);  
 }
 
 void Loader::addEvent(const std::string &event)
@@ -73,11 +66,6 @@ void Loader::addState(State *state)
 void Loader::addAction(Action *action)
 {
   mActionList.push_back(action);
-}
-
-void Loader::addView(View *view)
-{
-  mViewList.push_back(view);
 }
 
 void Loader::addVariable(const std::string &var, AbstractVariable &av)
@@ -155,20 +143,18 @@ std::string Loader::findMapingEvent(int event)
   return ""; // TODO: hm, should I return an Exception or so??
 }
 
-View *Loader::loadView(const std::string &viewPlugin, Context *context, const std::map <std::string, std::string> &params)
+void Loader::loadViewManager(const std::string &viewmanagerPlugin, const std::map <std::string, std::string> &params)
 {
-  View *view = NULL;
-
   try
   {
-    view = (View *) ViewPluginLoader::loadFactory(viewPlugin, "View", 1,
-           context, params);
+    string pluginFile(searchPluginFile("viewmanager", viewmanagerPlugin));
+    mViewManager = (ViewManager *) ViewManagerPluginLoader::loadFactory(pluginFile, "ViewManager", 1, params);
 
     // TODO: correct exception handling!
 
-    LOG4CXX_INFO(mLogger, "Type: " <<  view->getType());
-    LOG4CXX_INFO(mLogger, "Major Version: " << view->getMajorVersion());
-    LOG4CXX_INFO(mLogger, "Minor Version: " << view->getMinorVersion());
+    LOG4CXX_INFO(mLogger, "Type: " <<  mViewManager->getType());
+    LOG4CXX_INFO(mLogger, "Major Version: " << mViewManager->getMajorVersion());
+    LOG4CXX_INFO(mLogger, "Minor Version: " << mViewManager->getMinorVersion());
   }
   catch (pluxx::PluginTypeMismatchException typeEx)
   {
@@ -182,6 +168,4 @@ View *Loader::loadView(const std::string &viewPlugin, Context *context, const st
     LOG4CXX_FATAL(mLogger, "Loader Major Version: " << verEx.getLoaderMajorVersion());
     LOG4CXX_FATAL(mLogger, "Plugin Major Version: " << verEx.getPluginMajorVersion());
   }
-
-  return view;
 }

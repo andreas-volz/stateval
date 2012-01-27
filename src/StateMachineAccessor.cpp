@@ -46,11 +46,11 @@ StateMachineAccessor &StateMachineAccessor::getInstance()
 }
 
 // TODO: unload before load?
-void StateMachineAccessor::load(const std::string &loader, const std::string &file, Context *context)
+void StateMachineAccessor::load(const std::string &loader, const std::string &file)
 {
   mPImpl->mSM = new StateMachine(loader);
   mPImpl->mSMThread = new StateMachineThread(*mPImpl->mSM);
-  mPImpl->mSM->load(context, file);
+  mPImpl->mSM->load(file);
 }
 
 void StateMachineAccessor::start()

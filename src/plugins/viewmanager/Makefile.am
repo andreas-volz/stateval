@@ -1,6 +1,6 @@
 
 SUBDIRS = \
-	edje\
+	edje
 	text
 
 ## File created by the gnome-build tools

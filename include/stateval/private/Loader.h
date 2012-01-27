@@ -10,6 +10,7 @@
 #include "State.h"
 #include "Logger.h"
 #include "ViewCache.h"
+#include "ViewManager.h"
 #include "stateval/Variable.h"
 
 /* pluxx */
@@ -25,15 +26,13 @@ public:
   Loader();
   virtual ~Loader();
 
-  virtual bool load(Context *context, const std::string &smDir) = 0;
+  virtual bool load(const std::string &smDir) = 0;
 
   void addEvent(const std::string &event);
 
   void addState(State *state);
 
   void addAction(Action *action);
-
-  void addView(View *view);
 
   void addVariable(const std::string &var, AbstractVariable &av);
 
@@ -47,7 +46,7 @@ public:
   std::string findMapingEvent(int event);
 
 protected:
-  View *loadView(const std::string &viewPlugin, Context *context, const std::map <std::string, std::string> &params);
+  void loadViewManager(const std::string &viewmanagerPlugin, const std::map <std::string, std::string> &params);
 
   /* -> These data containers are basicly the complete statemachine data.
    *    This data is freed by the Loader destructor.
@@ -55,7 +54,7 @@ protected:
    *    and only have to free their own temporary load containers...
    */
   std::vector <State *> mStateList;
-  std::vector <View *> mViewList;
+  ViewManager *mViewManager;
   std::list <Action *> mActionList;
   std::map <std::string, AbstractVariable *> mVariableList;
 

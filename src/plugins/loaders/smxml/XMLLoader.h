@@ -28,7 +28,7 @@ public:
 
   const unsigned int getMinorVersion();
 
-  bool load(Context *context, const std::string &sm);
+  bool load(const std::string &sm);
 
 protected:
   void parseRootNode(const xmlpp::Node *node);
@@ -59,7 +59,7 @@ protected:
   void parseTransitionNode(const xmlpp::Node *node);
 
   void parseViewsNode(const xmlpp::Node *node);
-  void parseViewNode(const xmlpp::Node *node, const Glib::ustring &plugin, unsigned int &i);
+  void parseViewNode(const xmlpp::Node *node, unsigned int &i);
 
   void parseViewParamsNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);
   void parseViewParamNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);
@@ -75,12 +75,10 @@ private:
 
   // -> these maps are only temporary needed while loading, after this they're freed!
   std::map <Glib::ustring, unsigned int> mStateNameMapper;
-  std::map <Glib::ustring, unsigned int> mViewNameMapper;
+  std::map <Glib::ustring, View *> mViewNameMapper;
   std::map <Glib::ustring, Action *> mActionNameMapper;
   std::map <Glib::ustring, Condition *> mConditionNameMapper;
   // <-
-
-  Context *mContext;
 };
 
 #endif // XML_LOADER_H

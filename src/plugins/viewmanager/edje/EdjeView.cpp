@@ -21,11 +21,7 @@ using namespace std;
 const int width = 800;
 const int height = 600;
 
-static const char *type = "View";
-static const unsigned int major_version = 1;
-static const unsigned int minor_version = 1;
-
-EdjeView::EdjeView(Context *context, const std::map <std::string, std::string> &params) :
+EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.views.edje"),
   mEdjeContext(NULL),
   groupState(Unrealized)
@@ -62,21 +58,6 @@ EdjeView::EdjeView(Context *context, const std::map <std::string, std::string> &
 
   mRealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::unrealizeDispatched));
-}
-
-const std::string EdjeView::getType()
-{
-  return type;
-}
-
-const unsigned int EdjeView::getMajorVersion()
-{
-  return major_version;
-}
-
-const unsigned int EdjeView::getMinorVersion()
-{
-  return minor_version;
 }
 
 void EdjeView::realize()
@@ -413,28 +394,4 @@ void EdjeView::pushEvent(int event)
       updateContent();
     }
   }
-}
-
-/*****************************/
-/* Plugin needed C functions */
-/*****************************/
-
-PLUGIN_EXPORT EdjeView *plugin_create(Context *context, const std::map <std::string, std::string> &params)
-{
-  return new EdjeView(context, params);
-}
-
-PLUGIN_EXPORT void plugin_destroy(View *plugin)
-{
-  delete plugin;
-}
-
-PLUGIN_EXPORT const char *get_plugin_type()
-{
-  return type;
-}
-
-PLUGIN_EXPORT unsigned int get_plugin_major_version()
-{
-  return major_version;
 }

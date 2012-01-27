@@ -13,7 +13,7 @@
 #include "Logger.h"
 #include "Widget.h"
 
-class View : public pluxx::Plugin
+class View //: public pluxx::Plugin
 {
 public:
   typedef std::list <Widget>::const_iterator WidgetIterator;
