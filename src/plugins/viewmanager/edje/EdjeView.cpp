@@ -21,7 +21,8 @@ using namespace std;
 EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.views.edje"),
   mEdjeContext(context),
-  groupState(Unrealized)
+  groupState(Unrealized),
+  mEvent (-1)
 {
   assert(context);
   
@@ -55,6 +56,8 @@ EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::strin
 
   mRealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::unrealizeDispatched));
+
+  mPushEventDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::pushEventDispatched));
 }
 
 void EdjeView::realize()
@@ -62,8 +65,9 @@ void EdjeView::realize()
   LOG4CXX_DEBUG(mLogger, "+wait for realize");
   mRealizeDispatcher.emit();
 
-  // TODO: protect by mutex??
+  mutexRealize.lock();
   condRealize.wait(mutexRealize);
+  mutexRealize.unlock();
   LOG4CXX_DEBUG(mLogger, "-wait for realize");
 }
 
@@ -74,8 +78,9 @@ void EdjeView::unrealize()
   mUnrealizeDispatcher.emit();
 
   // wait for animation finished on statemachine thread
-  // TODO: protect by Mutex?
+  mutexUnrealize.lock();
   condUnrealize.wait(mutexUnrealize);
+  mutexUnrealize.unlock();
 
   groupState = Unrealized;
 
@@ -370,7 +375,7 @@ void EdjeView::allFunc(const std::string emmision, const std::string source)
   }
 }
 
-void EdjeView::pushEvent(int event)
+void EdjeView::pushEventDispatched(int missedEvents)
 {
   if (groupState == Realized)
   {
@@ -378,9 +383,9 @@ void EdjeView::pushEvent(int event)
 
     static const int VIEW_UPDATE_EVENT = StateMachineAccessor.findMapingEvent("VIEW_UPDATE");
 
-    string eventString = StateMachineAccessor.findMapingEvent(event);
+    string eventString = StateMachineAccessor.findMapingEvent(mEvent);
 
-    LOG4CXX_DEBUG(mLogger, "EdjeView::smEvents: " << event << " / " << eventString);
+    LOG4CXX_DEBUG(mLogger, "EdjeView::smEvents: " << mEvent << " / " << eventString);
 
     if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
     {
@@ -388,9 +393,23 @@ void EdjeView::pushEvent(int event)
       edjeObj->emit(eventString, "stateval");
     }
 
-    if (event == VIEW_UPDATE_EVENT)
+    if (mEvent == VIEW_UPDATE_EVENT)
     {
       updateContent();
     }
   }
+
+  mCondPushEvent.signal ();
+}
+
+// TODO: synchronize this method!!
+void EdjeView::pushEvent(int event)
+{
+  mEvent = event;
+  
+  mPushEventDispatcher.emit ();
+
+  mMutexPushEvent.lock();  
+  mCondPushEvent.wait(mMutexPushEvent);
+  mMutexPushEvent.unlock();
 }

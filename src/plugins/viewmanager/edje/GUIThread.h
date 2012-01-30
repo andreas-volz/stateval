@@ -40,7 +40,6 @@ private:
   Threading::Condition mCondViewCreated;
   Threading::Mutex mMutexViewCreated;
 
-  
   EdjeContext mContext;
   View *mEdjeView;
   std::map <std::string, std::string> mViewParams;

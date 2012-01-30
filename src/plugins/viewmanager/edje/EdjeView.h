@@ -48,6 +48,8 @@ private:
   void realizeDispatched(int missedEvents);
   void unrealizeDispatched(int missedEvents);
 
+  void pushEventDispatched(int missedEvents);
+
   void invisibleFunc(const std::string emmision, const std::string source);
   void visibleFunc(const std::string emmision, const std::string source);
   void statevalFunc(const std::string emmision, const std::string source);
@@ -69,13 +71,21 @@ private:
   EcoreDispatcher mRealizeDispatcher;
   EcoreDispatcher mUnrealizeDispatcher;
 
+  EcoreDispatcher mPushEventDispatcher;
+
   Threading::Condition condUnrealize;
   Threading::Mutex mutexUnrealize;
 
   Threading::Condition condRealize;
   Threading::Mutex mutexRealize;
 
+  Threading::Condition mCondPushEvent;
+  Threading::Mutex mMutexPushEvent;
+
   enum ViewState groupState;
+
+  // dispatched by mPushEventDispatcher
+  int mEvent;
 };
 
 #endif // EDJE_VIEW_H
