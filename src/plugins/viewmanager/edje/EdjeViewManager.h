@@ -8,8 +8,6 @@
 
 /* local */
 #include "Logger.h"
-#include "EdjeView.h"
-#include "EdjeContext.h"
 #include "GUIThread.h"
 
 /* stateval */
@@ -28,12 +26,13 @@ public:
 
   View *loadView(const std::map <std::string, std::string> &params);
 
+  void start ();
+
 private:
   Logger mLogger;
 
   // FIXME: code heavy depends on initialization order!
   GUIThread mGUIThread;
-  EdjeContext mContext;
 };
 
 #endif // EDJE_VIEW_MANAGER_H

@@ -18,16 +18,13 @@
 
 using namespace std;
 
-const int width = 800;
-const int height = 600;
-
 EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.views.edje"),
-  mEdjeContext(NULL),
+  mEdjeContext(context),
   groupState(Unrealized)
 {
   assert(context);
-
+  
   std::map <std::string, std::string>::const_iterator param_it;
 
   param_it = params.find ("filename");
@@ -54,7 +51,7 @@ EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::strin
 
   LOG4CXX_TRACE(mLogger, "constructor: " << mFilename << "," << mGroupname);
 
-  mEdjeContext = static_cast <EdjeContext *>(context);
+//mEdjeContext = static_cast <EdjeContext *>(context);
 
   mRealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::unrealizeDispatched));
@@ -63,8 +60,9 @@ EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::strin
 void EdjeView::realize()
 {
   LOG4CXX_DEBUG(mLogger, "+wait for realize");
-  mRealizeDispatcher.signal();
+  mRealizeDispatcher.emit();
 
+  // TODO: protect by mutex??
   condRealize.wait(mutexRealize);
   LOG4CXX_DEBUG(mLogger, "-wait for realize");
 }
@@ -73,9 +71,10 @@ void EdjeView::unrealize()
 {
   LOG4CXX_TRACE(mLogger, "+unrealize ()");
 
-  mUnrealizeDispatcher.signal();
+  mUnrealizeDispatcher.emit();
 
   // wait for animation finished on statemachine thread
+  // TODO: protect by Mutex?
   condUnrealize.wait(mutexUnrealize);
 
   groupState = Unrealized;
@@ -89,7 +88,7 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   LOG4CXX_INFO(mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
 
-  mWindow = mEdjeContext->getWindow();
+  mWindow = mEdjeContext->window;
   mLayout = Elmxx::Layout::factory(*mWindow);
   mLayout->setWeightHintSize(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   mWindow->addObjectResize(*mLayout);
@@ -117,7 +116,7 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   edjeObj->connect("*", "*", sigc::mem_fun(this, &EdjeView::allFunc));
 
-  mLayout->resize(mEdjeContext->getResolution());
+  mLayout->resize(mEdjeContext->resolution);
 
   updateContent();
 
@@ -143,6 +142,7 @@ void EdjeView::unrealizeDispatched(int missedEvents)
 
 void EdjeView::updateContent()
 {
+
   // FIXME: seems first screen could not do a updateContent ()!!
   if (!mLayout)
     return;
@@ -316,7 +316,6 @@ void EdjeView::updateContent()
     }
     
   }
-
 }
 
 void EdjeView::invisibleFunc(const std::string emmision, const std::string source)

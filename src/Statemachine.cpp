@@ -60,6 +60,7 @@ void StateMachine::start()
   assert(mActiveState);
 
   mSMInit = true;
+  mLoader->start ();
 }
 
 bool StateMachine::load(const std::string &smDir)

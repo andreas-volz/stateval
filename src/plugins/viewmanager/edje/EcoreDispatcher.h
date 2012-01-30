@@ -15,10 +15,13 @@ public:
    */
   sigc::signal <void, int> signalDispatch;
 
+  // TODO: support this!
+  //sigc::connection 	connect (const sigc::slot< void >& slot)
+
   EcoreDispatcher();
   virtual ~EcoreDispatcher();
 
-  void signal();
+  void emit();
 
 private:
   int fd_read;

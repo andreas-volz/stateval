@@ -21,7 +21,7 @@ InputThread::InputThread() :
 void InputThread::run()
 {
   StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
-  
+  //StateMachineAccessor.pushEvent("HK_NAV");
   while (mRunning)
   {
     string input;

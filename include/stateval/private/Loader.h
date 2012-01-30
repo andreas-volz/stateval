@@ -45,6 +45,8 @@ public:
   int findMapingEvent(const std::string &event);
   std::string findMapingEvent(int event);
 
+  void start ();
+
 protected:
   void loadViewManager(const std::string &viewmanagerPlugin, const std::map <std::string, std::string> &params);
 

@@ -47,10 +47,10 @@ Main::Main(int argc, const char **argv)
   //iThread.start();
 
   // stupid wait loop
-  for (;;)
+  /*for (;;)
   {
     sleep(1);
-  }
+  }*/
 
   StateMachineAccessor::destroy();
   // <-- EFL

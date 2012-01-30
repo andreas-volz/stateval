@@ -16,7 +16,7 @@
 using namespace std;
 
 StateMachineThread::StateMachineThread(StateMachine &sm) :
-  Threading::Thread(),
+//  Threading::Thread(),
   mLogger("stateval.StateMachineThread"),
   mEventMutex(),
   mEventsInQueue(),
@@ -30,11 +30,11 @@ StateMachineThread::~StateMachineThread()
 {
   LOG4CXX_TRACE(mLogger, "~StateMachineThread");
 
-  cancel();
+//  cancel();
 
   LOG4CXX_TRACE(mLogger, "~StateMachineThread (canceled)");
 
-  join();
+//  join();
 
   LOG4CXX_TRACE(mLogger, "~StateMachineThread (joined)");
 }
@@ -42,7 +42,7 @@ StateMachineThread::~StateMachineThread()
 void StateMachineThread::start()
 {
   LOG4CXX_TRACE(mLogger, "+StateMachineThread::start ()");
-  Thread::start();
+//  Thread::start();
   LOG4CXX_TRACE(mLogger, "-StateMachineThread::start ()");
 }
 
@@ -55,7 +55,7 @@ void StateMachineThread::run()
 {
   LOG4CXX_TRACE(mLogger, "+run");
 
-  while (isRunning())
+  while (/*isRunning()*/ 1)
   {
     LOG4CXX_TRACE(mLogger, "+run::running while");
 
@@ -67,12 +67,12 @@ void StateMachineThread::run()
       LOG4CXX_TRACE(mLogger, "!mSM->eventQueue.empty()");
       // here is the point the loop waits if no event is in the event queue
       mEventsInQueue.wait(mEventMutex);
-      if (!isRunning())
+      /*if (!isRunning())
       {
         mEventMutex.unlock();
         LOG4CXX_TRACE(mLogger, "!isRunning()");
         return;
-      }
+      }*/
     }
     LOG4CXX_TRACE(mLogger, "mSM->eventQueue.empty()");
 

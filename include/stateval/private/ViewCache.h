@@ -19,7 +19,7 @@ bool operator == (const ViewSpec &viewSpec1, const ViewSpec &viewSpec2);
 
 /*
  TODO: Current ViewCache implementation supports only easy case that old and new
- ViewState contains same views. If needed more advanced uses cases could be implemented.
+ ViewState contains same views. If needed more advanced use case this could be implemented here.
  */
 
 class ViewCache

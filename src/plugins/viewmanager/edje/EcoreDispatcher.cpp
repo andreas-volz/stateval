@@ -42,7 +42,7 @@ void EcoreDispatcher::init()
   }
 }
 
-void EcoreDispatcher::signal()
+void EcoreDispatcher::emit()
 {
   write(fd_write, "1", 2);
 }

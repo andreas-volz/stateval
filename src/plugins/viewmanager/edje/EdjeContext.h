@@ -8,31 +8,11 @@
 /* pluxx */
 #include "stateval/stateval.h"
 
-class EdjeContext 
+struct EdjeContext 
 {
-public:
-  EdjeContext(Elmxx::Window *window)  :
-    mWindow(window) {}
-  virtual ~EdjeContext() {}
-
-  void setResolution(const Eflxx::Size &resolution)
-  {
-    mResolution = resolution;
-  }
-
-  const Eflxx::Size getResolution()
-  {
-    return mResolution;
-  }
-
-  Elmxx::Window *getWindow()
-  {
-    return mWindow;
-  }
-
-private:
-  Elmxx::Window *mWindow;
-  Eflxx::Size mResolution;
+  Elmxx::Window *window;
+  Eflxx::Size resolution;
 };
 
 #endif // EDJE_CONTEXT_H
+

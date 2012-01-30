@@ -37,10 +37,10 @@ Main::Main()
   StateMachineAccessor.pushEvent("HK_NAV");
 
   // stupid wait loop
-  for (;;)
+  /*for (;;)
   {
     sleep(1);
-  }
+  }*/
 
   StateMachineAccessor::destroy();
 }

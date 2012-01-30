@@ -14,7 +14,7 @@
 /* forward declarations */
 class StateMachine;
 
-class StateMachineThread : public Threading::Thread
+class StateMachineThread //: public Threading::Thread
 {
 public:
   StateMachineThread(StateMachine &sm);
@@ -34,8 +34,10 @@ public:
   void disconnect(int event);
   void disconnectAll();
 
-private:
   virtual void run();  // From Thread
+  
+private:
+  
   virtual void signal_cancel(); // from Thread
 
   void updateEvent(int missedEvents);

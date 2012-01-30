@@ -55,8 +55,9 @@ void StateMachineAccessor::load(const std::string &loader, const std::string &fi
 
 void StateMachineAccessor::start()
 {
-  mPImpl->mSMThread->start();
   mPImpl->mSM->start();
+  //mPImpl->mSMThread->start();
+  mPImpl->mSMThread->run();
 }
 
 bool StateMachineAccessor::isInitialized()

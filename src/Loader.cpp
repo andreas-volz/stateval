@@ -169,3 +169,9 @@ void Loader::loadViewManager(const std::string &viewmanagerPlugin, const std::ma
     LOG4CXX_FATAL(mLogger, "Plugin Major Version: " << verEx.getPluginMajorVersion());
   }
 }
+
+void Loader::start ()
+{
+  assert (mViewManager);
+  mViewManager->start ();
+}
