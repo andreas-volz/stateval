@@ -59,6 +59,7 @@ protected:
   ViewManager *mViewManager;
   std::list <Action *> mActionList;
   std::map <std::string, AbstractVariable *> mVariableList;
+  std::map <std::string, std::string> mViewManagerParams;
 
   // ... but no need to free this as it holds no allocated types...
   std::map <std::string, int> mEventList;

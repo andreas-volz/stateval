@@ -93,6 +93,10 @@
   </transitions>
   
   <viewmanager plugin="edje">
+    <params>
+      <param key="width" value="320"/>
+      <param key="height" value="480"/>
+    </params>
 
     <view name="Main">
       <params>

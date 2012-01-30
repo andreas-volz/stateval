@@ -9,5 +9,5 @@ log4j.appender.A1.layout.ConversionPattern=%d [%t] %-5p %c - %m%n
 #log4j.logger.stateval.StateMachineThread=TRACE
 #log4j.logger.stateval.ViewCache=TRACE
 #log4j.logger.stateval.plugins.views.edje=TRACE
-#log4j.logger.stateval.plugins.loaders.smxml=TRACE
+log4j.logger.stateval.plugins.loaders.smxml=TRACE
 #log4j.logger.stateval=TRACE

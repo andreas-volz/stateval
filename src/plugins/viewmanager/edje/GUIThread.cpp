@@ -17,13 +17,34 @@
 
 using namespace std;
 
-static const Eflxx::Size initialWindowSize(800, 480);
-
-GUIThread::GUIThread() :
+GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mRunning(true),
-  mEdjeView (NULL)
+  mEdjeView (NULL),
+  mViewManagerParams(params),
+  mWindow(NULL),
+  mBackground(NULL)
 {
+  std::map <std::string, std::string>::const_iterator param_it;
 
+  // TODO: think about more generic value parser from XML
+  param_it = params.find ("width");
+  if (param_it != params.end ())
+  {
+    cout << "width: " << param_it->second << endl;
+    mWindowSize.width (atoi (param_it->second.c_str ()));
+  }
+
+  param_it = params.find ("height");
+  if (param_it != params.end ())
+  {
+    cout << "height: " << param_it->second << endl;
+    mWindowSize.height (atoi (param_it->second.c_str ()));
+  }  
+}
+
+GUIThread::~GUIThread()
+{
+  delete mViewFactoryDispatcher;
 }
 
 View *GUIThread::viewFactory (const std::map <std::string, std::string> &params)
@@ -52,19 +73,16 @@ void GUIThread::run()
   mBackground = Elmxx::Background::factory(*mWindow);
   assert (mBackground);
 
-  // TODO: destroy at end
   mViewFactoryDispatcher = new EcoreDispatcher();
   
   mViewFactoryDispatcher->signalDispatch.connect(sigc::mem_fun(this, &GUIThread::viewFactoryDispatched));
-  
-  //StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
   
   mWindow->setTitle("Simple stateval Test");
     
   mBackground->setWeightHintSize(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   mWindow->addObjectResize(*mBackground);
 
-  mWindow->resize(initialWindowSize);
+  mWindow->resize(mWindowSize);
   mWindow->setAutoDel(true);
   mWindow->setAlpha(true);
   
@@ -85,7 +103,7 @@ void GUIThread::run()
 void GUIThread::viewFactoryDispatched(int missedEvents)
 {
   mContext.window = mWindow;
-  mContext.resolution = initialWindowSize;
+  mContext.resolution = mWindowSize;
   
   cout << "new edje view" << endl;
   mEdjeView = new EdjeView (&mContext, mViewParams);

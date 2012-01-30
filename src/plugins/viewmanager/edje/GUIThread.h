@@ -19,7 +19,8 @@ class EcoreDispatcher;
 class GUIThread : public Threading::Thread
 {
 public:
-  GUIThread();
+  GUIThread(const std::map <std::string, std::string> &params);
+  ~GUIThread();
 
   View *viewFactory (const std::map <std::string, std::string> &params);
 
@@ -42,14 +43,16 @@ private:
 
   EdjeContext mContext;
   View *mEdjeView;
+
+  // synchronized by mViewFactoryDispatcher
   std::map <std::string, std::string> mViewParams;
-  
-  // FIXME: code heavy depends on initialization order! 
-  
-public:
+
+  std::map <std::string, std::string> mViewManagerParams;
+
+  Eflxx::Size mWindowSize;
+    
   Elmxx::Window *mWindow;
 
-private:
   Elmxx::Background *mBackground;
 };
 

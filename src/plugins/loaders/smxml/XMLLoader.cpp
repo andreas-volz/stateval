@@ -122,7 +122,7 @@ void XMLLoader::parseRootNode(const xmlpp::Node *node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin();
            iter != list.end(); ++iter)
       {
-        parseViewsNode(*iter);
+        parseViewManagerNode(*iter);
       }
 
       // Recurse through child nodes
@@ -943,7 +943,7 @@ void XMLLoader::parseTransitionNode(const xmlpp::Node *node)
   }
 }
 
-void XMLLoader::parseViewsNode(const xmlpp::Node *node)
+void XMLLoader::parseViewManagerNode(const xmlpp::Node *node)
 {
   const xmlpp::ContentNode *nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
   const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
@@ -961,27 +961,92 @@ void XMLLoader::parseViewsNode(const xmlpp::Node *node)
     {
       const xmlpp::Attribute *plugin_attribute = nodeElement->get_attribute("plugin");
 
-      if (plugin_attribute)
+      // Recurse through child nodes BEFORE creating ViewManager
+      xmlpp::Node::NodeList list = node->get_children();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin();
+           iter != list.end(); ++iter)
       {
-        std::map <string, string> params; // TODO: read params from XML
-        
+        parseViewManagerParamsNode(*iter, mViewManagerParams);
+      }
+      
+      if (plugin_attribute)
+      {        
         LOG4CXX_DEBUG(mLogger, "Attribute plugin = " << plugin_attribute->get_value());
-        loadViewManager (plugin_attribute->get_value(), params);        
+        int size = mViewManagerParams.size ();
+        cout << size << endl;
+        loadViewManager (plugin_attribute->get_value(), mViewManagerParams);        
       }
       else
       {
         assert (false);
         // throw exception
       }
-
+      
       // Recurse through child nodes
       unsigned int i = 0;
-      xmlpp::Node::NodeList list = node->get_children();
+      list = node->get_children();
       for (xmlpp::Node::NodeList::iterator iter = list.begin();
            iter != list.end(); ++iter)
       {
         parseViewNode(*iter, i);
       }
+
+
+    }
+  }
+}
+
+void XMLLoader::parseViewManagerParamsNode(const xmlpp::Node *node, std::map <std::string, std::string> &params)
+{
+  const xmlpp::ContentNode *nodeContent = dynamic_cast < const xmlpp::ContentNode * >(node);
+  const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::CommentNode *nodeComment = dynamic_cast < const xmlpp::CommentNode * >(node);
+
+  if (nodeText && nodeText->is_white_space())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name();
+
+  LOG4CXX_DEBUG(mLogger, "parseViewManagerParamsNode = " << nodename);
+
+  if (!nodeText && !nodeComment && !nodename.empty())	//Let's not say "name: text".
+  {
+    if (nodename == "params")
+    {
+      // Recurse through child nodes
+      xmlpp::Node::NodeList list = node->get_children();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin();
+           iter != list.end(); ++iter)
+      {
+        parseViewManagerParamNode(*iter, params);
+      }
+    }
+  }
+}
+
+void XMLLoader::parseViewManagerParamNode(const xmlpp::Node *node, std::map <std::string, std::string> &params)
+{
+  const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element *nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+
+  if (nodeText && nodeText->is_white_space())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name();
+
+  if (!nodename.empty())
+  {
+    LOG4CXX_DEBUG(mLogger, "parseViewManagerParamNode = " << node->get_name());
+
+    const xmlpp::Attribute *key_attribute = nodeElement->get_attribute("key");
+    const xmlpp::Attribute *value_attribute = nodeElement->get_attribute("value");
+
+    if (key_attribute && value_attribute)
+    {
+      LOG4CXX_DEBUG(mLogger, "Attribute key = " << key_attribute->get_value());
+      LOG4CXX_DEBUG(mLogger, "Attribute value = " << value_attribute->get_value());
+
+      params[key_attribute->get_value()] = value_attribute->get_value();
     }
   }
 }

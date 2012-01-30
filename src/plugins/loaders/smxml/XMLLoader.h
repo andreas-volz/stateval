@@ -58,7 +58,9 @@ protected:
   void parseTransitionsNode(const xmlpp::Node *node);
   void parseTransitionNode(const xmlpp::Node *node);
 
-  void parseViewsNode(const xmlpp::Node *node);
+  void parseViewManagerNode(const xmlpp::Node *node);
+  void parseViewManagerParamsNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);
+  void parseViewManagerParamNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);
   void parseViewNode(const xmlpp::Node *node, unsigned int &i);
 
   void parseViewParamsNode(const xmlpp::Node *node, std::map <std::string, std::string> &params);

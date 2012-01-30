@@ -42,18 +42,7 @@ Main::Main(int argc, const char **argv)
 
   StateMachineAccessor.start();
 
-  // create an input thread
-  //InputThread iThread(StateMachineAccessor);
-  //iThread.start();
-
-  // stupid wait loop
-  /*for (;;)
-  {
-    sleep(1);
-  }*/
-
   StateMachineAccessor::destroy();
-  // <-- EFL
 }
 
 /* Main */
