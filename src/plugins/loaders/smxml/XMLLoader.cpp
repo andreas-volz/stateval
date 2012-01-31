@@ -62,12 +62,16 @@ bool XMLLoader::load(const std::string &sm)
       mActionNameMapper.clear();
       mConditionNameMapper.clear();
       // <-
+
+      return true;
     }
   }
   catch (const exception &ex)
   {
     LOG4CXX_FATAL(mLogger, "Exception caught: " << ex.what());
   }
+
+  return false;
 }
 
 void XMLLoader::parseRootNode(const xmlpp::Node *node)
