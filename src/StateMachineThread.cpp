@@ -67,6 +67,8 @@ void StateMachineThread::run()
       LOG4CXX_TRACE(mLogger, "!mSM->eventQueue.empty()");
       // here is the point the loop waits if no event is in the event queue
       mEventsInQueue.wait(mEventMutex);
+      // FIXME: commented out since thread redesign
+      // TODO: define cancel method!
       /*if (!isRunning())
       {
         mEventMutex.unlock();
@@ -116,6 +118,7 @@ void StateMachineThread::run()
 
 void StateMachineThread::pushEvent(int event)
 {
+  // called from async GUI mainloop thread, so locking the queue is needed
   mEventMutex.lock();
   mSM->pushEvent(event);
   mEventsInQueue.signal();

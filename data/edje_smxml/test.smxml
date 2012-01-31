@@ -138,6 +138,11 @@
   </transitions>
   
   <viewmanager plugin="edje">
+    <params>
+      <param key="width" value="320"/>
+      <param key="height" value="480"/>
+    </params>
+
     <view name="NavMainView">
       <params>
         <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>

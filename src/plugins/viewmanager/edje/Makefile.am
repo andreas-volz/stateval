@@ -12,8 +12,7 @@ stateval_viewmanager_edje_la_SOURCES = \
 	EdjeViewManager.h \
 	GUIThread.cpp \
 	GUIThread.h \
-	EdjeContext.h    \
-	Logger.h
+	EdjeContext.h
 
 stateval_viewmanager_edje_la_LDFLAGS = \
 	-module \

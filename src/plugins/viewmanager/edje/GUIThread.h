@@ -7,9 +7,12 @@
 #include <edjexx/Edjexx.h>
 #include <elementaryxx/Elementaryxx.h>
 
-/* Project */
-#include <stateval/private/Thread.h>
-#include <EdjeContext.h>
+/* stateval */
+#include "stateval/private/Thread.h"
+#include "stateval/private/Logger.h"
+
+/* local */
+#include "EdjeContext.h"
 
 /* forward declarations */
 class StateMachineAccessor;
@@ -24,8 +27,7 @@ public:
 
   View *viewFactory (const std::map <std::string, std::string> &params);
 
-  Threading::Condition condGUIStarted;
-  Threading::Mutex mutexGUIStarted;
+  Threading::Thread::EError start();
 
 private:  
   void run();
@@ -33,7 +35,9 @@ private:
   void elm_quit(Evasxx::Object &obj, void *event_info);
   void startupDispatched();
   void viewFactoryDispatched(int missedEvents);
-    
+
+  Logger mLogger; // first private variable
+  
   bool mRunning;
   Elmxx::Application *mApp;
   EcoreDispatcher *mViewFactoryDispatcher;
@@ -41,6 +45,9 @@ private:
   Threading::Condition mCondViewCreated;
   Threading::Mutex mMutexViewCreated;
 
+  Threading::Condition condGUIStarted;
+  Threading::Mutex mutexGUIStarted;
+  
   EdjeContext mContext;
   View *mEdjeView;
 

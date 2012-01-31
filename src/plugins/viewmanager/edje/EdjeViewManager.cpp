@@ -15,16 +15,11 @@ static const unsigned int major_version = 1;
 static const unsigned int minor_version = 1;
 
 EdjeViewManager::EdjeViewManager(const std::map <std::string, std::string> &params) :
-  mLogger("stateval.EdjeViewManager"),
+  mLogger("stateval.plugins.viewmanager.EdjeViewManager"),
   mGUIThread (params)
 { 
   mGUIThread.start();
 
-  // wait until EFL GUI is started
-  // TODO: wait/lock in mGUIThread.start() wrapper?
-  mGUIThread.mutexGUIStarted.lock ();
-  mGUIThread.condGUIStarted.wait (mGUIThread.mutexGUIStarted);
-  mGUIThread.mutexGUIStarted.unlock ();
   cout << "GUI initialized" << endl;
 }
 

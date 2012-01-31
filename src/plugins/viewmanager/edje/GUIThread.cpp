@@ -18,6 +18,7 @@
 using namespace std;
 
 GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
+  mLogger("stateval.plugins.viewmanager.GUIThread"),
   mRunning(true),
   mEdjeView (NULL),
   mViewManagerParams(params),
@@ -30,14 +31,12 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   param_it = params.find ("width");
   if (param_it != params.end ())
   {
-    cout << "width: " << param_it->second << endl;
     mWindowSize.width (atoi (param_it->second.c_str ()));
   }
 
   param_it = params.find ("height");
   if (param_it != params.end ())
   {
-    cout << "height: " << param_it->second << endl;
     mWindowSize.height (atoi (param_it->second.c_str ()));
   }  
 }
@@ -62,6 +61,18 @@ View *GUIThread::viewFactory (const std::map <std::string, std::string> &params)
   return mEdjeView;
 }
 
+Threading::Thread::EError GUIThread::start()
+{
+  Threading::Thread::EError error = Threading::Thread::start ();
+  
+  // synchronize startup - wait until EFL GUI is started
+  mutexGUIStarted.lock ();
+  condGUIStarted.wait (mutexGUIStarted);
+  mutexGUIStarted.unlock ();
+  
+  return error;
+}
+
 void GUIThread::run()
 {
   mApp = new Elmxx::Application (0, NULL);
@@ -77,7 +88,7 @@ void GUIThread::run()
   
   mViewFactoryDispatcher->signalDispatch.connect(sigc::mem_fun(this, &GUIThread::viewFactoryDispatched));
   
-  mWindow->setTitle("Simple stateval Test");
+  mWindow->setTitle("StatEval Default Window");
     
   mBackground->setWeightHintSize(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   mWindow->addObjectResize(*mBackground);
@@ -113,6 +124,7 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
 
 void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
 {
+  // TODO: exit concept! (finite state in stateval?)
   Ecorexx::Application::quit();
 }
 
@@ -121,13 +133,6 @@ void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
  */
 void GUIThread::startupDispatched()
 {
-  StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
-
-  // inital event
-  cout << "initial event" << endl;
-  StateMachineAccessor.pushEvent("MAIN");
-  //StateMachineAccessor.pushEvent("HK_NAV");
-
   // signal that EFL is started to EdjeViewManager 
   condGUIStarted.signal ();
 }

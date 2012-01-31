@@ -1011,8 +1011,6 @@ void XMLLoader::parseViewManagerParamsNode(const xmlpp::Node *node, std::map <st
 
   Glib::ustring nodename = node->get_name();
 
-  LOG4CXX_DEBUG(mLogger, "parseViewManagerParamsNode = " << nodename);
-
   if (!nodeText && !nodeComment && !nodename.empty())	//Let's not say "name: text".
   {
     if (nodename == "params")

@@ -19,7 +19,7 @@
 using namespace std;
 
 EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params) :
-  mLogger("stateval.plugins.views.edje"),
+  mLogger("stateval.plugins.viewmanager.EdjeView"),
   mEdjeContext(context),
   groupState(Unrealized),
   mEvent (-1)

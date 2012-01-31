@@ -14,6 +14,8 @@
 /* forward declarations */
 class StateMachine;
 
+// TODO: as StateMachineThread is not longer an extra Thread but runs in main
+// thread it may be renamed to StateMachineLoop...
 class StateMachineThread //: public Threading::Thread
 {
 public:

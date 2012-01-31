@@ -7,11 +7,11 @@
 #include <pluxx/Plugin.h>
 
 /* local */
-#include "Logger.h"
 #include "GUIThread.h"
 
 /* stateval */
 #include "stateval/private/ViewManager.h"
+#include "stateval/private/Logger.h"
 
 class EdjeViewManager : public ViewManager
 {
@@ -29,9 +29,8 @@ public:
   void start ();
 
 private:
-  Logger mLogger;
+  Logger mLogger;  // first private variable
 
-  // FIXME: code heavy depends on initialization order!
   GUIThread mGUIThread;
 };
 

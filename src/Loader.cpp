@@ -15,6 +15,7 @@
 #include "stateval/private/HistoryState.h"
 #include "stateval/private/DecisionState.h"
 #include "stateval/private/ViewState.h"
+#include "stateval/StateMachineAccessor.h"
 #include "MemoryUtil.h"
 #include "stringUtil.h"
 #include "ViewManagerPluginLoader.h"
@@ -48,6 +49,7 @@ void Loader::addEvent(const std::string &event)
 
   if (ev_it == mEventList.end())  // not found
   {
+    LOG4CXX_DEBUG(mLogger, "Add event '" << event << "' with index '" << eventCounter << "'");
     mEventList[event] = eventCounter;
     mEventListIndex.push_back(event);
     ++eventCounter;
@@ -174,4 +176,11 @@ void Loader::start ()
 {
   assert (mViewManager);
   mViewManager->start ();
+
+  // inital event ->
+  StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());  
+  cout << "initial event" << endl;
+  StateMachineAccessor.pushEvent(-1);
+  // <-
+  
 }

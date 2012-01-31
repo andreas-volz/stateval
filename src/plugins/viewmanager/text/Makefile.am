@@ -10,8 +10,7 @@ stateval_viewmanager_text_la_SOURCES = \
 	TextViewManager.cpp \
 	TextViewManager.h \
 	InputThread.cpp    \
-	InputThread.h    \
-	Logger.h
+	InputThread.h
 
 stateval_viewmanager_text_la_LDFLAGS = \
 	-module \

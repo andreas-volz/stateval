@@ -4,10 +4,10 @@
 /* stateval */
 #include "stateval/stateval.h"
 #include "stateval/private/stateval_private.h"
+#include "stateval/private/Logger.h"
 
 /* local */
 #include "EcoreDispatcher.h"
-#include "Logger.h"
 
 /* STD */
 #include <string>
@@ -20,8 +20,6 @@
 /* forward declarations */
 class StateMachineAccessor;
 class EdjeContext;
-
-static bool initialized = false;
 
 class EdjeView : public View
 {
