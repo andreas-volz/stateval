@@ -80,6 +80,7 @@
 
   <transitions>
     <transition from="Root" to="Initial"/>
+    <transition from="Initial" to="NavCompound"/>
     <transition from="Root" to="NavCompound" event="HK_NAV"/>
     <transition from="Root" to="TunerCompound" event="HK_TUNER"/>
     <transition from="Root" to="MediaAvailable" event="HK_MEDIA"/>

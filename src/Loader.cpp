@@ -174,13 +174,9 @@ void Loader::loadViewManager(const std::string &viewmanagerPlugin, const std::ma
 
 void Loader::start ()
 {
-  assert (mViewManager);
-  mViewManager->start ();
-
   // inital event ->
   StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());  
   cout << "initial event" << endl;
   StateMachineAccessor.pushEvent(-1);
   // <-
-  
 }

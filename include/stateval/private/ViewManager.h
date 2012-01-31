@@ -18,8 +18,6 @@ public:
 
   virtual View *loadView(const std::map <std::string, std::string> &params) = 0;
 
-  virtual void start () = 0;
-
 protected:
   std::list <View*> mViewList;
   

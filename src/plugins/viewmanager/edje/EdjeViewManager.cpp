@@ -32,11 +32,6 @@ View *EdjeViewManager::loadView(const std::map <std::string, std::string> &param
   return edjeview;
 }
 
-void EdjeViewManager::start ()
-{
-  
-}
-
 //////////////////////
 // Plugin stuff below
 //////////////////////

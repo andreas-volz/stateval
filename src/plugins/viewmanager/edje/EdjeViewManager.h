@@ -26,8 +26,6 @@ public:
 
   View *loadView(const std::map <std::string, std::string> &params);
 
-  void start ();
-
 private:
   Logger mLogger;  // first private variable
 
