@@ -129,6 +129,7 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
+  mEdjeContext->background->hide (); // make background "transparent"
 
   condRealize.signal();
 
@@ -141,6 +142,11 @@ void EdjeView::unrealizeDispatched(int missedEvents)
   {
     groupState = Unrealizing;
     Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
+
+    // show background while view switch to prevent flickering of 
+    // below composite layer
+    mEdjeContext->background->show ();
+    
     edjeObj->emit("invisible", "stateval");
   }
 }
@@ -402,7 +408,6 @@ void EdjeView::pushEventDispatched(int missedEvents)
   mCondPushEvent.signal ();
 }
 
-// TODO: synchronize this method!!
 void EdjeView::pushEvent(int event)
 {
   mEvent = event;

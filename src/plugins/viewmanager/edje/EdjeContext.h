@@ -12,6 +12,7 @@ struct EdjeContext
 {
   Elmxx::Window *window;
   Eflxx::Size resolution;
+  Elmxx::Background *background;
 };
 
 #endif // EDJE_CONTEXT_H

@@ -91,8 +91,10 @@ void GUIThread::run()
   mWindow->setTitle("StatEval Default Window");
     
   mBackground->setWeightHintSize(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mBackground->setColor (Eflxx::Color (0, 0, 0)); // show block background while view switching
   mWindow->addObjectResize(*mBackground);
-
+  mBackground->hide();
+  
   mWindow->resize(mWindowSize);
   mWindow->setAutoDel(true);
   mWindow->setAlpha(true);
@@ -104,8 +106,7 @@ void GUIThread::run()
   startupJob.start();
 
   mWindow->show();
-  mBackground->show();
-  
+    
   // Enter the application main loop
   cout << "enter mainloop" << endl;
   mApp->run();
@@ -115,6 +116,7 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
 {
   mContext.window = mWindow;
   mContext.resolution = mWindowSize;
+  mContext.background = mBackground;
   
   cout << "new edje view" << endl;
   mEdjeView = new EdjeView (&mContext, mViewParams);

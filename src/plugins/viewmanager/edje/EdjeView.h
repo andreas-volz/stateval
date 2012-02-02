@@ -60,8 +60,8 @@ private:
 
   EdjeContext *mEdjeContext;
 
-  Elmxx::Layout *mLayout;
-  Elmxx::Window *mWindow;
+  Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext
+  Elmxx::Window *mWindow; // TODO: remove and access mEdjeContext
 
   std::string mFilename;
   std::string mGroupname;
