@@ -7,7 +7,7 @@
 #include <pluxx/Plugin.h>
 
 /* local */
-#include "Logger.h"
+#include "stateval/private/Logger.h"
 #include "TextView.h"
 #include "InputThread.h"
 
