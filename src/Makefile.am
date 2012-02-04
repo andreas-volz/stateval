@@ -31,7 +31,7 @@ libstateval_la_SOURCES = \
 	View.cpp      \
 	ViewState.cpp      \
 	StateMachineAccessor.cpp      \
-	StateMachineThread.cpp      \
+	StateMachineLoop.cpp      \
 	Loader.cpp      \
 	stringUtil.cpp      \
 	stringUtil.h      \

@@ -52,8 +52,6 @@ EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::strin
 
   LOG4CXX_TRACE(mLogger, "constructor: " << mFilename << "," << mGroupname);
 
-//mEdjeContext = static_cast <EdjeContext *>(context);
-
   mRealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::unrealizeDispatched));
 
@@ -124,8 +122,6 @@ void EdjeView::realizeDispatched(int missedEvents)
   mLayout->resize(mEdjeContext->resolution);
 
   updateContent();
-
-  //mLayout->setLayer (0);
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
@@ -337,8 +333,7 @@ void EdjeView::invisibleFunc(const std::string emmision, const std::string sourc
   mWindow->delObjectResize(*mLayout);
   mLayout->destroy();
   mLayout = NULL;
-  //elm_object_part_content_unset 	(mLayout->obj (), mGroupname.c_str ());
-
+  
   // signal the edje statemachine thread that the animation is finished
   condUnrealize.signal();
 }
@@ -370,7 +365,7 @@ void EdjeView::allFunc(const std::string emmision, const std::string source)
     LOG4CXX_DEBUG(mLogger, "allFunc: " << event << " (" << mGroupname << ")");
 
     // only push new events for realized screens
-    // when I do this it leads into freezes as the invisible signal doesn't come
+    // FIXME: when I do this it leads into freezes as the invisible signal doesn't come
     //if (groupState != Realized) return;
 
     if (StateMachineAccessor.findMapingEvent(event) != -1)

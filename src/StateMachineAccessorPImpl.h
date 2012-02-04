@@ -7,7 +7,7 @@
 struct StateMachineAccessorPImpl
 {
   StateMachine *mSM;
-  StateMachineThread *mSMThread;
+  StateMachineLoop *mSMLoop;
   Threading::Mutex mMutex;
 };
 

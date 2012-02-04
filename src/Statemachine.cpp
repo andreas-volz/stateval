@@ -107,7 +107,6 @@ void StateMachine::evaluateState(int &inOutEvent)
     mActiveState->pushEvent(inOutEvent);
 
     State *foundState = searchHierarchie(inOutEvent);
-    //cout << "found state that fits: " << foundState << endl;
 
     if (foundState != NULL)
     {

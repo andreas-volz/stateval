@@ -3,7 +3,7 @@
 #endif
 
 /* local */
-#include "stateval/private/StateMachineThread.h"
+#include "stateval/private/StateMachineLoop.h"
 #include "stateval/private/StateMachine.h"
 #include "MemoryUtil.h"
 
@@ -15,9 +15,8 @@
 
 using namespace std;
 
-StateMachineThread::StateMachineThread(StateMachine &sm) :
-//  Threading::Thread(),
-  mLogger("stateval.StateMachineThread"),
+StateMachineLoop::StateMachineLoop(StateMachine &sm) :
+  mLogger("stateval.StateMachineLoop"),
   mEventMutex(),
   mEventsInQueue(),
   mSM(&sm),
@@ -26,32 +25,32 @@ StateMachineThread::StateMachineThread(StateMachine &sm) :
 {
 }
 
-StateMachineThread::~StateMachineThread()
+StateMachineLoop::~StateMachineLoop()
 {
-  LOG4CXX_TRACE(mLogger, "~StateMachineThread");
+  LOG4CXX_TRACE(mLogger, "~StateMachineLoop");
 
 //  cancel();
 
-  LOG4CXX_TRACE(mLogger, "~StateMachineThread (canceled)");
+  LOG4CXX_TRACE(mLogger, "~StateMachineLoop (canceled)");
 
 //  join();
 
-  LOG4CXX_TRACE(mLogger, "~StateMachineThread (joined)");
+  LOG4CXX_TRACE(mLogger, "~StateMachineLoop (joined)");
 }
 
-void StateMachineThread::start()
+void StateMachineLoop::start()
 {
-  LOG4CXX_TRACE(mLogger, "+StateMachineThread::start ()");
+  LOG4CXX_TRACE(mLogger, "+StateMachineLoop::start ()");
 //  Thread::start();
-  LOG4CXX_TRACE(mLogger, "-StateMachineThread::start ()");
+  LOG4CXX_TRACE(mLogger, "-StateMachineLoop::start ()");
 }
 
-void StateMachineThread::signal_cancel() // from thread
+void StateMachineLoop::signal_cancel() // from thread
 {
   mEventsInQueue.signal();
 }
 
-void StateMachineThread::run()
+void StateMachineLoop::run()
 {
   LOG4CXX_TRACE(mLogger, "+run");
 
@@ -116,7 +115,7 @@ void StateMachineThread::run()
   }
 }
 
-void StateMachineThread::pushEvent(int event)
+void StateMachineLoop::pushEvent(int event)
 {
   // called from async GUI mainloop thread, so locking the queue is needed
   mEventMutex.lock();
@@ -125,12 +124,12 @@ void StateMachineThread::pushEvent(int event)
   mEventMutex.unlock();
 }
 
-void StateMachineThread::pushEvent(const std::string &event)
+void StateMachineLoop::pushEvent(const std::string &event)
 {
   pushEvent(mSM->findMapingEvent(event));
 }
 
-void StateMachineThread::connect(int event, const SignalSlot &slot)
+void StateMachineLoop::connect(int event, const SignalSlot &slot)
 {
   SignalSignal *signal = new SignalSignal();
   mSignalList.insert(pair <int, SignalSignal *> (event, signal));
@@ -138,12 +137,12 @@ void StateMachineThread::connect(int event, const SignalSlot &slot)
   signal->connect(slot);
 }
 
-void StateMachineThread::connect(const SignalSlot &slot)
+void StateMachineLoop::connect(const SignalSlot &slot)
 {
   mSignalBroadcast.connect(slot);
 }
 
-void StateMachineThread::disconnect(int event)
+void StateMachineLoop::disconnect(int event)
 {
   // delete event signals
   multimap <int, SignalSignal *>::iterator findResult = mSignalList.find(event);
@@ -161,7 +160,7 @@ void StateMachineThread::disconnect(int event)
   }
 }
 
-void StateMachineThread::disconnectAll()
+void StateMachineLoop::disconnectAll()
 {
   delete_stl_container(mSignalList);
 }

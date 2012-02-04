@@ -1,5 +1,5 @@
-#ifndef STATE_MACHINE_THREAD_H
-#define STATE_MACHINE_THREAD_H
+#ifndef STATE_MACHINE_LOOP_H
+#define STATE_MACHINE_LOOP_H
 
 /* STD */
 #include <map>
@@ -7,24 +7,22 @@
 #include <cassert>
 
 /* local */
-#include "Thread.h"
 #include "stateval/StateMachineAccessor.h"
+#include "Thread.h"
 #include "Logger.h"
 
 /* forward declarations */
 class StateMachine;
 
-// TODO: as StateMachineThread is not longer an extra Thread but runs in main
-// thread it may be renamed to StateMachineLoop...
-class StateMachineThread //: public Threading::Thread
+class StateMachineLoop
 {
 public:
-  StateMachineThread(StateMachine &sm);
+  StateMachineLoop(StateMachine &sm);
 
   /*!
    * The destructor calls cancel() and join()
    */
-  ~StateMachineThread();
+  ~StateMachineLoop();
 
   void pushEvent(int event);
   void pushEvent(const std::string &event);

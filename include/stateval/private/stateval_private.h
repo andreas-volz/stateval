@@ -15,7 +15,7 @@
 #include "Transition.h"
 #include "View.h"
 #include "ViewState.h"
-#include "StateMachineThread.h"
+#include "StateMachineLoop.h"
 #include "StateMachine.h"
 
 #endif // STATEVAL_PRIVATE_H

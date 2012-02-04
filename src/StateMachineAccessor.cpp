@@ -5,7 +5,7 @@
 /* local */
 #include "stateval/StateMachineAccessor.h"
 #include "stateval/private/StateMachine.h"
-#include "stateval/private/StateMachineThread.h"
+#include "stateval/private/StateMachineLoop.h"
 #include "StateMachineAccessorPImpl.h"
 
 /* STD */
@@ -49,27 +49,27 @@ StateMachineAccessor &StateMachineAccessor::getInstance()
 void StateMachineAccessor::load(const std::string &loader, const std::string &file)
 {
   mPImpl->mSM = new StateMachine(loader);
-  mPImpl->mSMThread = new StateMachineThread(*mPImpl->mSM);
+  mPImpl->mSMLoop = new StateMachineLoop(*mPImpl->mSM);
   mPImpl->mSM->load(file);
 }
 
 void StateMachineAccessor::start()
 {
   mPImpl->mSM->start();
-  //mPImpl->mSMThread->start();
-  mPImpl->mSMThread->run();
+  //mPImpl->mSMLoop->start();
+  mPImpl->mSMLoop->run();
 }
 
 bool StateMachineAccessor::isInitialized()
 {
-  return (mPImpl->mSM && mPImpl->mSMThread);
+  return (mPImpl->mSM && mPImpl->mSMLoop);
 }
 
 void StateMachineAccessor::pushEvent(int event)
 {
   if (isInitialized())
   {
-    mPImpl->mSMThread->pushEvent(event);
+    mPImpl->mSMLoop->pushEvent(event);
   }
   else
   {
@@ -81,7 +81,7 @@ void StateMachineAccessor::pushEvent(const std::string &event)
 {
   if (isInitialized())
   {
-    mPImpl->mSMThread->pushEvent(event);
+    mPImpl->mSMLoop->pushEvent(event);
   }
   else
   {
@@ -141,7 +141,7 @@ void StateMachineAccessor::connect(int event, const SignalSlot &slot)
 {
   if (isInitialized())
   {
-    mPImpl->mSMThread->connect(event, slot);
+    mPImpl->mSMLoop->connect(event, slot);
   }
   else
   {
@@ -165,7 +165,7 @@ void StateMachineAccessor::connect(const SignalSlot &slot)
 {
   if (isInitialized())
   {
-    mPImpl->mSMThread->connect(slot);
+    mPImpl->mSMLoop->connect(slot);
   }
   else
   {
@@ -177,7 +177,7 @@ void StateMachineAccessor::disconnect(int event)
 {
   if (isInitialized())
   {
-    mPImpl->mSMThread->disconnect(event);
+    mPImpl->mSMLoop->disconnect(event);
   }
   else
   {
@@ -189,7 +189,7 @@ void StateMachineAccessor::disconnectAll()
 {
   if (isInitialized())
   {
-    mPImpl->mSMThread->disconnectAll();
+    mPImpl->mSMLoop->disconnectAll();
   }
   else
   {

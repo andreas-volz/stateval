@@ -17,7 +17,7 @@ noinst_HEADERS = \
 	ViewState.h             \
 	stateval_private.h             \
 	StateMachine.h             \
-	StateMachineThread.h             \
+	StateMachineLoop.h             \
 	Thread.h             \
 	ViewCache.h
 	Logger.h             \
