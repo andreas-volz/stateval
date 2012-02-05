@@ -74,13 +74,6 @@ void StateMachineLoop::run()
     LOG4CXX_TRACE(mLogger, "mSM->eventQueue.empty()");
 
     int event = mSM->getNextEvent();
-
-    const int EVENT_EXIT = stateMachineAccessor.findMapingEvent("EXIT");
-    if (event == EVENT_EXIT)
-    {
-      LOG4CXX_DEBUG(mLogger, "EVENT_EXIT detected");
-      
-    }
     
     mEventMutex.unlock();
 
@@ -93,6 +86,7 @@ void StateMachineLoop::run()
     catch (StateMachineFinishException finisEx)
     {
       mRunning = false;
+      LOG4CXX_INFO(mLogger, "trigger statemachine finish");
     }
 
     // pop element after working

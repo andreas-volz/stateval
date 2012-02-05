@@ -95,7 +95,7 @@ void GUIThread::run()
   mBackground->hide();
   
   mWindow->resize(mWindowSize);
-  mWindow->setAutoDel(true);
+  mWindow->setAutoDel(false);
   mWindow->setAlpha(true);
   
   mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
