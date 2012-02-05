@@ -19,7 +19,7 @@
 using namespace std;
 
 EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params) :
-  mLogger("stateval.plugins.viewmanager.EdjeView"),
+  mLogger("stateval.plugins.viewmanager.edje.EdjeView"),
   mEdjeContext(context),
   groupState(Unrealized),
   mEvent (-1)
@@ -380,11 +380,12 @@ void EdjeView::pushEventDispatched(int missedEvents)
 {
   if (groupState == Realized)
   {
-    StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
+    StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
 
-    static const int VIEW_UPDATE_EVENT = StateMachineAccessor.findMapingEvent("VIEW_UPDATE");
+    // TODO: think about defining some common events (update/exit,...) in stateval lib 
+    static const int VIEW_UPDATE_EVENT = stateMachineAccessor.findMapingEvent("VIEW_UPDATE");
 
-    string eventString = StateMachineAccessor.findMapingEvent(mEvent);
+    string eventString = stateMachineAccessor.findMapingEvent(mEvent);
 
     LOG4CXX_DEBUG(mLogger, "EdjeView::smEvents: " << mEvent << " / " << eventString);
 

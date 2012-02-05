@@ -28,19 +28,13 @@ Main::Main()
   PropertyConfigurator::configure(searchDataDir() + "/logging.prop");
 #endif // HAVE_LOG4CXX
 
-  StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
-  StateMachineAccessor.load("smxml", searchDataDir() + "/text_smxml/test.smxml");
+  StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
+  stateMachineAccessor.load("smxml", searchDataDir() + "/text_smxml/test.smxml");
 
-  StateMachineAccessor.start();
+  stateMachineAccessor.run();
 
-  // inital event
-  StateMachineAccessor.pushEvent("HK_NAV");
-
-  // stupid wait loop
-  /*for (;;)
-  {
-    sleep(1);
-  }*/
+  // TODO: don't do this in main, but in plugin!
+  stateMachineAccessor.pushEvent("HK_NAV");
 
   StateMachineAccessor::destroy();
 }

@@ -5,6 +5,7 @@
 /* local */
 #include "stateval/private/StateMachineLoop.h"
 #include "stateval/private/StateMachine.h"
+#include "stateval/private/Exceptions.h"
 #include "MemoryUtil.h"
 
 /* STD */
@@ -21,7 +22,8 @@ StateMachineLoop::StateMachineLoop(StateMachine &sm) :
   mEventsInQueue(),
   mSM(&sm),
   mSignalList(),
-  mSignalBroadcast()
+  mSignalBroadcast(),
+  mRunning (false)
 {
 }
 
@@ -29,20 +31,14 @@ StateMachineLoop::~StateMachineLoop()
 {
   LOG4CXX_TRACE(mLogger, "~StateMachineLoop");
 
-//  cancel();
-
-  LOG4CXX_TRACE(mLogger, "~StateMachineLoop (canceled)");
-
-//  join();
-
-  LOG4CXX_TRACE(mLogger, "~StateMachineLoop (joined)");
+  // TODO: wait until ended run loop
 }
 
 void StateMachineLoop::start()
 {
-  LOG4CXX_TRACE(mLogger, "+StateMachineLoop::start ()");
-//  Thread::start();
-  LOG4CXX_TRACE(mLogger, "-StateMachineLoop::start ()");
+  LOG4CXX_TRACE(mLogger, "StateMachineLoop::start ()");
+  
+  mRunning = true;
 }
 
 void StateMachineLoop::signal_cancel() // from thread
@@ -53,8 +49,9 @@ void StateMachineLoop::signal_cancel() // from thread
 void StateMachineLoop::run()
 {
   LOG4CXX_TRACE(mLogger, "+run");
+  StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
 
-  while (/*isRunning()*/ 1)
+  while (mRunning)
   {
     LOG4CXX_TRACE(mLogger, "+run::running while");
 
@@ -66,23 +63,37 @@ void StateMachineLoop::run()
       LOG4CXX_TRACE(mLogger, "!mSM->eventQueue.empty()");
       // here is the point the loop waits if no event is in the event queue
       mEventsInQueue.wait(mEventMutex);
-      // FIXME: commented out since thread redesign
-      // TODO: define cancel method!
-      /*if (!isRunning())
+
+      if (!mRunning)
       {
         mEventMutex.unlock();
-        LOG4CXX_TRACE(mLogger, "!isRunning()");
+        LOG4CXX_TRACE(mLogger, "!mRunning");
         return;
-      }*/
+      }
     }
     LOG4CXX_TRACE(mLogger, "mSM->eventQueue.empty()");
 
     int event = mSM->getNextEvent();
+
+    const int EVENT_EXIT = stateMachineAccessor.findMapingEvent("EXIT");
+    if (event == EVENT_EXIT)
+    {
+      LOG4CXX_DEBUG(mLogger, "EVENT_EXIT detected");
+      
+    }
+    
     mEventMutex.unlock();
 
     LOG4CXX_DEBUG(mLogger, "+EventQueue size: " << mSM->getEventCount());
 
-    mSM->evaluateState(event);
+    try
+    {
+      mSM->evaluateState(event);
+    }
+    catch (StateMachineFinishException finisEx)
+    {
+      mRunning = false;
+    }
 
     // pop element after working
     LOG4CXX_DEBUG(mLogger, "-EventQueue size: " << mSM->getEventCount());

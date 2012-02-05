@@ -40,9 +40,11 @@ Main::Main(int argc, const char **argv)
   StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
   StateMachineAccessor.load("smxml", searchDataDir() + "/mobile_smxml/mobile.smxml");
 
-  StateMachineAccessor.start();
+  StateMachineAccessor.run();
 
   StateMachineAccessor::destroy();
+
+  cout << "Exit!" << endl;
 }
 
 /* Main */

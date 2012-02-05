@@ -8,6 +8,7 @@
 
   <events>
     <event name="VIEW_UPDATE"/>
+    <event name="EXIT"/>
     <event name="edje,Image01,mouse,clicked,1"/>
     <event name="edje,Image02,mouse,clicked,1"/>
     <event name="edje,Image03,mouse,clicked,1"/>
@@ -43,6 +44,7 @@
   <states>
     <state name="Root" type="CompoundState" parent="0"/>
     <state name="Initial" type="SimpleState" parent="Root"/>
+    <state name="Final" type="SimpleState" parent="Root"/>
     <state name="Main" type="ViewState" parent="Root">
       <views>
         <view ref="Bar"/>
@@ -81,6 +83,8 @@
   <transitions>
     <transition from="Root" to="Initial"/>
     <transition from="Initial" to="Main"/>
+    <transition from="Root" to="Final" event="EXIT"/>
+    <transition from="Final" to="Root"/>
     <transition from="Root" to="Main" event="MAIN"/>
     <transition from="Root" to="Browser" event="BROWSER"/>
     <transition from="Root" to="Settings" event="SETTINGS"/>
@@ -107,6 +111,7 @@
         <map from="edje,Image01,mouse,clicked,1" to="BROWSER"/>
         <map from="edje,Image10,mouse,clicked,1" to="SETTINGS"/>
         <map from="edje,Image08,mouse,clicked,1" to="EMAIL"/>
+        <map from="edje,Image09,mouse,clicked,1" to="EXIT"/>
       </mappings>
     </view>
     

@@ -29,3 +29,11 @@ const char *ConvertFromStringException::what() const throw()
 
   return static_cast <const char *>(s.c_str());
 }
+
+const char *StateMachineFinishException::what() const throw()
+{
+  static string s;
+  s = "Exit!";
+  
+  return static_cast <const char *>(s.c_str());
+}

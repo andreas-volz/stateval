@@ -31,7 +31,7 @@ public:
 
   void load(const std::string &loader, const std::string &file);
 
-  void start();
+  void run();
 
   void pushEvent(int event);
   void pushEvent(const std::string &event);

@@ -33,5 +33,18 @@ private:
   std::string txt;
 };
 
+class StateMachineFinishException : public std::exception
+{
+public:
+  StateMachineFinishException() {}
+
+  virtual ~StateMachineFinishException() throw() {}
+
+  const char *what() const throw();
+
+private:
+
+};
+
 
 #endif // EXCEPTIONS_H

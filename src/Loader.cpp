@@ -126,12 +126,12 @@ int Loader::findMapingEvent(const std::string &event)
   if (iter != mEventList.end())
   {
     int &mapEvent = iter->second;
-    //cout << "map event: " << iter->first << " : " << iter->second << endl;
     return mapEvent;
   }
 
   LOG4CXX_DEBUG(mLogger, "StateMachine::findMapingEvent: try to find not existing event: " << event);
 
+  // don't use exceptions here because this case happens really often and is not an error!
   return -1;
 }
 
@@ -142,6 +142,7 @@ std::string Loader::findMapingEvent(int event)
     return mEventListIndex[event];
   }
 
+  assert (false); // fix this next time I hit this assert...
   return ""; // TODO: hm, should I return an Exception or so??
 }
 

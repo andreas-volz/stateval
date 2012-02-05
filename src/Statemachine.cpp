@@ -5,6 +5,7 @@
 /* local */
 #include "stateval/private/StateMachine.h"
 #include "stateval/private/CompoundState.h"
+#include "stateval/private/Exceptions.h"
 #include "MemoryUtil.h"
 #include "searchFile.h"
 
@@ -168,10 +169,10 @@ State *StateMachine::searchHierarchie(int event)
 
 bool StateMachine::walkDown(int event)
 {
-  // check all possible transitions from current state
-  // this loops several times if default transitions are found... ->
   const Transition *trans = NULL;
 
+  // check all possible transitions from current state
+  // this loops several times if default transitions are found...
   bool transit = false;
   do
   {
@@ -195,6 +196,17 @@ bool StateMachine::walkDown(int event)
 
       mActiveState->beforeTransitionCode();
 
+      if (mActiveState == trans->getEndState()->getParentState())
+      {
+        LOG4CXX_WARN(mLogger, "You constructed a loop transition. This may be wrong!");
+      }
+
+      if (trans->getEndState()->getParentState() == NULL)
+      {
+        LOG4CXX_INFO(mLogger, "Transition to Root Compound");
+        throw StateMachineFinishException();
+      }
+
       mActiveState = trans->getEndState();  // do state change transition
 
       LOG4CXX_DEBUG(mLogger, "getName (): " << mActiveState->getName());
@@ -206,7 +218,6 @@ bool StateMachine::walkDown(int event)
     }
   }
   while (trans != NULL);
-  // <-
 
   return transit;
 }

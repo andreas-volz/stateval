@@ -50,6 +50,7 @@ private:
   StateMachine *mSM;
   std::multimap <int, SignalSignal *> mSignalList;
   SignalSignal mSignalBroadcast;
+  bool mRunning; 
 };
 
 #endif // STATE_MACHINE_THREAD_H

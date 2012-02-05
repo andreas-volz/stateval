@@ -53,10 +53,10 @@ void StateMachineAccessor::load(const std::string &loader, const std::string &fi
   mPImpl->mSM->load(file);
 }
 
-void StateMachineAccessor::start()
+void StateMachineAccessor::run()
 {
   mPImpl->mSM->start();
-  //mPImpl->mSMLoop->start();
+  mPImpl->mSMLoop->start();
   mPImpl->mSMLoop->run();
 }
 

@@ -3,9 +3,9 @@
 #endif
 
 /* Project */
+#include "stateval/StateMachineAccessor.h"
 #include "stateval/private/View.h"
 #include "GUIThread.h"
-#include <stateval/StateMachineAccessor.h>
 #include "EdjeContext.h"
 #include "EdjeView.h"
 #include "EcoreDispatcher.h"
@@ -18,7 +18,7 @@
 using namespace std;
 
 GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
-  mLogger("stateval.plugins.viewmanager.GUIThread"),
+  mLogger("stateval.plugins.viewmanager.edje.GUIThread"),
   mRunning(true),
   mEdjeView (NULL),
   mViewManagerParams(params),
@@ -56,7 +56,6 @@ View *GUIThread::viewFactory (const std::map <std::string, std::string> &params)
   mCondViewCreated.wait(mMutexViewCreated);
   mMutexViewCreated.unlock();
 
-  cout << "return" << endl;
   assert (mEdjeView);
   return mEdjeView;
 }
@@ -108,7 +107,8 @@ void GUIThread::run()
   mWindow->show();
     
   // Enter the application main loop
-  cout << "enter mainloop" << endl;
+  LOG4CXX_INFO(mLogger, "enter GUI mainloop");
+  
   mApp->run();
 }
 
@@ -118,7 +118,6 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
   mContext.resolution = mWindowSize;
   mContext.background = mBackground;
   
-  cout << "new edje view" << endl;
   mEdjeView = new EdjeView (&mContext, mViewParams);
 
   mCondViewCreated.signal ();
@@ -126,8 +125,16 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
 
 void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
 {
-  // TODO: exit concept! (finite state in stateval?)
-  Ecorexx::Application::quit();
+  // TODO: exit concept! (finish state in stateval?)
+  
+  StateMachineAccessor &stateMachineAccessor(StateMachineAccessor::getInstance());
+  
+  // TODO: think about defining some common events (update/exit,...) in stateval lib 
+  static const int EVENT_EXIT = stateMachineAccessor.findMapingEvent("EXIT");
+    
+  stateMachineAccessor.pushEvent(EVENT_EXIT);
+  
+  //Ecorexx::Application::quit();
 }
 
 /*!
