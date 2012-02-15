@@ -30,8 +30,6 @@ public:
   void realize();
   void unrealize();
 
-  void updateContent();
-
   void pushEvent(int event);
 
 private:
@@ -55,6 +53,8 @@ private:
   void allFunc(const std::string emmision, const std::string source);
   void viewUpdateFunc(const std::string emmision, const std::string source);
 
+  void updateContent(bool initalDrawing);
+  
   /** Variables **/
   Logger mLogger;
 

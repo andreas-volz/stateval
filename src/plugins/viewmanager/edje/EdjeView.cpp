@@ -121,7 +121,7 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   mLayout->resize(mEdjeContext->resolution);
 
-  updateContent();
+  updateContent(true);
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
@@ -147,7 +147,7 @@ void EdjeView::unrealizeDispatched(int missedEvents)
   }
 }
 
-void EdjeView::updateContent()
+void EdjeView::updateContent(bool initalDrawing)
 {
 
   // FIXME: seems first screen could not do a updateContent ()!!
@@ -170,7 +170,8 @@ void EdjeView::updateContent()
     assert(val);
 
     // update widget data only if update is needed
-    if (val->needsUpdate ())
+    // always draw a widget for initial screen display
+    if (val->needsUpdate () || initalDrawing)
     {
       try
       {
@@ -397,7 +398,7 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     if (mEvent == VIEW_UPDATE_EVENT)
     {
-      updateContent();
+      updateContent(false);
     }
   }
 

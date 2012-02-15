@@ -198,7 +198,10 @@ bool StateMachine::walkDown(int event)
 
       if (mActiveState == trans->getEndState()->getParentState())
       {
-        LOG4CXX_WARN(mLogger, "You constructed a loop transition. This may be wrong!");
+        LOG4CXX_WARN(mLogger, "You constructed a loop transition. This may be wrong... " <<
+                     "or not if you know what you do (e.g. finish state):" <<
+                     mActiveState->getID() << "==" << 
+                     trans->getEndState()->getParentState()->getID());
       }
 
       if (trans->getEndState()->getParentState() == NULL)
