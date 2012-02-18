@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE test PUBLIC "" "test.dtd">
+<!DOCTYPE stateval PUBLIC "stateval" "../stateval.dtd">
 <!--TODO:
   How to handle the dtd? I think it should be installed together with the smxml loader plugin...
  -->
 
-<stateval>
+<stateval xmlns:state="stateval">
 
   <events>
     <event name="HK_NAV"/>

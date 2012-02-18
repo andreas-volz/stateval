@@ -1,0 +1,53 @@
+<!ELEMENT stateval (events?,variables?,conditions?,actions?,states?,transitions?,viewmanager?)>
+<!ELEMENT events (event*)>
+<!ELEMENT event EMPTY>
+<!ELEMENT variables (variable*)>
+<!ELEMENT variable EMPTY>
+<!ELEMENT conditions (condition*)>
+<!ELEMENT condition (#PCDATA)>
+<!ELEMENT actions (action*)>
+<!ELEMENT action (#PCDATA)>
+<!ELEMENT states (state*)>
+<!ELEMENT state (state:views?)>
+<!ELEMENT state:views (state:view*)>
+<!ELEMENT state:view EMPTY>
+<!ELEMENT transitions (transition*)>
+<!ELEMENT transition (#PCDATA)>
+<!ELEMENT viewmanager (params?,view*)>
+<!ELEMENT view (params?,mappings?,widgets?)>
+<!ELEMENT params (param*)>
+<!ELEMENT param EMPTY>
+<!ELEMENT mappings (map*)>
+<!ELEMENT map EMPTY>
+<!ELEMENT widgets (widget*)>
+<!ELEMENT widget EMPTY>
+
+<!-- attributes -->
+
+<!ATTLIST stateval xmlns:state (stateval) #REQUIRED>
+
+<!ATTLIST event name CDATA #REQUIRED>
+
+<!ATTLIST variable name CDATA #REQUIRED>
+<!ATTLIST variable type (Bool) #REQUIRED>
+<!ATTLIST variable value CDATA #REQUIRED>
+
+<!ATTLIST state name CDATA #REQUIRED>
+<!ATTLIST state type (CompoundState|SimpleState|ViewState|DecisionState|HistoryState) #REQUIRED>
+<!ATTLIST state parent CDATA #REQUIRED>
+<!ATTLIST state:view ref CDATA #REQUIRED>
+
+<!ATTLIST transition from CDATA #REQUIRED>
+<!ATTLIST transition to CDATA #REQUIRED>
+<!ATTLIST transition event CDATA #IMPLIED>
+
+<!ATTLIST viewmanager plugin CDATA #REQUIRED>
+
+<!ATTLIST param key CDATA #REQUIRED>
+<!ATTLIST param value CDATA #REQUIRED>
+
+<!ATTLIST view name CDATA #REQUIRED>
+
+<!ATTLIST map from CDATA #REQUIRED>
+<!ATTLIST map to CDATA #REQUIRED>
+

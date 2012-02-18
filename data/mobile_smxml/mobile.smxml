@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE test PUBLIC "" "test.dtd">
+<!DOCTYPE stateval PUBLIC "stateval" "../stateval.dtd">
 <!--TODO:
   How to handle the dtd? I think it should be installed together with the smxml loader plugin...
  -->
 
-<stateval>
+<stateval xmlns:state="stateval">
 
   <events>
     <event name="VIEW_UPDATE"/>
@@ -46,37 +46,37 @@
     <state name="Initial" type="SimpleState" parent="Root"/>
     <state name="Final" type="SimpleState" parent="Root"/>
     <state name="Main" type="ViewState" parent="Root">
-      <views>
-        <view ref="Bar"/>
-        <view ref="Main"/>
-      </views>
+      <state:views>
+        <state:view ref="Bar"/>
+        <state:view ref="Main"/>
+      </state:views>
     </state>
     <state name="Browser" type="ViewState" parent="Root">
-      <views>
-        <view ref="Bar"/>
-        <view ref="Browser"/>
-      </views>
+      <state:views>
+        <state:view ref="Bar"/>
+        <state:view ref="Browser"/>
+      </state:views>
     </state>
     <state name="Settings" type="ViewState" parent="Root">
-      <views>
-        <view ref="Bar"/>
-        <view ref="Settings"/>
-      </views>
+      <state:views>
+        <state:view ref="Bar"/>
+        <state:view ref="Settings"/>
+      </state:views>
     </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>
     <state name="EMail_Compound_Initial" type="SimpleState" parent="EMail_Compound"/>
     <state name="EMail_Compound_History" type="HistoryState" parent="EMail_Compound"/>
     <state name="EMail_Read" type="ViewState" parent="EMail_Compound">
-      <views>
-        <view ref="Bar"/>
-        <view ref="EMail_Read"/>
-      </views>
+      <state:views>
+        <state:view ref="Bar"/>
+        <state:view ref="EMail_Read"/>
+      </state:views>
     </state>
     <state name="EMail_Compose" type="ViewState" parent="EMail_Compound">
-      <views>
-        <view ref="Bar"/>
-        <view ref="EMail_Compose"/>
-      </views>
+      <state:views>
+        <state:view ref="Bar"/>
+        <state:view ref="EMail_Compose"/>
+      </state:views>
     </state>
   </states>
 
