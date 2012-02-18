@@ -30,9 +30,12 @@
                 <xsl:attribute name="to"><xsl:value-of select="@to"/>
                 </xsl:attribute>
 
+                <xsl:attribute name="label"><xsl:value-of select="@event"/>
+                </xsl:attribute>
+
                 <xsl:attribute name="fontname">Arial</xsl:attribute>
 
-                <xsl:attribute name="fontsize">9</xsl:attribute>
+                <xsl:attribute name="fontsize">7</xsl:attribute>
             </dotml:edge>
         </xsl:for-each>
 
