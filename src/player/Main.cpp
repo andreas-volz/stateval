@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <cassert>
+#include <cstdlib>
 
 /* local */
 #include <stateval/stateval.h>
@@ -36,8 +37,28 @@ Main::Main(int argc, const char **argv)
   PropertyConfigurator::configure(searchDataDir() + "/logging.prop");
 #endif // HAVE_LOG4CXX
 
+  string pluginType ("smxml");
+  string file;
+  
+  if (argc == 3)
+  {
+    pluginType = argv[1];
+    file = argv[2];
+  }
+  else if (argc == 2)
+  {
+    file = argv[1];
+  }
+  else
+  {
+    cerr << "Please give one or two parameters:" << endl << endl;
+    cerr << "stateval_player [<plugin>] <file>" << endl;
+    cerr << endl;
+    exit (1);
+  }
+
   StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
-  StateMachineAccessor.load("smxml", searchDataDir() + "/mobile_smxml/mobile.smxml");
+  StateMachineAccessor.load(pluginType, file);
 
   StateMachineAccessor.run();
 
