@@ -115,6 +115,7 @@ include/Makefile
 include/stateval/Makefile
 include/stateval/private/Makefile
 src/Makefile
+src/lib/Makefile
 src/plugins/Makefile
 src/player/Makefile
 src/plugins/loaders/Makefile

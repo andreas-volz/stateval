@@ -1,7 +1,7 @@
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/lib \
 	$(LOG4CXX_CFLAGS) \
 	$(SIGC_CFLAGS) 
 ## Process this file with automake to produce Makefile.in
@@ -17,7 +17,7 @@ stateval_player_SOURCES =  \
 	searchFile.h
 
 stateval_player_LDADD = \
-	$(top_builddir)/src/libstateval.la \
+	$(top_builddir)/src/lib/libstateval.la \
 	$(LOG4CXX_LIBS) \
 	$(SIGC_LIBS) 
 
