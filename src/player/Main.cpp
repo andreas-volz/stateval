@@ -11,7 +11,6 @@
 /* local */
 #include <stateval/stateval.h>
 #include "searchFile.h"
-#include "InputThread.h"
 #include "Main.h"
 
 /* log4cxx */

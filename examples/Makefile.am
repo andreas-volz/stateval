@@ -1,7 +1,5 @@
 
-SUBDIRS = \
-	edje_console\
-	text_views
+SUBDIRS =
 
 ## File created by the gnome-build tools
 

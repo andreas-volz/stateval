@@ -116,6 +116,7 @@ include/stateval/Makefile
 include/stateval/private/Makefile
 src/Makefile
 src/plugins/Makefile
+src/player/Makefile
 src/plugins/loaders/Makefile
 src/plugins/loaders/smxml/Makefile
 src/plugins/loaders/smtest/Makefile
@@ -125,8 +126,6 @@ src/plugins/viewmanager/text/Makefile
 stateval.pc
 stateval-uninstalled.pc
 examples/Makefile
-examples/edje_console/Makefile
-examples/text_views/Makefile
 test/Makefile
 test/module/Makefile
 ])

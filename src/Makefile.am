@@ -57,5 +57,6 @@ libstateval_la_LIBADD =      \
 	$(PTHREAD_LIBS)
 
 SUBDIRS = \
-	plugins
+	plugins \
+	player
 
