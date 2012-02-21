@@ -46,7 +46,7 @@ bool XMLLoader::load(const std::string &sm)
   try
   {
     xmlpp::DomParser parser;
-    parser.set_validate(true);	// TODO: activate DTD later...
+    parser.set_validate(true);
     parser.set_substitute_entities();	// We just want the text to be resolved/unescaped automatically.
     parser.parse_file(sm);
     if (parser)

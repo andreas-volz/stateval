@@ -20,8 +20,11 @@ mkdir -p generated
 # export DOT=/usr/bin/dot
 
 # The directory that contains the DotML Schema and the XSLT stylesheets
-export DOTML_DIR=.
+export DOTML_DIR=`dirname $0`
 
+## TODO: clean way to specify this DTD
+DTD_DIR="$DOTML_DIR/../../data"
+echo $DTD_DIR
 # The path to a XSLT processor (LibXML works fine, but others work well too.)
 export XSLT="xsltproc"
 
@@ -32,7 +35,7 @@ export DOTML_XSLT="$XSLT (XSL) (INPUT)"
 # The directory for the output
 export OUTPUT_DIR=.
 
-xsltproc stateval_dotml.xsl $INFILE > generated/$INFILE_BASE.xml
+xsltproc --path "$DTD_DIR" $DOTML_DIR/stateval_dotml.xsl $INFILE > generated/$INFILE_BASE.xml
 
 # Generates the SVG charts
 #$DOTML_DIR/generate-svg-graphics.bash embedded-dotml-demo-source.xhtml .

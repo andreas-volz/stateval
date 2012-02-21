@@ -1,0 +1,3 @@
+ft1.smxml
+---------
+simplest state transition without view 

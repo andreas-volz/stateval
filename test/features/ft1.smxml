@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE stateval PUBLIC "stateval" "../../data/stateval.dtd">
+
+<stateval xmlns:state="stateval">
+  
+  <states>
+    <state name="a" type="SimpleState" parent="0"/>
+    <state name="b" type="SimpleState" parent="0"/>
+  </states>
+
+  <transitions>
+    <transition from="a" to="b"/>
+  </transitions>
+  
+</stateval>
