@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE stateval PUBLIC "stateval" "../../data/stateval.dtd">
+
+<stateval xmlns:state="stateval">
+  
+  <variables>
+    <variable name="chooseVal" type="String" value="B"/>
+    <variable name="ValA" type="String" value="A"/>
+    <variable name="ValB" type="String" value="B"/>
+  </variables>
+  
+  <conditions>
+    <condition name="ChooseB" variable="media.available" operation="equals" variable2="ValA"/>
+    <condition name="ChooseC" variable="media.available" operation="equals" variable2="ValB"/>
+  </conditions>
+  
+  <states>
+    <state name="a" type="SimpleState" parent="0"/>
+    <state name="choose" type="DecisionState" parent="0"/>
+    <state name="b" type="SimpleState" parent="0"/>
+    <state name="c" type="SimpleState" parent="0"/>
+  </states>
+
+  <transitions>
+    <transition from="a" to="choose"/>
+    <transition from="choose" to="b" decision="ChooseB"/>
+    <transition from="choose" to="c" decision="ChooseC"/>
+  </transitions>
+  
+</stateval>

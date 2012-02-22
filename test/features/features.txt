@@ -1,3 +1,7 @@
 ft1.smxml
 ---------
-simplest state transition without view 
+state transition without view 
+
+ft2.smxml
+---------
+decision based on String variable without view 
