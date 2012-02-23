@@ -4,12 +4,15 @@
 <stateval xmlns:state="stateval">
   
   <states>
-    <state name="a" type="SimpleState" parent="0"/>
-    <state name="b" type="SimpleState" parent="0"/>
+    <state name="root" type="CompoundState" parent="0"/>
+    <state name="a" type="SimpleState" parent="root"/>
+    <state name="b" type="SimpleState" parent="root"/>
   </states>
 
   <transitions>
+    <transition from="root" to="a"/>
     <transition from="a" to="b"/>
+    <transition from="b" to="root"/>
   </transitions>
   
 </stateval>

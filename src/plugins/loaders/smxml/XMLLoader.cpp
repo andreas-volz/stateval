@@ -593,6 +593,7 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
     State *state = NULL;
     CompoundState *parentState = NULL;
     int parentNum = 0;
+    static bool rootCompoundDefined = false;
 
     if (name_attribute)
     {
@@ -609,8 +610,7 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
       LOG4CXX_DEBUG(mLogger, "Attribute parent = " << parent);
       // TODO: better use find() to detect if not found in map
       parentNum = mStateNameMapper[parent];
-
-      // TODO: think about detecting root if no parent is defined...
+     
       if (parentNum != 0) // negative detection of root compound
       {
         // TODO: better use find() to detect if not found in map
@@ -620,6 +620,7 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
     }
     else
     {
+      assert (false);
       // throw Exception
     }
 
@@ -643,15 +644,37 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
         }
         else
         {
-          state = new CompoundState(parentState);
+          if (!rootCompoundDefined)
+          {
+            if (parentState == 0)
+            {
+              rootCompoundDefined = true;
+            }
+            state = new CompoundState(parentState);
+          }
+          else
+          {
+            assert (false);
+          }
         }
       }
       else if (type == "SimpleState")
       {
+        if (parentState == 0)
+        {
+          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
+          assert (false);
+        }
         state = new SimpleState(parentState);
       }
       else if (type == "HistoryState")
       {
+        if (parentState == 0)
+        {
+          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
+          assert (false);
+        }
+        
         HistoryState *historyState = new HistoryState(parentState);
 
         parentState->setHistory(historyState);
@@ -659,10 +682,22 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
       }
       else if (type == "DecisionState")
       {
+        if (parentState == 0)
+        {
+          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
+          assert (false);
+        }
+        
         state = new DecisionState(parentState);
       }
       else if (type == "ViewState")
       {
+        if (parentState == 0)
+        {
+          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
+          assert (false);
+        }
+        
         state = new ViewState(parentState, &mViewCache);
         ViewState *viewState = static_cast <ViewState *>(state);
         assert (viewState);
@@ -687,6 +722,7 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
       }
       else
       {
+        assert (false);
         // throw exception
       }
 

@@ -1,7 +1,9 @@
 ft1.smxml
 ---------
-state transition without view 
+description: state transition without view 
 
 ft2.smxml
 ---------
-decision based on String variable without view 
+description: decision based on String variable without view
+findings: - defined behaviour if default transition is used?
+          - defined behaviour if event is used?

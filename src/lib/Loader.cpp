@@ -90,6 +90,7 @@ AbstractVariable *Loader::getVariable(const std::string &var)
 
   if (var_it == mVariableList.end())  // not found
   {
+    LOG4CXX_ERROR(mLogger, "variable not found in list: " << var);
     // TODO: do something smarter later, but for now assert...
     assert(false);
   }

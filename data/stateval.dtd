@@ -29,7 +29,7 @@
 <!ATTLIST event name CDATA #REQUIRED>
 
 <!ATTLIST variable name CDATA #REQUIRED>
-<!ATTLIST variable type (Bool) #REQUIRED>
+<!ATTLIST variable type (Bool|String|Float|Integer|Struct) #REQUIRED>
 <!ATTLIST variable value CDATA #REQUIRED>
 
 <!ATTLIST state name CDATA #REQUIRED>
@@ -40,6 +40,7 @@
 <!ATTLIST transition from CDATA #REQUIRED>
 <!ATTLIST transition to CDATA #REQUIRED>
 <!ATTLIST transition event CDATA #IMPLIED>
+<!ATTLIST transition decision CDATA #IMPLIED>
 
 <!ATTLIST viewmanager plugin CDATA #REQUIRED>
 
@@ -51,3 +52,7 @@
 <!ATTLIST map from CDATA #REQUIRED>
 <!ATTLIST map to CDATA #REQUIRED>
 
+<!ATTLIST condition name CDATA #REQUIRED>
+<!ATTLIST condition variable CDATA #REQUIRED>
+<!ATTLIST condition operation (equals) #REQUIRED>
+<!ATTLIST condition variable2 CDATA #REQUIRED>

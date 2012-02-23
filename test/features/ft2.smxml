@@ -4,27 +4,31 @@
 <stateval xmlns:state="stateval">
   
   <variables>
-    <variable name="chooseVal" type="String" value="B"/>
-    <variable name="ValA" type="String" value="A"/>
+    <variable name="chooseVal" type="String" value="C"/>
     <variable name="ValB" type="String" value="B"/>
+    <variable name="ValC" type="String" value="C"/>
   </variables>
   
   <conditions>
-    <condition name="ChooseB" variable="media.available" operation="equals" variable2="ValA"/>
-    <condition name="ChooseC" variable="media.available" operation="equals" variable2="ValB"/>
+    <condition name="ChooseB" variable="chooseVal" operation="equals" variable2="ValB"/>
+    <condition name="ChooseC" variable="chooseVal" operation="equals" variable2="ValC"/>
   </conditions>
   
   <states>
-    <state name="a" type="SimpleState" parent="0"/>
-    <state name="choose" type="DecisionState" parent="0"/>
-    <state name="b" type="SimpleState" parent="0"/>
-    <state name="c" type="SimpleState" parent="0"/>
+    <state name="root" type="CompoundState" parent="0"/>
+    <state name="a" type="SimpleState" parent="root"/>
+    <state name="choose" type="DecisionState" parent="root"/>
+    <state name="b" type="SimpleState" parent="root"/>
+    <state name="c" type="SimpleState" parent="root"/>
   </states>
 
   <transitions>
+    <transition from="root" to="a"/>
     <transition from="a" to="choose"/>
     <transition from="choose" to="b" decision="ChooseB"/>
     <transition from="choose" to="c" decision="ChooseC"/>
+    <transition from="b" to="root"/>
+    <transition from="c" to="root"/>
   </transitions>
   
 </stateval>
