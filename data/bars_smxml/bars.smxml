@@ -27,7 +27,7 @@
   </actions>
   
   <states>
-    <state name="Root" type="CompoundState" parent="0"/>
+    <state name="Root" type="CompoundState"/>
     <state name="Initial" type="SimpleState" parent="Root"/>
     <state name="Main" type="ViewState" parent="Root" view="Main"/>
     <state name="Red" type="ViewState" parent="Root" view="Red"/>

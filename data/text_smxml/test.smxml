@@ -53,7 +53,7 @@
   </actions>
   
   <states>
-    <state name="Root" type="CompoundState" parent="0"/>
+    <state name="Root" type="CompoundState"/>
     <state name="Initial" type="SimpleState" parent="Root"/>
     <state name="NavCompound" type="CompoundState" parent="Root"/>
     <state name="NavInitial" type="SimpleState" parent="NavCompound"/>

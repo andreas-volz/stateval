@@ -5,14 +5,12 @@
   
   <states>
     <state name="root" type="CompoundState"/>
-    <state name="a" type="SimpleState" parent="root"/>
-    <state name="b" type="SimpleState" parent="root"/>
+    <state name="a" type="InitialState" parent="root"/>
+    <state name="b" type="FinalState" parent="root"/>
   </states>
 
   <transitions>
-    <transition from="root" to="a"/>
     <transition from="a" to="b"/>
-    <transition from="b" to="root"/>
   </transitions>
   
 </stateval>

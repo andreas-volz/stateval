@@ -7,3 +7,7 @@ ft2.smxml
 description: decision based on String variable without view
 findings: - defined behaviour if default transition is used?
           - defined behaviour if event is used?
+          
+ft3.smxml
+----------
+description: simple transition with initial and finish state

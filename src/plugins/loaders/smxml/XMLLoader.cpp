@@ -608,20 +608,26 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
     {
       const Glib::ustring &parent = parent_attribute->get_value();
       LOG4CXX_DEBUG(mLogger, "Attribute parent = " << parent);
-      // TODO: better use find() to detect if not found in map
-      parentNum = mStateNameMapper[parent];
-     
-      if (parentNum != 0) // negative detection of root compound
+
+      std::map <Glib::ustring, unsigned int>::iterator snm_it = mStateNameMapper.find(parent);
+      if (snm_it != mStateNameMapper.end())
       {
-        // TODO: better use find() to detect if not found in map
-        parentState = static_cast <CompoundState *>(mStateList[parentNum - 1]);
-        assert(parentState);
+        parentNum = snm_it->second;
       }
+      else
+      {
+        LOG4CXX_FATAL(mLogger, "Couldn't find this parent state in list: " << parent);
+        assert (false);
+        // TODO: exception?
+      }
+
+      parentState = static_cast <CompoundState *>(mStateList[parentNum - 1]);
+      assert(parentState);
     }
     else
     {
-      assert (false);
-      // throw Exception
+      // if no parent attribute is defined mark it as root node (only one allowed!)
+      parentNum = 0;
     }
 
     // check type and throw exception
@@ -638,43 +644,22 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
 
       if (type == "CompoundState")
       {
-        if (parentNum == 0) // detection of root compound
+        if ((parentNum == 0) && (!rootCompoundDefined)) // detection of root compound
         {
           state = new CompoundState();
+          rootCompoundDefined = true;
         }
         else
         {
-          if (!rootCompoundDefined)
-          {
-            if (parentState == 0)
-            {
-              rootCompoundDefined = true;
-            }
-            state = new CompoundState(parentState);
-          }
-          else
-          {
-            assert (false);
-          }
+          state = new CompoundState(parentState);
         }
       }
       else if (type == "SimpleState")
       {
-        if (parentState == 0)
-        {
-          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
-          assert (false);
-        }
         state = new SimpleState(parentState);
       }
       else if (type == "HistoryState")
       {
-        if (parentState == 0)
-        {
-          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
-          assert (false);
-        }
-        
         HistoryState *historyState = new HistoryState(parentState);
 
         parentState->setHistory(historyState);
@@ -682,22 +667,10 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
       }
       else if (type == "DecisionState")
       {
-        if (parentState == 0)
-        {
-          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
-          assert (false);
-        }
-        
         state = new DecisionState(parentState);
       }
       else if (type == "ViewState")
       {
-        if (parentState == 0)
-        {
-          LOG4CXX_ERROR(mLogger, "Root state has to be of type 'CompoundState'!");
-          assert (false);
-        }
-        
         state = new ViewState(parentState, &mViewCache);
         ViewState *viewState = static_cast <ViewState *>(state);
         assert (viewState);
@@ -720,8 +693,35 @@ void XMLLoader::parseStateNode(const xmlpp::Node *node)
           }
         }
       }
+      else if (type == "InitialState")
+      {
+        /* InitialState is no real state type. It's mapped on a simple state
+         * and just a transition is created from the outer CompoundState to the
+         * current state. Only one InitialState for a CompoundState is allowed.
+         */
+
+        state = new SimpleState(parentState);
+
+        Transition *trans = new Transition(state);
+        parentState->addLeaveTransition(*trans);
+        
+      }
+      else if (type == "FinalState")
+      {
+        /* FinalState is no real state type. It's mapped on a simple state
+         * and just a transition is created from the current state to the outer
+         * CompoundState. Only one FinalState for a CompoundState is allowed.
+         * If a FinalState in the root CompoundState is waked the statemachine ends.
+         */
+
+        state = new SimpleState(parentState);
+
+        Transition *trans = new Transition(parentState);
+        state->addLeaveTransition(*trans);
+      }
       else
       {
+        LOG4CXX_FATAL(mLogger, "Unknown state type: " << type);
         assert (false);
         // throw exception
       }

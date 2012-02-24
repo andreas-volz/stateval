@@ -15,7 +15,7 @@
   </conditions>
   
   <states>
-    <state name="root" type="CompoundState" parent="0"/>
+    <state name="root" type="CompoundState"/>
     <state name="a" type="SimpleState" parent="root"/>
     <state name="choose" type="DecisionState" parent="root"/>
     <state name="b" type="SimpleState" parent="root"/>
