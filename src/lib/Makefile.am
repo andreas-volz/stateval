@@ -2,13 +2,13 @@
 
 ## Created by Anjuta
 
-AM_CPPFLAGS = \
+libstateval_la_CPPFLAGS = \
 	$(SIGC_CFLAGS) \
 	$(PLUXX_CFLAGS) \
 	$(LOG4CXX_CFLAGS) \
 	$(PTHREAD_CFLAGS)
 
-AM_CFLAGS =\
+libstateval_la_CFLAGS =\
 	 -Wall\
 	 -g
 
