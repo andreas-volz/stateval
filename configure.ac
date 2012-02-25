@@ -129,4 +129,6 @@ stateval-uninstalled.pc
 examples/Makefile
 test/Makefile
 test/module/Makefile
+data/dtd/Makefile
+data/dtd/catalog.xml
 ])
