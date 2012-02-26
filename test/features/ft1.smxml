@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE stateval PUBLIC "stateval" "http://stateval.googlecode.com/svn/trunk/stateval/data/dtd/stateval.dtd">
+<!DOCTYPE stateval PUBLIC "stateval" "http://stateval.googlecode.com/svn/trunk/stateval/data/xml/stateval.dtd">
 
 <stateval xmlns:state="stateval">
   

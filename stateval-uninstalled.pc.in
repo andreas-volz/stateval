@@ -1,6 +1,6 @@
 prefix=
 exec_prefix=
-libdir=src
+libdir=src/lib
 includedir=include
 
 Name: @PACKAGE@
