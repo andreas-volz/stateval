@@ -3,4 +3,4 @@
 
 
 SUBDIRS = \
-	dtd
+	xml

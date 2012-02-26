@@ -7,6 +7,6 @@
 
 <uri
   name="stateval.dtd"
-  uri="file://@PACKAGE_DATA_DIR@/xml/stateval.dtd"/>
+  uri="file://@PACKAGE_SOURCE_DIR@/data/xml/stateval.dtd"/>
 
 </catalog>
