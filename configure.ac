@@ -22,6 +22,8 @@ AM_PROG_LIBTOOL
 
 #dnl Set PACKAGE SOURCE DIR in config.h.
 packagesrcdir=`cd $srcdir && pwd`
+PACKAGE_SOURCE_DIR="${packagesrcdir}"
+AC_SUBST(PACKAGE_SOURCE_DIR)
 
 #dnl Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then
