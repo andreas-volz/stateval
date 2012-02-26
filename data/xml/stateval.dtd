@@ -2,13 +2,15 @@
 <!ELEMENT events (event*)>
 <!ELEMENT event EMPTY>
 <!ELEMENT variables (variable*)>
-<!ELEMENT variable EMPTY>
+<!ELEMENT variable (variable*)>
 <!ELEMENT conditions (condition*)>
 <!ELEMENT condition (#PCDATA)>
 <!ELEMENT actions (action*)>
 <!ELEMENT action (#PCDATA)>
+<!ELEMENT state:actions (state:action*)>
+<!ELEMENT state:action (#PCDATA)>
 <!ELEMENT states (state*)>
-<!ELEMENT state (state:views?)>
+<!ELEMENT state (state:views?,state:actions?)>
 <!ELEMENT state:views (state:view*)>
 <!ELEMENT state:view EMPTY>
 <!ELEMENT transitions (transition*)>
@@ -28,13 +30,14 @@
 
 <!ATTLIST event name CDATA #REQUIRED>
 
-<!ATTLIST variable name CDATA #REQUIRED>
-<!ATTLIST variable type (Bool|String|Float|Integer|Struct) #REQUIRED>
-<!ATTLIST variable value CDATA #REQUIRED>
+<!ATTLIST variable name CDATA #IMPLIED>
+<!ATTLIST variable type (Bool|String|Float|Integer|Struct|List) #REQUIRED>
+<!ATTLIST variable value CDATA #IMPLIED>
 
 <!ATTLIST state name CDATA #REQUIRED>
 <!ATTLIST state type (CompoundState|SimpleState|ViewState|DecisionState|HistoryState|InitialState|FinalState) #REQUIRED>
 <!ATTLIST state parent CDATA #IMPLIED>
+<!ATTLIST state view CDATA #IMPLIED>
 <!ATTLIST state:view ref CDATA #REQUIRED>
 
 <!ATTLIST transition from CDATA #REQUIRED>
@@ -56,3 +59,14 @@
 <!ATTLIST condition variable CDATA #REQUIRED>
 <!ATTLIST condition operation (equals) #REQUIRED>
 <!ATTLIST condition variable2 CDATA #REQUIRED>
+
+<!ATTLIST widget name CDATA #REQUIRED>
+<!ATTLIST widget variable CDATA #REQUIRED>
+
+<!ATTLIST action name CDATA #REQUIRED>
+<!ATTLIST action type CDATA #REQUIRED>
+<!ATTLIST action variable CDATA #REQUIRED>
+<!ATTLIST action copy CDATA #REQUIRED>
+
+<!ATTLIST state:action ref CDATA #REQUIRED>
+<!ATTLIST state:action when CDATA #REQUIRED>
