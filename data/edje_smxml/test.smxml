@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE test PUBLIC "" "test.dtd">
-<!--TODO:
-  How to handle the dtd? I think it should be installed together with the smxml loader plugin...
- -->
+<!DOCTYPE stateval PUBLIC "stateval" "http://stateval.googlecode.com/svn/trunk/stateval/data/xml/stateval.dtd">
 
-<stateval>
+<stateval xmlns:state="stateval">
 
   <events>
     <event name="VIEW_UPDATE"/>
