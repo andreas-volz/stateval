@@ -18,8 +18,8 @@ stateval_player_SOURCES =  \
 	searchFile.h
 
 stateval_player_LDADD = \
+	$(PTHREAD_LIBS) \
 	$(top_builddir)/src/lib/libstateval.la \
 	$(LOG4CXX_LIBS) \
-	$(SIGC_LIBS) \
-	$(PTHREAD_LIBS) 
+	$(SIGC_LIBS) 
 
