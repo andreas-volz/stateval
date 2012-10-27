@@ -56,4 +56,3 @@ libstateval_la_LIBADD =      \
 	$(LOG4CXX_LIBS) \
 	$(PTHREAD_LIBS)
 
-

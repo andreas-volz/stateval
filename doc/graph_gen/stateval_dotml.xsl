@@ -3,9 +3,9 @@
 
 <xsl:key name="child-states" match="state" use="@parent" />
 <xsl:template match="state" mode="make-node">
-   <node id="{@name}" label="{@name}" fontname="Arial" fontsize="9">
+   <cluster id="{@name}" label="{@name}" fontname="Arial" fontsize="9">
      <xsl:apply-templates mode="make-node" select="key('child-states', @name)" />
-   </node>
+   </cluster>
 </xsl:template>
 
 <xsl:template match="/">

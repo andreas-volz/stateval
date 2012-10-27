@@ -23,3 +23,5 @@ stateval_player_LDADD = \
 	$(LOG4CXX_LIBS) \
 	$(SIGC_LIBS) 
 
+stateval_player_LDFLAGS = \
+	$(PTHREAD_LIBS)
