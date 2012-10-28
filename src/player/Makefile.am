@@ -24,4 +24,4 @@ stateval_player_LDADD = \
 	$(SIGC_LIBS) 
 
 stateval_player_LDFLAGS = \
-	$(PTHREAD_LIBS)
+	-lpthread
