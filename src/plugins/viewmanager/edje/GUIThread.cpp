@@ -89,9 +89,9 @@ void GUIThread::run()
   
   mWindow->setTitle("StatEval Default Window");
     
-  mBackground->setWeightHintSize(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mBackground->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   mBackground->setColor (Eflxx::Color (0, 0, 0)); // show block background while view switching
-  mWindow->addObjectResize(*mBackground);
+  mWindow->addResizeObject(*mBackground);
   mBackground->hide();
   
   mWindow->resize(mWindowSize);

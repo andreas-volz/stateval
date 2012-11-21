@@ -93,8 +93,8 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   mWindow = mEdjeContext->window;
   mLayout = Elmxx::Layout::factory(*mWindow);
-  mLayout->setWeightHintSize(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  mWindow->addObjectResize(*mLayout);
+  mLayout->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mWindow->addResizeObject(*mLayout);
   mLayout->show();
 
   mLayout->setFile(mFilename, mGroupname);
@@ -331,7 +331,7 @@ void EdjeView::invisibleFunc(const std::string emmision, const std::string sourc
   LOG4CXX_TRACE(mLogger, "invisibleFunc");
 
   groupState = Unrealized;
-  mWindow->delObjectResize(*mLayout);
+  mWindow->delResizeObject(*mLayout);
   mLayout->destroy();
   mLayout = NULL;
   
