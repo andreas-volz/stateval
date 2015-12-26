@@ -39,6 +39,12 @@ const unsigned int TestLoader::getMinorVersion()
   return minor_version;
 }
 
+bool TestLoader::load(Context *context)
+{
+  // do nothing
+  return true;
+}
+
 bool TestLoader::load(Context *context, const std::string &test)
 {
   mContext = context;
@@ -72,6 +78,8 @@ bool TestLoader::load(Context *context, const std::string &test)
     // ...
   }
   // ...{}
+
+  return true;
 }
 
 

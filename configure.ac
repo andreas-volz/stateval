@@ -92,9 +92,10 @@ fi
 dnl Check for option to enable test applications
 AC_MSG_CHECKING(whether to enable test applications)
 AC_ARG_ENABLE(tests,
-        [  --enable-tests=[no/yes]        enables test applications build (default=yes)],,
-                 enable_tests=yes)
+        [  --enable-tests=[no/yes]        enables test applications build (default=no)],,
+                 enable_tests=no)
 
+AM_CONDITIONAL(HAVE_CPPUNIT, [test 0 = 1])
 if [ ! test "$enable_tests" != "yes"]; then
   AC_MSG_RESULT(yes)
   AC_DEFINE(HAVE_CPPUNIT, 1, [Define to enable test application build])

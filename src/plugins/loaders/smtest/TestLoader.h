@@ -24,6 +24,7 @@ public:
 
   const unsigned int getMinorVersion();
 
+  bool load(Context *context);
   bool load(Context *context, const std::string &test);
 
 protected:
