@@ -266,13 +266,13 @@ void EdjeView::updateContent(bool initalDrawing)
             LOG4CXX_DEBUG(mLogger, "Edje External Widget type: " << ext_eo3.getType());
             LOG4CXX_DEBUG(mLogger, "Edje Part Widget type: " << eo3.getType());
 
-            if (ext_eo3.getType() == "elm_widget")
+            if (ext_eo3.getType() == "elm_list")
             {
               Elmxx::Object &elm_object = *(static_cast <Elmxx::Object *>(&ext_eo3));
 
               LOG4CXX_DEBUG(mLogger, "Elm Widget type: " << elm_object.getWidgetType());
 
-              if (elm_object.getWidgetType() == "list")
+              if (elm_object.getWidgetType() == "Elm_List")
               {
                 Elmxx::List &list = *(static_cast <Elmxx::List *>(&elm_object));
 
