@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE stateval PUBLIC "stateval" "http://stateval.googlecode.com/svn/trunk/stateval/data/xml/stateval.dtd">
+<!DOCTYPE stateval PUBLIC "stateval" "/home/andreas/src/git/stateval/stateval/data/xml/stateval.dtd">
 
 <stateval xmlns:state="stateval">
 
@@ -99,17 +99,17 @@
     <state name="TunerList" type="ViewState" parent="TunerCompound" view="TunerListView"/>
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
     <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView">
-      <actions>
-        <action ref="changeInfoLabel2" when="leave"/>
-      </actions>
+      <state:actions>
+        <state:action ref="changeInfoLabel2" when="leave"/>
+      </state:actions>
     </state>
     <state name="TunerAvailable" type="DecisionState" parent="Root"/>
     <state name="MediaCompound" type="CompoundState" parent="Root"/>
     <state name="MediaInitial" type="SimpleState" parent="MediaCompound"/>
     <state name="MediaList" type="ViewState" parent="MediaCompound" view="MediaListView">
-      <actions>
-        <action ref="changeInfoLabel" when="enter"/>
-      </actions>
+      <state:actions>
+        <state:action ref="changeInfoLabel" when="enter"/>
+      </state:actions>
     </state>
   </states>
 
@@ -142,7 +142,7 @@
 
     <view name="NavMainView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="navigation_main"/>
       </params>
       <mappings>
@@ -165,7 +165,7 @@
 
     <view name="NavCountryView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="navigation_country"/>
       </params>
       <mappings>
@@ -175,7 +175,7 @@
     
     <view name="NavCityView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="navigation_city"/>
       </params>
       <mappings>
@@ -185,7 +185,7 @@
     
     <view name="NavStreetView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="navigation_street"/>
       </params>
       <mappings>
@@ -195,7 +195,7 @@
 
     <view name="TunerListView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="tuner_list"/>
       </params>
       <mappings>
@@ -206,7 +206,7 @@
 
     <view name="TunerFrequencyView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="tuner_frequenz"/>
       </params>
       <mappings>
@@ -219,7 +219,7 @@
     
     <view name="NavInfoView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="navigation_info"/>
       </params>
       <mappings>
@@ -234,7 +234,7 @@
     
     <view name="MediaListView">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
         <param key="groupname" value="media_list"/>
       </params>
       <mappings>

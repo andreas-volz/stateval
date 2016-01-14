@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE stateval PUBLIC "stateval" "http://stateval.googlecode.com/svn/trunk/stateval/data/xml/stateval.dtd">
+<!DOCTYPE stateval PUBLIC "stateval" "/home/andreas/src/git/stateval/stateval/data/xml/stateval.dtd">
 
 <stateval xmlns:state="stateval">
 
@@ -44,7 +44,7 @@
 
     <view name="Main">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/bars_smxml/bars.edj"/>
         <param key="groupname" value="main"/>
       </params>
       <mappings>
@@ -54,7 +54,7 @@
 
     <view name="Red">
       <params>
-        <param key="filename" value="/home/andreas/src/svn/stateval/stateval/data/bars_smxml/bars.edj"/>
+        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/bars_smxml/bars.edj"/>
         <param key="groupname" value="red"/>
       </params>
       <mappings>
