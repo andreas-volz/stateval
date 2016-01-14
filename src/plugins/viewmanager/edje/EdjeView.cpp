@@ -239,10 +239,10 @@ void EdjeView::updateContent(bool initalDrawing)
                   Edjexx::ExternalParam param(name, str->getData());
                   part.setParam(&param);
                 }
-                else if (av->getType() == AbstractVariable::TYPE_FLOAT)
+                else if (av->getType() == AbstractVariable::TYPE_DOUBLE)
                 {
-                  Float *f = static_cast <Float *>(av);
-                  Edjexx::ExternalParam param(name, f->getData());
+                  Double *d = static_cast <Double *>(av);
+                  Edjexx::ExternalParam param(name, d->getData());
                   part.setParam(&param);
                 }
                 else if (av->getType() == AbstractVariable::TYPE_BOOL)

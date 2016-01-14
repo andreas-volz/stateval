@@ -15,12 +15,14 @@ public:
   enum Type
   {
     TYPE_INTEGER,
-    TYPE_FLOAT,
+    TYPE_DOUBLE,
     TYPE_BOOL,
     TYPE_STRING,
     TYPE_LIST,
     TYPE_STRUCT
   };
+
+  virtual ~AbstractVariable(){};
 
   virtual bool equals(AbstractVariable *var) const = 0;
   virtual void assign(AbstractVariable *var) = 0;
@@ -32,6 +34,7 @@ public:
 
 protected:
   AbstractVariable(Type type);
+  
   
 private:
   Type mType;
@@ -52,19 +55,18 @@ private:
   bool mValue;
 };
 
-// TODO: rename to Double...
-class Float : public AbstractVariable
+class Double : public AbstractVariable
 {
 public:
-  Float(float f);
+  Double(double d);
 
   bool equals(AbstractVariable *var) const;
   void assign(AbstractVariable *var);
 
-  float getData() const;
+  double getData() const;
 
 private:
-  float mValue;
+  double mValue;
 };
 
 class Integer : public AbstractVariable

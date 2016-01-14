@@ -291,9 +291,9 @@ AbstractVariable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
     {
       var = new String(value_attribute->get_value());
     }
-    else if (type_attribute->get_value() == "Float")
+    else if (type_attribute->get_value() == "Double")
     {
-      var = new Float(fromString <float> (value_attribute->get_value()));
+      var = new Double(fromString <float> (value_attribute->get_value()));
     }
     else if (type_attribute->get_value() == "Integer")
     {

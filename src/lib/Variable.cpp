@@ -71,35 +71,35 @@ bool Bool::getData() const
 
 //////////////////////////
 
-Float::Float(float f) :
-  AbstractVariable(TYPE_FLOAT),
-  mValue(f)
+Double::Double(double d) :
+  AbstractVariable(TYPE_DOUBLE),
+  mValue(d)
 {
 
 }
 
-bool Float::equals(AbstractVariable *var) const
+bool Double::equals(AbstractVariable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  float ret = (static_cast <Float *>(var))->mValue == mValue;
+  double ret = (static_cast <Double *>(var))->mValue == mValue;
 
   return ret;
 }
 
-void Float::assign(AbstractVariable *var)
+void Double::assign(AbstractVariable *var)
 {
   LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  mValue = (static_cast <Float *>(var))->mValue;
+  mValue = (static_cast <Double *>(var))->mValue;
   setUpdateFlag(true);
 }
 
-float Float::getData() const
+double Double::getData() const
 {
   return mValue;
 }
