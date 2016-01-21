@@ -1,21 +1,22 @@
 if HAVE_CPPUNIT
 
 bin_PROGRAMS = \
-	testThread
+	UnitTest
 
-testThread_SOURCES = \
-	testCommon.h\
-	testThread.cpp
+UnitTest_SOURCES = \
+	TestMain.cpp \
+	TestMain.h \
+	VariableTest.cpp 
 
-testThread_LDADD = \
-	../../src/libstateval.la \
+UnitTest_LDADD = \
+	../../src/lib/libstateval.la \
 	$(SIGC_LIBS) \
 	$(CPPUNIT_LIBS) \
 	$(PLUXX_LIBS) \
 	$(LOG4CXX_LIBS) \
 	-lz
 
-testThread_CXXFLAGS = \
+UnitTest_CXXFLAGS = \
 	-I../../include
 
 AM_CPPFLAGS = \
