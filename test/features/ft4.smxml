@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE stateval PUBLIC "stateval" "http://stateval.googlecode.com/svn/trunk/stateval/data/xml/stateval.dtd">
+
+<stateval xmlns:state="stateval">
+  
+  <variables>
+    <variable name="ValA" type="String" value="A"/>
+	<variable name="ValB" type="String" value="B"/>
+  </variables>
+  
+  <actions>
+    <action name="changeVal" type="ChangeVariableAction" variable="ValA" copy="ValB"/>
+  </actions>
+  
+  <states>
+    <state name="root" type="CompoundState"/>
+    <state name="a" type="InitialState" parent="root"/>
+    <state name="b" type="FinalState" parent="root">
+	    <state:actions>
+        <state:action ref="changeVal" when="enter"/>
+      </state:actions>
+	</state>
+  </states>
+
+  <transitions>
+    <transition from="a" to="b"/>
+  </transitions>
+  
+</stateval>

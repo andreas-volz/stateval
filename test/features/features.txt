@@ -11,3 +11,8 @@ findings: - defined behaviour if default transition is used?
 ft3.smxml
 ----------
 description: simple transition with initial and finish state
+
+ft4.smxml
+----------
+description: simple transition with initial and finish state and
+ChangeVariableAction
