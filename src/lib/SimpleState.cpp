@@ -14,12 +14,14 @@
 
 using namespace std;
 
-SimpleState::SimpleState()
+SimpleState::SimpleState() :
+  mLogger("stateval.SimpleState")
 {
 }
 
 SimpleState::SimpleState(CompoundState *parentState) :
-  State(parentState)
+  State(parentState),
+  mLogger("stateval.SimpleState")
 {
 }
 
@@ -45,6 +47,7 @@ void SimpleState::addExitAction(Action *action)
 
 void SimpleState::runEntryActions()
 {
+  LOG4CXX_TRACE(mLogger, "runEntryActions()")
   runActions(mEntryActionList);
 }
 
@@ -61,6 +64,7 @@ void SimpleState::runActions(std::list <Action *> &actionList)
   {
     const Action *action = *ac_it;
     assert(action);
+    LOG4CXX_TRACE(mLogger, "Run Action");
     action->run();
   }
 }
@@ -117,7 +121,7 @@ void SimpleState::changeHistory()
 
     if (hState)
     {
-      cout << "change history transition" << endl;
+      LOG4CXX_TRACE(mLogger, "change history transition");
       hState->changeTransition(this);
     }
   }

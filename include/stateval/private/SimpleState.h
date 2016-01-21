@@ -8,6 +8,7 @@
 #include "Transition.h"
 #include "Action.h"
 #include "State.h"
+#include "stateval/private/Logger.h"
 
 class SimpleState : public State
 {
@@ -37,6 +38,8 @@ private:
 
   void runActions(std::list <Action *> &actionList);
 
+  Logger mLogger;
+  
   std::list <Action *> mEntryActionList; // pointers are freed by Loader!
   std::list <Action *> mExitActionList; // pointers are freed by Loader!
 };

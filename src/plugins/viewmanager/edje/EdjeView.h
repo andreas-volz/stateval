@@ -26,11 +26,15 @@ class EdjeView : public View
 public:
   EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params);
 
-
   void realize();
   void unrealize();
 
   void pushEvent(int event);
+
+  void createWidget(const std::string &name, const Variable *value);
+
+  // FIXME: only set to public to implement widget
+  Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext
 
 private:
   enum ViewState
@@ -60,7 +64,7 @@ private:
 
   EdjeContext *mEdjeContext;
 
-  Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext
+  
   Elmxx::Window *mWindow; // TODO: remove and access mEdjeContext
 
   std::string mFilename;

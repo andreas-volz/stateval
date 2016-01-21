@@ -4,6 +4,7 @@
 
 /* local */
 #include "TextViewManager.h"
+#include "stateval/Variable.h"
 
 /* STD */
 #include <iostream>

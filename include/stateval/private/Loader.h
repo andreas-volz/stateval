@@ -34,11 +34,11 @@ public:
 
   void addAction(Action *action);
 
-  void addVariable(const std::string &var, AbstractVariable &av);
+  void addVariable(const std::string &var, Variable &av);
 
-  AbstractVariable *getVariable(const std::string &var);
+  Variable *getVariable(const std::string &var);
 
-  void changeVariable(const std::string &var, AbstractVariable &av);
+  void changeVariable(const std::string &var, Variable &av);
 
   State *getInitialState();
 
@@ -58,7 +58,7 @@ protected:
   std::vector <State *> mStateList;
   ViewManager *mViewManager;
   std::list <Action *> mActionList;
-  std::map <std::string, AbstractVariable *> mVariableList;
+  std::map <std::string, Variable *> mVariableList;
   std::map <std::string, std::string> mViewManagerParams;
 
   // ... but no need to free this as it holds no allocated types...

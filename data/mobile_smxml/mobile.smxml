@@ -33,9 +33,12 @@
   </events>
   
   <variables>
+    <variable name="Time" type="String" value="6:30 PM"/>
+    <variable name="Time2" type="String" value="8:30 PM"/>
   </variables>
   
   <actions>
+    <action name="changeTime" type="ChangeVariableAction" variable="Time" copy="Time2"/>
   </actions>
   
   <states>
@@ -59,6 +62,9 @@
         <state:view ref="Bar"/>
         <state:view ref="Settings"/>
       </state:views>
+      <state:actions>
+        <state:action ref="changeTime" when="enter"/>
+      </state:actions>
     </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>
     <state name="EMail_Compound_Initial" type="SimpleState" parent="EMail_Compound"/>
@@ -116,8 +122,10 @@
         <param key="groupname" value="bar"/>
       </params>
       <mappings>
-        
       </mappings>
+        <widgets>
+        <widget name="Text01" variable="Time"/>
+      </widgets>
     </view>
 
     <view name="Browser">

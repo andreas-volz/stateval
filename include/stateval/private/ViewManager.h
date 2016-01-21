@@ -9,6 +9,7 @@
 /* local */
 #include "Logger.h"
 #include "View.h"
+#include "stateval/Variable.h"
 
 class ViewManager : public pluxx::Plugin
 {

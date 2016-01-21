@@ -7,9 +7,7 @@
 #include <map>
 #include <list>
 
-using namespace std;
-
-class AbstractVariable
+class Variable
 {
 public:
   enum Type
@@ -22,126 +20,152 @@ public:
     TYPE_STRUCT
   };
 
-  virtual ~AbstractVariable(){};
+  virtual ~Variable(){};
 
-  virtual bool equals(AbstractVariable *var) const = 0;
-  virtual void assign(AbstractVariable *var) = 0;
+  virtual bool equals(Variable *var) const = 0;
+  virtual void copy(Variable *var) = 0;
+  virtual Variable *copy() const = 0;
 
   Type getType() const;
 
-  bool needsUpdate ();
+  bool needsUpdate();
   void setUpdateFlag(bool flag);
 
 protected:
-  AbstractVariable(Type type);
-  
-  
+  Variable(Type type);
+
 private:
   Type mType;
   bool mNeedsUpdate;
 };
 
-class Bool : public AbstractVariable
+class Bool : public Variable
 {
 public:
+  Bool();
   Bool(bool b);
-
-  bool equals(AbstractVariable *var) const;
-  void assign(AbstractVariable *var);
-
+  
+  bool equals(Variable *var) const;
+  void copy(Variable *var);
+  Variable *copy() const;
+  
   bool getData() const;
 
-private:
+  Bool operator = (const Bool& b);
+
+protected:
   bool mValue;
 };
 
-class Double : public AbstractVariable
+//bool operator== (const Bool &b1, const Bool &b2);
+//bool operator!= (const Bool &b1, const Bool &b2);
+
+class Double : public Variable
 {
 public:
+  Double();
   Double(double d);
 
-  bool equals(AbstractVariable *var) const;
-  void assign(AbstractVariable *var);
+  bool equals(Variable *var) const;
+  void copy(Variable *var);
+  Variable *copy() const;
 
   double getData() const;
 
-private:
+  Double operator = (const Double& d);
+
+protected:
   double mValue;
 };
 
-class Integer : public AbstractVariable
+class Integer : public Variable
 {
 public:
+  Integer();
   Integer(int i);
 
-  bool equals(AbstractVariable *var) const;
-  void assign(AbstractVariable *var);
-
+  bool equals(Variable *var) const;
+  void copy(Variable *var);
+  Variable *copy() const;
+  
   int getData() const;
 
-private:
+  Integer operator = (const Integer& i);
+
+protected:
   int mValue;
 };
 
-class String : public AbstractVariable
+class String : public Variable
 {
 public:
+  String();
   String(const std::string &s);
 
-  bool equals(AbstractVariable *var) const;
-  void assign(AbstractVariable *var);
+  bool equals(Variable *var) const;
+  void copy(Variable *var);
+  Variable *copy() const;
 
   void change(const std::string &str);
 
   std::string getData() const;
 
-private:
+  String operator = (const String& s);
+
+protected:
   std::string mValue;
 };
 
-class Struct : public AbstractVariable
+class Struct : public Variable
 {
 public:
-  typedef std::map <std::string, AbstractVariable *>::const_iterator Iterator;
+  typedef std::map <std::string, Variable *>::const_iterator Iterator;
 
   Struct();
   ~Struct();
 
-  bool equals(AbstractVariable *var) const;
-  void assign(AbstractVariable *var);
-  void add(const std::string &s, AbstractVariable *var);
+  bool equals(Variable *var) const;
+  void copy(Variable *var);
+  Variable *copy() const;
+  
+  void add(const std::string &s, Variable *var);
 
-  AbstractVariable *getData(const std::string &s);
+  Variable *getData(const std::string &s);
   // TODO: implement [] operator
+
+  //Struct operator = (const Struct& b);
 
   Iterator begin();
   Iterator end();
 
-private:
-  std::map <std::string, AbstractVariable *> mValueMap;
+protected:
+  std::map <std::string, Variable *> mValueMap;
 };
 
-class List : public AbstractVariable
+class List : public Variable
 {
 public:
-  typedef std::list <AbstractVariable *>::const_iterator Iterator;
+  typedef std::list <Variable *>::const_iterator Iterator;
 
   List();
   ~List();
 
-  bool equals(AbstractVariable *var) const;
-  void assign(AbstractVariable *var);
+  bool equals(Variable *var) const;
+  void copy(Variable *var);
+  Variable *copy() const;
 
-  void pushBack(AbstractVariable *var);
-  void pushFront(AbstractVariable *var);
+  void pushBack(Variable *var);
+  void pushFront(Variable *var);
 
   void clear();
 
   Iterator begin();
   Iterator end();
 
-private:
-  std::list <AbstractVariable *> mValueList;
+  //List operator = (const List& b);
+
+protected:
+  std::list <Variable *> mValueList;
 };
 
 

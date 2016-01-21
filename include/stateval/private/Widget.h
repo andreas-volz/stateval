@@ -6,20 +6,25 @@
 
 /* local */
 #include "Logger.h"
+#include "stateval/Variable.h"
 
 class Widget
 {
 public:
-  Widget(const std::string &name, const std::string &variable);
-  virtual ~Widget() {};
+  Widget(const std::string &name, const Variable *value);
+  virtual ~Widget();
 
   const std::string getName() const;
-  const std::string getVariable() const;
+  //const std::string getVariable() const;
 
-private:
+  virtual void setValue(const Variable &val); // TODO: virtual?
+
+  virtual void updateContent(); // TODO: virtual? // protected and friend to View?
+
+protected:
   Logger mLogger;
   std::string mName;
-  std::string mVariable;
+  Variable *mValue;
 };
 
 #endif // WIDGET_H

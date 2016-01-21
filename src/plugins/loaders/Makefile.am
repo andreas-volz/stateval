@@ -1,7 +1,6 @@
 
 SUBDIRS = \
-	smxml \
-	smtest
+	smxml 
 
 ## File created by the gnome-build tools
 

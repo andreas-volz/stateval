@@ -25,8 +25,12 @@ TextView::TextView(const std::map <std::string, std::string> &params)
   {
     // TODO: needed error handling
     assert (false);      
-  }
-  
+  } 
+}
+
+void TextView::createWidget(const std::string &name, const Variable *value)
+{
+  // at the moment no specific Text Widget implemented
 }
 
 void TextView::realize()

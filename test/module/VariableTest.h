@@ -16,6 +16,7 @@ class VariableTest : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST (testBool3);
   CPPUNIT_TEST (testBool4);
   CPPUNIT_TEST (testBool5);
+  CPPUNIT_TEST (testBool6);
 
   CPPUNIT_TEST (testInteger);
 
@@ -27,20 +28,34 @@ public:
 
 protected:
   /**
-   * Constructors
+   * Bool constructors and getData() function
    */
   void testBool1 ();
 
   /**
-   * Check false as default
+   * Check Bool false as default
    */
   void testBool2 ();
-  
+
+  /**
+   * test equal()
+   */
   void testBool3 ();
-  
+
+  /**
+   * test copy() Bool factory
+   */
   void testBool4 ();
-  
+
+  /**
+   * test copy(Bool)
+   */
   void testBool5 ();
+
+  /**
+   * test = operator
+   */
+  void testBool6 ();
   
   void testInteger ();
 

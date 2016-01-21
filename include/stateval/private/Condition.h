@@ -18,11 +18,11 @@ public:
 
   bool evaluate() const;
 
-  void addComparison(const std::string &var, const AbstractVariable *val);
+  void addComparison(const std::string &var, const Variable *val);
 
 private:
   std::string mVar;
-  const AbstractVariable *mVal;
+  const Variable *mVal;
 };
 
 #endif // CONDITION_H

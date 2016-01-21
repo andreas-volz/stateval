@@ -3,7 +3,7 @@ dnl Created by Anjuta application wizard.
 
 AC_INIT(stateval, 0.1)
 
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AM_MAINTAINER_MODE
@@ -103,6 +103,8 @@ if [ ! test "$enable_tests" != "yes"]; then
 	 AM_CONDITIONAL(HAVE_CPPUNIT, [test 1 = 1]),
 	 AM_CONDITIONAL(HAVE_CPPUNIT, [test 0 = 1])
   )
+else
+  AC_MSG_RESULT(no)
 fi
 
 ACX_PTHREAD([],[])

@@ -12,6 +12,7 @@
 /* stateval */
 #include "stateval/stateval.h"
 #include "stateval/private/stateval_private.h"
+#include "EdjeWidget.h"
 
 /* STD */
 #include <iostream>
@@ -148,8 +149,19 @@ void EdjeView::unrealizeDispatched(int missedEvents)
 }
 
 void EdjeView::updateContent(bool initalDrawing)
-{
+{  
+  for (WidgetIterator wl_it = beginOfWidgets();
+       wl_it != endOfWidgets();
+       ++wl_it)
+  {
+    Widget *w = wl_it->second;
 
+
+    w->updateContent();
+  }
+
+  
+#if 0
   // FIXME: seems first screen could not do a updateContent ()!!
   if (!mLayout)
     return;
@@ -164,9 +176,9 @@ void EdjeView::updateContent(bool initalDrawing)
        wl_it != endOfWidgets();
        ++wl_it)
   {
-    const Widget &w = *wl_it;
+    const Widget *w = *wl_it;
 
-    AbstractVariable *val = stateMachineAccessor.getVariable(w.getVariable());
+    Variable *val = stateMachineAccessor.getVariable(w->getVariable());
     assert(val);
 
     // update widget data only if update is needed
@@ -175,9 +187,9 @@ void EdjeView::updateContent(bool initalDrawing)
     {
       try
       {
-        Edjexx::Part &part = edjeObj->getPart(w.getName());
+        Edjexx::Part &part = edjeObj->getPart(w->getName());
 
-        if (val->getType() == AbstractVariable::TYPE_STRUCT)
+        if (val->getType() == Variable::TYPE_STRUCT)
         {
           Struct *st = static_cast <Struct *>(val);
           bool specialHandled = false;
@@ -199,15 +211,15 @@ void EdjeView::updateContent(bool initalDrawing)
               /*if (elm_object.getWidgetType () == "slider")
               {
                 Elmxx::Slider &slider = *(static_cast <Elmxx::Slider*> (&elm_object));
-                AbstractVariable *av1 = st->getData ("label");
-                if (av1->getType () == AbstractVariable::TYPE_STRING)
+                Variable *av1 = st->getData ("label");
+                if (av1->getType () == Variable::TYPE_STRING)
                 {
                   String *s1 = static_cast <String*> (av1);
                   slider.setLabel (s1->getData ());
                 }
 
-                AbstractVariable *av2 = st->getData ("value");
-                if (av2->getType () == AbstractVariable::TYPE_FLOAT)
+                Variable *av2 = st->getData ("value");
+                if (av2->getType () == Variable::TYPE_FLOAT)
                 {
                   Float *f1 = static_cast <Float*> (av2);
                   slider.setValue (f1->getData ());
@@ -229,23 +241,23 @@ void EdjeView::updateContent(bool initalDrawing)
                  ++s_it)
             {
               const string &name = s_it->first;
-              AbstractVariable *av = s_it->second;
+              Variable *av = s_it->second;
 
               if (av)
               {
-                if (av->getType() == AbstractVariable::TYPE_STRING)
+                if (av->getType() == Variable::TYPE_STRING)
                 {
                   String *str = static_cast <String *>(av);
                   Edjexx::ExternalParam param(name, str->getData());
                   part.setParam(&param);
                 }
-                else if (av->getType() == AbstractVariable::TYPE_DOUBLE)
+                else if (av->getType() == Variable::TYPE_DOUBLE)
                 {
                   Double *d = static_cast <Double *>(av);
                   Edjexx::ExternalParam param(name, d->getData());
                   part.setParam(&param);
                 }
-                else if (av->getType() == AbstractVariable::TYPE_BOOL)
+                else if (av->getType() == Variable::TYPE_BOOL)
                 {
                   Bool *b = static_cast <Bool *>(av);
                   Edjexx::ExternalParam param(name, b->getData());
@@ -255,7 +267,7 @@ void EdjeView::updateContent(bool initalDrawing)
             }
           }
         }
-        else if (val->getType() == AbstractVariable::TYPE_LIST)
+        else if (val->getType() == Variable::TYPE_LIST)
         {
           try
           {
@@ -283,9 +295,9 @@ void EdjeView::updateContent(bool initalDrawing)
                      ls_it != ls->end();
                      ++ls_it)
                 {
-                  AbstractVariable *av = *ls_it;
+                  Variable *av = *ls_it;
 
-                  if (av->getType() == AbstractVariable::TYPE_STRING)
+                  if (av->getType() == Variable::TYPE_STRING)
                   {
                     String *str = static_cast <String *>(av);
                     list.append(str->getData(), NULL, NULL);
@@ -300,7 +312,7 @@ void EdjeView::updateContent(bool initalDrawing)
             cerr << ene.what() << endl;
           }
         }
-        else if (val->getType() == AbstractVariable::TYPE_STRING)
+        else if (val->getType() == Variable::TYPE_STRING)
         {
           String *str = static_cast <String *>(val);
 
@@ -308,7 +320,7 @@ void EdjeView::updateContent(bool initalDrawing)
         }
         else
         {
-          LOG4CXX_WARN(mLogger, "Currently not supported AbstractVariable Type!");
+          LOG4CXX_WARN(mLogger, "Currently not supported Variable Type!");
         }
       }
       catch (Edjexx::PartNotExistingException pne)
@@ -319,11 +331,12 @@ void EdjeView::updateContent(bool initalDrawing)
       // widget is updated, so reset need for update
       val->setUpdateFlag (false);
 
-      LOG4CXX_INFO(mLogger, "Widget name: " << w.getName());
-      LOG4CXX_INFO(mLogger, "Widget variable: " << w.getVariable());
+      LOG4CXX_INFO(mLogger, "Widget name: " << w->getName());
+      LOG4CXX_INFO(mLogger, "Widget variable: " << w->getVariable());
     }
     
   }
+#endif
 }
 
 void EdjeView::invisibleFunc(const std::string emmision, const std::string source)
@@ -414,4 +427,15 @@ void EdjeView::pushEvent(int event)
   mMutexPushEvent.lock();  
   mCondPushEvent.wait(mMutexPushEvent);
   mMutexPushEvent.unlock();
+}
+
+void EdjeView::createWidget(const std::string &name, const Variable *value)
+{
+  /*Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
+  Edjexx::Part &part = edjeObj->getPart(name);*/
+
+  // FIXME: at this point the mLayout isn't yet constructed.
+  // => Widget needs another way to get reference to low level widget after construction time
+  
+  mWidgetVariableMap[name] = new EdjeWidget(*this, name, value);
 }

@@ -37,7 +37,7 @@ protected:
   void parseEventNode(const xmlpp::Node *node);
 
   void parseVariablesNode(const xmlpp::Node *node);
-  AbstractVariable *parseVariableNode(const xmlpp::Node *node);
+  Variable *parseVariableNode(const xmlpp::Node *node);
 
   void parseConditionsNode(const xmlpp::Node *node);
   void parseConditionNode(const xmlpp::Node *node);

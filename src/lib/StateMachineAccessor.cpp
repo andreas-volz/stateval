@@ -89,19 +89,19 @@ void StateMachineAccessor::pushEvent(const std::string &event)
   }
 }
 
-void StateMachineAccessor::addVariable(const std::string &var, AbstractVariable &av)
+void StateMachineAccessor::addVariable(const std::string &var, Variable &av)
 {
   // TODO: locking
   mPImpl->mSM->addVariable(var, av);
 }
 
-AbstractVariable *StateMachineAccessor::getVariable(const std::string &var)
+Variable *StateMachineAccessor::getVariable(const std::string &var)
 {
   // TODO: locking
   return mPImpl->mSM->getVariable(var);
 }
 
-void StateMachineAccessor::changeVariable(const std::string &var, AbstractVariable &av)
+void StateMachineAccessor::changeVariable(const std::string &var, Variable &av)
 {
   // TODO: locking
   mPImpl->mSM->changeVariable(var, av);

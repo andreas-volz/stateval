@@ -24,7 +24,7 @@ bool Condition::evaluate() const
 {
   StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance();
 
-  AbstractVariable *val = stateMachineAccessor.getVariable(mVar);
+  Variable *val = stateMachineAccessor.getVariable(mVar);
   assert(val);
 
   // TODO: not sure what happens if it compares two different variable types...
@@ -32,7 +32,7 @@ bool Condition::evaluate() const
   return mVal->equals(val);
 }
 
-void  Condition::addComparison(const std::string &var, const AbstractVariable *val)
+void  Condition::addComparison(const std::string &var, const Variable *val)
 {
   mVar = var;
   mVal = val;

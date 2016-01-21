@@ -36,11 +36,11 @@ public:
   void pushEvent(int event);
   void pushEvent(const std::string &event);
 
-  void addVariable(const std::string &var, AbstractVariable &av);
+  void addVariable(const std::string &var, Variable &av);
 
-  AbstractVariable *getVariable(const std::string &var);
+  Variable *getVariable(const std::string &var);
 
-  void changeVariable(const std::string &var, AbstractVariable &av);
+  void changeVariable(const std::string &var, Variable &av);
 
   int findMapingEvent(const std::string &event);
   std::string findMapingEvent(int event);

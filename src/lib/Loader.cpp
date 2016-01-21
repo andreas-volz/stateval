@@ -70,9 +70,9 @@ void Loader::addAction(Action *action)
   mActionList.push_back(action);
 }
 
-void Loader::addVariable(const std::string &var, AbstractVariable &av)
+void Loader::addVariable(const std::string &var, Variable &av)
 {
-  std::map <std::string, AbstractVariable *>::iterator var_it = mVariableList.find(var);
+  std::map <std::string, Variable *>::iterator var_it = mVariableList.find(var);
 
   if (var_it == mVariableList.end())  // not found
   {
@@ -84,9 +84,9 @@ void Loader::addVariable(const std::string &var, AbstractVariable &av)
   }
 }
 
-AbstractVariable *Loader::getVariable(const std::string &var)
+Variable *Loader::getVariable(const std::string &var)
 {
-  std::map <std::string, AbstractVariable *>::iterator var_it = mVariableList.find(var);
+  std::map <std::string, Variable *>::iterator var_it = mVariableList.find(var);
 
   if (var_it == mVariableList.end())  // not found
   {
@@ -98,21 +98,21 @@ AbstractVariable *Loader::getVariable(const std::string &var)
   // else...
 
   // TODO: locking and/or copy value concept
-  AbstractVariable *av = mVariableList[var];
+  Variable *av = mVariableList[var];
 
   return av;
 }
 
-void Loader::changeVariable(const std::string &var, AbstractVariable &av)
+void Loader::changeVariable(const std::string &var, Variable &av)
 {
   //mutex.lock ();
   // TODO: throw exception if not found in map
-  AbstractVariable *foundVar = mVariableList[var];
+  Variable *foundVar = mVariableList[var];
   assert(foundVar);
 
   LOG4CXX_DEBUG(mLogger, "change variable: " << var);
 
-  foundVar->assign(&av);
+  foundVar->copy(&av);
   //mutex.unlock ();
 }
 

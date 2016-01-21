@@ -10,40 +10,46 @@
 /* STD */
 #include <cassert>
 
-// TODO: move into each specific variable class and PImpl
+// TODO: move logger into each specific variable class and PImpl
+// TODO: throw exceptions (e.g. for wrong types)
 static Logger logger("stateval.Variable");
 
-AbstractVariable::AbstractVariable(Type type) :
+Variable::Variable(Type type) :
   mType(type),
   mNeedsUpdate(false)
 {
 }
 
-AbstractVariable::Type AbstractVariable::getType() const
+Variable::Type Variable::getType() const
 {
   return mType;
 }
 
-void AbstractVariable::setUpdateFlag(bool flag)
+void Variable::setUpdateFlag(bool flag)
 {
   mNeedsUpdate = flag;
 }
 
-bool AbstractVariable::needsUpdate ()
+bool Variable::needsUpdate ()
 {
   return mNeedsUpdate;
 }
 
 //////////////////////////
 
-Bool::Bool(bool b) :
-  AbstractVariable(TYPE_BOOL),
-  mValue(b)
+Bool::Bool() :
+  Variable(TYPE_BOOL),
+  mValue(false)
 {
-
 }
 
-bool Bool::equals(AbstractVariable *var) const
+Bool::Bool(bool b) :
+  Variable(TYPE_BOOL),
+  mValue(b)
+{
+}
+
+bool Bool::equals(Variable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
@@ -54,9 +60,9 @@ bool Bool::equals(AbstractVariable *var) const
   return ret;
 }
 
-void Bool::assign(AbstractVariable *var)
+void Bool::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
@@ -64,21 +70,37 @@ void Bool::assign(AbstractVariable *var)
   setUpdateFlag(true);
 }
 
+Variable *Bool::copy() const
+{
+  return new Bool(mValue);
+}
+
 bool Bool::getData() const
 {
   return mValue;
 }
 
-//////////////////////////
-
-Double::Double(double d) :
-  AbstractVariable(TYPE_DOUBLE),
-  mValue(d)
+Bool Bool::operator = (const Bool& b)
 {
-
+  mValue = b.mValue;
+  return *this;
 }
 
-bool Double::equals(AbstractVariable *var) const
+//////////////////////////
+
+Double::Double() :
+  Variable(TYPE_DOUBLE),
+  mValue(0.0)
+{
+}
+
+Double::Double(double d) :
+  Variable(TYPE_DOUBLE),
+  mValue(d)
+{
+}
+
+bool Double::equals(Variable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
@@ -89,9 +111,9 @@ bool Double::equals(AbstractVariable *var) const
   return ret;
 }
 
-void Double::assign(AbstractVariable *var)
+void Double::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
@@ -99,22 +121,39 @@ void Double::assign(AbstractVariable *var)
   setUpdateFlag(true);
 }
 
+Variable *Double::copy() const
+{
+  return new Double(mValue);
+}
+
 double Double::getData() const
 {
   return mValue;
 }
 
+Double Double::operator = (const Double& d)
+{
+  mValue = d.mValue;
+  return *this;
+}
+
 
 //////////////////////////
 
+Integer::Integer() :
+  Variable(TYPE_INTEGER),
+  mValue(0)
+{
+}
+
 Integer::Integer(int i) :
-  AbstractVariable(TYPE_INTEGER),
+  Variable(TYPE_INTEGER),
   mValue(i)
 {
 
 }
 
-bool Integer::equals(AbstractVariable *var) const
+bool Integer::equals(Variable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
@@ -125,9 +164,9 @@ bool Integer::equals(AbstractVariable *var) const
   return ret;
 }
 
-void Integer::assign(AbstractVariable *var)
+void Integer::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
@@ -135,22 +174,37 @@ void Integer::assign(AbstractVariable *var)
   setUpdateFlag(true);
 }
 
+Variable *Integer::copy() const
+{
+  return new Integer(mValue);
+}
+
 int Integer::getData() const
 {
   return mValue;
 }
 
+Integer Integer::operator = (const Integer& i)
+{
+  mValue = i.mValue;
+  return *this;
+}
 
 //////////////////////////
 
+String::String() :
+  Variable(TYPE_STRING)
+{
+}
+
 String::String(const std::string &s) :
-  AbstractVariable(TYPE_STRING),
+  Variable(TYPE_STRING),
   mValue(s)
 {
 
 }
 
-bool String::equals(AbstractVariable *var) const
+bool String::equals(Variable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
@@ -161,14 +215,19 @@ bool String::equals(AbstractVariable *var) const
   return ret;
 }
 
-void String::assign(AbstractVariable *var)
+void String::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
   mValue = (static_cast <String *>(var))->mValue;
   setUpdateFlag(true);
+}
+
+Variable *String::copy() const
+{
+  return new String(mValue);
 }
 
 void String::change(const std::string &str)
@@ -182,10 +241,16 @@ std::string String::getData() const
   return mValue;
 }
 
+String String::operator = (const String& s)
+{
+  mValue = s.mValue;
+  return *this;
+}
+
 //////////////////////////
 
 Struct::Struct() :
-  AbstractVariable(TYPE_STRUCT)
+  Variable(TYPE_STRUCT)
 {
 }
 
@@ -194,7 +259,7 @@ Struct::~Struct()
   delete_stl_container(mValueMap);
 }
 
-bool Struct::equals(AbstractVariable *var) const
+bool Struct::equals(Variable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
@@ -207,9 +272,9 @@ bool Struct::equals(AbstractVariable *var) const
   return ret;
 }
 
-void Struct::assign(AbstractVariable *var)
+void Struct::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
@@ -219,13 +284,19 @@ void Struct::assign(AbstractVariable *var)
   setUpdateFlag(true);
 }
 
-void Struct::add(const std::string &s, AbstractVariable *var)
+Variable *Struct::copy() const
+{
+  // TODO: implemenmt
+  return NULL;
+}
+
+void Struct::add(const std::string &s, Variable *var)
 {
   mValueMap[s] = var;
   setUpdateFlag(true);
 }
 
-AbstractVariable *Struct::getData(const std::string &s)
+Variable *Struct::getData(const std::string &s)
 {
   LOG4CXX_DEBUG(logger, "mValueMap size: " << mValueMap.size());
   return mValueMap[s];
@@ -244,7 +315,7 @@ Struct::Iterator Struct::end()
 //////////////////////////
 
 List::List() :
-  AbstractVariable(TYPE_LIST)
+  Variable(TYPE_LIST)
 {
 }
 
@@ -253,7 +324,7 @@ List::~List()
   clear();
 }
 
-bool List::equals(AbstractVariable *var) const
+bool List::equals(Variable *var) const
 {
   LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
@@ -266,9 +337,9 @@ bool List::equals(AbstractVariable *var) const
   return ret;
 }
 
-void List::assign(AbstractVariable *var)
+void List::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "assign this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
@@ -278,13 +349,19 @@ void List::assign(AbstractVariable *var)
   setUpdateFlag(true);
 }
 
-void List::pushBack(AbstractVariable *var)
+Variable *List::copy() const
+{
+// TODO: implement
+  return NULL;
+}
+
+void List::pushBack(Variable *var)
 {
   mValueList.push_back(var);
   setUpdateFlag(true);
 }
 
-void List::pushFront(AbstractVariable *var)
+void List::pushFront(Variable *var)
 {
   mValueList.push_front(var);
   setUpdateFlag(true);

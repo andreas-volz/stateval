@@ -11,7 +11,7 @@
 
 using namespace std;
 
-ChangeVariableAction::ChangeVariableAction(const std::string &changeVar, AbstractVariable *var) :
+ChangeVariableAction::ChangeVariableAction(const std::string &changeVar, Variable *var) :
   mVar(var),
   mChangeVar(changeVar)
 {

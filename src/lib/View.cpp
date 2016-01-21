@@ -4,6 +4,7 @@
 
 /* local */
 #include "stateval/private/View.h"
+#include "MemoryUtil.h"
 
 /* STD */
 #include <iostream>
@@ -14,6 +15,12 @@ View::View() :
   mLogger("stateval.View")
 {
 }
+
+View::~View()
+{
+  //delete_stl_container<std::map<std::string, Widget*> >(mWidgetVariableMap);
+  // TODO: delete mWidgetVariableMap
+};
 
 void View::addEventMapping(const int rawEvent, const int mappedEvent)
 {
@@ -29,11 +36,6 @@ void View::mapEvent(int &inOutEvent)
     LOG4CXX_DEBUG(mLogger, "map event: " << iter->first << " : " << iter->second);
     inOutEvent = mapEvent;
   }
-}
-
-void View::addWidget(const Widget &w)
-{
-  mWidgetVariableList.push_back(w);
 }
 
 /*! this is implemented empty with the intention that child classes

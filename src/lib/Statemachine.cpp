@@ -129,6 +129,7 @@ void StateMachine::evaluateState(int &inOutEvent)
   if (transit)
   {
     mActiveState->afterTransitionCode();
+    LOG4CXX_TRACE(mLogger, "new state: " << mActiveState->getName());
   }
 }
 
@@ -240,17 +241,17 @@ int StateMachine::getNextEvent()
   return eventQueue.front();
 }
 
-void StateMachine::addVariable(const std::string &var, AbstractVariable &av)
+void StateMachine::addVariable(const std::string &var, Variable &av)
 {
   mLoader->addVariable(var, av);
 }
 
-AbstractVariable *StateMachine::getVariable(const std::string &var)
+Variable *StateMachine::getVariable(const std::string &var)
 {
   return mLoader->getVariable(var);
 }
 
-void StateMachine::changeVariable(const std::string &var, AbstractVariable &av)
+void StateMachine::changeVariable(const std::string &var, Variable &av)
 {
   mLoader->changeVariable(var, av);
 }

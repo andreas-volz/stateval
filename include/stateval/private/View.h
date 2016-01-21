@@ -10,16 +10,17 @@
 #include <pluxx/Plugin.h>
 
 /* local */
+#include "stateval/Variable.h"
 #include "Logger.h"
 #include "Widget.h"
 
-class View //: public pluxx::Plugin
+class View
 {
 public:
-  typedef std::list <Widget>::const_iterator WidgetIterator;
+  typedef std::map <std::string, Widget*>::const_iterator WidgetIterator;
 
   View();
-  virtual ~View() {};
+  virtual ~View();
 
   virtual void realize() = 0;
 
@@ -35,21 +36,24 @@ public:
 
   void mapEvent(int &inOutEvent);
 
-  void addWidget(const Widget &w);
+  virtual void createWidget(const std::string &name, const Variable *value) = 0;
 
   WidgetIterator beginOfWidgets()
   {
-    return mWidgetVariableList.begin();
+    return mWidgetVariableMap.begin();
   }
   WidgetIterator endOfWidgets()
   {
-    return mWidgetVariableList.end();
+    return mWidgetVariableMap.end();
   }
 
+protected:
+  std::map <std::string, Widget*> mWidgetVariableMap;
+  
 private:
   Logger mLogger;
   std::map <int, int> mEventMap;
-  std::list <Widget> mWidgetVariableList;
+  
   int mLayer;
 };
 

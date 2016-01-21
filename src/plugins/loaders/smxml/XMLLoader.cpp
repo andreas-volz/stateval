@@ -104,6 +104,14 @@ void XMLLoader::parseRootNode(const xmlpp::Node *node)
       {
         parseVariablesNode(*iter);
       }
+      
+      // Recurse through child nodes
+      list = node->get_children();
+      for (xmlpp::Node::NodeList::iterator iter = list.begin();
+           iter != list.end(); ++iter)
+      {
+        parseViewManagerNode(*iter);
+      }
 
       // Recurse through child nodes
       list = node->get_children();
@@ -119,14 +127,6 @@ void XMLLoader::parseRootNode(const xmlpp::Node *node)
            iter != list.end(); ++iter)
       {
         parseActionsNode(*iter);
-      }
-
-      // Recurse through child nodes
-      list = node->get_children();
-      for (xmlpp::Node::NodeList::iterator iter = list.begin();
-           iter != list.end(); ++iter)
-      {
-        parseViewManagerNode(*iter);
       }
 
       // Recurse through child nodes
@@ -220,7 +220,7 @@ void XMLLoader::parseVariablesNode(const xmlpp::Node *node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin();
            iter != list.end(); ++iter)
       {
-        AbstractVariable *var = parseVariableNode(*iter);
+        Variable *var = parseVariableNode(*iter);
         if (var)
         {
           const xmlpp::Element *nodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
@@ -233,11 +233,11 @@ void XMLLoader::parseVariablesNode(const xmlpp::Node *node)
   }
 }
 
-AbstractVariable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
+Variable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
 {
   const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
   const xmlpp::Element *nodeElement = dynamic_cast < const xmlpp::Element * >(node);
-  AbstractVariable *var = NULL;
+  Variable *var = NULL;
 
   if (nodeText && nodeText->is_white_space())	//Let's ignore the indenting
     return NULL;
@@ -263,7 +263,6 @@ AbstractVariable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
     {
       LOG4CXX_DEBUG(mLogger, "Attribute type = " << type_attribute->get_value());
     }
-
 
     if (value_attribute)
     {
@@ -308,7 +307,7 @@ AbstractVariable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin();
            iter != list.end(); ++iter)
       {
-        AbstractVariable *av = parseVariableNode(*iter);
+        Variable *av = parseVariableNode(*iter);
         if (av)
         {
           const xmlpp::Element *innerNodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
@@ -330,7 +329,7 @@ AbstractVariable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
       for (xmlpp::Node::NodeList::iterator iter = list.begin();
            iter != list.end(); ++iter)
       {
-        AbstractVariable *av = parseVariableNode(*iter);
+        Variable *av = parseVariableNode(*iter);
         if (av)
         {
           ls->pushBack(av);
@@ -416,7 +415,7 @@ void XMLLoader::parseConditionNode(const xmlpp::Node *node)
       LOG4CXX_DEBUG(mLogger, "Attribute operation = " << variable2_attribute->get_value());
     }
 
-    AbstractVariable *av = getVariable(variable2_attribute->get_value());
+    Variable *av = getVariable(variable2_attribute->get_value());
     assert(av);
 
     Condition *cond = new Condition();
@@ -491,7 +490,7 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
     }
     else if (type_attribute->get_value() == "ChangeVariableAction")
     {
-      AbstractVariable *av = getVariable(copy_attribute->get_value());
+      Variable *av = getVariable(copy_attribute->get_value());
       assert(av);
 
       action = new ChangeVariableAction(variable_attribute->get_value(), av);
@@ -1340,7 +1339,8 @@ void XMLLoader::parseViewWidgetNode(const xmlpp::Node *node, View *view)
       // throw exception
     }
 
-    view->addWidget(Widget(name_attribute->get_value(), variable_attribute->get_value()));
+    Variable *val = mVariableList[variable_attribute->get_value()];
+    view->createWidget(name_attribute->get_value(), val);
   }
 }
 

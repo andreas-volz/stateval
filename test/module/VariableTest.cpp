@@ -42,15 +42,35 @@ void VariableTest::testBool3 ()
   Bool b2(true);
   
   CPPUNIT_ASSERT_EQUAL (b1.equals(&b2), true);
-  //CPPUNIT_ASSERT_EQUAL (b1 = b2, true);
 }
 
 void VariableTest::testBool4 ()
 {
+  Bool b1(true);
+  Variable *b2 = b1.copy();
+
+  CPPUNIT_ASSERT_EQUAL (b1.equals(b2), true);
+  delete b2;
 }
 
 void VariableTest::testBool5 ()
 {
+  Bool b1(true);
+  Bool b2(false);
+
+  b2.copy(&b1);
+
+  CPPUNIT_ASSERT_EQUAL (b1.equals(&b2), true);
+}
+
+void VariableTest::testBool6 ()
+{
+  Bool b1(true);
+  Bool b2(false);
+
+  b2 = b1;
+
+  CPPUNIT_ASSERT_EQUAL (b1.equals(&b2), true);
 }
 
 void VariableTest::testInteger ()

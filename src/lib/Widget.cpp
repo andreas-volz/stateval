@@ -7,11 +7,21 @@
 
 using namespace std;
 
-Widget::Widget(const std::string &name, const std::string &variable) :
+Widget::Widget(const std::string &name, const Variable *value) :
   mLogger("stateval.Widget"),
   mName(name),
-  mVariable(variable)
+  mValue(NULL)
 {
+  // create local Variable as copy if given
+  if(value)
+  {    
+    mValue = value->copy();
+  }
+}
+
+Widget::~Widget()
+{
+  delete mValue;
 }
 
 const std::string Widget::getName() const
@@ -19,7 +29,19 @@ const std::string Widget::getName() const
   return mName;
 }
 
-const std::string Widget::getVariable() const
+/*const std::string Widget::getVariable() const
 {
-  return mVariable;
+  return mValue;
+}*/
+
+void Widget::setValue(const Variable &val)
+{
+  // in default implementation Widget has no action
 }
+
+void Widget::updateContent()
+{
+  // in default implementation Widget has no action
+}
+
+

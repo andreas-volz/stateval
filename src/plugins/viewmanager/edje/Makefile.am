@@ -8,6 +8,8 @@ stateval_viewmanager_edje_la_SOURCES = \
 	EcoreDispatcher.h    \
 	EdjeView.cpp    \
 	EdjeView.h    \
+	EdjeWidget.cpp    \
+	EdjeWidget.h    \
 	EdjeViewManager.cpp \
 	EdjeViewManager.h \
 	GUIThread.cpp \
