@@ -73,11 +73,39 @@ void VariableTest::testBool6 ()
   CPPUNIT_ASSERT_EQUAL (b1.equals(&b2), true);
 }
 
-void VariableTest::testInteger ()
+
+void VariableTest::testList1 ()
+{
+  List l1;
+  String s1("str1");
+  String s2("str2");
+  String s3("str3");
+  l1.pushBack (&s1);
+  l1.pushBack (&s2);
+  l1.pushBack (&s3);
+
+  List l2(l1);
+
+  /*for(List::Iterator li_it = l2.begin();
+       li_it != l2.end();
+       ++li_it)
+  {
+    Variable *var = *li_it;
+
+    String *str = dynamic_cast<String*>(var);
+
+    cout << "str: " << str->getData () << endl; 
+  }*/
+
+  CPPUNIT_ASSERT_EQUAL (l1.equals(&l2), true);  
+}
+
+void VariableTest::testList2 ()
 {
 
-  //CPPUNIT_ASSERT_EQUAL (alarmExpect.getTimestamp (), mdtReference.getTimestamp () + alarmCalc.timer);
+}
 
+void VariableTest::testList3 ()
+{
 
-  //CPPUNIT_ASSERT_EQUAL (alarmExpect.getTimestamp (), mdtReference.getTimestamp () + alarmCalc.timer);
 }

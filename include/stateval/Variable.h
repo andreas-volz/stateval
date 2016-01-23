@@ -51,8 +51,6 @@ public:
   
   bool getData() const;
 
-  Bool operator = (const Bool& b);
-
 protected:
   bool mValue;
 };
@@ -142,12 +140,14 @@ protected:
   std::map <std::string, Variable *> mValueMap;
 };
 
+// TODO: think about to remove copy() functions and to realize by = operator and std::copy for all types 
 class List : public Variable
 {
 public:
   typedef std::list <Variable *>::const_iterator Iterator;
 
   List();
+  List(const List &list);
   ~List();
 
   bool equals(Variable *var) const;

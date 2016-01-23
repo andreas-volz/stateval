@@ -33,7 +33,7 @@
   </events>
   
   <variables>
-    <variable name="Time" type="String" value="6:30 PM"/>
+    <variable name="Time" type="String" value="1:30 PM"/>
     <variable name="Time2" type="String" value="8:30 PM"/>
   </variables>
   

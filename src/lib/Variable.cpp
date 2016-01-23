@@ -9,6 +9,7 @@
 
 /* STD */
 #include <cassert>
+#include <algorithm>
 
 // TODO: move logger into each specific variable class and PImpl
 // TODO: throw exceptions (e.g. for wrong types)
@@ -55,7 +56,7 @@ bool Bool::equals(Variable *var) const
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  bool ret = (static_cast <Bool *>(var))->mValue == mValue;
+  bool ret = (dynamic_cast <Bool *>(var))->mValue == mValue;
 
   return ret;
 }
@@ -66,7 +67,7 @@ void Bool::copy(Variable *var)
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  mValue = (static_cast <Bool *>(var))->mValue;
+  mValue = (dynamic_cast <Bool *>(var))->mValue;
   setUpdateFlag(true);
 }
 
@@ -78,12 +79,6 @@ Variable *Bool::copy() const
 bool Bool::getData() const
 {
   return mValue;
-}
-
-Bool Bool::operator = (const Bool& b)
-{
-  mValue = b.mValue;
-  return *this;
 }
 
 //////////////////////////
@@ -106,7 +101,7 @@ bool Double::equals(Variable *var) const
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  double ret = (static_cast <Double *>(var))->mValue == mValue;
+  double ret = (dynamic_cast <Double *>(var))->mValue == mValue;
 
   return ret;
 }
@@ -117,7 +112,7 @@ void Double::copy(Variable *var)
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  mValue = (static_cast <Double *>(var))->mValue;
+  mValue = (dynamic_cast <Double *>(var))->mValue;
   setUpdateFlag(true);
 }
 
@@ -159,7 +154,7 @@ bool Integer::equals(Variable *var) const
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  int ret = (static_cast <Integer *>(var))->mValue == mValue;
+  int ret = (dynamic_cast <Integer *>(var))->mValue == mValue;
 
   return ret;
 }
@@ -170,7 +165,7 @@ void Integer::copy(Variable *var)
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  mValue = (static_cast <Integer *>(var))->mValue;
+  mValue = (dynamic_cast <Integer *>(var))->mValue;
   setUpdateFlag(true);
 }
 
@@ -210,7 +205,7 @@ bool String::equals(Variable *var) const
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  bool ret = (static_cast <String *>(var))->mValue == mValue;
+  bool ret = (dynamic_cast <String *>(var))->mValue == mValue;
 
   return ret;
 }
@@ -221,7 +216,7 @@ void String::copy(Variable *var)
   LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
   assert(getType() == var->getType());
 
-  mValue = (static_cast <String *>(var))->mValue;
+  mValue = (dynamic_cast <String *>(var))->mValue;
   setUpdateFlag(true);
 }
 
@@ -266,7 +261,7 @@ bool Struct::equals(Variable *var) const
   assert(getType() == var->getType());
 
   // TODO: implement
-  bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
+  bool ret = false;//(dynamic_cast <String*> (var))->mValue == mValue;
   assert(false);
 
   return ret;
@@ -279,7 +274,7 @@ void Struct::copy(Variable *var)
   assert(getType() == var->getType());
 
   // TODO: implement
-  //mValue = (static_cast <String*> (var))->mValue;
+  //mValue = (dynamic_cast <String*> (var))->mValue;
   assert(false);
   setUpdateFlag(true);
 }
@@ -319,40 +314,58 @@ List::List() :
 {
 }
 
+List::List(const List &list) :
+  Variable(TYPE_LIST)
+{
+  mValueList.resize(list.mValueList.size());
+  std::copy(list.mValueList.begin(), list.mValueList.end(), mValueList.begin());
+}
+
 List::~List()
 {
-  clear();
+  
 }
 
 bool List::equals(Variable *var) const
 {
-  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
-  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
-  assert(getType() == var->getType());
+  bool ret = false;
+  
+  if(var)
+  {
+    LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+    LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+    assert(getType() == var->getType());
+  
+    List *varList =  dynamic_cast <List*> (var);
 
-  // TODO: implement
-  bool ret = false;//(static_cast <String*> (var))->mValue == mValue;
-  assert(false);
-
+    ret = varList->mValueList == mValueList;
+  }
+    
   return ret;
 }
 
 void List::copy(Variable *var)
 {
-  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
-  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
-  assert(getType() == var->getType());
+  if(var)
+  {
+    LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
+    LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+    assert(getType() == var->getType());
 
-  // TODO: implement
-  //mValue = (static_cast <String*> (var))->mValue;
-  assert(false);
-  setUpdateFlag(true);
+    List *inList = dynamic_cast<List*>(var);
+    
+    //delete_stl_container(mValueList);
+    std::copy(inList->mValueList.begin(), inList->mValueList.end(), mValueList.begin());
+    
+    setUpdateFlag(true);
+  }
 }
 
 Variable *List::copy() const
 {
-// TODO: implement
-  return NULL;
+  List *outList = new List(*this);
+  
+  return outList;
 }
 
 void List::pushBack(Variable *var)
@@ -369,7 +382,6 @@ void List::pushFront(Variable *var)
 
 void List::clear()
 {
-  delete_stl_container(mValueList);
   setUpdateFlag(true);
 }
 
