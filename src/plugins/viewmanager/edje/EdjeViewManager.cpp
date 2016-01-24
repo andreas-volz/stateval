@@ -23,11 +23,11 @@ EdjeViewManager::EdjeViewManager(const std::map <std::string, std::string> &para
   cout << "GUI initialized" << endl;
 }
 
-View *EdjeViewManager::loadView(const std::map <std::string, std::string> &params)
+View *EdjeViewManager::loadView(const std::string &name, const std::map <std::string, std::string> &params)
 {
   View *edjeview = mGUIThread.viewFactory (params);
 
-  mViewList.push_back (edjeview);
+  mViewList[name] = edjeview;
 
   return edjeview;
 }

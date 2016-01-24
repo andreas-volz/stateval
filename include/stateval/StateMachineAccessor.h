@@ -6,6 +6,7 @@
 
 /* local */
 #include "Variable.h"
+#include "Widget.h"
 
 /* SIGC */
 // TODO: this needs HAVE_XML defined and so libxml++2-6 installed (and so libglibmm)
@@ -41,6 +42,8 @@ public:
   Variable *getVariable(const std::string &var);
 
   void changeVariable(const std::string &var, Variable &av);
+
+  Widget *getWidget(const std::string &view, const std::string &widget);
 
   int findMapingEvent(const std::string &event);
   std::string findMapingEvent(int event);

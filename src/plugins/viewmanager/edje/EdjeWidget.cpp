@@ -11,6 +11,7 @@
 using namespace std;
 
 EdjeWidget::EdjeWidget(View &view, const std::string &name, const Variable *value) :
+  mLogger("stateval.plugins.viewmanager.edje.EdjeWidget"),
   Widget(name, value),
   mView(dynamic_cast<EdjeView*>(&view))
 {
@@ -85,11 +86,13 @@ void EdjeWidget::updateContent()
   }
 }
 
-/*void EdjeWidget::setValue(const Variable &val)
+void EdjeWidget::setValue(const Variable &value)
 {
+  Widget::setValue(value);
+}
   // TODO
   
-       - cache variable in widget until next time on screen if not on screen
+  //   - cache variable in widget until next time on screen if not on screen
   //   - if on screen do next: 
   // - get Edje object by assigned string
   // - switch Variable type
@@ -99,4 +102,3 @@ void EdjeWidget::updateContent()
   // - get fetches always from assigned low level widget if available
 
   // need to model a copy action on entry transition to get a value updated?
-}*/

@@ -17,11 +17,13 @@ struct ViewSpec
 // Define two ViewSpecs as equal if they contain same View. Layer isn't important.
 bool operator == (const ViewSpec &viewSpec1, const ViewSpec &viewSpec2);
 
-/*
- TODO: Current ViewCache implementation supports only easy case that old and new
- ViewState contains same views. If needed more advanced use case this could be implemented here.
+/**
+ * The ViewCache holds all active Views and holds realized views between a transition if
+ * the new state contains some Views from the old state.  
+ * 
+ * Current ViewCache implementation supports only easy case that old and new
+ * ViewState contains same views. If needed more advanced use case this could be implemented here.
  */
-
 class ViewCache
 {
 public:

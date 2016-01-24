@@ -22,8 +22,8 @@ public:
 
   virtual ~Variable(){};
 
-  virtual bool equals(Variable *var) const = 0;
-  virtual void copy(Variable *var) = 0;
+  virtual bool equals(const Variable *var) const = 0;
+  virtual void copy(const Variable *var) = 0;
   virtual Variable *copy() const = 0;
 
   Type getType() const;
@@ -45,8 +45,8 @@ public:
   Bool();
   Bool(bool b);
   
-  bool equals(Variable *var) const;
-  void copy(Variable *var);
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
   Variable *copy() const;
   
   bool getData() const;
@@ -64,8 +64,8 @@ public:
   Double();
   Double(double d);
 
-  bool equals(Variable *var) const;
-  void copy(Variable *var);
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
   Variable *copy() const;
 
   double getData() const;
@@ -82,8 +82,8 @@ public:
   Integer();
   Integer(int i);
 
-  bool equals(Variable *var) const;
-  void copy(Variable *var);
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
   Variable *copy() const;
   
   int getData() const;
@@ -100,8 +100,8 @@ public:
   String();
   String(const std::string &s);
 
-  bool equals(Variable *var) const;
-  void copy(Variable *var);
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
   Variable *copy() const;
 
   void change(const std::string &str);
@@ -122,8 +122,8 @@ public:
   Struct();
   ~Struct();
 
-  bool equals(Variable *var) const;
-  void copy(Variable *var);
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
   Variable *copy() const;
   
   void add(const std::string &s, Variable *var);
@@ -150,8 +150,8 @@ public:
   List(const List &list);
   ~List();
 
-  bool equals(Variable *var) const;
-  void copy(Variable *var);
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
   Variable *copy() const;
 
   void pushBack(Variable *var);

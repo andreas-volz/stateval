@@ -20,5 +20,17 @@ ViewManager::~ViewManager()
 {
   // free memory for all views
   delete_stl_container (mViewList);
-  mViewList.clear ();       
+}
+
+Widget *ViewManager::getWidget(const std::string &view, const std::string &widget)
+{
+  View *viewObj = mViewList[view];
+  Widget *widgetObj = NULL;
+  
+  if(viewObj)
+  {
+    widgetObj = viewObj->getWidget(widget);
+  }
+
+  return widgetObj;
 }

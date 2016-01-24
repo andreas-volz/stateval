@@ -471,7 +471,8 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute("type");
     const xmlpp::Attribute *event_attribute = nodeElement->get_attribute("event");
     const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute("variable");
-    const xmlpp::Attribute *copy_attribute = nodeElement->get_attribute("copy");;
+    const xmlpp::Attribute *widget_attribute = nodeElement->get_attribute("widget");;
+    const xmlpp::Attribute *view_attribute = nodeElement->get_attribute("view");;
 
     if (name_attribute)
     {
@@ -490,10 +491,15 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
     }
     else if (type_attribute->get_value() == "ChangeVariableAction")
     {
-      Variable *av = getVariable(copy_attribute->get_value());
-      assert(av);
+      //Variable *av = getVariable(widget_attribute->get_value());
+      //assert(av);
 
-      action = new ChangeVariableAction(variable_attribute->get_value(), av);
+      const string &view = view_attribute->get_value();
+      const string &variable = variable_attribute->get_value();
+      const string &widget = widget_attribute->get_value();      
+
+      // TODO: check if view, widget, variable are really existing before      
+      action = new ChangeVariableAction(view, widget, variable);
       mActionNameMapper[name_attribute->get_value()] = action;
     }
     else
@@ -1129,7 +1135,7 @@ void XMLLoader::parseViewNode(const xmlpp::Node *node, unsigned int &i)
       }
 
       // load view and insert into temporary load mapper
-      view = mViewManager->loadView(params);
+      view = mViewManager->loadView(name_attribute->get_value(), params);
       assert (view);
       mViewNameMapper[name_attribute->get_value()] = view;
 

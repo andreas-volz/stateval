@@ -122,7 +122,7 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   mLayout->resize(mEdjeContext->resolution);
 
-  updateContent(true);
+  updateContent();
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
@@ -148,8 +148,10 @@ void EdjeView::unrealizeDispatched(int missedEvents)
   }
 }
 
-void EdjeView::updateContent(bool initalDrawing)
+void EdjeView::updateContent()
 {  
+  LOG4CXX_TRACE(mLogger, "updateContent()");
+  
   for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
        ++wl_it)
@@ -376,7 +378,9 @@ void EdjeView::allFunc(const std::string emmision, const std::string source)
     StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
 
     string event("edje," + source + "," + emmision);
-    LOG4CXX_DEBUG(mLogger, "allFunc: " << event << " (" << mGroupname << ")");
+
+    // => activate next line to get all events logged, but be warned as mouse events spam event queue much!
+    //LOG4CXX_DEBUG(mLogger, "allFunc: " << event << " (" << mGroupname << ")");
 
     // only push new events for realized screens
     // FIXME: when I do this it leads into freezes as the invisible signal doesn't come
@@ -411,7 +415,7 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     if (mEvent == VIEW_UPDATE_EVENT)
     {
-      updateContent(false);
+      updateContent();
     }
   }
 
@@ -437,5 +441,5 @@ void EdjeView::createWidget(const std::string &name, const Variable *value)
   // FIXME: at this point the mLayout isn't yet constructed.
   // => Widget needs another way to get reference to low level widget after construction time
   
-  mWidgetVariableMap[name] = new EdjeWidget(*this, name, value);
+  mWidgetMap[name] = new EdjeWidget(*this, name, value);
 }

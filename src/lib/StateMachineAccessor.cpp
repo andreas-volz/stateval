@@ -107,6 +107,11 @@ void StateMachineAccessor::changeVariable(const std::string &var, Variable &av)
   mPImpl->mSM->changeVariable(var, av);
 }
 
+Widget *StateMachineAccessor::getWidget(const std::string &view, const std::string &widget)
+{
+  return mPImpl->mSM->getWidget(view, widget);
+}
+
 int StateMachineAccessor::findMapingEvent(const std::string &event)
 {
   int ret = -1;

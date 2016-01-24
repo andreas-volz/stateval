@@ -92,7 +92,7 @@ Variable *Loader::getVariable(const std::string &var)
   {
     LOG4CXX_ERROR(mLogger, "variable not found in list: " << var);
     // TODO: do something smarter later, but for now assert...
-    assert(false);
+    //assert(false);
   }
 
   // else...
@@ -114,6 +114,11 @@ void Loader::changeVariable(const std::string &var, Variable &av)
 
   foundVar->copy(&av);
   //mutex.unlock ();
+}
+
+Widget *Loader::getWidget(const std::string &view, const std::string &widget)
+{
+  return mViewManager->getWidget(view, widget);
 }
 
 State *Loader::getInitialState()

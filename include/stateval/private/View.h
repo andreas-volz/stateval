@@ -11,8 +11,9 @@
 
 /* local */
 #include "stateval/Variable.h"
+#include "stateval/Widget.h"
 #include "Logger.h"
-#include "Widget.h"
+
 
 class View
 {
@@ -38,17 +39,21 @@ public:
 
   virtual void createWidget(const std::string &name, const Variable *value) = 0;
 
+  Widget *getWidget(const std::string &name);
+
+  virtual void updateContent() = 0;
+
   WidgetIterator beginOfWidgets()
   {
-    return mWidgetVariableMap.begin();
+    return mWidgetMap.begin();
   }
   WidgetIterator endOfWidgets()
   {
-    return mWidgetVariableMap.end();
+    return mWidgetMap.end();
   }
 
 protected:
-  std::map <std::string, Widget*> mWidgetVariableMap;
+  std::map <std::string, Widget*> mWidgetMap;
   
 private:
   Logger mLogger;

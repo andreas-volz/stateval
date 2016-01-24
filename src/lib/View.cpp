@@ -55,3 +55,8 @@ int View::getLayer()
 {
   return mLayer;
 }
+
+Widget *View::getWidget(const std::string &name)
+{
+  return mWidgetMap[name];
+}

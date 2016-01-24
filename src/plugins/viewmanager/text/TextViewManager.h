@@ -25,7 +25,7 @@ public:
 
   const unsigned int getMinorVersion();
 
-  View *loadView(const std::map <std::string, std::string> &params);
+  View *loadView(const std::string &name, const std::map <std::string, std::string> &params);
 
 private:
   Logger mLogger;

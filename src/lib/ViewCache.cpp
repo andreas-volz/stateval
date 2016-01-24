@@ -34,6 +34,7 @@ void ViewCache::setRealizeViewList(std::list <ViewSpec> realizeViewList)
 
   list <ViewSpec> mReallyUnrealizeViewList;
   list <ViewSpec> mReallyRealizeViewList;
+  list <ViewSpec> mUpdateYetRealizedViewList;
 
   // search all views that like to unrealize if maybe one of them is in the next
   // realize list and then don't unrealize it
@@ -67,8 +68,14 @@ void ViewCache::setRealizeViewList(std::list <ViewSpec> realizeViewList)
     // if view isn't in old list mark it to realize
     if (found_view_it == mUnrealizeViewList.end())
     {
+      
       LOG4CXX_TRACE(mLogger, "push back realize view");
       mReallyRealizeViewList.push_back(realizeViewSpec);
+    }
+    else // ...put all yet realized to update in a list  
+    {
+      LOG4CXX_TRACE(mLogger, "push back update view");
+      mUpdateYetRealizedViewList.push_back(realizeViewSpec);
     }
   }
 
@@ -95,5 +102,17 @@ void ViewCache::setRealizeViewList(std::list <ViewSpec> realizeViewList)
     LOG4CXX_TRACE(mLogger, "reallyRealizeView->realize ()");
     reallyRealizeView->setLayer(reallyRealizeViewSpec.layer);
     reallyRealizeView->realize();
+  }
+
+
+  // ...but update only yet realized part 
+  for (std::list <ViewSpec>::iterator v_it = mUpdateYetRealizedViewList.begin();
+       v_it != mUpdateYetRealizedViewList.end();
+       ++v_it)
+  {
+    ViewSpec &yetRealizedViewSpec = *v_it;
+    View *yetRealizedView = yetRealizedViewSpec.view;
+
+    yetRealizedView->updateContent();
   }
 }

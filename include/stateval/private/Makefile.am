@@ -20,8 +20,7 @@ noinst_HEADERS = \
 	StateMachineLoop.h             \
 	Thread.h             \
 	ViewCache.h
-	Logger.h             \
-	Widget.h
+	Logger.h
 
 libstateval_privatedir = \
 	$(pkgincludedir)

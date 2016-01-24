@@ -5,7 +5,6 @@
 #include <string>
 
 /* local */
-#include "Logger.h"
 #include "stateval/Variable.h"
 
 class Widget
@@ -17,12 +16,11 @@ public:
   const std::string getName() const;
   //const std::string getVariable() const;
 
-  virtual void setValue(const Variable &val); // TODO: virtual?
+  virtual void setValue(const Variable &value);
 
   virtual void updateContent(); // TODO: virtual? // protected and friend to View?
 
 protected:
-  Logger mLogger;
   std::string mName;
   Variable *mValue;
 };

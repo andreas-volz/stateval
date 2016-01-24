@@ -33,6 +33,8 @@ public:
 
   void createWidget(const std::string &name, const Variable *value);
 
+  void updateContent();
+
   // FIXME: only set to public to implement widget
   Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext
 
@@ -57,7 +59,7 @@ private:
   void allFunc(const std::string emmision, const std::string source);
   void viewUpdateFunc(const std::string emmision, const std::string source);
 
-  void updateContent(bool initalDrawing);
+  
   
   /** Variables **/
   Logger mLogger;

@@ -38,7 +38,8 @@
   </variables>
   
   <actions>
-    <action name="changeTime" type="ChangeVariableAction" variable="Time" copy="Time2"/>
+    <action name="changeTime" type="ChangeVariableAction" view="Bar" widget="Text01" variable="Time2"/>
+    <action name="fireUpdateEvent" type="FireEventAction" event="VIEW_UPDATE"/>
   </actions>
   
   <states>
@@ -64,6 +65,7 @@
       </state:views>
       <state:actions>
         <state:action ref="changeTime" when="enter"/>
+        <state:action ref="fireUpdateEvent" when="leave"/>
       </state:actions>
     </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>

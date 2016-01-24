@@ -11,9 +11,10 @@
 
 using namespace std;
 
-ChangeVariableAction::ChangeVariableAction(const std::string &changeVar, Variable *var) :
-  mVar(var),
-  mChangeVar(changeVar)
+ChangeVariableAction::ChangeVariableAction(const std::string &view, const std::string &widget, const std::string &variable) :
+  mView(view),
+  mWidget(widget),
+  mVariable(variable)
 {
 }
 
@@ -25,5 +26,8 @@ ChangeVariableAction::~ChangeVariableAction()
 void ChangeVariableAction::run() const
 {
   StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance();
-  stateMachineAccessor.changeVariable(mChangeVar, *mVar);
+  Widget *widgetObj = stateMachineAccessor.getWidget(mView, mWidget);
+
+  Variable *value = stateMachineAccessor.getVariable(mVariable);
+  widgetObj->setValue(*value);
 }

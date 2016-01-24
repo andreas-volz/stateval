@@ -21,11 +21,11 @@ TextViewManager::TextViewManager(const std::map <std::string, std::string> &para
   mThread.start();
 }
 
-View *TextViewManager::loadView(const std::map <std::string, std::string> &params)
+View *TextViewManager::loadView(const std::string &name, const std::map <std::string, std::string> &params)
 {
   TextView *textview = new TextView (params);
 
-  mViewList.push_back (textview);
+  mViewList[name] = textview;
 
   return textview;
 }

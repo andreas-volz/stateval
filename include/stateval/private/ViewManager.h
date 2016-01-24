@@ -17,10 +17,12 @@ public:
   ViewManager();
   virtual ~ViewManager();
 
-  virtual View *loadView(const std::map <std::string, std::string> &params) = 0;
+  virtual View *loadView(const std::string &name, const std::map <std::string, std::string> &params) = 0;
+
+  Widget *getWidget(const std::string &view, const std::string &widget);
 
 protected:
-  std::list <View*> mViewList;
+  std::map <std::string, View*> mViewList;
   
 private:
   Logger mLogger;

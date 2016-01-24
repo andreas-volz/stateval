@@ -6,7 +6,7 @@
 
 /* local */
 #include "stateval/private/Logger.h"
-#include "stateval/private/Widget.h"
+#include "stateval/Widget.h"
 #include "stateval/Variable.h"
 #include "EdjeView.h"
 
@@ -17,9 +17,10 @@ public:
 
   void updateContent();
   
-  //virtual void setValue(const Variable &val);
+  virtual void setValue(const Variable &value);
 
 private:
+  Logger mLogger;
   EdjeView *mView;
 };
 

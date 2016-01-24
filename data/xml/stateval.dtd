@@ -67,7 +67,8 @@
 <!ATTLIST action type (FireEventAction|ChangeVariableAction) #REQUIRED>
 <!ATTLIST action variable CDATA #IMPLIED>
 <!ATTLIST action event CDATA #IMPLIED>
-<!ATTLIST action copy CDATA #IMPLIED>
+<!ATTLIST action widget CDATA #IMPLIED>
+<!ATTLIST action view CDATA #IMPLIED>
 
 <!ATTLIST state:action ref CDATA #REQUIRED>
 <!ATTLIST state:action when CDATA #REQUIRED>

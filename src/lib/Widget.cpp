@@ -3,12 +3,11 @@
 #endif
 
 /* local */
-#include "stateval/private/Widget.h"
+#include "stateval/Widget.h"
 
 using namespace std;
 
 Widget::Widget(const std::string &name, const Variable *value) :
-  mLogger("stateval.Widget"),
   mName(name),
   mValue(NULL)
 {
@@ -34,9 +33,16 @@ const std::string Widget::getName() const
   return mValue;
 }*/
 
-void Widget::setValue(const Variable &val)
+void Widget::setValue(const Variable &value)
 {
-  // in default implementation Widget has no action
+  if(mValue)
+  {    
+    mValue->copy(&value);
+  }
+  else
+  {
+    mValue = value.copy();
+  }
 }
 
 void Widget::updateContent()

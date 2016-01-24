@@ -40,6 +40,8 @@ public:
 
   void changeVariable(const std::string &var, Variable &av);
 
+  Widget *getWidget(const std::string &view, const std::string &widget);
+
   State *getInitialState();
 
   int findMapingEvent(const std::string &event);
@@ -53,7 +55,7 @@ protected:
   /* -> These data containers are basicly the complete statemachine data.
    *    This data is freed by the Loader destructor.
    *    So Loader plugins doesn't have to trouble about the basic data containers
-   *    and only have to free their own temporary load containers...
+   *    and only have to free their own temporary loaded containers...
    */
   std::vector <State *> mStateList;
   ViewManager *mViewManager;

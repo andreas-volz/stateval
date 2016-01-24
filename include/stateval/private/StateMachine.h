@@ -43,6 +43,8 @@ public:
 
   void changeVariable(const std::string &var, Variable &av);
 
+  Widget *getWidget(const std::string &view, const std::string &widget);
+
 private:
   Logger mLogger;
   State *searchHierarchie(int event);
