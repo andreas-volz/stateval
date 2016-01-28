@@ -135,7 +135,7 @@ int Loader::findMapingEvent(const std::string &event)
     return mapEvent;
   }
 
-  LOG4CXX_DEBUG(mLogger, "StateMachine::findMapingEvent: try to find not existing event: " << event);
+  LOG4CXX_DEBUG(mLogger, "try to find not existing event: " << event);
 
   // don't use exceptions here because this case happens really often and is not an error!
   return -1;

@@ -52,7 +52,7 @@ void TextView::unrealize()
   cout << "*************************[clear]" << endl;
 }
 
-void TextView::updateContent()
+void TextView::update()
 {
   cout << "*************************[update]" << endl;
   // as update isn't good possible on text console, simply realize it again...

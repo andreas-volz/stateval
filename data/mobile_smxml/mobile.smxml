@@ -29,6 +29,8 @@
     <event name="EMAIL"/>
     <event name="EMAIL_COMPOSE"/>
     <event name="EMAIL_READ"/>
+    <event name="CHANGE_TIME"/>
+    <event name="CHANGE_TIME2"/>
     <event name="edje,,load"/>
   </events>
   
@@ -39,6 +41,7 @@
   
   <actions>
     <action name="changeTime" type="ChangeVariableAction" view="Bar" widget="Text01" variable="Time2"/>
+    <action name="changeTime2" type="ChangeVariableAction" view="Bar" widget="Text01" variable="Time"/>
     <action name="fireUpdateEvent" type="FireEventAction" event="VIEW_UPDATE"/>
   </actions>
   
@@ -63,9 +66,17 @@
         <state:view ref="Bar"/>
         <state:view ref="Settings"/>
       </state:views>
+    </state>
+    <state name="ChangeTime" type="SimpleState" parent="Root">
       <state:actions>
         <state:action ref="changeTime" when="enter"/>
-        <state:action ref="fireUpdateEvent" when="leave"/>
+        <!--<state:action ref="fireUpdateEvent" when="leave"/>-->
+      </state:actions>
+    </state>
+    <state name="ChangeTime2" type="SimpleState" parent="Root">
+      <state:actions>
+        <state:action ref="changeTime2" when="enter"/>
+        <!--<state:action ref="fireUpdateEvent" when="leave"/>-->
       </state:actions>
     </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>
@@ -91,6 +102,10 @@
     <transition from="Root" to="Main" event="MAIN"/>
     <transition from="Root" to="Browser" event="BROWSER"/>
     <transition from="Root" to="Settings" event="SETTINGS"/>
+    <transition from="Settings" to="ChangeTime" event="CHANGE_TIME"/>
+    <transition from="ChangeTime" to="Settings"/>
+    <transition from="Settings" to="ChangeTime2" event="CHANGE_TIME2"/>
+    <transition from="ChangeTime2" to="Settings"/>
     <transition from="Root" to="EMail_Compound" event="EMAIL"/>
     <transition from="EMail_Compound" to="EMail_Compound_Initial"/>
     <transition from="EMail_Compound_Initial" to="EMail_Compound_History"/>
@@ -147,6 +162,8 @@
       </params>
       <mappings>
         <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
+        <map from="edje,Image01,mouse,clicked,1" to="CHANGE_TIME"/>
+        <map from="edje,Image02,mouse,clicked,1" to="CHANGE_TIME2"/>
       </mappings>
     </view>
     

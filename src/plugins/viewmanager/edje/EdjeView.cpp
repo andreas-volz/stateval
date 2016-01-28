@@ -55,8 +55,8 @@ EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::strin
 
   mRealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::realizeDispatched));
   mUnrealizeDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::unrealizeDispatched));
-
   mPushEventDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::pushEventDispatched));
+  mUpdateDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeView::updateDispatched));
 }
 
 void EdjeView::realize()
@@ -64,9 +64,9 @@ void EdjeView::realize()
   LOG4CXX_DEBUG(mLogger, "+wait for realize");
   mRealizeDispatcher.emit();
 
-  mutexRealize.lock();
-  condRealize.wait(mutexRealize);
-  mutexRealize.unlock();
+  mMutexRealize.lock();
+  mCondRealize.wait(mMutexRealize);
+  mMutexRealize.unlock();
   LOG4CXX_DEBUG(mLogger, "-wait for realize");
 }
 
@@ -77,9 +77,9 @@ void EdjeView::unrealize()
   mUnrealizeDispatcher.emit();
 
   // wait for animation finished on statemachine thread
-  mutexUnrealize.lock();
-  condUnrealize.wait(mutexUnrealize);
-  mutexUnrealize.unlock();
+  mMutexUnrealize.lock();
+  mCondUnrealize.wait(mMutexUnrealize);
+  mMutexUnrealize.unlock();
 
   groupState = Unrealized;
 
@@ -122,13 +122,14 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   mLayout->resize(mEdjeContext->resolution);
 
-  updateContent();
+  // initial screen widget update after ralizing a screen
+  update();
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
   mEdjeContext->background->hide (); // make background "transparent"
 
-  condRealize.signal();
+  mCondRealize.signal();
 
   LOG4CXX_TRACE(mLogger, "-realizeDispatched()");
 }
@@ -148,9 +149,18 @@ void EdjeView::unrealizeDispatched(int missedEvents)
   }
 }
 
-void EdjeView::updateContent()
+void EdjeView::update()
 {  
-  LOG4CXX_TRACE(mLogger, "updateContent()");
+  LOG4CXX_TRACE(mLogger, "+update()");
+
+  mUpdateDispatcher.emit();
+
+  LOG4CXX_TRACE(mLogger, "-update()");
+}
+
+void EdjeView::updateDispatched(int missedEvents)
+{
+  LOG4CXX_TRACE(mLogger, "updateDispatched()");
   
   for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
@@ -351,7 +361,7 @@ void EdjeView::invisibleFunc(const std::string emmision, const std::string sourc
   mLayout = NULL;
   
   // signal the edje statemachine thread that the animation is finished
-  condUnrealize.signal();
+  mCondUnrealize.signal();
 }
 
 void EdjeView::visibleFunc(const std::string emmision, const std::string source)
@@ -415,7 +425,7 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     if (mEvent == VIEW_UPDATE_EVENT)
     {
-      updateContent();
+      update();
     }
   }
 

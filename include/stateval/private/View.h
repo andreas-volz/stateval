@@ -41,7 +41,7 @@ public:
 
   Widget *getWidget(const std::string &name);
 
-  virtual void updateContent() = 0;
+  virtual void update() = 0;
 
   WidgetIterator beginOfWidgets()
   {

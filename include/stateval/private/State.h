@@ -43,7 +43,7 @@ protected:
 
   virtual void mapEvent(int &inOutEvent) = 0;
 
-  virtual const Transition *getWalkTransition(int event, bool walkDefaultTransition = true) const = 0;
+  virtual const Transition *getWalkTransition(int event, bool &walkDefaultTransition) const = 0;
 
   virtual void runEntryActions() = 0;
   virtual void runExitActions() = 0;

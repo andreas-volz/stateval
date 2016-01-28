@@ -45,7 +45,7 @@ void HistoryState::changeTransition(State *state)
   }
 }
 
-const Transition *HistoryState::getWalkTransition(int event, bool walkDefaultTransition) const
+const Transition *HistoryState::getWalkTransition(int event, bool &walkDefaultTransition) const
 {
   Transition *historyTrans = NULL;
 

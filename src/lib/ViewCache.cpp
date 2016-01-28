@@ -113,6 +113,6 @@ void ViewCache::setRealizeViewList(std::list <ViewSpec> realizeViewList)
     ViewSpec &yetRealizedViewSpec = *v_it;
     View *yetRealizedView = yetRealizedViewSpec.view;
 
-    yetRealizedView->updateContent();
+    yetRealizedView->update();
   }
 }

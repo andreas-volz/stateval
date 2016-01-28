@@ -148,7 +148,8 @@ State *StateMachine::searchHierarchie(int event)
     assert(parentState);
 
     // doesn't find default transition
-    trans = parentState->getWalkTransition(event, false);
+    bool walkDefaultTransition = false;
+    trans = parentState->getWalkTransition(event, walkDefaultTransition);
 
     if (trans)
     {
@@ -171,6 +172,7 @@ State *StateMachine::searchHierarchie(int event)
 bool StateMachine::walkDown(int event)
 {
   const Transition *trans = NULL;
+  bool walkDefaultTransition = true;
 
   // check all possible transitions from current state
   // this loops several times if default transitions are found...
@@ -183,7 +185,8 @@ bool StateMachine::walkDown(int event)
     // map events...
     mActiveState->mapEvent(event);
 
-    trans = mActiveState->getWalkTransition(event);
+    walkDefaultTransition = true;
+    trans = mActiveState->getWalkTransition(event, walkDefaultTransition);
 
     if (trans)
     {
@@ -221,7 +224,7 @@ bool StateMachine::walkDown(int event)
       transit = true; // down transition was possible
     }
   }
-  while (trans != NULL);
+  while ((trans != NULL) && !walkDefaultTransition);
 
   return transit;
 }

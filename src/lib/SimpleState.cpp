@@ -69,7 +69,7 @@ void SimpleState::runActions(std::list <Action *> &actionList)
   }
 }
 
-const Transition *SimpleState::getWalkTransition(int event, bool walkDefaultTransition) const
+const Transition *SimpleState::getWalkTransition(int event, bool &walkDefaultTransition) const
 {
   const Transition *defaultTransition = NULL;
 
@@ -82,6 +82,7 @@ const Transition *SimpleState::getWalkTransition(int event, bool walkDefaultTran
 
     if (tevent == event)
     {
+      walkDefaultTransition = false;
       return trans;
     }
     else if (tevent == -1) // default transition

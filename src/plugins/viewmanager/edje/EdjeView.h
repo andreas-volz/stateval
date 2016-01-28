@@ -28,12 +28,11 @@ public:
 
   void realize();
   void unrealize();
-
+  void update();
+  
   void pushEvent(int event);
 
   void createWidget(const std::string &name, const Variable *value);
-
-  void updateContent();
 
   // FIXME: only set to public to implement widget
   Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext
@@ -48,8 +47,8 @@ private:
   };
 
   void realizeDispatched(int missedEvents);
+  void updateDispatched(int missedEvents);
   void unrealizeDispatched(int missedEvents);
-
   void pushEventDispatched(int missedEvents);
 
   void invisibleFunc(const std::string emmision, const std::string source);
@@ -59,7 +58,7 @@ private:
   void allFunc(const std::string emmision, const std::string source);
   void viewUpdateFunc(const std::string emmision, const std::string source);
 
-  
+
   
   /** Variables **/
   Logger mLogger;
@@ -72,19 +71,19 @@ private:
   std::string mFilename;
   std::string mGroupname;
 
-  EcoreDispatcher mRealizeDispatcher;
   EcoreDispatcher mUnrealizeDispatcher;
+  Threading::Condition mCondUnrealize;
+  Threading::Mutex mMutexUnrealize;
+
+  EcoreDispatcher mRealizeDispatcher;
+  Threading::Condition mCondRealize;
+  Threading::Mutex mMutexRealize;
 
   EcoreDispatcher mPushEventDispatcher;
-
-  Threading::Condition condUnrealize;
-  Threading::Mutex mutexUnrealize;
-
-  Threading::Condition condRealize;
-  Threading::Mutex mutexRealize;
-
   Threading::Condition mCondPushEvent;
   Threading::Mutex mMutexPushEvent;
+
+  EcoreDispatcher mUpdateDispatcher;
 
   enum ViewState groupState;
 

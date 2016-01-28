@@ -41,7 +41,7 @@ void DecisionState::mapEvent(int &inOutEvent)
 
 }
 
-const Transition *DecisionState::getWalkTransition(int event, bool walkDefaultTransition) const
+const Transition *DecisionState::getWalkTransition(int event, bool &walkDefaultTransition) const
 {
   for (std::list <std::pair <Condition *, Transition *> >::const_iterator cl_it = mConditionList.begin();
        cl_it !=  mConditionList.end();

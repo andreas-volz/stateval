@@ -27,7 +27,7 @@ protected:
 
   void mapEvent(int &inOutEvent);
 
-  const Transition *getWalkTransition(int event, bool walkDefaultTransition = true) const;
+  const Transition *getWalkTransition(int event, bool &walkDefaultTransition) const;
 
   void runEntryActions();
 
