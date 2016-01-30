@@ -80,8 +80,8 @@
   </variables>
   
   <actions>
-    <action name="changeInfoLabel" type="ChangeVariableAction" variable="TextExampleString" copy="NewInfo"/>
-    <action name="changeInfoLabel2" type="ChangeVariableAction" variable="TextExampleString" copy="AfterLeave"/>
+    <action name="changeInfoLabel" type="ChangeWidgetVariableAction" variable="TextExampleString" copy="NewInfo"/>
+    <action name="changeInfoLabel2" type="ChangeWidgetVariableAction" variable="TextExampleString" copy="AfterLeave"/>
   </actions>
   
   <states>

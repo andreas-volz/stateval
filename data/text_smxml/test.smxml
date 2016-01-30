@@ -46,7 +46,7 @@
   
   <actions>
     <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
-    <action name="enableMedia" type="ChangeVariableAction" variable="media.available" copy="True"/>
+    <action name="enableMedia" type="ChangeWidgetVariableAction" variable="media.available" copy="True"/>
   </actions>
   
   <states>

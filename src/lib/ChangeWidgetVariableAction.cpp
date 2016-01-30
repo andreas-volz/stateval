@@ -3,7 +3,7 @@
 #endif
 
 /* Project */
-#include "stateval/private/ChangeVariableAction.h"
+#include "stateval/private/ChangeWidgetVariableAction.h"
 #include "stateval/StateMachineAccessor.h"
 
 /* STD */
@@ -11,19 +11,19 @@
 
 using namespace std;
 
-ChangeVariableAction::ChangeVariableAction(const std::string &view, const std::string &widget, const std::string &variable) :
+ChangeWidgetVariableAction::ChangeWidgetVariableAction(const std::string &view, const std::string &widget, const std::string &variable) :
   mView(view),
   mWidget(widget),
   mVariable(variable)
 {
 }
 
-ChangeVariableAction::~ChangeVariableAction()
+ChangeWidgetVariableAction::~ChangeWidgetVariableAction()
 {
   // no need to free 'mVar' as it's only a pointer to a Loader managed variable...
 }
 
-void ChangeVariableAction::run() const
+void ChangeWidgetVariableAction::run() const
 {
   StateMachineAccessor &stateMachineAccessor = StateMachineAccessor::getInstance();
   Widget *widgetObj = stateMachineAccessor.getWidget(mView, mWidget);

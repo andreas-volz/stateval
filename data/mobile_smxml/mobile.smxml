@@ -40,8 +40,8 @@
   </variables>
   
   <actions>
-    <action name="changeTime" type="ChangeVariableAction" view="Bar" widget="Text01" variable="Time2"/>
-    <action name="changeTime2" type="ChangeVariableAction" view="Bar" widget="Text01" variable="Time"/>
+    <action name="changeTime" type="ChangeWidgetVariableAction" view="Bar" widget="Text01" variable="Time2"/>
+    <action name="changeTime2" type="ChangeWidgetVariableAction" view="Bar" widget="Text01" variable="Time"/>
     <action name="fireUpdateEvent" type="FireEventAction" event="VIEW_UPDATE"/>
   </actions>
   

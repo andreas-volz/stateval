@@ -41,7 +41,7 @@ libstateval_la_SOURCES = \
 	ViewManagerPluginLoader.h \
 	searchFile.cpp \
 	searchFile.h \
-	ChangeVariableAction.cpp \
+	ChangeWidgetVariableAction.cpp \
 	StateMachineAccessorPImpl.h \
 	ViewCache.cpp \
 	Widget.cpp      \

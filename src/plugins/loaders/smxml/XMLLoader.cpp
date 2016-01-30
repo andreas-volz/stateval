@@ -489,7 +489,7 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
       action = new FireEventAction(findMapingEvent(event_attribute->get_value()));
       mActionNameMapper[name_attribute->get_value()] = action;
     }
-    else if (type_attribute->get_value() == "ChangeVariableAction")
+    else if (type_attribute->get_value() == "ChangeWidgetVariableAction")
     {
       //Variable *av = getVariable(widget_attribute->get_value());
       //assert(av);
@@ -499,7 +499,7 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
       const string &widget = widget_attribute->get_value();      
 
       // TODO: check if view, widget, variable are really existing before      
-      action = new ChangeVariableAction(view, widget, variable);
+      action = new ChangeWidgetVariableAction(view, widget, variable);
       mActionNameMapper[name_attribute->get_value()] = action;
     }
     else

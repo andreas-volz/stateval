@@ -90,7 +90,6 @@ void EdjeWidget::setValue(const Variable &value)
 {
   LOG4CXX_TRACE(mLogger, "setValue()");
   Widget::setValue(value);
-  //updateContent();
 }
   // TODO
   

@@ -1,7 +1,7 @@
 
 noinst_HEADERS = \
 	Action.h             \
-	ChangeVariableAction.h             \
+	ChangeWidgetVariableAction.h             \
 	CompoundState.h             \
 	Condition.h             \
 	DecisionState.h             \
