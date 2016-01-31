@@ -25,7 +25,7 @@ EdjeViewManager::EdjeViewManager(const std::map <std::string, std::string> &para
 
 View *EdjeViewManager::loadView(const std::string &name, const std::map <std::string, std::string> &params)
 {
-  View *edjeview = mGUIThread.viewFactory (params);
+  View *edjeview = mGUIThread.viewFactory (mDataLoadDir, params);
 
   mViewList[name] = edjeview;
 

@@ -22,6 +22,8 @@ public:
 
   void start();
 
+  void setDataLoadDir(const std::string &dir);
+  
   bool load(const std::string &smDir);
 
   void pushEvent(int event);

@@ -17,12 +17,15 @@ public:
   ViewManager();
   virtual ~ViewManager();
 
+  void setDataLoadDir(const std::string &dir);
+  
   virtual View *loadView(const std::string &name, const std::map <std::string, std::string> &params) = 0;
 
   Widget *getWidget(const std::string &view, const std::string &widget);
 
 protected:
   std::map <std::string, View*> mViewList;
+  std::string mDataLoadDir;
   
 private:
   Logger mLogger;

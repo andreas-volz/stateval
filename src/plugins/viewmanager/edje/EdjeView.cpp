@@ -19,7 +19,7 @@
 
 using namespace std;
 
-EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params) :
+EdjeView::EdjeView(EdjeContext *context, const std::string &dir, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.viewmanager.edje.EdjeView"),
   mEdjeContext(context),
   groupState(Unrealized),
@@ -32,7 +32,14 @@ EdjeView::EdjeView(EdjeContext *context, const std::map <std::string, std::strin
   param_it = params.find ("filename");
   if (param_it != params.end ())
   {
-    mFilename = param_it->second;
+    if(dir.empty())
+    {
+      mFilename = param_it->second;
+    }
+    else
+    {
+      mFilename = dir + "/" + param_it->second;
+    }    
   }
   else
   {

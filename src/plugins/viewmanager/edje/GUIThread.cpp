@@ -46,9 +46,10 @@ GUIThread::~GUIThread()
   delete mViewFactoryDispatcher;
 }
 
-View *GUIThread::viewFactory (const std::map <std::string, std::string> &params)
+View *GUIThread::viewFactory (const std::string &dir, const std::map <std::string, std::string> &params)
 {
   mViewParams = params;
+  mDataLoadDir = dir;
 
   mViewFactoryDispatcher->emit();
   
@@ -118,7 +119,7 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
   mContext.resolution = mWindowSize;
   mContext.background = mBackground;
   
-  mEdjeView = new EdjeView (&mContext, mViewParams);
+  mEdjeView = new EdjeView (&mContext, mDataLoadDir, mViewParams);
 
   mCondViewCreated.signal ();
 }

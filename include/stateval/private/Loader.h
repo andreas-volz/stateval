@@ -26,6 +26,8 @@ public:
   Loader();
   virtual ~Loader();
 
+  void setDataLoadDir(const std::string &dir);
+  
   virtual bool load(const std::string &smDir) = 0;
 
   void addEvent(const std::string &event);
@@ -68,6 +70,7 @@ protected:
   std::vector <std::string> mEventListIndex;
   // <-
   ViewCache mViewCache;
+  std::string mDataLoadDir;
 
 private:
   Logger mLogger;

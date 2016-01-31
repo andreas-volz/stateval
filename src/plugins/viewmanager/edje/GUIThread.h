@@ -25,7 +25,7 @@ public:
   GUIThread(const std::map <std::string, std::string> &params);
   ~GUIThread();
 
-  View *viewFactory (const std::map <std::string, std::string> &params);
+  View *viewFactory (const std::string &dir, const std::map <std::string, std::string> &params);
 
   Threading::Thread::EError start();
 
@@ -61,6 +61,8 @@ private:
   Elmxx::Window *mWindow;
 
   Elmxx::Background *mBackground;
+
+  std::string mDataLoadDir;
 };
 
 #endif // GUI_THREAD_H

@@ -1039,7 +1039,8 @@ void XMLLoader::parseViewManagerNode(const xmlpp::Node *node)
         LOG4CXX_DEBUG(mLogger, "Attribute plugin = " << plugin_attribute->get_value());
         int size = mViewManagerParams.size ();
         cout << size << endl;
-        loadViewManager (plugin_attribute->get_value(), mViewManagerParams);        
+        loadViewManager (plugin_attribute->get_value(), mViewManagerParams);     
+        mViewManager->setDataLoadDir(mDataLoadDir);
       }
       else
       {

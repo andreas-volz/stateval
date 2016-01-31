@@ -22,6 +22,11 @@ ViewManager::~ViewManager()
   delete_stl_container (mViewList);
 }
 
+void ViewManager::setDataLoadDir(const std::string &dir)
+{
+  mDataLoadDir = dir;
+}
+
 Widget *ViewManager::getWidget(const std::string &view, const std::string &widget)
 {
   View *viewObj = mViewList[view];

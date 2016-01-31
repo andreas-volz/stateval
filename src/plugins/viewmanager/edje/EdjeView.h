@@ -24,7 +24,7 @@ class EdjeContext;
 class EdjeView : public View
 {
 public:
-  EdjeView(EdjeContext *context, const std::map <std::string, std::string> &params);
+  EdjeView(EdjeContext *context, const std::string &dir, const std::map <std::string, std::string> &params);
 
   void realize();
   void unrealize();

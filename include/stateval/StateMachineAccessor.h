@@ -30,6 +30,7 @@ public:
 
   static void destroy();
 
+  void setDataLoadDir(const std::string &dir);
   void load(const std::string &loader, const std::string &file);
 
   void run();
@@ -64,6 +65,8 @@ private:
   static StateMachineAccessor *mInstance;
 
   struct StateMachineAccessorPImpl *mPImpl;
+
+  std::string mDataLoadDir;
 };
 
 #endif // STATE_MACHINE_ACCESSOR_H

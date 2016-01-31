@@ -45,10 +45,16 @@ StateMachineAccessor &StateMachineAccessor::getInstance()
   return *mInstance;
 }
 
+void StateMachineAccessor::setDataLoadDir(const std::string &dir)
+{
+  mDataLoadDir = dir;
+}
+
 // TODO: unload before load?
 void StateMachineAccessor::load(const std::string &loader, const std::string &file)
 {
   mPImpl->mSM = new StateMachine(loader);
+  mPImpl->mSM->setDataLoadDir(mDataLoadDir);
   mPImpl->mSMLoop = new StateMachineLoop(*mPImpl->mSM);
   mPImpl->mSM->load(file);
 }

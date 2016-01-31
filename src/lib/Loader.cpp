@@ -43,6 +43,11 @@ Loader::~Loader()
   pluxx::PluginLoader::destroyFactory(mViewManager);  
 }
 
+void Loader::setDataLoadDir(const std::string &dir)
+{
+  mDataLoadDir = dir;
+}
+
 void Loader::addEvent(const std::string &event)
 {
   std::map <std::string, int>::iterator ev_it = mEventList.find(event);

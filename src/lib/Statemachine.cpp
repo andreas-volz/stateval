@@ -64,6 +64,11 @@ void StateMachine::start()
   mLoader->start ();
 }
 
+void StateMachine::setDataLoadDir(const std::string &dir)
+{
+  mLoader->setDataLoadDir(dir);
+}
+
 bool StateMachine::load(const std::string &smDir)
 {
   return mLoader->load(smDir);
