@@ -939,26 +939,46 @@ void XMLLoader::parseTransitionNode(const xmlpp::Node *node)
     {
       LOG4CXX_DEBUG(mLogger, "Attribute from = " << from_attribute->get_value());
 
-      // TODO: better use find() to detect if not found in map
-      fromStateNum = mStateNameMapper[from_attribute->get_value()];
-      fromState = mStateList[fromStateNum - 1];
+      std::map<Glib::ustring, unsigned int>::iterator find_it;
+      find_it = mStateNameMapper.find(from_attribute->get_value());
+      if (find_it != mStateNameMapper.end())
+      {
+        fromStateNum = find_it->second;
+        fromState = mStateList[fromStateNum - 1];
+      }
+      else
+      {
+        LOG4CXX_FATAL(mLogger, "Attribute 'from' wrong");
+        assert(false);
+      }
     }
     else
     {
-      // throw exception
+      LOG4CXX_FATAL(mLogger, "Attribute 'from' undefined");
+      assert(false);
     }
 
     if (to_attribute)
     {
       LOG4CXX_DEBUG(mLogger, "Attribute to = " << to_attribute->get_value());
 
-      // TODO: better use find() to detect if not found in map
-      toStateNum = mStateNameMapper[to_attribute->get_value()];
-      toState = mStateList[toStateNum - 1];
+      std::map<Glib::ustring, unsigned int>::iterator find_it;
+      find_it = mStateNameMapper.find(to_attribute->get_value());
+      if (find_it != mStateNameMapper.end())
+      {
+        toStateNum = find_it->second;
+        toState = mStateList[toStateNum - 1];
+      }
+      else
+      {
+        LOG4CXX_FATAL(mLogger, "Attribute 'to' wrong");
+        assert(false);
+      }
     }
     else
     {
-      // throw exception
+      LOG4CXX_FATAL(mLogger, "Attribute 'to' undefined");
+      assert(false);
     }
 
     if (event_attribute)
