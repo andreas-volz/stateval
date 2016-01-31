@@ -45,8 +45,8 @@
   </conditions>
   
   <actions>
-    <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
-    <action name="enableMedia" type="ChangeWidgetVariableAction" variable="media.available" copy="True"/>
+<!--    <action name="fireMedia" type="FireEventAction" event="HK_MEDIA"/>
+    <action name="enableMedia" type="ChangeWidgetVariableAction" variable="media.available" copy="True"/>-->
   </actions>
   
   <states>
@@ -64,10 +64,10 @@
     <state name="TunerList" type="ViewState" parent="TunerCompound" view="TunerListView"/>
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
     <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView">
-      <state:actions>
+<!--      <state:actions>
         <state:action ref="enableMedia" when="enter"/>
         <state:action ref="fireMedia" when="leave"/>
-      </state:actions>
+      </state:actions>-->
     </state>
     <state name="MediaAvailable" type="DecisionState" parent="Root"/>
     <state name="MediaCompound" type="CompoundState" parent="Root"/>
@@ -102,7 +102,7 @@
   <viewmanager plugin="text">
     <view name="NavMainView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/NavMainView.view"/>
+        <param key="filename" value="screens/NavMainView.view"/>
       </params>
       <mappings>
         <map from="SK_1" to="NAV_COUNTRY"/>
@@ -114,7 +114,7 @@
 
     <view name="NavCountryView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/NavCountryView.view"/>
+        <param key="filename" value="screens/NavCountryView.view"/>
       </params>
       <mappings>
         <map from="SK_1" to="NAV_CITY"/>
@@ -124,7 +124,7 @@
     
     <view name="NavCityView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/NavCityView.view"/>
+        <param key="filename" value="screens/NavCityView.view"/>
       </params>
       <mappings>
         <map from="SK_1" to="NAV_STREET"/>
@@ -134,7 +134,7 @@
     
     <view name="NavStreetView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/NavStreetView.view"/>
+        <param key="filename" value="screens/NavStreetView.view"/>
       </params>
       <mappings>
         <map from="SK_1" to="NAV_MAIN"/>
@@ -144,7 +144,7 @@
 
     <view name="TunerListView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/TunerListView.view"/>
+        <param key="filename" value="screens/TunerListView.view"/>
       </params>
       <mappings>
         <map from="SK_1" to="TUNER_FREQ"/>
@@ -153,7 +153,7 @@
 
     <view name="TunerFrequencyView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/TunerFrequencyView.view"/>
+        <param key="filename" value="screens/TunerFrequencyView.view"/>
       </params>
       <mappings>
         <map from="HK_RETURN" to="TUNER_LIST"/>
@@ -162,7 +162,7 @@
     
     <view name="NavInfoView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/NavInfoView.view"/>
+        <param key="filename" value="screens/NavInfoView.view"/>
       </params>
       <mappings>
         <map from="HK_RETURN" to="NAV_MAIN"/>
@@ -171,7 +171,7 @@
     
     <view name="MediaListView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/text_smxml/MediaListView.view"/>
+        <param key="filename" value="screens/MediaListView.view"/>
       </params>
       <mappings>
         <map from="HK_RETURN" to="HK_NAV"/>

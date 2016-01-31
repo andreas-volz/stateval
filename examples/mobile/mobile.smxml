@@ -122,7 +122,7 @@
 
     <view name="Main">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="filename" value="screens/mobile.edj"/>
         <param key="groupname" value="main"/>
       </params>
       <mappings>
@@ -135,7 +135,7 @@
     
     <view name="Bar">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="filename" value="screens/mobile.edj"/>
         <param key="groupname" value="bar"/>
       </params>
       <mappings>
@@ -147,7 +147,7 @@
 
     <view name="Browser">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="filename" value="screens/mobile.edj"/>
         <param key="groupname" value="browser"/>
       </params>
       <mappings>
@@ -157,7 +157,7 @@
     
     <view name="Settings">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="filename" value="screens/mobile.edj"/>
         <param key="groupname" value="settings"/>
       </params>
       <mappings>
@@ -169,7 +169,7 @@
     
     <view name="EMail_Read">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="filename" value="screens/mobile.edj"/>
         <param key="groupname" value="email"/>
       </params>
       <mappings>
@@ -180,7 +180,7 @@
     
     <view name="EMail_Compose">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/mobile_smxml/mobile.edj"/>
+        <param key="filename" value="screens/mobile.edj"/>
         <param key="groupname" value="email_compose"/>
       </params>
       <mappings>

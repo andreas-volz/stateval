@@ -1,0 +1,1101 @@
+images {
+   image: "border.png" COMP;
+   image: "list_background.png" COMP;
+   image: "folder.png" COMP;
+   image: "folder_up.png" COMP;
+   image: "medialist_selected.png" COMP;
+   image: "medialist_seperator.png" COMP;
+   image: "audiofile.png" COMP;
+   image: "mountain.png" COMP;
+   image: "distance.png" COMP;
+}
+
+fonts {
+   font: "DejaVuSansMono.ttf" "DejaVuSansMono";
+}
+
+color_classes {
+   color_class { name: "blue";
+      color: 114 162 255 255;
+      color2: 255 255 255 255;
+      color3: 255 255 255 255;
+   }
+   color_class { name: "green";
+      color: 53 227 41 255;
+      color2: 255 255 255 255;
+      color3: 255 255 255 255;
+   }
+}
+
+externals {
+   external: "elm";
+}
+
+collections {
+   group { name: "navigation_main";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "border";
+            type: IMAGE;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 0 255 0;
+               rel1 {
+                  offset: 0 -1;
+               }
+               rel2 {
+                  offset: 0 -1;
+               }
+               image {
+                  normal: "border.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "visible" 0;
+               color_class: "blue";
+               color: 255 255 255 150;
+               image {
+                  normal: "border.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "text";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Navigation Main";
+                  font: "DejaVuSansMono";
+                  size: 16;
+               }
+            }
+            description { state: "visible" 0;
+               color: 0 0 255 255;
+               color3: 0 0 0 127;
+               text {
+                  text: "Navigation Main";
+                  font: "DejaVuSansMono";
+                  size: 16;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 36 392;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 140 441;
+               }
+               params {
+                  string: "label" "Tuner";
+               }
+            }
+         }
+         part { name: "Button02";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 179 397;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 278 439;
+               }
+               params {
+                  string: "label" "Country";
+               }
+            }
+         }
+         part { name: "Button03";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 312 400;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 414 439;
+               }
+               params {
+                  string: "label" "Info";
+               }
+            }
+         }
+         part { name: "Button04";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 169 453;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 293 483;
+               }
+               params {
+                  string: "label" "Media";
+               }
+            }
+         }
+         part { name: "Button05";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 46 454;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 80 482;
+               }
+               params {
+                  string: "label" "-";
+               }
+            }
+         }
+         part { name: "Button06";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 377 451;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 409 489;
+               }
+               params {
+                  string: "label" "+";
+               }
+            }
+         }
+         part { name: "Entry01";
+            type: EXTERNAL;
+            source: "elm/scrolled_entry";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 33 26;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 347 58;
+               }
+               params {
+                  string: "style" "default";
+                  string: "text" "";
+                  bool: "editable" "1";
+                  bool: "single line" "0";
+                  bool: "password" "0";
+               }
+            }
+         }
+         part { name: "Button07";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 358 28;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 433 59;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Search";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "border";
+            target: "text";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "border";
+            target: "text";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "media_list";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "border";
+            type: IMAGE;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 255 0 0;
+               rel1 {
+                  offset: 2 -2;
+               }
+               rel2 {
+                  offset: 2 -2;
+               }
+               image {
+                  normal: "border.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "visible" 0;
+               color_class: "green";
+               color: 255 255 255 150;
+               image {
+                  normal: "border.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "text";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               rel1 {
+                  offset: -10 -184;
+               }
+               rel2 {
+                  offset: -11 -185;
+               }
+               text {
+                  text: "Media List";
+                  font: "DejaVuSansMono";
+                  size: 16;
+               }
+            }
+            description { state: "visible" 0;
+               color: 7 206 11 255;
+               color3: 0 0 0 127;
+               rel1 {
+                  offset: -77 -82;
+               }
+               rel2 {
+                  offset: -78 -83;
+               }
+               text {
+                  text: "Media List";
+                  font: "DejaVuSansMono";
+                  size: 16;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 188 411;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 315 449;
+               }
+               params {
+                  string: "label" "Media";
+               }
+            }
+         }
+         part { name: "Button02";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 58 363;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 112 397;
+               }
+               params {
+                  string: "label" "|<<";
+               }
+            }
+         }
+         part { name: "Button03";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 408 368;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 464 400;
+               }
+               params {
+                  string: "label" ">>|";
+               }
+            }
+         }
+         part { name: "List01";
+            type: EXTERNAL;
+            source: "elm/list";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 28 92;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 278 342;
+               }
+               params {
+                  string: "style" "default";
+                  choice: "list mode" "scroll";
+                  choice: "horizontal scroll" "auto";
+                  choice: "vertical scroll" "auto";
+                  bool: "horizontal mode" "0";
+                  bool: "multi-select mode" "0";
+                  bool: "always-select mode" "0";
+               }
+            }
+         }
+         part { name: "Button04";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 184 367;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 318 403;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "change Title";
+               }
+            }
+         }
+         part { name: "Text01";
+            type: TEXT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 117 348;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 367 598;
+               }
+               text {
+                  text: "YOUR TEXT HERE";
+                  font: "Sans";
+                  size: 16;
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "border";
+            target: "text";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "border";
+            target: "text";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "tuner_frequenz";
+      data {
+         item: "pref_size" "530x521";
+      }
+      parts {
+         part { name: "rectangle1";
+            type: RECT;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+            }
+            description { state: "visible" 0;
+               color: 0 255 49 255;
+               rel1 {
+                  relative: 0.2 0.2;
+                  offset: 11 1;
+               }
+               rel2 {
+                  relative: 0.8 0.8;
+                  offset: 10 0;
+               }
+            }
+         }
+         part { name: "text1";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Tuner Frequenz";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+            description { state: "visible" 0;
+               color3: 0 0 0 124;
+               text {
+                  text: "Tuner Fequenz";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+         }
+         part { name: "Slider01";
+            type: EXTERNAL;
+            source: "elm/slider";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 157 346;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 396 396;
+               }
+               params {
+                  string: "style" "default";
+                  double: "min" "80";
+                  double: "max" "110";
+                  double: "value" "0";
+                  bool: "horizontal" "1";
+                  bool: "inverted" "0";
+                  int: "span" "0";
+                  string: "unit format" "%1.2f";
+                  string: "indicator format" "%1.2f";
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 181 396;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 354 423;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Tuner List";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "invisible_signal";
+         }
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "visible_signal";
+         }
+         program { name: "visible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "navigation_info";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "rectangle1";
+            type: RECT;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+            }
+            description { state: "visible" 0;
+               color: 102 149 239 255;
+               rel1 {
+                  relative: 0.2 0.2;
+               }
+               rel2 {
+                  relative: 0.8 0.8;
+               }
+            }
+         }
+         part { name: "text1";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Navigation Info";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+            description { state: "visible" 0;
+               color3: 0 0 0 127;
+               text {
+                  text: "Navigation Info";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 181 421;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 327 466;
+               }
+               params {
+                  string: "label" "Zurück";
+               }
+            }
+         }
+         part { name: "Text_Example";
+            type: TEXT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 0 255 255;
+               rel1 {
+                  offset: 4 -88;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 487 164;
+               }
+               text {
+                  text: "This is an example text";
+                  font: "Sans";
+                  size: 16;
+               }
+            }
+         }
+         part { name: "Bubble01";
+            type: EXTERNAL;
+            source: "elm/bubble";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 125 243;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 375 375;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "";
+                  string: "info" "";
+               }
+            }
+         }
+         part { name: "Button02";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 129 88;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 359 127;
+               }
+               params {
+                  string: "style" "default";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "navigation_city";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "rectangle1";
+            type: RECT;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+            }
+            description { state: "visible" 0;
+               color: 102 149 239 255;
+               rel1 {
+                  relative: 0.2 0.2;
+               }
+               rel2 {
+                  relative: 0.8 0.8;
+               }
+            }
+         }
+         part { name: "text1";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Nav - City Input";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+            description { state: "visible" 0;
+               color3: 0 0 0 127;
+               text {
+                  text: "Nav - City Input";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 201 409;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 320 448;
+               }
+               params {
+                  string: "label" "Street";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "tuner_list";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "border";
+            type: IMAGE;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 255 0 0;
+               rel1 {
+                  offset: 0 1;
+               }
+               rel2 {
+                  offset: 0 1;
+               }
+               image {
+                  normal: "border.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "visible" 0;
+               color_class: "green";
+               color: 255 255 255 150;
+               image {
+                  normal: "border.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "text";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Tuner List";
+                  font: "DejaVuSansMono";
+                  size: 16;
+               }
+            }
+            description { state: "visible" 0;
+               color: 7 206 10 255;
+               color3: 0 0 0 127;
+               text {
+                  text: "Tuner List";
+                  font: "DejaVuSansMono";
+                  size: 16;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 188 411;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 315 449;
+               }
+               params {
+                  string: "label" "Navigation";
+               }
+            }
+         }
+         part { name: "Button02";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 165 352;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 339 396;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Frequenzen";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "border";
+            target: "text";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "border";
+            target: "text";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "navigation_street";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "rectangle1";
+            type: RECT;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+            }
+            description { state: "visible" 0;
+               color: 102 149 239 255;
+               rel1 {
+                  relative: 0.2 0.2;
+               }
+               rel2 {
+                  relative: 0.8 0.8;
+               }
+            }
+         }
+         part { name: "text1";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Nav - Street Input";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+            description { state: "visible" 0;
+               color3: 0 0 0 127;
+               text {
+                  text: "Nav - Street Input";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 194 415;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 324 455;
+               }
+               params {
+                  string: "label" "Main";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+   group { name: "navigation_country";
+      data {
+         item: "pref_size" "500x500";
+      }
+      parts {
+         part { name: "rectangle1";
+            type: RECT;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+            }
+            description { state: "visible" 0;
+               color: 102 149 239 255;
+               rel1 {
+                  relative: 0.2 0.2;
+               }
+               rel2 {
+                  relative: 0.8 0.8;
+               }
+            }
+         }
+         part { name: "text1";
+            type: TEXT;
+            effect: FAR_SHADOW ;
+            description { state: "default" 0;
+               color: 0 0 0 0;
+               color2: 0 0 0 0;
+               color3: 0 0 0 0;
+               text {
+                  text: "Nav - Country Input";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+            description { state: "visible" 0;
+               color3: 0 0 0 127;
+               text {
+                  text: "Nav - Country Input";
+                  font: "DejaVuSansMono";
+                  size: 20;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 183 430;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 331 478;
+               }
+               params {
+                  string: "label" "City";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            action: STATE_SET "visible" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "visible_signal";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            action: STATE_SET "default" 0.00;
+            transition: LINEAR 0.50000;
+            target: "rectangle1";
+            target: "text1";
+            after: "invisible_signal";
+         }
+         program { name: "visible_signal";
+            signal: "";
+            source: "";
+            action: SIGNAL_EMIT "visible_signal" "edje";
+         }
+         program { name: "invisible_signal";
+            action: SIGNAL_EMIT "invisible_signal" "edje";
+         }
+      }
+   }
+}
+

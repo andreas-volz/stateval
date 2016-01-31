@@ -1,0 +1,1729 @@
+images {
+   image: "grill_light.png" COMP;
+   image: "bat_over.png" COMP;
+   image: "battery.png" COMP;
+   image: "browser.png" COMP;
+   image: "evolution.png" COMP;
+   image: "file-manager.png" COMP;
+   image: "gaim.png" COMP;
+   image: "gimp.png" COMP;
+   image: "inkscape.png" COMP;
+   image: "konsole.png" COMP;
+   image: "thunderbird.png" COMP;
+   image: "power.png" COMP;
+   image: "gnome-control-center.png" COMP;
+   image: "back.png" COMP;
+   image: "icon_window_remembers.png" COMP;
+   image: "icon_window_focus.png" COMP;
+   image: "icon_border_border.png" COMP;
+   image: "icon_wallpaper.png" COMP;
+   image: "icon_appearance.png" COMP;
+   image: "text-editor.png" COMP;
+}
+
+externals {
+   external: "elm";
+}
+
+collections {
+   group { name: "settings";
+      data {
+         item: "pref_size" "320x480";
+      }
+      parts {
+         part { name: "Image01";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 20 72;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 120;
+               }
+               image {
+                  normal: "icon_window_remembers.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 20 72;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 120;
+               }
+               image {
+                  normal: "icon_window_remembers.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 20 72;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 120;
+               }
+               image {
+                  normal: "icon_window_remembers.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image02";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 91 73;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 139 121;
+               }
+               image {
+                  normal: "icon_window_focus.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 91 73;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 139 121;
+               }
+               image {
+                  normal: "icon_window_focus.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 91 73;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 139 121;
+               }
+               image {
+                  normal: "icon_window_focus.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image03";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 161 74;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 209 122;
+               }
+               image {
+                  normal: "icon_wallpaper.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 161 74;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 209 122;
+               }
+               image {
+                  normal: "icon_wallpaper.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 161 74;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 209 122;
+               }
+               image {
+                  normal: "icon_wallpaper.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image04";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 234 74;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 282 122;
+               }
+               image {
+                  normal: "icon_appearance.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 234 74;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 282 122;
+               }
+               image {
+                  normal: "icon_appearance.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 234 74;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 282 122;
+               }
+               image {
+                  normal: "icon_appearance.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Clock01";
+            type: EXTERNAL;
+            source: "elm/clock";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 237 39;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 306 69;
+               }
+               params {
+                  string: "style" "default";
+                  string: "edit_mode" "1";
+               }
+            }
+	}
+      }
+      programs {
+         program { name: "@visible@0.00";
+            signal: "animation,play";
+            source: "visible";
+            action: STATE_SET "@visible@0.00" 0.00;
+            target: "Image01";
+            target: "Image02";
+            target: "Image03";
+            target: "Image04";
+            after: "@visible@end";
+         }
+         program { name: "@visible@stop";
+            signal: "animation,stop";
+            source: "visible";
+            action: ACTION_STOP;
+            target: "@visible@0.00";
+            target: "@visible@end";
+         }
+         program { name: "@invisible@0.00";
+            signal: "animation,play";
+            source: "invisible";
+            action: STATE_SET "@invisible@0.00" 0.00;
+            target: "Image01";
+            target: "Image02";
+            target: "Image03";
+            target: "Image04";
+            after: "@invisible@end";
+         }
+         program { name: "@invisible@stop";
+            signal: "animation,stop";
+            source: "invisible";
+            action: ACTION_STOP;
+            target: "@invisible@0.00";
+            target: "@invisible@end";
+         }
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            after: "@visible@0.00";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            after: "@invisible@0.00";
+         }
+         program { name: "@visible@end";
+            action: SIGNAL_EMIT "animation,end" "visible";
+         }
+         program { name: "@invisible@end";
+            action: SIGNAL_EMIT "animation,end" "invisible";
+         }
+      }
+   }
+   group { name: "bar";
+      data {
+         item: "pref_size" "320x480";
+      }
+      parts {
+         part { name: "Rectangle01";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 0 0 255;
+               rel2 {
+                  offset: 0 0;
+               }
+            }
+         }
+         part { name: "Image01";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel2 {
+                  offset: 0 0;
+               }
+               image {
+                  normal: "grill_light.png";
+                  middle: DEFAULT;
+               }
+               fill {
+                  size {
+                     relative: 0 0;
+                     offset: 144 144;
+                  }
+               }
+            }
+         }
+         part { name: "Rectangle02";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 255 255 255 128;
+               rel2 {
+                  relative: 1 0;
+                  offset: 0 24;
+               }
+            }
+         }
+         part { name: "Text01";
+            type: TEXT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 76 -102;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 226 130;
+               }
+               text {
+                  text: "4:30 PM";
+                  font: "Arial:style=Fett";
+                  size: 10;
+               }
+            }
+         }
+         part { name: "Image02";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  relative: 1 0.2;
+                  offset: -50 0;
+                  to: "Rectangle02";
+               }
+               rel2 {
+                  relative: 1 0.8;
+                  offset: -5 -1;
+                  to: "Rectangle02";
+               }
+               image {
+                  normal: "battery.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Rectangle03";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 7 3;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 11 21;
+               }
+            }
+         }
+         part { name: "Rectangle04";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 16 9;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 21 21;
+               }
+            }
+         }
+         part { name: "Rectangle05";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 26 17;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 30 21;
+               }
+            }
+         }
+         part { name: "Back";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 39 4;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 60 21;
+               }
+               image {
+                  normal: "back.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+      }
+   }
+   group { name: "email";
+      data {
+         item: "pref_size" "320x480";
+      }
+      parts {
+         part { name: "Rectangle01";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 6 77;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 112 449;
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 6 77;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 112 449;
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 6 77;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 112 449;
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 9 38;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 110 65;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Fetch";
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 9 38;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 110 65;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Fetch";
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 9 38;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 110 65;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Fetch";
+               }
+            }
+         }
+         part { name: "Button02";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 121 42;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 214 66;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Compose";
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 121 42;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 214 66;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Compose";
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 121 42;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 214 66;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Compose";
+               }
+            }
+         }
+         part { name: "Image01";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 33 95;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 81 143;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 33 95;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 81 143;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 33 95;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 81 143;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image2";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 33 164;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 81 212;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 33 164;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 81 212;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 33 164;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 81 212;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Text01";
+            type: TEXT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 108 -21;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 288 228;
+               }
+               text {
+                  text: "E-Mail message...";
+                  font: "Sans";
+                  size: 10;
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 108 -21;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 288 228;
+               }
+               text {
+                  text: "E-Mail message...";
+                  font: "Sans";
+                  size: 10;
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 108 -21;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 288 228;
+               }
+               text {
+                  text: "E-Mail message...";
+                  font: "Sans";
+                  size: 10;
+               }
+            }
+         }
+         part { name: "Entry01";
+            type: EXTERNAL;
+            source: "elm/entry";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 139 120;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 299 436;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "";
+                  bool: "scrollable" "1";
+                  bool: "single line" "0";
+                  bool: "password" "0";
+                  bool: "horizontal bounce" "0";
+                  bool: "vertical bounce" "0";
+                  bool: "editable" "0";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "@visible@0.00";
+            signal: "animation,play";
+            source: "visible";
+            action: STATE_SET "@visible@0.00" 0.00;
+            target: "Rectangle01";
+            target: "Button01";
+            target: "Button02";
+            target: "Image01";
+            target: "Image2";
+            target: "Text01";
+            after: "@visible@end";
+         }
+         program { name: "@visible@stop";
+            signal: "animation,stop";
+            source: "visible";
+            action: ACTION_STOP;
+            target: "@visible@0.00";
+            target: "@visible@end";
+         }
+         program { name: "@invisible@0.00";
+            signal: "animation,play";
+            source: "invisible";
+            action: STATE_SET "@invisible@0.00" 0.00;
+            target: "Rectangle01";
+            target: "Button01";
+            target: "Button02";
+            target: "Image01";
+            target: "Image2";
+            target: "Text01";
+            after: "@invisible@end";
+         }
+         program { name: "@invisible@stop";
+            signal: "animation,stop";
+            source: "invisible";
+            action: ACTION_STOP;
+            target: "@invisible@0.00";
+            target: "@invisible@end";
+         }
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            after: "@visible@0.00";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            after: "@invisible@0.00";
+         }
+         program { name: "@visible@end";
+            action: SIGNAL_EMIT "animation,end" "visible";
+         }
+         program { name: "@invisible@end";
+            action: SIGNAL_EMIT "animation,end" "invisible";
+         }
+      }
+   }
+   group { name: "browser";
+      data {
+         item: "pref_size" "320x480";
+      }
+      parts {
+         part { name: "Rectangle01";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 11 81;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 309 468;
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 11 81;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 309 468;
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 11 81;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 309 468;
+               }
+            }
+         }
+         part { name: "Text01";
+            type: TEXT;
+            mouse_events: 0;
+            description { state: "default" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 83 193;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 243 433;
+               }
+               text {
+                  text: "Browser";
+                  font: "Sans";
+                  size: 16;
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 83 193;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 243 433;
+               }
+               text {
+                  text: "Browser";
+                  font: "Sans";
+                  size: 16;
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               color: 0 0 0 255;
+               rel1 {
+                  offset: 83 193;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 243 433;
+               }
+               text {
+                  text: "Browser";
+                  font: "Sans";
+                  size: 16;
+               }
+            }
+         }
+         part { name: "Image01";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 133 224;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 197 288;
+               }
+               image {
+                  normal: "browser.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 133 224;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 197 288;
+               }
+               image {
+                  normal: "browser.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 133 224;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 197 288;
+               }
+               image {
+                  normal: "browser.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 237 39;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 306 69;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Go";
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 237 39;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 306 69;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Go";
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 237 39;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 306 69;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Go";
+               }
+            }
+         }
+         part { name: "Entry01";
+            type: EXTERNAL;
+            source: "elm/entry";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 18 38;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 230 61;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "http://www.google.de";
+                  bool: "scrollable" "1";
+                  bool: "single line" "1";
+                  bool: "password" "0";
+                  bool: "horizontal bounce" "0";
+                  bool: "vertical bounce" "0";
+                  bool: "editable" "1";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "@visible@0.00";
+            signal: "animation,play";
+            source: "visible";
+            action: STATE_SET "@visible@0.00" 0.00;
+            target: "Rectangle01";
+            target: "Text01";
+            target: "Image01";
+            target: "Button01";
+            after: "@visible@end";
+         }
+         program { name: "@visible@stop";
+            signal: "animation,stop";
+            source: "visible";
+            action: ACTION_STOP;
+            target: "@visible@0.00";
+            target: "@visible@end";
+         }
+         program { name: "@invisible@0.00";
+            signal: "animation,play";
+            source: "invisible";
+            action: STATE_SET "@invisible@0.00" 0.00;
+            target: "Rectangle01";
+            target: "Text01";
+            target: "Image01";
+            target: "Button01";
+            after: "@invisible@end";
+         }
+         program { name: "@invisible@stop";
+            signal: "animation,stop";
+            source: "invisible";
+            action: ACTION_STOP;
+            target: "@invisible@0.00";
+            target: "@invisible@end";
+         }
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            after: "@visible@0.00";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            after: "@invisible@0.00";
+         }
+         program { name: "@visible@end";
+            action: SIGNAL_EMIT "animation,end" "visible";
+         }
+         program { name: "@invisible@end";
+            action: SIGNAL_EMIT "animation,end" "invisible";
+         }
+      }
+   }
+   group { name: "email_compose";
+      data {
+         item: "pref_size" "320x480";
+      }
+      parts {
+         part { name: "Button01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 77 399;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 237 446;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Send";
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 75 399;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 235 446;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Send";
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 75 399;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 235 446;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Send";
+               }
+            }
+         }
+         part { name: "Image01";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 125 64;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 173 112;
+               }
+               image {
+                  normal: "gnome-control-center.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 125 64;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 173 112;
+               }
+               image {
+                  normal: "gnome-control-center.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 125 64;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 173 112;
+               }
+               image {
+                  normal: "gnome-control-center.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Entry01";
+            type: EXTERNAL;
+            source: "elm/entry";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 46 135;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 269 374;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Text";
+                  bool: "scrollable" "1";
+                  bool: "single line" "0";
+                  bool: "password" "0";
+                  bool: "horizontal bounce" "0";
+                  bool: "vertical bounce" "0";
+                  bool: "editable" "1";
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "@visible@0.00";
+            signal: "animation,play";
+            source: "visible";
+            action: STATE_SET "@visible@0.00" 0.00;
+            target: "Button01";
+            target: "Image01";
+            after: "@visible@end";
+         }
+         program { name: "@visible@stop";
+            signal: "animation,stop";
+            source: "visible";
+            action: ACTION_STOP;
+            target: "@visible@0.00";
+            target: "@visible@end";
+         }
+         program { name: "@invisible@0.00";
+            signal: "animation,play";
+            source: "invisible";
+            action: STATE_SET "@invisible@0.00" 0.00;
+            target: "Button01";
+            target: "Image01";
+            after: "@invisible@end";
+         }
+         program { name: "@invisible@stop";
+            signal: "animation,stop";
+            source: "invisible";
+            action: ACTION_STOP;
+            target: "@invisible@0.00";
+            target: "@invisible@end";
+         }
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            after: "@visible@0.00";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            after: "@invisible@0.00";
+         }
+         program { name: "@visible@end";
+            action: SIGNAL_EMIT "animation,end" "visible";
+         }
+         program { name: "@invisible@end";
+            action: SIGNAL_EMIT "animation,end" "invisible";
+         }
+      }
+   }
+   group { name: "main";
+      data {
+         item: "pref_size" "320x480";
+      }
+      parts {
+         part { name: "Image01";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 20 65;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 113;
+               }
+               image {
+                  normal: "browser.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 20 65;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 113;
+               }
+               image {
+                  normal: "browser.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 20 65;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 113;
+               }
+               image {
+                  normal: "browser.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image03";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 159 65;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 207 113;
+               }
+               image {
+                  normal: "file-manager.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 159 65;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 207 113;
+               }
+               image {
+                  normal: "file-manager.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 159 65;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 207 113;
+               }
+               image {
+                  normal: "file-manager.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image04";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 237 64;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 285 112;
+               }
+               image {
+                  normal: "gaim.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 237 64;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 285 112;
+               }
+               image {
+                  normal: "gaim.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 237 64;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 285 112;
+               }
+               image {
+                  normal: "gaim.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image05";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 20 143;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 191;
+               }
+               image {
+                  normal: "gimp.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 20 143;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 191;
+               }
+               image {
+                  normal: "gimp.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 20 143;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 68 191;
+               }
+               image {
+                  normal: "gimp.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image06";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 91 150;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 139 198;
+               }
+               image {
+                  normal: "inkscape.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 91 150;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 139 198;
+               }
+               image {
+                  normal: "inkscape.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 91 150;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 139 198;
+               }
+               image {
+                  normal: "inkscape.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image07";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 162 147;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 210 195;
+               }
+               image {
+                  normal: "konsole.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 162 147;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 210 195;
+               }
+               image {
+                  normal: "konsole.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 162 147;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 210 195;
+               }
+               image {
+                  normal: "konsole.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image08";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 233 149;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 281 197;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 233 149;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 281 197;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 233 149;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 281 197;
+               }
+               image {
+                  normal: "thunderbird.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image09";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 99 322;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 227 450;
+               }
+               image {
+                  normal: "power.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 99 322;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 227 450;
+               }
+               image {
+                  normal: "power.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 99 322;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 227 450;
+               }
+               image {
+                  normal: "power.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image10";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 23 219;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 71 267;
+               }
+               image {
+                  normal: "gnome-control-center.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@visible@0.00" 0;
+               rel1 {
+                  offset: 23 219;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 71 267;
+               }
+               image {
+                  normal: "gnome-control-center.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+            description { state: "@invisible@0.00" 0;
+               rel1 {
+                  offset: 23 219;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 71 267;
+               }
+               image {
+                  normal: "gnome-control-center.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+         part { name: "Image02";
+            type: IMAGE;
+            description { state: "default" 0;
+               rel1 {
+                  offset: 86 67;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 134 115;
+               }
+               image {
+                  normal: "text-editor.png";
+                  middle: DEFAULT;
+               }
+               fill {
+               }
+            }
+         }
+      }
+      programs {
+         program { name: "@visible@0.00";
+            signal: "animation,play";
+            source: "visible";
+            action: STATE_SET "@visible@0.00" 0.00;
+            target: "Image01";
+            target: "Image03";
+            target: "Image04";
+            target: "Image05";
+            target: "Image06";
+            target: "Image07";
+            target: "Image08";
+            target: "Image09";
+            target: "Image10";
+            after: "@visible@end";
+         }
+         program { name: "@visible@stop";
+            signal: "animation,stop";
+            source: "visible";
+            action: ACTION_STOP;
+            target: "@visible@0.00";
+            target: "@visible@end";
+         }
+         program { name: "@invisible@0.00";
+            signal: "animation,play";
+            source: "invisible";
+            action: STATE_SET "@invisible@0.00" 0.00;
+            target: "Image01";
+            target: "Image03";
+            target: "Image04";
+            target: "Image05";
+            target: "Image06";
+            target: "Image07";
+            target: "Image08";
+            target: "Image09";
+            target: "Image10";
+            after: "@invisible@end";
+         }
+         program { name: "@invisible@stop";
+            signal: "animation,stop";
+            source: "invisible";
+            action: ACTION_STOP;
+            target: "@invisible@0.00";
+            target: "@invisible@end";
+         }
+         program { name: "visible";
+            signal: "visible";
+            source: "stateval";
+            after: "@visible@0.00";
+         }
+         program { name: "invisible";
+            signal: "invisible";
+            source: "stateval";
+            after: "@invisible@0.00";
+         }
+         program { name: "@visible@end";
+            action: SIGNAL_EMIT "animation,end" "visible";
+         }
+         program { name: "@invisible@end";
+            action: SIGNAL_EMIT "animation,end" "invisible";
+         }
+      }
+   }
+}
+

@@ -52,6 +52,7 @@
     <event name="oispaxis,X,max"/>
     <event name="oispaxis,Y,min"/>
     <event name="oispaxis,Y,max"/>
+    <event name="EXIT"/>
   </events>
   
   <variables>
@@ -69,7 +70,7 @@
     <variable name="AfterLeave" type="String" value="...and now changing after leave..."/>
     <variable name="TunerFrequencySlider" type="Struct">
       <variable name="label" type="String" value="stateval changed label"/>
-      <variable name="value" type="Float" value="99.0"/>
+      <variable name="value" type="Double" value="99.0"/>
     </variable>
     <variable name="ListExample" type="List">
       <variable type="String" value="First Element"/>
@@ -80,13 +81,14 @@
   </variables>
   
   <actions>
-    <action name="changeInfoLabel" type="ChangeWidgetVariableAction" variable="TextExampleString" copy="NewInfo"/>
-    <action name="changeInfoLabel2" type="ChangeWidgetVariableAction" variable="TextExampleString" copy="AfterLeave"/>
+    <!--<action name="changeInfoLabel" type="ChangeWidgetVariableAction" variable="TextExampleString" widget="NewInfo"/>-->
+    <!--<action name="changeInfoLabel2" type="ChangeWidgetVariableAction" variable="TextExampleString" widget="AfterLeave"/>-->
   </actions>
   
   <states>
     <state name="Root" type="CompoundState"/>
-    <state name="Initial" type="SimpleState" parent="Root"/>
+    <state name="Initial" type="InitialState" parent="Root"/>
+    <state name="Final" type="FinalState" parent="Root"/>
     <state name="NavCompound" type="CompoundState" parent="Root"/>
     <state name="NavInitial" type="SimpleState" parent="NavCompound"/>
     <state name="NavMain" type="ViewState" parent="NavCompound" view="NavMainView"/>
@@ -100,7 +102,7 @@
     <state name="TunerFrequency" type="ViewState" parent="TunerCompound" view="TunerFrequencyView"/>
     <state name="NavInfo" type="ViewState" parent="NavCompound" view="NavInfoView">
       <state:actions>
-        <state:action ref="changeInfoLabel2" when="leave"/>
+        <!--<state:action ref="changeInfoLabel2" when="leave"/>-->
       </state:actions>
     </state>
     <state name="TunerAvailable" type="DecisionState" parent="Root"/>
@@ -108,13 +110,14 @@
     <state name="MediaInitial" type="SimpleState" parent="MediaCompound"/>
     <state name="MediaList" type="ViewState" parent="MediaCompound" view="MediaListView">
       <state:actions>
-        <state:action ref="changeInfoLabel" when="enter"/>
+        <!--<state:action ref="changeInfoLabel" when="enter"/>-->
       </state:actions>
     </state>
   </states>
 
   <transitions>
-    <transition from="Root" to="Initial"/>
+    <transition from="Initial" to="NavCompound"/>
+    <transition from="Root" to="Finsh" event="EXIT"/>
     <transition from="Root" to="NavCompound" event="HK_NAV"/>
     <transition from="Root" to="TunerCompound" event="HK_TUNER"/>
     <transition from="Root" to="MediaCompound" event="HK_MEDIA"/>
@@ -136,13 +139,13 @@
   
   <viewmanager plugin="edje">
     <params>
-      <param key="width" value="320"/>
+      <param key="width" value="480"/>
       <param key="height" value="480"/>
     </params>
 
     <view name="NavMainView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="navigation_main"/>
       </params>
       <mappings>
@@ -165,7 +168,7 @@
 
     <view name="NavCountryView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="navigation_country"/>
       </params>
       <mappings>
@@ -175,7 +178,7 @@
     
     <view name="NavCityView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="navigation_city"/>
       </params>
       <mappings>
@@ -185,7 +188,7 @@
     
     <view name="NavStreetView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="navigation_street"/>
       </params>
       <mappings>
@@ -195,7 +198,7 @@
 
     <view name="TunerListView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="tuner_list"/>
       </params>
       <mappings>
@@ -206,7 +209,7 @@
 
     <view name="TunerFrequencyView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="tuner_frequenz"/>
       </params>
       <mappings>
@@ -219,7 +222,7 @@
     
     <view name="NavInfoView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="navigation_info"/>
       </params>
       <mappings>
@@ -234,7 +237,7 @@
     
     <view name="MediaListView">
       <params>
-        <param key="filename" value="/home/andreas/src/git/stateval/stateval/data/edje_smxml/screens.edj"/>
+        <param key="filename" value="screens/headunit.edj"/>
         <param key="groupname" value="media_list"/>
       </params>
       <mappings>
