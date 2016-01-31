@@ -186,9 +186,16 @@ bool StateMachine::walkDown(int event)
     mActiveState->mapEvent(event);
 
     walkDefaultTransition = true;
+    // this call modifies walkDefaultTransition variable
     trans = mActiveState->getWalkTransition(event, walkDefaultTransition);
 
-    if (trans)
+    if(!walkDefaultTransition)
+    {
+      // if default transition was hit consume current event
+      event = -1;
+    }
+
+    if(trans)
     {
       LOG4CXX_DEBUG(mLogger, "getEvent (): " << trans->getEvent());
       LOG4CXX_DEBUG(mLogger, "getEndState (): " << trans->getEndState());
@@ -200,7 +207,7 @@ bool StateMachine::walkDown(int event)
 
       mActiveState->beforeTransitionCode();
 
-      if (mActiveState == trans->getEndState()->getParentState())
+      if(mActiveState == trans->getEndState()->getParentState())
       {
         LOG4CXX_WARN(mLogger, "You constructed a loop transition. This may be wrong... " <<
                      "or not if you know what you do (e.g. finish state):" <<
@@ -224,7 +231,7 @@ bool StateMachine::walkDown(int event)
       transit = true; // down transition was possible
     }
   }
-  while ((trans != NULL) && !walkDefaultTransition);
+  while ((trans != NULL));
 
   return transit;
 }

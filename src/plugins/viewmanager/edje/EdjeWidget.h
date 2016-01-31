@@ -17,7 +17,7 @@ public:
 
   void updateContent();
   
-  virtual void setValue(const Variable &value);
+  //virtual void setValue(const Variable &value);
 
 private:
   Logger mLogger;

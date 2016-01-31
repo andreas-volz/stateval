@@ -86,11 +86,11 @@ void EdjeWidget::updateContent()
   }
 }
 
-void EdjeWidget::setValue(const Variable &value)
+/*void EdjeWidget::setValue(const Variable &value)
 {
   LOG4CXX_TRACE(mLogger, "setValue()");
   Widget::setValue(value);
-}
+}*/
   // TODO
   
   //   - cache variable in widget until next time on screen if not on screen
