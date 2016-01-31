@@ -228,18 +228,35 @@ collections {
             source: "elm/clock";
             description { state: "default" 0;
                rel1 {
-                  offset: 237 39;
+                  offset: 50 150;
                }
                rel2 {
                   relative: 0 0;
-                  offset: 306 69;
+                  offset: 250 250;
                }
                params {
                   string: "style" "default";
-                  string: "edit_mode" "1";
+                  bool: "editable" 1;
                }
             }
-	}
+	      }
+         part { name: "SetClockButton01";
+            type: EXTERNAL;
+            source: "elm/button";
+            description { state: "default" 0;
+               rel1 {
+                  offset: 50 270;
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 250 300;
+               }
+               params {
+                  string: "style" "default";
+                  string: "label" "Set Time";
+               }
+            }
+	      }
       }
       programs {
          program { name: "@visible@0.00";
@@ -309,7 +326,7 @@ collections {
                }
             }
          }
-         part { name: "Image01";
+         part { name: "ImageBack";
             type: IMAGE;
             description { state: "default" 0;
                rel2 {
@@ -356,7 +373,7 @@ collections {
                }
             }
          }
-         part { name: "Image02";
+         part { name: "ImageBattery";
             type: IMAGE;
             description { state: "default" 0;
                rel1 {
