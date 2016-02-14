@@ -3,6 +3,7 @@
 
 #include "Action.h"
 #include "ChangeWidgetVariableAction.h"
+#include "ReadWidgetVariableAction.h"
 #include "CompoundState.h"
 #include "Condition.h"
 #include "DecisionState.h"

@@ -7,6 +7,7 @@
 
 /* local */
 #include "EdjeWidget.h"
+#include "stringUtil.h"
 
 using namespace std;
 
@@ -15,8 +16,100 @@ EdjeWidget::EdjeWidget(View &view, const std::string &name, const Variable *valu
   Widget(name, value),
   mView(dynamic_cast<EdjeView*>(&view))
 {
-  
+  mUpdateDataDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::updateDataDispatched));
 }
+
+Variable *EdjeWidget::getValue()
+{
+  LOG4CXX_TRACE(mLogger, "+getValue()");
+
+  mUpdateDataDispatcher.emit();
+
+  mMutexUpdateData.lock();
+  mCondUpdateData.wait(mMutexUpdateData);
+  mMutexUpdateData.unlock();
+  
+  LOG4CXX_TRACE(mLogger, "-getValue()");
+
+  Variable *var = NULL;
+  if(mValue)
+  {
+    var = mValue->copy();
+  }
+  
+  return var;
+}
+
+void EdjeWidget::updateData()
+{
+
+}
+
+void EdjeWidget::updateDataDispatched(int missedEvents)
+{
+  LOG4CXX_TRACE(mLogger, "updateData: " << mName);
+
+  // TODO: this will crash if calling a not visible view => fix later 
+  Eflxx::CountedPtr <Edjexx::Object> edjeObj(mView->mLayout->getEdje());
+
+  try
+  {
+    Edjexx::Part &part = edjeObj->getPart(mName);
+    
+    // TODO: data type introspection by definion in XML?
+    Edjexx::ExternalParam paramHours ("hours", (int) 0); 
+    Edjexx::ExternalParam paramMinues ("minutes", (int) 0);
+    Edjexx::ExternalParam paramSeconds ("seconds", (int) 0);
+    bool validParamHours = part.getParam (paramHours);
+    bool validParamMinutes = part.getParam (paramMinues);
+    bool validParamSeconds = part.getParam (paramSeconds);
+
+
+    Edje_External_Param_Type paramType = part.getParamType("hours");
+    switch(paramType)
+    {
+      case EDJE_EXTERNAL_PARAM_TYPE_INT:
+        LOG4CXX_DEBUG(mLogger, "INT");
+        break;
+      case EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+        LOG4CXX_DEBUG(mLogger, "DOUBLE");
+        break;
+      case EDJE_EXTERNAL_PARAM_TYPE_STRING:
+        LOG4CXX_DEBUG(mLogger, "STRING");
+        break;
+      case EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+        LOG4CXX_DEBUG(mLogger, "BOOL");
+        break;
+      case EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+        LOG4CXX_DEBUG(mLogger, "CHOICE");
+        break;
+      case EDJE_EXTERNAL_PARAM_TYPE_MAX:
+        LOG4CXX_DEBUG(mLogger, "MAX");
+        break;  
+      default:
+        LOG4CXX_DEBUG(mLogger, "unknown type");
+    }
+
+    
+    
+    string str = toString(paramHours.mParam.i) + string(":") + toString(paramMinues.mParam.i) + string("h");
+    LOG4CXX_TRACE(mLogger, "Clock: " << str);
+
+    if(mValue)
+    {
+      delete mValue; 
+    }
+
+    mValue = new String(str);
+  }
+  catch (Edjexx::ExternalNotExistingException ene)
+  {
+    LOG4CXX_ERROR(mLogger, ene.what());
+  }
+
+  mCondUpdateData.signal();
+}
+
 
 void EdjeWidget::updateContent()
 {

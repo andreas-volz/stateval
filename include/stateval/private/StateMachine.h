@@ -47,6 +47,8 @@ public:
 
   Widget *getWidget(const std::string &view, const std::string &widget);
 
+  static const int EMPTY_EVENT = -1; 
+
 private:
   Logger mLogger;
   State *searchHierarchie(int event);

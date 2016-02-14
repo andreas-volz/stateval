@@ -130,7 +130,7 @@ void EdjeView::realizeDispatched(int missedEvents)
   mLayout->resize(mEdjeContext->resolution);
 
   // initial screen widget update after ralizing a screen
-  update();
+  updateDispatched(0);
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
@@ -452,11 +452,5 @@ void EdjeView::pushEvent(int event)
 
 void EdjeView::createWidget(const std::string &name, const Variable *value)
 {
-  /*Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
-  Edjexx::Part &part = edjeObj->getPart(name);*/
-
-  // FIXME: at this point the mLayout isn't yet constructed.
-  // => Widget needs another way to get reference to low level widget after construction time
-  
   mWidgetMap[name] = new EdjeWidget(*this, name, value);
 }

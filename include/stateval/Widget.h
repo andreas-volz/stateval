@@ -14,7 +14,9 @@ public:
   virtual ~Widget();
 
   const std::string getName() const;
-  //const std::string getVariable() const;
+
+  /* returns a copy of the widget variable => needs to be deleted afterwards */  
+  virtual Variable *getValue() = 0;
 
   virtual void setValue(const Variable &value);
 

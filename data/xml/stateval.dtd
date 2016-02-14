@@ -61,10 +61,10 @@
 <!ATTLIST condition variable2 CDATA #REQUIRED>
 
 <!ATTLIST widget name CDATA #REQUIRED>
-<!ATTLIST widget variable CDATA #REQUIRED>
+<!ATTLIST widget variable CDATA #IMPLIED>
 
 <!ATTLIST action name CDATA #REQUIRED>
-<!ATTLIST action type (FireEventAction|ChangeWidgetVariableAction) #REQUIRED>
+<!ATTLIST action type (FireEventAction|ChangeWidgetVariableAction|ReadWidgetVariableAction) #REQUIRED>
 <!ATTLIST action variable CDATA #IMPLIED>
 <!ATTLIST action event CDATA #IMPLIED>
 <!ATTLIST action widget CDATA #IMPLIED>

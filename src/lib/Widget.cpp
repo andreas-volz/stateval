@@ -28,11 +28,6 @@ const std::string Widget::getName() const
   return mName;
 }
 
-/*const std::string Widget::getVariable() const
-{
-  return mValue;
-}*/
-
 void Widget::setValue(const Variable &value)
 {
   if(mValue)

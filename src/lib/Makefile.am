@@ -42,6 +42,7 @@ libstateval_la_SOURCES = \
 	searchFile.cpp \
 	searchFile.h \
 	ChangeWidgetVariableAction.cpp \
+	ReadWidgetVariableAction.cpp \
 	StateMachineAccessorPImpl.h \
 	ViewCache.cpp \
 	Widget.cpp      \

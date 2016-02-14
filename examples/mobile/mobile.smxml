@@ -23,6 +23,7 @@
     <event name="edje,Button04,clicked"/>
     <event name="edje,Button05,clicked"/>
     <event name="edje,Button06,clicked"/>
+    <event name="edje,SetClockButton01,mouse,clicked,1"/>
     <event name="MAIN"/>
     <event name="BROWSER"/>
     <event name="SETTINGS"/>
@@ -31,6 +32,7 @@
     <event name="EMAIL_READ"/>
     <event name="CHANGE_TIME"/>
     <event name="CHANGE_TIME2"/>
+    <event name="CHANGE_TIME3"/>
     <event name="edje,,load"/>
   </events>
   
@@ -42,6 +44,7 @@
   <actions>
     <action name="changeTime" type="ChangeWidgetVariableAction" view="Bar" widget="Text01" variable="Time2"/>
     <action name="changeTime2" type="ChangeWidgetVariableAction" view="Bar" widget="Text01" variable="Time"/>
+    <action name="readClock" type="ReadWidgetVariableAction" view="Settings" widget="Clock01" variable="Time"/>
     <action name="fireUpdateEvent" type="FireEventAction" event="VIEW_UPDATE"/>
   </actions>
   
@@ -70,13 +73,17 @@
     <state name="ChangeTime" type="SimpleState" parent="Root">
       <state:actions>
         <state:action ref="changeTime" when="enter"/>
-        <!--<state:action ref="fireUpdateEvent" when="leave"/>-->
       </state:actions>
     </state>
     <state name="ChangeTime2" type="SimpleState" parent="Root">
       <state:actions>
         <state:action ref="changeTime2" when="enter"/>
-        <!--<state:action ref="fireUpdateEvent" when="leave"/>-->
+      </state:actions>
+    </state>
+    <state name="ChangeTime3" type="SimpleState" parent="Root">
+      <state:actions>
+        <state:action ref="readClock" when="enter"/>
+        <state:action ref="changeTime2" when="leave"/>
       </state:actions>
     </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>
@@ -106,6 +113,8 @@
     <transition from="ChangeTime" to="Settings"/>
     <transition from="Settings" to="ChangeTime2" event="CHANGE_TIME2"/>
     <transition from="ChangeTime2" to="Settings"/>
+    <transition from="Settings" to="ChangeTime3" event="CHANGE_TIME3"/>
+    <transition from="ChangeTime3" to="Settings"/>
     <transition from="Root" to="EMail_Compound" event="EMAIL"/>
     <transition from="EMail_Compound" to="EMail_Compound_Initial"/>
     <transition from="EMail_Compound_Initial" to="EMail_Compound_History"/>
@@ -140,7 +149,7 @@
       </params>
       <mappings>
       </mappings>
-        <widgets>
+      <widgets>
         <widget name="Text01" variable="Time"/>
       </widgets>
     </view>
@@ -164,7 +173,11 @@
         <map from="edje,Back,mouse,clicked,1" to="MAIN"/>
         <map from="edje,Image01,mouse,clicked,1" to="CHANGE_TIME"/>
         <map from="edje,Image02,mouse,clicked,1" to="CHANGE_TIME2"/>
+        <map from="edje,SetClockButton01,mouse,clicked,1" to="CHANGE_TIME3"/>
       </mappings>
+      <widgets>
+        <widget name="Clock01"/>
+      </widgets>
     </view>
     
     <view name="EMail_Read">

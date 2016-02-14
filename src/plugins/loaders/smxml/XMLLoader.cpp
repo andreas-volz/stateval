@@ -491,15 +491,22 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
     }
     else if (type_attribute->get_value() == "ChangeWidgetVariableAction")
     {
-      //Variable *av = getVariable(widget_attribute->get_value());
-      //assert(av);
-
       const string &view = view_attribute->get_value();
       const string &variable = variable_attribute->get_value();
       const string &widget = widget_attribute->get_value();      
 
       // TODO: check if view, widget, variable are really existing before      
       action = new ChangeWidgetVariableAction(view, widget, variable);
+      mActionNameMapper[name_attribute->get_value()] = action;
+    }
+    else if (type_attribute->get_value() == "ReadWidgetVariableAction")
+    {
+      const string &view = view_attribute->get_value();
+      const string &variable = variable_attribute->get_value();
+      const string &widget = widget_attribute->get_value();      
+
+      // TODO: check if view, widget, variable are really existing before      
+      action = new ReadWidgetVariableAction(view, widget, variable);
       mActionNameMapper[name_attribute->get_value()] = action;
     }
     else
@@ -920,7 +927,7 @@ void XMLLoader::parseTransitionNode(const xmlpp::Node *node)
 
   Glib::ustring nodename = node->get_name();
 
-  if (!nodename.empty())
+  if (nodename == "transition")
   {
     LOG4CXX_DEBUG(mLogger, "Node = " << node->get_name());
 
@@ -1274,29 +1281,45 @@ void XMLLoader::parseViewMapNode(const xmlpp::Node *node, View *view)
 
     const xmlpp::Attribute *from_attribute = nodeElement->get_attribute("from");
     const xmlpp::Attribute *to_attribute = nodeElement->get_attribute("to");
+    int from_event = -1;
+    int to_event = -1;
+    
 
     if (from_attribute)
     {
-      LOG4CXX_DEBUG(mLogger, "Attribute from = " << from_attribute->get_value());
+      from_event = findMapingEvent(from_attribute->get_value());
+      LOG4CXX_DEBUG(mLogger, "Attribute from = " << from_attribute->get_value() << " => " << from_event);
+      
+      if(from_event == StateMachine::EMPTY_EVENT)
+      {
+        assert(false);
+      }
     }
     else
     {
-      // throw exception
+      // error handling
+      assert(false);
     }
 
     if (to_attribute)
     {
-      LOG4CXX_DEBUG(mLogger, "Attribute to = " << to_attribute->get_value());
+      to_event = findMapingEvent(to_attribute->get_value());
+      LOG4CXX_DEBUG(mLogger, "Attribute to = " << to_attribute->get_value() << " => " << to_event);
+      
+      if(to_event == StateMachine::EMPTY_EVENT)
+      {
+        assert(false);
+      }
     }
     else
     {
-      // throw exception
+      // error handling
+      assert(false);
     }
 
     if (view)
     {
-      view->addEventMapping(findMapingEvent(from_attribute->get_value()),
-                            findMapingEvent(to_attribute->get_value()));
+      view->addEventMapping(from_event, to_event);
     }
     else
     {
@@ -1357,16 +1380,13 @@ void XMLLoader::parseViewWidgetNode(const xmlpp::Node *node, View *view)
       // throw exception
     }
 
+    Variable *val = NULL;
     if (variable_attribute)
     {
       LOG4CXX_DEBUG(mLogger, "Attribute variable = " << variable_attribute->get_value());
+      val = mVariableList[variable_attribute->get_value()];
     }
-    else
-    {
-      // throw exception
-    }
-
-    Variable *val = mVariableList[variable_attribute->get_value()];
+    
     view->createWidget(name_attribute->get_value(), val);
   }
 }

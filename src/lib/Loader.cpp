@@ -15,6 +15,7 @@
 #include "stateval/private/HistoryState.h"
 #include "stateval/private/DecisionState.h"
 #include "stateval/private/ViewState.h"
+#include "stateval/private/StateMachine.h"
 #include "stateval/StateMachineAccessor.h"
 #include "MemoryUtil.h"
 #include "stringUtil.h"
@@ -143,7 +144,7 @@ int Loader::findMapingEvent(const std::string &event)
   LOG4CXX_DEBUG(mLogger, "try to find not existing event: " << event);
 
   // don't use exceptions here because this case happens really often and is not an error!
-  return -1;
+  return StateMachine::EMPTY_EVENT;
 }
 
 std::string Loader::findMapingEvent(int event)
@@ -188,7 +189,7 @@ void Loader::start ()
 {
   // inital event ->
   StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());  
-  cout << "initial event" << endl;
+  LOG4CXX_INFO(mLogger, "Initial Event");
   StateMachineAccessor.pushEvent(-1);
   // <-
 }

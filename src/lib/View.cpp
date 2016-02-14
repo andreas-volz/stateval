@@ -18,8 +18,6 @@ View::View() :
 
 View::~View()
 {
-  //delete_stl_container<std::map<std::string, Widget*> >(mWidgetVariableMap);
-  // TODO: delete mWidgetVariableMap
 };
 
 void View::addEventMapping(const int rawEvent, const int mappedEvent)

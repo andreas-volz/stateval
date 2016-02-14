@@ -15,13 +15,20 @@ class EdjeWidget : public Widget
 public:
   EdjeWidget(View &view, const std::string &name, const Variable *value);
 
-  void updateContent();
+  void updateContent(); // TODO: protected and friend?
+  void updateData(); // TODO: protected and friend?
   
-  //virtual void setValue(const Variable &value);
+  Variable *getValue();
 
 private:
+  void updateDataDispatched(int missedEvents);
+  
   Logger mLogger;
   EdjeView *mView;
+
+  EcoreDispatcher mUpdateDataDispatcher;
+  Threading::Condition mCondUpdateData;
+  Threading::Mutex mMutexUpdateData;
 };
 
 #endif // EDJE_WIDGET_H
