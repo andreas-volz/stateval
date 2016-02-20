@@ -450,7 +450,9 @@ void EdjeView::pushEvent(int event)
   mMutexPushEvent.unlock();
 }
 
-void EdjeView::createWidget(const std::string &name, const Variable *value)
+Widget *EdjeView::createWidget(const std::string &name)
 {
-  mWidgetMap[name] = new EdjeWidget(*this, name, value);
+  Widget *widget = new EdjeWidget(*this, name);
+  mWidgetMap[name] = widget;
+  return widget;
 }

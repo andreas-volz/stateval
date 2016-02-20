@@ -11,15 +11,15 @@
 
 using namespace std;
 
-EdjeWidget::EdjeWidget(View &view, const std::string &name, const Variable *value) :
+EdjeWidget::EdjeWidget(View &view, const std::string &name) :
   mLogger("stateval.plugins.viewmanager.edje.EdjeWidget"),
-  Widget(name, value),
+  Widget(name),
   mView(dynamic_cast<EdjeView*>(&view))
 {
   mUpdateDataDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::updateDataDispatched));
 }
 
-Variable *EdjeWidget::getValue()
+Variable *EdjeWidget::getProperty(const std::string &name)
 {
   LOG4CXX_TRACE(mLogger, "+getValue()");
 
@@ -31,11 +31,7 @@ Variable *EdjeWidget::getValue()
   
   LOG4CXX_TRACE(mLogger, "-getValue()");
 
-  Variable *var = NULL;
-  if(mValue)
-  {
-    var = mValue->copy();
-  }
+  Variable *var = mProperties[name];
   
   return var;
 }
@@ -94,13 +90,14 @@ void EdjeWidget::updateDataDispatched(int missedEvents)
     
     string str = toString(paramHours.mParam.i) + string(":") + toString(paramMinues.mParam.i) + string("h");
     LOG4CXX_TRACE(mLogger, "Clock: " << str);
-
+#if 0
     if(mValue)
     {
       delete mValue; 
     }
 
     mValue = new String(str);
+#endif
   }
   catch (Edjexx::ExternalNotExistingException ene)
   {
@@ -113,6 +110,7 @@ void EdjeWidget::updateDataDispatched(int missedEvents)
 
 void EdjeWidget::updateContent()
 {
+#if 0
   LOG4CXX_TRACE(mLogger, "updateContent: " << mName);
 
   Eflxx::CountedPtr <Edjexx::Object> edjeObj(mView->mLayout->getEdje());
@@ -177,22 +175,5 @@ void EdjeWidget::updateContent()
   {
     LOG4CXX_ERROR(mLogger, ene.what());
   }
+#endif
 }
-
-/*void EdjeWidget::setValue(const Variable &value)
-{
-  LOG4CXX_TRACE(mLogger, "setValue()");
-  Widget::setValue(value);
-}*/
-  // TODO
-  
-  //   - cache variable in widget until next time on screen if not on screen
-  //   - if on screen do next: 
-  // - get Edje object by assigned string
-  // - switch Variable type
-  // - depend on variable type assign values to native Edje widget
-  // - think about to use several EdjeWidget types instead of switch
-    
-  // - get fetches always from assigned low level widget if available
-
-  // need to model a copy action on entry transition to get a value updated?

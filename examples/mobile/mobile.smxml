@@ -39,12 +39,13 @@
   <variables>
     <variable name="Time" type="String" value="1:30 PM"/>
     <variable name="Time2" type="String" value="8:30 PM"/>
+    <variable name="ClockHours" type="Integer" value="10"/>
   </variables>
   
   <actions>
-    <action name="changeTime" type="ChangeWidgetVariableAction" view="Bar" widget="Text01" variable="Time2"/>
-    <action name="changeTime2" type="ChangeWidgetVariableAction" view="Bar" widget="Text01" variable="Time"/>
-    <action name="readClock" type="ReadWidgetVariableAction" view="Settings" widget="Clock01" variable="Time"/>
+    <action name="changeTime" type="ChangeWidgetPropertyAction" view="Bar" widget="Text01" property="text" variable="Time2"/>
+    <action name="changeTime2" type="ChangeWidgetPropertyAction" view="Bar" widget="Text01" property="text" variable="Time"/>
+    <action name="readClock" type="ReadWidgetPropertyAction" view="Settings" widget="Clock01" property="text" variable="Time"/>
     <action name="fireUpdateEvent" type="FireEventAction" event="VIEW_UPDATE"/>
   </actions>
   
@@ -150,7 +151,7 @@
       <mappings>
       </mappings>
       <widgets>
-        <widget name="Text01" variable="Time"/>
+        <widget name="Text01"/>
       </widgets>
     </view>
 
@@ -176,7 +177,9 @@
         <map from="edje,SetClockButton01,mouse,clicked,1" to="CHANGE_TIME3"/>
       </mappings>
       <widgets>
-        <widget name="Clock01"/>
+        <widget name="Clock01">
+          <property name="hours" variable="ClockHours"/>
+        </widget>
       </widgets>
     </view>
     

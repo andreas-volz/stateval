@@ -32,7 +32,7 @@ public:
   
   void pushEvent(int event);
 
-  void createWidget(const std::string &name, const Variable *value);
+  Widget *createWidget(const std::string &name);
 
   // FIXME: only set to public to implement widget
   Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext

@@ -7,20 +7,20 @@
 
 using namespace std;
 
-Widget::Widget(const std::string &name, const Variable *value) :
-  mName(name),
-  mValue(NULL)
+Widget::Widget(const std::string &name) :
+  mName(name)
 {
   // create local Variable as copy if given
-  if(value)
+  /*if(value)
   {    
     mValue = value->copy();
-  }
+  }*/
 }
 
 Widget::~Widget()
 {
-  delete mValue;
+  // TODO: clear container
+  //delete mValue;
 }
 
 const std::string Widget::getName() const
@@ -28,16 +28,19 @@ const std::string Widget::getName() const
   return mName;
 }
 
-void Widget::setValue(const Variable &value)
+void Widget::setProperty(const std::string &name, const Variable &property)
 {
-  if(mValue)
+  // TODO: check if name element yet exist and then copy value or delete before
+  mProperties[name] = property.copy();
+   
+  /*if(mValue)
   {    
     mValue->copy(&value);
   }
   else
   {
     mValue = value.copy();
-  }
+  }*/
 }
 
 void Widget::updateContent()

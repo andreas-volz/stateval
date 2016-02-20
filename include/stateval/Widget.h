@@ -10,21 +10,21 @@
 class Widget
 {
 public:
-  Widget(const std::string &name, const Variable *value);
+  Widget(const std::string &name);
   virtual ~Widget();
 
   const std::string getName() const;
 
   /* returns a copy of the widget variable => needs to be deleted afterwards */  
-  virtual Variable *getValue() = 0;
+  virtual Variable *getProperty(const std::string &name) = 0;
 
-  virtual void setValue(const Variable &value);
+  virtual void setProperty(const std::string &name, const Variable &property);
 
   virtual void updateContent(); // TODO: virtual? // protected and friend to View?
 
 protected:
   std::string mName;
-  Variable *mValue;
+  std::map<std::string, Variable*> mProperties;
 };
 
 #endif // WIDGET_H

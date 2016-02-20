@@ -471,8 +471,9 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
     const xmlpp::Attribute *type_attribute = nodeElement->get_attribute("type");
     const xmlpp::Attribute *event_attribute = nodeElement->get_attribute("event");
     const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute("variable");
-    const xmlpp::Attribute *widget_attribute = nodeElement->get_attribute("widget");;
-    const xmlpp::Attribute *view_attribute = nodeElement->get_attribute("view");;
+    const xmlpp::Attribute *widget_attribute = nodeElement->get_attribute("widget");
+    const xmlpp::Attribute *property_attribute = nodeElement->get_attribute("property");
+    const xmlpp::Attribute *view_attribute = nodeElement->get_attribute("view");
 
     if (name_attribute)
     {
@@ -489,25 +490,41 @@ void XMLLoader::parseActionNode(const xmlpp::Node *node)
       action = new FireEventAction(findMapingEvent(event_attribute->get_value()));
       mActionNameMapper[name_attribute->get_value()] = action;
     }
-    else if (type_attribute->get_value() == "ChangeWidgetVariableAction")
+    else if (type_attribute->get_value() == "ChangeWidgetPropertyAction")
     {
-      const string &view = view_attribute->get_value();
-      const string &variable = variable_attribute->get_value();
-      const string &widget = widget_attribute->get_value();      
+      if(view_attribute && variable_attribute && widget_attribute && property_attribute)
+      {
+        const string &view = view_attribute->get_value();
+        const string &variable = variable_attribute->get_value();
+        const string &widget = widget_attribute->get_value();
+        const string &property = property_attribute->get_value();
 
-      // TODO: check if view, widget, variable are really existing before      
-      action = new ChangeWidgetVariableAction(view, widget, variable);
-      mActionNameMapper[name_attribute->get_value()] = action;
+        // TODO: check if view, widget, variable are really existing before      
+        action = new ChangeWidgetPropertyAction(view, widget, property, variable);
+        mActionNameMapper[name_attribute->get_value()] = action;
+      }
+      else
+      {
+        assert(false);
+      }
     }
-    else if (type_attribute->get_value() == "ReadWidgetVariableAction")
+    else if (type_attribute->get_value() == "ReadWidgetPropertyAction")
     {
-      const string &view = view_attribute->get_value();
-      const string &variable = variable_attribute->get_value();
-      const string &widget = widget_attribute->get_value();      
+      if(view_attribute && variable_attribute && widget_attribute && property_attribute)
+      {
+        const string &view = view_attribute->get_value();
+        const string &variable = variable_attribute->get_value();
+        const string &widget = widget_attribute->get_value();
+        const string &property = property_attribute->get_value();
 
-      // TODO: check if view, widget, variable are really existing before      
-      action = new ReadWidgetVariableAction(view, widget, variable);
-      mActionNameMapper[name_attribute->get_value()] = action;
+        // TODO: check if view, widget, variable are really existing before      
+        action = new ReadWidgetPropertyAction(view, widget, property, variable);
+        mActionNameMapper[name_attribute->get_value()] = action;
+      }
+      else
+      {
+        assert(false);
+      }
     }
     else
     {
@@ -1369,7 +1386,7 @@ void XMLLoader::parseViewWidgetNode(const xmlpp::Node *node, View *view)
     LOG4CXX_DEBUG(mLogger, "Node = " << node->get_name());
 
     const xmlpp::Attribute *name_attribute = nodeElement->get_attribute("name");
-    const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute("variable");
+    //const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute("variable");
 
     if (name_attribute)
     {
@@ -1378,16 +1395,52 @@ void XMLLoader::parseViewWidgetNode(const xmlpp::Node *node, View *view)
     else
     {
       // throw exception
-    }
-
-    Variable *val = NULL;
-    if (variable_attribute)
-    {
-      LOG4CXX_DEBUG(mLogger, "Attribute variable = " << variable_attribute->get_value());
-      val = mVariableList[variable_attribute->get_value()];
+      assert(false);
     }
     
-    view->createWidget(name_attribute->get_value(), val);
+    Widget *widget = view->createWidget(name_attribute->get_value());
+
+    // Recurse through child nodes
+    xmlpp::Node::NodeList list = node->get_children();
+    for (xmlpp::Node::NodeList::iterator iter = list.begin();
+         iter != list.end(); ++iter)
+    {
+      parseViewWidgetPropertyNode(*iter, widget);
+    }
+  }
+}
+
+void XMLLoader::parseViewWidgetPropertyNode(const xmlpp::Node *node, Widget *widget)
+{
+  const xmlpp::TextNode *nodeText = dynamic_cast < const xmlpp::TextNode * >(node);
+  const xmlpp::Element *nodeElement = dynamic_cast < const xmlpp::Element * >(node);
+
+  if (nodeText && nodeText->is_white_space())	//Let's ignore the indenting
+    return;
+
+  Glib::ustring nodename = node->get_name();
+
+  if (nodename == "property")
+  {
+    LOG4CXX_DEBUG(mLogger, "Node = " << node->get_name());
+
+    const xmlpp::Attribute *name_attribute = nodeElement->get_attribute("name");
+    const xmlpp::Attribute *variable_attribute = nodeElement->get_attribute("variable");
+
+    if (name_attribute && variable_attribute)
+    {
+      LOG4CXX_DEBUG(mLogger, "Attribute name = " << name_attribute->get_value());
+      LOG4CXX_DEBUG(mLogger, "Attribute variable = " << variable_attribute->get_value());
+
+      Variable *value = getVariable(variable_attribute->get_value());
+      widget->setProperty(name_attribute->get_value(), *value);
+    }
+    else
+    {
+      // throw exception
+      assert(false);
+    }
+
   }
 }
 

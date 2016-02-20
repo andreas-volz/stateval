@@ -37,7 +37,7 @@ public:
 
   void mapEvent(int &inOutEvent);
 
-  virtual void createWidget(const std::string &name, const Variable *value) = 0;
+  virtual Widget *createWidget(const std::string &name) = 0;
 
   Widget *getWidget(const std::string &name);
 

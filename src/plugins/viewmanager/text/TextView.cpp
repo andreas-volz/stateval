@@ -28,9 +28,10 @@ TextView::TextView(const std::map <std::string, std::string> &params)
   } 
 }
 
-void TextView::createWidget(const std::string &name, const Variable *value)
+Widget *TextView::createWidget(const std::string &name)
 {
   // at the moment no specific Text Widget implemented
+  return NULL;
 }
 
 void TextView::realize()

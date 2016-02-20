@@ -13,12 +13,12 @@
 class EdjeWidget : public Widget
 {
 public:
-  EdjeWidget(View &view, const std::string &name, const Variable *value);
+  EdjeWidget(View &view, const std::string &name);
 
   void updateContent(); // TODO: protected and friend?
   void updateData(); // TODO: protected and friend?
   
-  Variable *getValue();
+  Variable *getProperty(const std::string &name);
 
 private:
   void updateDataDispatched(int missedEvents);

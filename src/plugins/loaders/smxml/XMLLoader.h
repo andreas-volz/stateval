@@ -72,6 +72,8 @@ protected:
   void parseViewWidgetsNode(const xmlpp::Node *node, View *view);
   void parseViewWidgetNode(const xmlpp::Node *node, View *view);
 
+  void parseViewWidgetPropertyNode(const xmlpp::Node *node, Widget *widget);
+
 private:
   Logger mLogger;
 

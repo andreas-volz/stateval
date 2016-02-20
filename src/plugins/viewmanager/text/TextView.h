@@ -17,7 +17,7 @@ public:
   TextView(const std::map <std::string, std::string> &params);
   virtual ~TextView() {};
 
-  void createWidget(const std::string &name, const Variable *value);
+  Widget *createWidget(const std::string &name);
 
   void realize();
   void unrealize();

@@ -38,7 +38,7 @@ void View::mapEvent(int &inOutEvent)
 
 /*! this is implemented empty with the intention that child classes
  *  don't need any special event handling
- * e.g. some EdjeView needs it push events to the Edje Main loop
+ * e.g. EdjeView need to push events to the Edje Main loop
  */
 void View::pushEvent(int event)
 {

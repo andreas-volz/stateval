@@ -2,8 +2,8 @@
 #define STATEVAL_PRIVATE_H
 
 #include "Action.h"
-#include "ChangeWidgetVariableAction.h"
-#include "ReadWidgetVariableAction.h"
+#include "ChangeWidgetPropertyAction.h"
+#include "ReadWidgetPropertyAction.h"
 #include "CompoundState.h"
 #include "Condition.h"
 #include "DecisionState.h"
