@@ -190,6 +190,6 @@ void Loader::start ()
   // inital event ->
   StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());  
   LOG4CXX_INFO(mLogger, "Initial Event");
-  StateMachineAccessor.pushEvent(-1);
+  StateMachineAccessor.pushEvent(StateMachine::EMPTY_EVENT);
   // <-
 }

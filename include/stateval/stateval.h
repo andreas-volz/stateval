@@ -7,5 +7,6 @@
 
 #include "StateMachineAccessor.h"
 #include "Variable.h"
+#include "Widget.h"
 
 #endif // STATEVAL_H
