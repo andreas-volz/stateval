@@ -34,8 +34,7 @@ public:
 
   Widget *createWidget(const std::string &name);
 
-  // FIXME: only set to public to implement widget
-  Elmxx::Layout *mLayout; // TODO: remove and access mEdjeContext
+  Elmxx::Layout *getLayout();
 
 private:
   enum ViewState
@@ -57,16 +56,14 @@ private:
   void edjeFunc(const std::string emmision, const std::string source);
   void allFunc(const std::string emmision, const std::string source);
   void viewUpdateFunc(const std::string emmision, const std::string source);
-
-
   
   /** Variables **/
   Logger mLogger;
 
   EdjeContext *mEdjeContext;
 
-  
-  Elmxx::Window *mWindow; // TODO: remove and access mEdjeContext
+  Elmxx::Layout *mLayout;  
+  Elmxx::Window *mWindow;
 
   std::string mFilename;
   std::string mGroupname;

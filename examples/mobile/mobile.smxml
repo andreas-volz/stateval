@@ -40,12 +40,14 @@
     <variable name="Time" type="String" value="1:30 PM"/>
     <variable name="Time2" type="String" value="8:30 PM"/>
     <variable name="ClockHours" type="Integer" value="10"/>
+    <variable name="ClockHours2" type="Integer" value="20"/>
   </variables>
   
   <actions>
     <action name="changeTime" type="ChangeWidgetPropertyAction" view="Bar" widget="Text01" property="text" variable="Time2"/>
     <action name="changeTime2" type="ChangeWidgetPropertyAction" view="Bar" widget="Text01" property="text" variable="Time"/>
-    <action name="readClock" type="ReadWidgetPropertyAction" view="Settings" widget="Clock01" property="text" variable="Time"/>
+    <action name="changeClock" type="ChangeWidgetPropertyAction" view="Settings" widget="Clock01" property="hours" variable="ClockHours2"/>
+    <action name="readClock" type="ReadWidgetPropertyAction" view="Settings" widget="Clock01" property="hours" variable="ClockHours"/>
     <action name="fireUpdateEvent" type="FireEventAction" event="VIEW_UPDATE"/>
   </actions>
   
@@ -84,7 +86,7 @@
     <state name="ChangeTime3" type="SimpleState" parent="Root">
       <state:actions>
         <state:action ref="readClock" when="enter"/>
-        <state:action ref="changeTime2" when="leave"/>
+        <state:action ref="changeClock" when="leave"/>
       </state:actions>
     </state>
     <state name="EMail_Compound" type="CompoundState" parent="Root"/>

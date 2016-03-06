@@ -21,6 +21,7 @@ using namespace std;
 
 EdjeView::EdjeView(EdjeContext *context, const std::string &dir, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.viewmanager.edje.EdjeView"),
+  mLayout(NULL),
   mEdjeContext(context),
   groupState(Unrealized),
   mEvent (-1)
@@ -455,4 +456,9 @@ Widget *EdjeView::createWidget(const std::string &name)
   Widget *widget = new EdjeWidget(*this, name);
   mWidgetMap[name] = widget;
   return widget;
+}
+
+Elmxx::Layout *EdjeView::getLayout()
+{
+  return mLayout;
 }

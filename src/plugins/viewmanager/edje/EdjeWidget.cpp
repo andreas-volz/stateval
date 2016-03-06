@@ -16,24 +16,160 @@ EdjeWidget::EdjeWidget(View &view, const std::string &name) :
   Widget(name),
   mView(dynamic_cast<EdjeView*>(&view))
 {
-  mUpdateDataDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::updateDataDispatched));
+  //mUpdateDataDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::updateDataDispatched));
+  mSetPropertyDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::setPropertyDispatched));
+  mGetPropertyDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::getPropertyDispatched));
 }
 
-Variable *EdjeWidget::getProperty(const std::string &name)
+void EdjeWidget::setProperty(const std::string &name, const Variable &property)
 {
-  LOG4CXX_TRACE(mLogger, "+getValue()");
+  LOG4CXX_TRACE(mLogger, "+setProperty()");
 
-  mUpdateDataDispatcher.emit();
+  mActiveSetPropertyName = name;
+  // FIXME: borken memory handling
+  //delete mProperties[mActiveSetPropertyName];
+  mProperties[mActiveSetPropertyName] = property.copy();
+  
+  mSetPropertyDispatcher.emit();
 
   mMutexUpdateData.lock();
   mCondUpdateData.wait(mMutexUpdateData);
   mMutexUpdateData.unlock();
   
-  LOG4CXX_TRACE(mLogger, "-getValue()");
+  LOG4CXX_TRACE(mLogger, "-setProperty()");
+}
+
+void EdjeWidget::setPropertyDispatched(int missedEvents)
+{
+  LOG4CXX_TRACE(mLogger, "setPropertyDispatched: " << getName() << " / " << mActiveSetPropertyName);
+
+  Elmxx::Layout *layout = mView->getLayout();
+
+  if(layout)
+  {
+    Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
+
+    try
+    {
+      Edjexx::Part &part = edjeObj->getPart(getName());
+
+      Variable *var = mProperties[mActiveSetPropertyName];
+
+      switch(var->getType ())
+      {
+        case Variable::TYPE_INTEGER:
+        {
+          Integer *intObj = dynamic_cast<Integer*>(var);
+          LOG4CXX_TRACE(mLogger, "TYPE_INTEGER: " << intObj->getData());
+          Edjexx::ExternalParam param (mActiveSetPropertyName, intObj->getData());
+          bool validParam = part.setParam (&param);        
+          break;
+        }
+        case Variable::TYPE_STRING:
+        {
+          String *strObj = dynamic_cast<String*>(var);
+          LOG4CXX_TRACE(mLogger, "TYPE_STRING: " << strObj->getData());
+          Edjexx::ExternalParam param (mActiveSetPropertyName, strObj->getData());
+          bool validParam = part.setParam (&param);
+          LOG4CXX_TRACE(mLogger, "validParam: " << validParam);
+          //part.setText(strObj->getData());
+          break;
+        }
+        default:
+          LOG4CXX_DEBUG(mLogger, "unknown type");
+      }
+    }
+    catch (Edjexx::ExternalNotExistingException ene)
+    {
+      LOG4CXX_ERROR(mLogger, ene.what());
+    }
+  }
+  
+  mCondUpdateData.signal();
+}
+
+
+Variable *EdjeWidget::getProperty(const std::string &name)
+{
+  LOG4CXX_TRACE(mLogger, "+getProperty()");
+
+  mActiveGetPropertyName = name;
+  
+  mGetPropertyDispatcher.emit();
+
+  mMutexUpdateData.lock();
+  mCondUpdateData.wait(mMutexUpdateData);
+  mMutexUpdateData.unlock();
+  
+  LOG4CXX_TRACE(mLogger, "-getProperty()");
 
   Variable *var = mProperties[name];
   
   return var;
+}
+
+void EdjeWidget::getPropertyDispatched(int missedEvents)
+{
+  LOG4CXX_TRACE(mLogger, "getPropertyDispatched: " << getName() << " / " << mActiveGetPropertyName);
+
+  Elmxx::Layout *layout = mView->getLayout();
+
+  if(layout)
+  {
+    Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
+
+    try
+    {
+      Edjexx::Part &part = edjeObj->getPart(getName());
+
+      Edje_External_Param_Type paramType = part.getParamType(mActiveGetPropertyName);
+      switch(paramType)
+      {
+        case EDJE_EXTERNAL_PARAM_TYPE_INT:
+        {
+          Edjexx::ExternalParam param (mActiveGetPropertyName, (int) 0);    
+          bool validParam = part.getParam (param);
+          LOG4CXX_DEBUG(mLogger, "INT: " << param.mParam.i);
+          // FIXME: borken memory handling
+          //delete mProperties[mActiveGetPropertyName];
+          Integer *intObj = new Integer(param.mParam.i);
+          mProperties[mActiveGetPropertyName] = intObj;
+          break;
+        }
+        case EDJE_EXTERNAL_PARAM_TYPE_DOUBLE:
+          LOG4CXX_DEBUG(mLogger, "DOUBLE");
+          break;
+        case EDJE_EXTERNAL_PARAM_TYPE_STRING:
+        {
+          Edjexx::ExternalParam param (mActiveGetPropertyName, "");    
+          bool validParam = part.getParam (param);
+          LOG4CXX_DEBUG(mLogger, "STRING" << param.mParam.s);
+          //delete mProperties[mActiveGetPropertyName];
+          String *strObj = new String(param.mParam.s);
+          mProperties[mActiveGetPropertyName] = strObj;
+          break;
+        }
+        case EDJE_EXTERNAL_PARAM_TYPE_BOOL:
+          LOG4CXX_DEBUG(mLogger, "BOOL");
+          break;
+        case EDJE_EXTERNAL_PARAM_TYPE_CHOICE:
+          LOG4CXX_DEBUG(mLogger, "CHOICE");
+          break;
+        case EDJE_EXTERNAL_PARAM_TYPE_MAX:
+          LOG4CXX_DEBUG(mLogger, "MAX");
+          break;  
+        default:
+          LOG4CXX_DEBUG(mLogger, "unknown type");
+      }
+
+    }
+    catch (Edjexx::ExternalNotExistingException ene)
+    {
+      LOG4CXX_ERROR(mLogger, ene.what());
+    }
+  }
+  
+  mCondUpdateData.signal();
 }
 
 void EdjeWidget::updateData()
@@ -46,11 +182,11 @@ void EdjeWidget::updateDataDispatched(int missedEvents)
   LOG4CXX_TRACE(mLogger, "updateData: " << mName);
 
   // TODO: this will crash if calling a not visible view => fix later 
-  Eflxx::CountedPtr <Edjexx::Object> edjeObj(mView->mLayout->getEdje());
+  Eflxx::CountedPtr <Edjexx::Object> edjeObj(mView->getLayout()->getEdje());
 
   try
   {
-    Edjexx::Part &part = edjeObj->getPart(mName);
+    Edjexx::Part &part = edjeObj->getPart(getName());
     
     // TODO: data type introspection by definion in XML?
     Edjexx::ExternalParam paramHours ("hours", (int) 0); 
@@ -113,7 +249,7 @@ void EdjeWidget::updateContent()
 #if 0
   LOG4CXX_TRACE(mLogger, "updateContent: " << mName);
 
-  Eflxx::CountedPtr <Edjexx::Object> edjeObj(mView->mLayout->getEdje());
+  Eflxx::CountedPtr <Edjexx::Object> edjeObj(mView->getLayout()->getEdje());
 
   try
   {

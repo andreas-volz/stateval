@@ -20,15 +20,27 @@ public:
   
   Variable *getProperty(const std::string &name);
 
+  void setProperty(const std::string &name, const Variable &property);
+
 private:
   void updateDataDispatched(int missedEvents);
+
+  void setPropertyDispatched(int missedEvents);
+
+  void getPropertyDispatched(int missedEvents);
   
   Logger mLogger;
   EdjeView *mView;
 
   EcoreDispatcher mUpdateDataDispatcher;
+  EcoreDispatcher mSetPropertyDispatcher;
+  EcoreDispatcher mGetPropertyDispatcher;
+  
   Threading::Condition mCondUpdateData;
   Threading::Mutex mMutexUpdateData;
+
+  std::string mActiveGetPropertyName;
+  std::string mActiveSetPropertyName;
 };
 
 #endif // EDJE_WIDGET_H
