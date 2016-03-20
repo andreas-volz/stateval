@@ -8,6 +8,7 @@
 
 /* local */
 #include "EcoreDispatcher.h"
+#include "EdjeDefaultWidgetRenderer.h"
 
 /* STD */
 #include <string>
@@ -86,6 +87,8 @@ private:
 
   // dispatched by mPushEventDispatcher
   int mEvent;
+
+  EdjeDefaultWidgetRenderer defaultWidgetRenderer;
 };
 
 #endif // EDJE_VIEW_H

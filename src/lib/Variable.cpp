@@ -81,6 +81,12 @@ bool Bool::getData() const
   return mValue;
 }
 
+std::ostream& operator<< (std::ostream &out, Bool &b)
+{
+  out << b.mValue;
+  return out;
+}
+
 //////////////////////////
 
 Double::Double() :
@@ -130,6 +136,12 @@ Double Double::operator = (const Double& d)
 {
   mValue = d.mValue;
   return *this;
+}
+
+std::ostream& operator<< (std::ostream &out, Double &d)
+{
+  out << d.mValue;
+  return out;
 }
 
 
@@ -183,6 +195,11 @@ Integer Integer::operator = (const Integer& i)
 {
   mValue = i.mValue;
   return *this;
+}
+std::ostream& operator<< (std::ostream &out, Integer &i)
+{
+  out << i.mValue;
+  return out;
 }
 
 //////////////////////////
@@ -240,6 +257,12 @@ String String::operator = (const String& s)
 {
   mValue = s.mValue;
   return *this;
+}
+
+std::ostream& operator<< (std::ostream &out, String &s)
+{
+  out << s.mValue;
+  return out;
 }
 
 //////////////////////////
@@ -355,6 +378,8 @@ void List::copy(const Variable *var)
     const List *inList = dynamic_cast<const List*>(var);
     
     //delete_stl_container(mValueList);
+    // TODO: check memory handling!!
+    mValueList.clear();
     std::copy(inList->mValueList.begin(), inList->mValueList.end(), mValueList.begin());
     
     setUpdateFlag(true);
@@ -382,6 +407,8 @@ void List::pushFront(Variable *var)
 
 void List::clear()
 {
+  delete_stl_container(mValueList);
+  mValueList.clear();
   setUpdateFlag(true);
 }
 
@@ -393,4 +420,14 @@ List::Iterator List::begin()
 List::Iterator List::end()
 {
   return mValueList.end();
+}
+
+std::ostream& operator<< (std::ostream &out, List &l)
+{
+  /*for (List::Iterator ls_it = ls->begin(); ls_it != ls->end(); ++ls_it)
+  {
+    Variable *av = *ls_it;
+  }*/
+  //out << l.mValue;
+  return out;
 }

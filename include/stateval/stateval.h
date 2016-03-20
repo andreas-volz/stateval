@@ -8,5 +8,6 @@
 #include "StateMachineAccessor.h"
 #include "Variable.h"
 #include "Widget.h"
+#include "WidgetRenderer.h"
 
 #endif // STATEVAL_H

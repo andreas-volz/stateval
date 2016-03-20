@@ -51,6 +51,9 @@ public:
   
   bool getData() const;
 
+  friend std::ostream& operator<< (std::ostream &out, Bool &b);
+  friend std::ostream& operator<< (std::ostream &out, Variable &v);
+
 protected:
   bool mValue;
 };
@@ -72,6 +75,8 @@ public:
 
   Double operator = (const Double& d);
 
+  friend std::ostream& operator<< (std::ostream &out, Double &d);
+
 protected:
   double mValue;
 };
@@ -89,6 +94,8 @@ public:
   int getData() const;
 
   Integer operator = (const Integer& i);
+
+  friend std::ostream& operator<< (std::ostream &out, Integer &i);
 
 protected:
   int mValue;
@@ -109,6 +116,8 @@ public:
   std::string getData() const;
 
   String operator = (const String& s);
+
+  friend std::ostream& operator<< (std::ostream &out, String &s);
 
 protected:
   std::string mValue;
@@ -135,6 +144,8 @@ public:
 
   Iterator begin();
   Iterator end();
+
+  //friend std::ostream& operator<< (std::ostream &out, Struct &s);
 
 protected:
   std::map <std::string, Variable *> mValueMap;
@@ -163,6 +174,8 @@ public:
   Iterator end();
 
   //List operator = (const List& b);
+
+  friend std::ostream& operator<< (std::ostream &out, List &l);
 
 protected:
   std::list <Variable *> mValueList;

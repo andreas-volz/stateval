@@ -7,8 +7,9 @@
 
 using namespace std;
 
-Widget::Widget(const std::string &name) :
-  mName(name)
+Widget::Widget(WidgetRenderer &widgetRenderer, const std::string &name) :
+  mName(name),
+  mWidgetRenderer(&widgetRenderer)
 {
   // create local Variable as copy if given
   /*if(value)
@@ -48,4 +49,8 @@ void Widget::updateContent()
   // in default implementation Widget has no action
 }
 
+void Widget::setWidgetRender(WidgetRenderer &widgetRenderer)
+{
+  mWidgetRenderer = &widgetRenderer;
+}
 
