@@ -91,7 +91,7 @@ void ViewCache::setRealizeViewList(std::list <ViewSpec> realizeViewList)
     reallyUnrealizeView->unrealize();
   }
 
-  // unrealize all before really marked views
+  // realize all before really marked views
   for (std::list <ViewSpec>::iterator v_it = mReallyRealizeViewList.begin();
        v_it != mReallyRealizeViewList.end();
        ++v_it)

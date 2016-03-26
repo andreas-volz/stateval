@@ -123,6 +123,30 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
 
 void EdjeWidget::updateContent()
 {
-  setPropertyDispatched(0);
+  //setPropertyDispatched(0);
 }
 
+void EdjeWidget::freeContent()
+{
+  Elmxx::Layout *layout = mView->getLayout();
+
+  if(layout)
+  {
+    Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
+
+    try
+    {
+      Edjexx::Part &part = edjeObj->getPart(getName());
+
+      if(mWidgetRenderer)
+      {
+        // call the default renderer
+        mWidgetRenderer->render(&part, "", NULL);
+      }
+    }
+    catch (Edjexx::ExternalNotExistingException ene)
+    {
+      LOG4CXX_ERROR(mLogger, ene.what());
+    }
+  }
+}

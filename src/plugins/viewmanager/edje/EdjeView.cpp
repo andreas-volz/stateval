@@ -85,6 +85,9 @@ void EdjeView::unrealize()
   mUnrealizeDispatcher.emit();
 
   // wait for animation finished on statemachine thread
+  /* FIXME: sometimes the lib hangs in this condition. 
+     It seems invisibleFunc() isn't called or in the wrong moment. Need to trace this!!
+     I only see this error if the application ends - many tries needed to reproduce */ 
   mMutexUnrealize.lock();
   mCondUnrealize.wait(mMutexUnrealize);
   mMutexUnrealize.unlock();
@@ -154,6 +157,16 @@ void EdjeView::unrealizeDispatched(int missedEvents)
     mEdjeContext->background->show ();
     
     edjeObj->emit("invisible", "stateval");
+  }
+
+  for (WidgetIterator wl_it = beginOfWidgets();
+       wl_it != endOfWidgets();
+       ++wl_it)
+  {
+    Widget *w = wl_it->second;
+
+
+    w->freeContent();
   }
 }
 

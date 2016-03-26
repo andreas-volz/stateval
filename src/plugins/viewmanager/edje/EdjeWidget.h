@@ -17,7 +17,11 @@ public:
   EdjeWidget(View &view, WidgetRenderer &widgetRenderer, const std::string &name);
 
   // only allowed to call from a GUI dispatched client!!
+  // TODO: not needed at the moment, was an experiment with Elm::GenList
   void updateContent();
+
+  // only allowed to call from a GUI dispatched client!!
+  void freeContent();
 
   Variable *getProperty(const std::string &name);
 

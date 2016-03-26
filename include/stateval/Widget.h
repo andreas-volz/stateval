@@ -24,6 +24,9 @@ public:
   // only allowed to call from a GUI dispatched client!! 
   virtual void updateContent();
 
+  // only allowed to call from a GUI dispatched client!! 
+  virtual void freeContent();
+
   void setWidgetRender(WidgetRenderer &widgetRenderer);
 
 protected:

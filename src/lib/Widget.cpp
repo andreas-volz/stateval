@@ -49,6 +49,11 @@ void Widget::updateContent()
   // in default implementation Widget has no action
 }
 
+void Widget::freeContent()
+{
+  // in default implementation Widget has no action
+}
+
 void Widget::setWidgetRender(WidgetRenderer &widgetRenderer)
 {
   mWidgetRenderer = &widgetRenderer;

@@ -32,7 +32,7 @@
 <!ATTLIST event name CDATA #REQUIRED>
 
 <!ATTLIST variable name CDATA #IMPLIED>
-<!ATTLIST variable type (Bool|String|Double|Integer|Struct|List) #REQUIRED>
+<!ATTLIST variable type (Bool|String|Double|Integer|Struct|List|VoidPtr) #REQUIRED>
 <!ATTLIST variable value CDATA #IMPLIED>
 
 <!ATTLIST state name CDATA #REQUIRED>
