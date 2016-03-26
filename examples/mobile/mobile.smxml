@@ -41,6 +41,12 @@
     <variable name="Time2" type="String" value="8:30 PM"/>
     <variable name="ClockHours" type="Integer" value="10"/>
     <variable name="ClockHours2" type="Integer" value="4"/>
+    <variable name="MediaList" type="VoidPtr">
+      <!--<variable type="Struct">
+        <variable name="iconType" type="Integer" value="0"/>
+        <variable name="name" type="String" value="Iron Maiden"/>
+       </variable>-->
+    </variable>
   </variables>
   
   <actions>

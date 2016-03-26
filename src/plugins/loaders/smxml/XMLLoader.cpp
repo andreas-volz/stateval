@@ -298,6 +298,11 @@ Variable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
     {
       var = new Integer(fromString <int> (value_attribute->get_value()));
     }
+    else if (type_attribute->get_value() == "VoidPtr")
+    {
+      // always create VoidPtr with NULL from XML
+      var = new VoidPtr(NULL);
+    }
     else if (type_attribute->get_value() == "Struct")
     {
       Struct *st = new Struct();
@@ -313,8 +318,16 @@ Variable *XMLLoader::parseVariableNode(const xmlpp::Node *node)
           const xmlpp::Element *innerNodeElement = dynamic_cast < const xmlpp::Element * >(*iter);
           const xmlpp::Attribute *inner_name_attribute = innerNodeElement->get_attribute("name");
 
-          LOG4CXX_DEBUG(mLogger, "adding variable to struct: " << inner_name_attribute->get_value());
-          st->add(inner_name_attribute->get_value(), av);
+          if(inner_name_attribute)
+          {
+            LOG4CXX_DEBUG(mLogger, "adding variable to struct: " << inner_name_attribute->get_value());
+            st->add(inner_name_attribute->get_value(), av);
+          }
+          else
+          {
+            LOG4CXX_FATAL(mLogger, "no 'name' attribute specified");
+            assert(false);
+          }
         }
       }
 

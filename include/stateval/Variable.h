@@ -7,6 +7,8 @@
 #include <map>
 #include <list>
 
+// TODO: think about a variable_cast<> function like static_cast<> with type check
+
 class Variable
 {
 public:
@@ -17,7 +19,8 @@ public:
     TYPE_BOOL,
     TYPE_STRING,
     TYPE_LIST,
-    TYPE_STRUCT
+    TYPE_STRUCT,
+    TYPE_VOIDPTR
   };
 
   virtual ~Variable(){};
@@ -123,6 +126,28 @@ protected:
   std::string mValue;
 };
 
+class VoidPtr : public Variable
+{
+public:
+  VoidPtr();
+  VoidPtr(void *v);
+
+  bool equals(const Variable *var) const;
+  void copy(const Variable *var);
+  Variable *copy() const;
+
+  void change(void* v);
+
+  bool isZero() const;
+
+  void *getData() const;
+
+  VoidPtr operator = (const VoidPtr& v);
+
+protected:
+  void *mValue;
+};
+
 class Struct : public Variable
 {
 public:
@@ -137,7 +162,7 @@ public:
   
   void add(const std::string &s, Variable *var);
 
-  Variable *getData(const std::string &s);
+  Variable *get(const std::string &s);
   // TODO: implement [] operator
 
   //Struct operator = (const Struct& b);
@@ -174,6 +199,7 @@ public:
   Iterator end();
 
   //List operator = (const List& b);
+  // TODO: implement [] operator
 
   friend std::ostream& operator<< (std::ostream &out, List &l);
 

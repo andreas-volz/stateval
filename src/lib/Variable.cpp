@@ -267,6 +267,67 @@ std::ostream& operator<< (std::ostream &out, String &s)
 
 //////////////////////////
 
+VoidPtr::VoidPtr() :
+  Variable(TYPE_VOIDPTR)
+{
+}
+
+VoidPtr::VoidPtr(void *v) :
+  Variable(TYPE_VOIDPTR),
+  mValue(v)
+{
+
+}
+
+bool VoidPtr::equals(const Variable *var) const
+{
+  LOG4CXX_DEBUG(logger, "equals this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  bool ret = (dynamic_cast <const VoidPtr*>(var))->mValue == mValue;
+
+  return ret;
+}
+
+void VoidPtr::copy(const Variable *var)
+{
+  LOG4CXX_DEBUG(logger, "copy this:Type: " << getType());
+  LOG4CXX_DEBUG(logger, "var:Type: " << var->getType());
+  assert(getType() == var->getType());
+
+  mValue = (dynamic_cast <const VoidPtr*>(var))->mValue;
+  setUpdateFlag(true);
+}
+
+Variable *VoidPtr::copy() const
+{
+  return new VoidPtr(mValue);
+}
+
+void VoidPtr::change(void* v)
+{
+  mValue = v;
+}
+
+bool VoidPtr::isZero() const
+{
+  return !mValue;
+}
+
+void *VoidPtr::getData() const
+{
+  return mValue;
+}
+
+VoidPtr VoidPtr::operator = (const VoidPtr& v)
+{
+  mValue = v.mValue;
+  return *this;
+}
+
+//////////////////////////
+
 Struct::Struct() :
   Variable(TYPE_STRUCT)
 {
@@ -314,7 +375,7 @@ void Struct::add(const std::string &s, Variable *var)
   setUpdateFlag(true);
 }
 
-Variable *Struct::getData(const std::string &s)
+Variable *Struct::get(const std::string &s)
 {
   LOG4CXX_DEBUG(logger, "mValueMap size: " << mValueMap.size());
   return mValueMap[s];
