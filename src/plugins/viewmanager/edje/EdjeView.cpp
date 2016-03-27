@@ -171,7 +171,7 @@ void EdjeView::unrealizeDispatched(int missedEvents)
 }
 
 void EdjeView::update()
-{  
+{
   LOG4CXX_TRACE(mLogger, "+update()");
 
   mUpdateDispatcher.emit();

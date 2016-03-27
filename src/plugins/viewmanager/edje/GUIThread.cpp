@@ -23,7 +23,9 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mEdjeView (NULL),
   mViewManagerParams(params),
   mWindow(NULL),
-  mBackground(NULL)
+  mBackground(NULL),
+  mBorderless(false),
+  mTitle("StatEval Default Window")
 {
   std::map <std::string, std::string>::const_iterator param_it;
 
@@ -38,7 +40,22 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   if (param_it != params.end ())
   {
     mWindowSize.height (atoi (param_it->second.c_str ()));
-  }  
+  }
+
+  param_it = params.find ("borderless");
+  if (param_it != params.end ())
+  {
+    if(param_it->second == "true")
+    {
+      mBorderless = true;
+    }
+  }
+
+  param_it = params.find ("title");
+  if (param_it != params.end ())
+  {
+    mTitle = param_it->second;    
+  }
 }
 
 GUIThread::~GUIThread()
@@ -88,7 +105,8 @@ void GUIThread::run()
   
   mViewFactoryDispatcher->signalDispatch.connect(sigc::mem_fun(this, &GUIThread::viewFactoryDispatched));
   
-  mWindow->setTitle("StatEval Default Window");
+  mWindow->setTitle(mTitle);
+  mWindow->setBorderless(mBorderless);
     
   mBackground->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   mBackground->setColor (Eflxx::Color (0, 0, 0)); // show block background while view switching

@@ -63,6 +63,9 @@ private:
   Elmxx::Background *mBackground;
 
   std::string mDataLoadDir;
+
+  bool mBorderless;
+  string mTitle;
 };
 
 #endif // GUI_THREAD_H

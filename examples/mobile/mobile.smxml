@@ -136,6 +136,7 @@
     <params>
       <param key="width" value="320"/>
       <param key="height" value="480"/>
+      <param key="title" value="Mobile Demo"/>
     </params>
 
     <view name="Main">
