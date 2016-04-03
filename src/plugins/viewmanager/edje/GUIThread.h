@@ -66,6 +66,8 @@ private:
 
   bool mBorderless;
   string mTitle;
+  bool mAlpha;
+  bool mShaped;
 };
 
 #endif // GUI_THREAD_H

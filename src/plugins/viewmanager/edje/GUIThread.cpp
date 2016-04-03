@@ -25,11 +25,12 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mWindow(NULL),
   mBackground(NULL),
   mBorderless(false),
-  mTitle("StatEval Default Window")
+  mTitle("StatEval Default Window"),
+  mAlpha(false),
+  mShaped(false)
 {
   std::map <std::string, std::string>::const_iterator param_it;
 
-  // TODO: think about more generic value parser from XML
   param_it = params.find ("width");
   if (param_it != params.end ())
   {
@@ -56,6 +57,25 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   {
     mTitle = param_it->second;    
   }
+
+  param_it = params.find ("alpha");
+  if (param_it != params.end ())
+  {
+    if(param_it->second == "true")
+    {
+      mAlpha = true;
+    }
+  }
+
+  param_it = params.find ("shaped");
+  if (param_it != params.end ())
+  {
+    if(param_it->second == "true")
+    {
+      mShaped = true;
+    }
+  }
+
 }
 
 GUIThread::~GUIThread()
@@ -115,7 +135,9 @@ void GUIThread::run()
   
   mWindow->resize(mWindowSize);
   mWindow->setAutoDel(false);
-  mWindow->setAlpha(true);
+  mWindow->setAlpha(mAlpha);
+
+  mWindow->setShaped(mShaped);
   
   mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
 
