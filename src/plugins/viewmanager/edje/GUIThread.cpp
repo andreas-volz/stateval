@@ -27,7 +27,8 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mBorderless(false),
   mTitle("StatEval Default Window"),
   mAlpha(false),
-  mShaped(false)
+  mShaped(false),
+  mViewCreated(false)
 {
   std::map <std::string, std::string>::const_iterator param_it;
 
@@ -88,10 +89,14 @@ View *GUIThread::viewFactory (const std::string &dir, const std::map <std::strin
   mViewParams = params;
   mDataLoadDir = dir;
 
+  mMutexViewCreated.lock();
+  mViewCreated = false;
   mViewFactoryDispatcher->emit();
-  
-  mMutexViewCreated.lock();  
-  mCondViewCreated.wait(mMutexViewCreated);
+
+  while(!mViewCreated)
+  {
+    mCondViewCreated.wait(mMutexViewCreated);
+  }
   mMutexViewCreated.unlock();
 
   assert (mEdjeView);
@@ -160,8 +165,11 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
   mContext.background = mBackground;
   
   mEdjeView = new EdjeView (&mContext, mDataLoadDir, mViewParams);
-
-  mCondViewCreated.signal ();
+  mViewCreated = true;
+    
+  mMutexViewCreated.lock(); 
+  mCondViewCreated.signal();
+  mMutexViewCreated.unlock();
 }
 
 void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
@@ -183,6 +191,8 @@ void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
  */
 void GUIThread::startupDispatched()
 {
-  // signal that EFL is started to EdjeViewManager 
-  condGUIStarted.signal ();
+  // signal that EFL is started to EdjeViewManager
+  mutexGUIStarted.lock();
+  condGUIStarted.signal();
+  mutexGUIStarted.unlock();
 }

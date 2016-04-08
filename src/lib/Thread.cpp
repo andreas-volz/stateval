@@ -85,6 +85,12 @@ void Condition::signal()
   assert(0 == rc);
 }
 
+void Condition::broadcast()
+{
+  const int rc(::pthread_cond_broadcast(&m_Condition));
+  assert(0 == rc);
+}
+
 void Condition::wait(Mutex &inMutex)
 {
   int rc = ::pthread_cond_wait(&m_Condition, &inMutex.m_Mutex);

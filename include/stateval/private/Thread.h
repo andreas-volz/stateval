@@ -128,6 +128,7 @@ public:
   ~Condition();
 
   void signal();
+  void broadcast();
   void wait(Mutex &inMutex);
 
 // The assignment and copy ctor of these objects are intentionally not allowed!

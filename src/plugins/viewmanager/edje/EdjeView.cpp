@@ -140,7 +140,9 @@ void EdjeView::realizeDispatched(int missedEvents)
   edjeObj->emit("visible", "stateval");
   mEdjeContext->background->hide (); // make background "transparent"
 
+  mMutexRealize.lock();
   mCondRealize.signal();
+  mMutexRealize.unlock();
 
   LOG4CXX_TRACE(mLogger, "-realizeDispatched()");
 }
@@ -272,7 +274,9 @@ void EdjeView::pushEventDispatched(int missedEvents)
     }
   }
 
+  mMutexPushEvent.lock();
   mCondPushEvent.signal ();
+  mMutexPushEvent.unlock();
 }
 
 void EdjeView::pushEvent(int event)

@@ -68,6 +68,7 @@ private:
   string mTitle;
   bool mAlpha;
   bool mShaped;
+  bool mViewCreated;
 };
 
 #endif // GUI_THREAD_H

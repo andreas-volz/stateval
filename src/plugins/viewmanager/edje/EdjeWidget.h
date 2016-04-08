@@ -46,6 +46,8 @@ private:
 
   std::string mActiveGetPropertyName;
   std::string mActiveSetPropertyName;
+
+  bool mGetProperty;
 };
 
 #endif // EDJE_WIDGET_H

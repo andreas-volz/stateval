@@ -14,7 +14,8 @@ using namespace std;
 EdjeWidget::EdjeWidget(View &view, WidgetRenderer &widgetRenderer, const std::string &name) :
   mLogger("stateval.plugins.viewmanager.edje.EdjeWidget"),
   Widget(widgetRenderer, name),
-  mView(dynamic_cast<EdjeView*>(&view))
+  mView(dynamic_cast<EdjeView*>(&view)),
+  mGetProperty(false)
 {
   //mUpdateDataDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::updateDataDispatched));
   mSetPropertyDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::setPropertyDispatched));
@@ -29,10 +30,10 @@ void EdjeWidget::setProperty(const std::string &name, const Variable &property)
   // FIXME: broken memory handling
   //delete mProperties[mActiveSetPropertyName];
   mProperties[mActiveSetPropertyName] = property.copy();
-  
-  mSetPropertyDispatcher.emit();
 
   mMutexUpdateData.lock();
+  mSetPropertyDispatcher.emit();
+  
   mCondUpdateData.wait(mMutexUpdateData);
   mMutexUpdateData.unlock();
   
@@ -66,8 +67,10 @@ void EdjeWidget::setPropertyDispatched(int missedEvents)
       LOG4CXX_ERROR(mLogger, ene.what());
     }
   }
-  
+
+  mMutexUpdateData.lock();
   mCondUpdateData.signal();
+  mMutexUpdateData.unlock();
 }
 
 
@@ -76,11 +79,15 @@ Variable *EdjeWidget::getProperty(const std::string &name)
   LOG4CXX_TRACE(mLogger, "+getProperty()");
 
   mActiveGetPropertyName = name;
-  
-  mGetPropertyDispatcher.emit();
 
   mMutexUpdateData.lock();
-  mCondUpdateData.wait(mMutexUpdateData);
+  mGetProperty = false;
+  mGetPropertyDispatcher.emit();
+
+  while(!mGetProperty)
+  {
+    mCondUpdateData.wait(mMutexUpdateData);
+  }
   mMutexUpdateData.unlock();
   
   LOG4CXX_TRACE(mLogger, "-getProperty()");
@@ -117,8 +124,12 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
       LOG4CXX_ERROR(mLogger, ene.what());
     }
   }
-  
+
+  mGetProperty = true;
+
+  mMutexUpdateData.lock();
   mCondUpdateData.signal();
+  mMutexUpdateData.unlock();
 }
 
 void EdjeWidget::updateContent()
@@ -128,7 +139,8 @@ void EdjeWidget::updateContent()
 
 void EdjeWidget::freeContent()
 {
-  Elmxx::Layout *layout = mView->getLayout();
+   // TMP: deactivated to free content renderer => was an idea to clear lists
+  /*Elmxx::Layout *layout = mView->getLayout();
 
   if(layout)
   {
@@ -148,5 +160,5 @@ void EdjeWidget::freeContent()
     {
       LOG4CXX_ERROR(mLogger, ene.what());
     }
-  }
+  }*/
 }
