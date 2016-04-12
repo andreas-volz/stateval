@@ -28,7 +28,8 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mTitle("StatEval Default Window"),
   mAlpha(false),
   mShaped(false),
-  mViewCreated(false)
+  mViewCreated(false),
+  mFullscreen(false)
 {
   std::map <std::string, std::string>::const_iterator param_it;
 
@@ -74,6 +75,15 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
     if(param_it->second == "true")
     {
       mShaped = true;
+    }
+  }
+
+  param_it = params.find ("fullscreen");
+  if (param_it != params.end ())
+  {
+    if(param_it->second == "true")
+    {
+      mFullscreen = true;
     }
   }
 
@@ -143,6 +153,8 @@ void GUIThread::run()
   mWindow->setAlpha(mAlpha);
 
   mWindow->setShaped(mShaped);
+
+  mWindow->setFullscreen(mFullscreen);
   
   mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
 

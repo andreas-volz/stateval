@@ -69,6 +69,7 @@ private:
   bool mAlpha;
   bool mShaped;
   bool mViewCreated;
+  bool mFullscreen;
 };
 
 #endif // GUI_THREAD_H
