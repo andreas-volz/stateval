@@ -62,11 +62,26 @@ AC_DEFINE_UNQUOTED(PACKAGE_PLUGINS_DIR, "${packageprefix}/${packagepluginsdir}",
 AC_DEFINE_UNQUOTED(SYSTEM_PLUGINS_DIR, "${packageprefix}/${systempluginsdir}","")
 AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}","")
 
-## TODO: ecorexx only needed for edje_console example...
-PKG_CHECK_MODULES([EFL], elementaryxx ecorexx,
-     AM_CONDITIONAL(HAVE_EFL, [test 1 = 1]),
-     AM_CONDITIONAL(HAVE_EFL, [test 0 = 1]),
-)
+
+ACX_PTHREAD([],exit)
+
+AC_MSG_CHECKING(whether to enable EFL)
+AC_ARG_ENABLE(efl,
+        [  --enable-efl=[no/yes]        enables EFL Edje Plugin (default=auto)],,
+                 enable_efl=yes)              
+
+if [ ! test "$enable_efl" != "yes"]; then
+  AC_MSG_RESULT(yes)
+  ## TODO: ecorexx only needed for edje_console example...
+  PKG_CHECK_MODULES([EFL], elementaryxx ecorexx,
+       AM_CONDITIONAL(HAVE_EFL, [test 1 = 1]),
+       AM_CONDITIONAL(HAVE_EFL, [test 0 = 1])
+  )
+else
+  AM_CONDITIONAL(HAVE_EFL, [test 0 = 1])
+  AC_MSG_RESULT(no)
+fi
+
 
 PKG_CHECK_MODULES([XML], libxml++-2.6,
      AM_CONDITIONAL(HAVE_XML, [test 1 = 1]),
@@ -106,8 +121,6 @@ if [ ! test "$enable_tests" != "yes"]; then
 else
   AC_MSG_RESULT(no)
 fi
-
-ACX_PTHREAD([],[])
 
 PKG_CHECK_MODULES(SIGC, sigc++-2.0)
 
