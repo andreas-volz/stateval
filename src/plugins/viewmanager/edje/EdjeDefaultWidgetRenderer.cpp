@@ -2,10 +2,11 @@
 #include <config.h>
 #endif
 
-/* EFLxx */
-#include <evasxx/Evasxx.h>
-#include <edjexx/Edjexx.h>
-#include <elementaryxx/Elementaryxx.h>
+/* EFL C++ */
+// TODO: port EFL C++
+/*#include <Evas.hh>
+#include <Edje.hh>
+#include <Elementary.hh>*/
 
 /* STD */
 #include <cassert>
@@ -25,7 +26,8 @@ EdjeDefaultWidgetRenderer::~EdjeDefaultWidgetRenderer()
 
 void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &varName, Variable *var)
 {
-  Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
+  // TODO: port EFL C++
+  /*Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
 
   if(part)
   {
@@ -35,6 +37,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
       {
         Integer *intObj = dynamic_cast<Integer*>(var);
         LOG4CXX_TRACE(mLogger, "TYPE_INTEGER: " << intObj->getData());
+
         Edjexx::ExternalParam param (varName, intObj->getData());
         bool validParam = part->setParam (&param);        
         break;
@@ -43,6 +46,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
       {
         String *strObj = dynamic_cast<String*>(var);
         LOG4CXX_TRACE(mLogger, "TYPE_STRING: " << strObj->getData());
+
         if(part->isExternalObject())
         {
           Edjexx::ExternalParam param (varName, strObj->getData());
@@ -51,7 +55,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
         }
         else
         {
-          part->setText(strObj->getData());
+          //part->setText(strObj->getData());
         }
         break;
       }
@@ -62,14 +66,15 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
   else
   {
     assert(false);
-  }
+  }*/
 }
 
 Variable *EdjeDefaultWidgetRenderer::getRenderedValue(void *renderObject, const std::string &varName)
 {
-  Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
+  // TODO: port EFL C++
+  //Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
 
-  if(part)
+  /*if(part)
   {
     Edje_External_Param_Type paramType = part->getParamType(varName);
     switch(paramType)
@@ -122,6 +127,6 @@ Variable *EdjeDefaultWidgetRenderer::getRenderedValue(void *renderObject, const 
   else
   {
     assert(false);
-  }
+  }*/
 }
 

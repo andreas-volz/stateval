@@ -6,8 +6,10 @@
 #include "EdjeView.h"
 #include "EdjeContext.h"
 
-/* Eflxx */
-#include <elementaryxx/Elementaryxx.h>
+/* Efl C++ */
+// TODO: port EFL C++
+/*
+#include <Elementary.hh>*/
 
 /* stateval */
 #include "stateval/stateval.h"
@@ -21,7 +23,8 @@ using namespace std;
 
 EdjeView::EdjeView(EdjeContext *context, const std::string &dir, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.viewmanager.edje.EdjeView"),
-  mLayout(NULL),
+// TODO: port EFL C++
+  //mLayout(NULL),
   mEdjeContext(context),
   groupState(Unrealized),
   mEvent (-1)
@@ -103,7 +106,8 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   LOG4CXX_INFO(mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
 
-  mWindow = mEdjeContext->window;
+  // TODO: port EFL C++
+/*  mWindow = mEdjeContext->window;
   mLayout = Elmxx::Layout::factory(*mWindow);
   mLayout->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   mWindow->addResizeObject(*mLayout);
@@ -138,7 +142,7 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   groupState = Realizing;
   edjeObj->emit("visible", "stateval");
-  mEdjeContext->background->hide (); // make background "transparent"
+  mEdjeContext->background->hide (); // make background "transparent"*/
 
   mMutexRealize.lock();
   mCondRealize.signal();
@@ -149,7 +153,8 @@ void EdjeView::realizeDispatched(int missedEvents)
 
 void EdjeView::unrealizeDispatched(int missedEvents)
 {
-  if (mLayout)
+  // TODO: port EFL C++
+  /*if (mLayout)
   {
     groupState = Unrealizing;
     Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
@@ -159,7 +164,7 @@ void EdjeView::unrealizeDispatched(int missedEvents)
     mEdjeContext->background->show ();
     
     edjeObj->emit("invisible", "stateval");
-  }
+  }*/
 
   for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
@@ -201,9 +206,10 @@ void EdjeView::invisibleFunc(const std::string emmision, const std::string sourc
   LOG4CXX_TRACE(mLogger, "invisibleFunc");
 
   groupState = Unrealized;
-  mWindow->delResizeObject(*mLayout);
+  // TODO: port EFL C++
+  /*mWindow->delResizeObject(*mLayout);
   mLayout->destroy();
-  mLayout = NULL;
+  mLayout = NULL;*/
   
   // signal the edje statemachine thread that the animation is finished
   mCondUnrealize.signal();
@@ -264,8 +270,9 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
     {
-      Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
-      edjeObj->emit(eventString, "stateval");
+      // TODO: port EFL C++
+      //Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
+      //edjeObj->emit(eventString, "stateval");
     }
 
     if (mEvent == VIEW_UPDATE_EVENT)
@@ -297,7 +304,8 @@ Widget *EdjeView::createWidget(const std::string &name)
   return widget;
 }
 
-Elmxx::Layout *EdjeView::getLayout()
+// TODO: port EFL C++
+/*elm::layout *EdjeView::getLayout()
 {
   return mLayout;
-}
+}*/

@@ -13,10 +13,11 @@
 /* STD */
 #include <string>
 
-/* EFLxx */
-#include <evasxx/Evasxx.h>
-#include <edjexx/Edjexx.h>
-#include <elementaryxx/Elementaryxx.h>
+/* EFL C++ */
+// TODO: port EFL C++
+/*#include <Evas.hh>
+#include <Edje.hh>
+#include <Elementary.hh>*/
 
 /* forward declarations */
 class StateMachineAccessor;
@@ -35,7 +36,8 @@ public:
 
   Widget *createWidget(const std::string &name);
 
-  Elmxx::Layout *getLayout();
+  // TODO: port EFL C++
+  //elm::layout *getLayout();
 
 private:
   enum ViewState
@@ -63,8 +65,9 @@ private:
 
   EdjeContext *mEdjeContext;
 
-  Elmxx::Layout *mLayout;  
-  Elmxx::Window *mWindow;
+  // TODO: port EFL C++
+  //elm::layout *mLayout;
+  //elm::win_standard *mWindow;
 
   std::string mFilename;
   std::string mGroupname;
