@@ -212,9 +212,9 @@
       <mappings>
         <map from="edje,Button01,clicked" to="TUNER_LIST"/>
       </mappings>
-      <widgets>
+      <!--<widgets>
         <widget name="Slider01" variable="TunerFrequencySlider"/>
-      </widgets>
+      </widgets>-->
     </view>
     
     <view name="NavInfoView">
@@ -226,9 +226,9 @@
         <map from="edje,Button01,clicked" to="NAV_MAIN"/>
       </mappings>
       <widgets>
-        <widget name="Text_Example" variable="TextExampleString"/>
+        <!--<widget name="Text_Example" variable="TextExampleString"/>
         <widget name="Bubble01" variable="BubbleExample"/>
-        <widget name="Button02" variable="ButtonExample"/>
+        <widget name="Button02" variable="ButtonExample"/>-->
       </widgets>
     </view>    
     
@@ -245,8 +245,8 @@
         <map from="edje,Button04,clicked" to="CHANGE_MEDIA_TITLE"/>
       </mappings>
       <widgets>
-        <widget name="List01" variable="ListExample"/>
-        <widget name="Text01" variable="MediaListTitle"/>
+        <!--<widget name="List01" variable="ListExample"/>
+        <widget name="Text01" variable="MediaListTitle"/>-->
       </widgets>
     </view>
   </viewmanager>
