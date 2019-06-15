@@ -273,5 +273,5 @@ void StateMachine::changeVariable(const std::string &var, Variable &av)
 
 Widget *StateMachine::getWidget(const std::string &view, const std::string &widget)
 {
-  mLoader->getWidget(view, widget);
+  return mLoader->getWidget(view, widget);
 }

@@ -3,6 +3,7 @@
 
 /* STD */
 #include <string>
+
 /* pluxx */
 #include <pluxx/Plugin.h>
 

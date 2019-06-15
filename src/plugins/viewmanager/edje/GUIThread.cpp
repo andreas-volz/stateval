@@ -22,8 +22,9 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mRunning(true),
   mEdjeView (NULL),
   mViewManagerParams(params),
-  mWindow(NULL),
-  mBackground(NULL),
+  // TODO: port EFL C++
+  //mWindow(NULL),
+  //mBackground(NULL),
   mBorderless(false),
   mTitle("StatEval Default Window"),
   mAlpha(false),
@@ -36,13 +37,15 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   param_it = params.find ("width");
   if (param_it != params.end ())
   {
-    mWindowSize.width (atoi (param_it->second.c_str ()));
+    // TODO: port EFL C++
+    //mWindowSize.width (atoi (param_it->second.c_str ()));
   }
 
   param_it = params.find ("height");
   if (param_it != params.end ())
   {
-    mWindowSize.height (atoi (param_it->second.c_str ()));
+    // TODO: port EFL C++
+    //mWindowSize.height (atoi (param_it->second.c_str ()));
   }
 
   param_it = params.find ("borderless");
@@ -127,7 +130,8 @@ Threading::Thread::EError GUIThread::start()
 
 void GUIThread::run()
 {
-  mApp = new Elmxx::Application (0, NULL);
+  // TODO: port EFL C++
+  /*mApp = new Elmxx::Application (0, NULL);
   assert (mApp);
 
   mWindow = Elmxx::Window::factory("window1", ELM_WIN_BASIC);
@@ -167,16 +171,17 @@ void GUIThread::run()
   // Enter the application main loop
   LOG4CXX_INFO(mLogger, "enter GUI mainloop");
   
-  mApp->run();
+  mApp->run();*/
 }
 
 void GUIThread::viewFactoryDispatched(int missedEvents)
 {
-  mContext.window = mWindow;
+  // TODO: port EFL C++
+  /*mContext.window = mWindow;
   mContext.resolution = mWindowSize;
   mContext.background = mBackground;
   
-  mEdjeView = new EdjeView (&mContext, mDataLoadDir, mViewParams);
+  mEdjeView = new EdjeView (&mContext, mDataLoadDir, mViewParams);*/
   mViewCreated = true;
     
   mMutexViewCreated.lock(); 
@@ -184,7 +189,8 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
   mMutexViewCreated.unlock();
 }
 
-void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
+// TODO: port EFL C++
+/*void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
 {
   // TODO: exit concept! (finish state in stateval?)
   
@@ -196,7 +202,7 @@ void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
   stateMachineAccessor.pushEvent(EVENT_EXIT);
   
   //Ecorexx::Application::quit();
-}
+}*/
 
 /*!
  * This functions runs on the Ecore thread dispatched by the EcoreDispatcher

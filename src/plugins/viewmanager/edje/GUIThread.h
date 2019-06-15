@@ -1,11 +1,12 @@
 #ifndef GUI_THREAD_H
 #define GUI_THREAD_H
 
-/* EFL */
-#include <evasxx/Evasxx.h>
-#include <ecorexx/Ecorexx.h>
-#include <edjexx/Edjexx.h>
-#include <elementaryxx/Elementaryxx.h>
+/* EFL C++ */
+// TODO: port EFL C++
+/*#include <Evas.hh>
+#include <Ecore.hh>
+#include <Edje.hh>
+#include <Elementary.hh>*/
 
 /* stateval */
 #include "stateval/private/Thread.h"
@@ -32,14 +33,16 @@ public:
 private:  
   void run();
   void updateEvent(int missedEvents);
-  void elm_quit(Evasxx::Object &obj, void *event_info);
+  // TODO: port EFL C++
+  //void elm_quit(Evasxx::Object &obj, void *event_info);
   void startupDispatched();
   void viewFactoryDispatched(int missedEvents);
 
   Logger mLogger; // first private variable
   
   bool mRunning;
-  Elmxx::Application *mApp;
+  // TODO: port EFL C++
+  //Elmxx::Application *mApp;
   EcoreDispatcher *mViewFactoryDispatcher;
 
   Threading::Condition mCondViewCreated;
@@ -47,7 +50,7 @@ private:
 
   Threading::Condition condGUIStarted;
   Threading::Mutex mutexGUIStarted;
-  
+
   EdjeContext mContext;
   View *mEdjeView;
 
@@ -56,16 +59,15 @@ private:
 
   std::map <std::string, std::string> mViewManagerParams;
 
-  Eflxx::Size mWindowSize;
-    
-  Elmxx::Window *mWindow;
-
-  Elmxx::Background *mBackground;
+  // TODO: port EFL C++
+  /*Eflxx::Size mWindowSize;
+  elm::win_standard *mWindow;
+  elm::bg *mBackground;*/
 
   std::string mDataLoadDir;
 
   bool mBorderless;
-  string mTitle;
+  std::string mTitle;
   bool mAlpha;
   bool mShaped;
   bool mViewCreated;
