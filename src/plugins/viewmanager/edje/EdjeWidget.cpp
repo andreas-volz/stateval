@@ -27,9 +27,7 @@ void EdjeWidget::setProperty(const std::string &name, const Variable &property)
   LOG4CXX_TRACE(mLogger, "+setProperty()");
 
   mActiveSetPropertyName = name;
-  // FIXME: broken memory handling
-  //delete mProperties[mActiveSetPropertyName];
-  mProperties[mActiveSetPropertyName] = property.copy();
+  mProperties[mActiveSetPropertyName] = const_cast<Variable*>(&property);
 
   mMutexUpdateData.lock();
   mSetPropertyDispatcher.emit();
@@ -134,7 +132,7 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
 
 void EdjeWidget::updateContent()
 {
-  //setPropertyDispatched(0);
+  setPropertyDispatched(0);
 }
 
 void EdjeWidget::freeContent()

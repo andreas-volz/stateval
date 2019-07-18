@@ -14,7 +14,7 @@
 using namespace std;
 
 /* static member variable initialization */
-StateMachineAccessor *StateMachineAccessor::mInstance = NULL;
+//StateMachineAccessor *StateMachineAccessor::mInstance = NULL;
 
 StateMachineAccessor::StateMachineAccessor() :
   mPImpl(new StateMachineAccessorPImpl())
@@ -29,20 +29,13 @@ StateMachineAccessor::~StateMachineAccessor()
 
 void StateMachineAccessor::destroy()
 {
-  if (mInstance)
-  {
-    delete mInstance;
-  }
-  mInstance = NULL;
+  // TODO deprecated - remove this function later in API and applications
 }
 
 StateMachineAccessor &StateMachineAccessor::getInstance()
 {
-  if (!mInstance)
-  {
-    mInstance = new StateMachineAccessor();
-  }
-  return *mInstance;
+  static StateMachineAccessor instance;
+  return instance;
 }
 
 void StateMachineAccessor::setDataLoadDir(const std::string &dir)

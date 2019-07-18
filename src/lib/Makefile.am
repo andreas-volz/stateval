@@ -8,10 +8,6 @@ libstateval_la_CPPFLAGS = \
 	$(LOG4CXX_CFLAGS) \
 	$(PTHREAD_CFLAGS)
 
-libstateval_la_CFLAGS =\
-	 -Wall\
-	 -g
-
 lib_LTLIBRARIES = \
 	libstateval.la
 
