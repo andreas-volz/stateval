@@ -7,7 +7,7 @@
 #include "EdjeContext.h"
 
 /* Eflxx */
-#include <elementaryxx/Elementaryxx.h>
+//#include <elementaryxx/Elementaryxx.h>
 
 /* stateval */
 #include "stateval/stateval.h"
@@ -18,6 +18,7 @@
 #include <iostream>
 
 using namespace std;
+using efl::eo::instantiate;
 
 EdjeView::EdjeView(EdjeContext *context, const std::string &dir, const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.viewmanager.edje.EdjeView"),
@@ -104,41 +105,44 @@ void EdjeView::realizeDispatched(int missedEvents)
   LOG4CXX_INFO(mLogger, "Filename: '" << mFilename << "', Groupname: " << mGroupname);
 
   mWindow = mEdjeContext->window;
-  mLayout = Elmxx::Layout::factory(*mWindow);
-  mLayout->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  mWindow->addResizeObject(*mLayout);
-  mLayout->show();
+  mLayout = new efl::ui::Layout(instantiate, *mWindow);
+  
+  //mLayout->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  //mWindow->addResizeObject(*mLayout);
+  //mLayout->show();
 
-  mLayout->setFile(mFilename, mGroupname);
+  //mLayout->setFile(mFilename, mGroupname);
+  mLayout->file_set(mFilename);
+  mLayout->key_set(mGroupname);
 
   LOG4CXX_INFO(mLogger, "Layer: " << getLayer());
-  mLayout->setLayer(getLayer());
+  mLayout->layer_set(getLayer());
 
-  Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
+  //Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
 
   // connect visible/invisible handler
   // --> TODO: while changing names connect both -> remove later deprecated names!
-  edjeObj->connect("invisible_signal", "edje", sigc::mem_fun(this, &EdjeView::invisibleFunc));
-  edjeObj->connect("visible_signal", "edje", sigc::mem_fun(this, &EdjeView::visibleFunc));
+  //edjeObj->connect("invisible_signal", "edje", sigc::mem_fun(this, &EdjeView::invisibleFunc));
+  //edjeObj->connect("visible_signal", "edje", sigc::mem_fun(this, &EdjeView::visibleFunc));
   //// <--
 
   // this is the new name of the spec!
-  edjeObj->connect("animation,end", "invisible", sigc::mem_fun(this, &EdjeView::invisibleFunc));
-  edjeObj->connect("animation,end", "visible", sigc::mem_fun(this, &EdjeView::visibleFunc));
+  //edjeObj->connect("animation,end", "invisible", sigc::mem_fun(this, &EdjeView::invisibleFunc));
+  //edjeObj->connect("animation,end", "visible", sigc::mem_fun(this, &EdjeView::visibleFunc));
 
-  edjeObj->connect("*", "edje", sigc::mem_fun(this, &EdjeView::edjeFunc));
-  edjeObj->connect("*", "stateval", sigc::mem_fun(this, &EdjeView::statevalFunc));
+  //edjeObj->connect("*", "edje", sigc::mem_fun(this, &EdjeView::edjeFunc));
+  //edjeObj->connect("*", "stateval", sigc::mem_fun(this, &EdjeView::statevalFunc));
 
-  edjeObj->connect("*", "*", sigc::mem_fun(this, &EdjeView::allFunc));
+  //edjeObj->connect("*", "*", sigc::mem_fun(this, &EdjeView::allFunc));
 
-  mLayout->resize(mEdjeContext->resolution);
-
+  mLayout->size_set(mEdjeContext->resolution);
+  
   // initial screen widget update after realizing a screen
   updateDispatched(0);
 
   groupState = Realizing;
-  edjeObj->emit("visible", "stateval");
-  mEdjeContext->background->hide (); // make background "transparent"
+  //edjeObj->emit("visible", "stateval");
+  //mEdjeContext->background->hide (); // make background "transparent"
 
   mMutexRealize.lock();
   mCondRealize.signal();
@@ -149,26 +153,26 @@ void EdjeView::realizeDispatched(int missedEvents)
 
 void EdjeView::unrealizeDispatched(int missedEvents)
 {
-  if (mLayout)
+  /*if (mLayout)
   {
     groupState = Unrealizing;
-    Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
+    //Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
 
     // show background while view switch to prevent flickering of 
     // below composite layer
-    mEdjeContext->background->show ();
+    //mEdjeContext->background->show ();
     
-    edjeObj->emit("invisible", "stateval");
-  }
+    //edjeObj->emit("invisible", "stateval");
+  }*/
 
   for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
        ++wl_it)
   {
-    Widget *w = wl_it->second;
+    //Widget *w = wl_it->second;
 
 
-    w->freeContent();
+    //w->freeContent();
   }
 }
 
@@ -185,7 +189,7 @@ void EdjeView::updateDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "updateDispatched()");
   
-  for (WidgetIterator wl_it = beginOfWidgets();
+  /*for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
        ++wl_it)
   {
@@ -193,7 +197,7 @@ void EdjeView::updateDispatched(int missedEvents)
 
 
     w->updateContent();
-  }
+  }*/
 }
 
 void EdjeView::invisibleFunc(const std::string emmision, const std::string source)
@@ -201,9 +205,9 @@ void EdjeView::invisibleFunc(const std::string emmision, const std::string sourc
   LOG4CXX_TRACE(mLogger, "invisibleFunc");
 
   groupState = Unrealized;
-  mWindow->delResizeObject(*mLayout);
-  mLayout->destroy();
-  mLayout = NULL;
+  //mWindow->delResizeObject(*mLayout);
+  //mLayout->destroy();
+  //mLayout = NULL;
   
   // signal the edje statemachine thread that the animation is finished
   mCondUnrealize.signal();
@@ -262,7 +266,7 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     LOG4CXX_DEBUG(mLogger, "EdjeView::smEvents: " << mEvent << " / " << eventString);
 
-    if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
+    /*if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
     {
       Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
       edjeObj->emit(eventString, "stateval");
@@ -271,7 +275,7 @@ void EdjeView::pushEventDispatched(int missedEvents)
     if (mEvent == VIEW_UPDATE_EVENT)
     {
       update();
-    }
+    }*/
   }
 
   mMutexPushEvent.lock();
@@ -292,12 +296,12 @@ void EdjeView::pushEvent(int event)
 
 Widget *EdjeView::createWidget(const std::string &name)
 {
-  Widget *widget = new EdjeWidget(*this, defaultWidgetRenderer, name);
-  mWidgetMap[name] = widget;
+  Widget *widget;// = new EdjeWidget(*this, defaultWidgetRenderer, name);
+  //mWidgetMap[name] = widget;
   return widget;
 }
 
-Elmxx::Layout *EdjeView::getLayout()
+efl::ui::Layout *EdjeView::getLayout()
 {
   return mLayout;
 }

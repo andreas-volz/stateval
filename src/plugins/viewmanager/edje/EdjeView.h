@@ -6,17 +6,15 @@
 #include "stateval/private/stateval_private.h"
 #include "stateval/private/Logger.h"
 
+/* EFLxx */
+#include <Efl_Ui.hh>
+
 /* local */
 #include "EcoreDispatcher.h"
 #include "EdjeDefaultWidgetRenderer.h"
 
 /* STD */
 #include <string>
-
-/* EFLxx */
-#include <evasxx/Evasxx.h>
-#include <edjexx/Edjexx.h>
-#include <elementaryxx/Elementaryxx.h>
 
 /* forward declarations */
 class StateMachineAccessor;
@@ -35,7 +33,7 @@ public:
 
   Widget *createWidget(const std::string &name);
 
-  Elmxx::Layout *getLayout();
+  efl::ui::Layout *getLayout();  
 
 private:
   enum ViewState
@@ -63,8 +61,8 @@ private:
 
   EdjeContext *mEdjeContext;
 
-  Elmxx::Layout *mLayout;  
-  Elmxx::Window *mWindow;
+  efl::ui::Layout *mLayout;
+  efl::ui::Win *mWindow;
 
   std::string mFilename;
   std::string mGroupname;

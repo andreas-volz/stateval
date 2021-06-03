@@ -2,10 +2,7 @@
 #define GUI_THREAD_H
 
 /* EFL */
-#include <evasxx/Evasxx.h>
-#include <ecorexx/Ecorexx.h>
-#include <edjexx/Edjexx.h>
-#include <elementaryxx/Elementaryxx.h>
+#include <Efl_Ui.hh>
 
 /* stateval */
 #include "stateval/private/Thread.h"
@@ -32,14 +29,14 @@ public:
 private:  
   void run();
   void updateEvent(int missedEvents);
-  void elm_quit(Evasxx::Object &obj, void *event_info);
+  void elm_quit(/*Evasxx::Object &obj, */void *event_info);
   void startupDispatched();
   void viewFactoryDispatched(int missedEvents);
 
   Logger mLogger; // first private variable
   
   bool mRunning;
-  Elmxx::Application *mApp;
+  //Elmxx::Application *mApp;
   EcoreDispatcher *mViewFactoryDispatcher;
 
   Threading::Condition mCondViewCreated;
@@ -56,16 +53,17 @@ private:
 
   std::map <std::string, std::string> mViewManagerParams;
 
-  Eflxx::Size mWindowSize;
+  Eina_Size2D mWindowSize;
     
-  Elmxx::Window *mWindow;
+  efl::ui::Win *mWindow;
 
-  Elmxx::Background *mBackground;
+  efl::ui::Bg *mBackground;
+  
 
   std::string mDataLoadDir;
 
   bool mBorderless;
-  string mTitle;
+  std::string mTitle;
   bool mAlpha;
   bool mShaped;
   bool mViewCreated;

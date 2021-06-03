@@ -73,7 +73,7 @@ AC_ARG_ENABLE(efl,
 if [ ! test "$enable_efl" != "yes"]; then
   AC_MSG_RESULT(yes)
   ## TODO: ecorexx only needed for edje_console example...
-  PKG_CHECK_MODULES([EFL], elementaryxx ecorexx,
+  PKG_CHECK_MODULES([EFL], elementary elementary-cxx,
        AM_CONDITIONAL(HAVE_EFL, [test 1 = 1]),
        AM_CONDITIONAL(HAVE_EFL, [test 0 = 1])
   )

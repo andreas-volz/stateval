@@ -9,6 +9,7 @@
 #include "EdjeContext.h"
 #include "EdjeView.h"
 #include "EcoreDispatcher.h"
+#include <Job.h>
 
 /* STD */
 #include <iostream>
@@ -16,6 +17,7 @@
 #include <cstdlib>
 
 using namespace std;
+using efl::eo::instantiate;
 
 GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   mLogger("stateval.plugins.viewmanager.edje.GUIThread"),
@@ -36,13 +38,13 @@ GUIThread::GUIThread(const std::map <std::string, std::string> &params) :
   param_it = params.find ("width");
   if (param_it != params.end ())
   {
-    mWindowSize.width (atoi (param_it->second.c_str ()));
+    mWindowSize.w = atoi (param_it->second.c_str ());
   }
 
   param_it = params.find ("height");
   if (param_it != params.end ())
   {
-    mWindowSize.height (atoi (param_it->second.c_str ()));
+    mWindowSize.h = atoi (param_it->second.c_str ());
   }
 
   param_it = params.find ("borderless");
@@ -127,47 +129,48 @@ Threading::Thread::EError GUIThread::start()
 
 void GUIThread::run()
 {
-  mApp = new Elmxx::Application (0, NULL);
-  assert (mApp);
+  elm_init(0, NULL);
 
-  mWindow = Elmxx::Window::factory("window1", ELM_WIN_BASIC);
+  mWindow = new efl::ui::Win(instantiate);
   assert (mWindow);
   
-  mBackground = Elmxx::Background::factory(*mWindow);
+  mBackground = new efl::ui::Bg(instantiate, *mWindow);
   assert (mBackground);
 
   mViewFactoryDispatcher = new EcoreDispatcher();
   
   mViewFactoryDispatcher->signalDispatch.connect(sigc::mem_fun(this, &GUIThread::viewFactoryDispatched));
   
-  mWindow->setTitle(mTitle);
-  mWindow->setBorderless(mBorderless);
+  mWindow->text_set(mTitle);
+  //mWindow->setBorderless(mBorderless);
     
-  mBackground->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  mBackground->setColor (Eflxx::Color (0, 0, 0)); // show block background while view switching
-  mWindow->addResizeObject(*mBackground);
-  mBackground->hide();
+  //mBackground->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  //mBackground->setColor (Eflxx::Color (0, 0, 0)); // show block background while view switching
+  //mWindow->addResizeObject(*mBackground);
+  //mBackground->hide();
+
+  mWindow->size_set(mWindowSize);
+  //mWindow->setAutoDel(false);
+  //mWindow->setAlpha(mAlpha);
+
+  //mWindow->setShaped(mShaped);
+
+  //mWindow->setFullscreen(mFullscreen);
   
-  mWindow->resize(mWindowSize);
-  mWindow->setAutoDel(false);
-  mWindow->setAlpha(mAlpha);
+  //mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
 
-  mWindow->setShaped(mShaped);
-
-  mWindow->setFullscreen(mFullscreen);
-  
-  mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
-
-  Ecorexx::Job startupJob;
+  Job startupJob;
   startupJob.signalCall.connect(sigc::mem_fun(this, &GUIThread::startupDispatched));
   startupJob.start();
 
-  mWindow->show();
+  //mWindow->show();
+  
     
   // Enter the application main loop
   LOG4CXX_INFO(mLogger, "enter GUI mainloop");
   
-  mApp->run();
+  //mApp->run();
+  elm_run();
 }
 
 void GUIThread::viewFactoryDispatched(int missedEvents)
@@ -184,7 +187,7 @@ void GUIThread::viewFactoryDispatched(int missedEvents)
   mMutexViewCreated.unlock();
 }
 
-void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
+void GUIThread::elm_quit(/*Evasxx::Object &obj,*/ void *event_info)
 {
   // TODO: exit concept! (finish state in stateval?)
   
@@ -196,6 +199,8 @@ void GUIThread::elm_quit(Evasxx::Object &obj, void *event_info)
   stateMachineAccessor.pushEvent(EVENT_EXIT);
   
   //Ecorexx::Application::quit();
+  elm_shutdown();
+  elm_exit();
 }
 
 /*!

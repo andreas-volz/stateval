@@ -2,10 +2,8 @@
 #include <config.h>
 #endif
 
-/* EFLxx */
-#include <evasxx/Evasxx.h>
-#include <edjexx/Edjexx.h>
-#include <elementaryxx/Elementaryxx.h>
+/* EFL */
+#include <Efl_Ui.hh>
 
 /* STD */
 #include <cassert>
@@ -25,7 +23,7 @@ EdjeDefaultWidgetRenderer::~EdjeDefaultWidgetRenderer()
 
 void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &varName, Variable *var)
 {
-  Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
+  /*Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
 
   if(part)
   {
@@ -63,12 +61,12 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
   else
   {
     assert(false);
-  }
+  }*/
 }
 
 Variable *EdjeDefaultWidgetRenderer::getRenderedValue(void *renderObject, const std::string &varName)
 {
-  Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
+  /*Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
 
   if(part)
   {
@@ -123,6 +121,6 @@ Variable *EdjeDefaultWidgetRenderer::getRenderedValue(void *renderObject, const 
   else
   {
     assert(false);
-  }
+  }*/
 }
 

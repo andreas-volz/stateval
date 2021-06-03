@@ -1,18 +1,17 @@
 #ifndef EDJE_CONTEXT_H
 #define EDJE_CONTEXT_H
 
-/* Eflxx */
-#include <evasxx/Evasxx.h>
-#include <elementaryxx/Elementaryxx.h>
+/* EFL */
+#include <Efl_Ui.hh>
 
 /* pluxx */
 #include "stateval/stateval.h"
 
 struct EdjeContext 
 {
-  Elmxx::Window *window;
-  Eflxx::Size resolution;
-  Elmxx::Background *background;
+  efl::ui::Win *window;
+  Eina_Size2D resolution;
+  efl::ui::Bg *background;
 };
 
 #endif // EDJE_CONTEXT_H

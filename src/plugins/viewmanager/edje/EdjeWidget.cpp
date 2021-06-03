@@ -3,7 +3,7 @@
 #endif
 
 /* Eflxx */
-#include <elementaryxx/Elementaryxx.h>
+//#include <elementaryxx/Elementaryxx.h>
 
 /* local */
 #include "EdjeWidget.h"
@@ -42,7 +42,7 @@ void EdjeWidget::setPropertyDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "setPropertyDispatched: " << getName() << " / " << mActiveSetPropertyName);
 
-  Elmxx::Layout *layout = mView->getLayout();
+  /*Elmxx::Layout *layout = mView->getLayout();
 
   if(layout)
   {
@@ -64,7 +64,7 @@ void EdjeWidget::setPropertyDispatched(int missedEvents)
     {
       LOG4CXX_ERROR(mLogger, ene.what());
     }
-  }
+  }*/
 
   mMutexUpdateData.lock();
   mCondUpdateData.signal();
@@ -99,7 +99,7 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "getPropertyDispatched: " << getName() << " / " << mActiveGetPropertyName);
 
-  Elmxx::Layout *layout = mView->getLayout();
+  /*Elmxx::Layout *layout = mView->getLayout();
 
   if(layout)
   {
@@ -121,7 +121,7 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
     {
       LOG4CXX_ERROR(mLogger, ene.what());
     }
-  }
+  }*/
 
   mGetProperty = true;
 
