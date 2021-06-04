@@ -2,8 +2,8 @@
 #include <config.h>
 #endif
 
-/* Eflxx */
-//#include <elementaryxx/Elementaryxx.h>
+/* EFL */
+#include <Efl_Ui.hh>
 
 /* local */
 #include "EdjeWidget.h"
@@ -42,15 +42,16 @@ void EdjeWidget::setPropertyDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "setPropertyDispatched: " << getName() << " / " << mActiveSetPropertyName);
 
-  /*Elmxx::Layout *layout = mView->getLayout();
+  efl::ui::Layout *layout = mView->getLayout();
 
   if(layout)
   {
-    Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
+    //Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
 
-    try
-    {
-      Edjexx::Part &part = edjeObj->getPart(getName());
+    //try
+    //{
+      //Edjexx::Part &part = edjeObj->getPart(getName());
+      efl::Object part = layout->part_get(getName());
 
       Variable *var = mProperties[mActiveSetPropertyName];
 
@@ -59,12 +60,12 @@ void EdjeWidget::setPropertyDispatched(int missedEvents)
         // call the default renderer
         mWidgetRenderer->render(&part, mActiveSetPropertyName, var);
       }
-    }
-    catch (Edjexx::ExternalNotExistingException ene)
+    //}
+    /*catch (Edjexx::ExternalNotExistingException ene)
     {
       LOG4CXX_ERROR(mLogger, ene.what());
-    }
-  }*/
+    }*/
+  }
 
   mMutexUpdateData.lock();
   mCondUpdateData.signal();
@@ -99,15 +100,18 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "getPropertyDispatched: " << getName() << " / " << mActiveGetPropertyName);
 
-  /*Elmxx::Layout *layout = mView->getLayout();
+  efl::ui::Layout *layout = mView->getLayout();
+  
+  //Elmxx::Layout *layout = mView->getLayout();
 
   if(layout)
   {
-    Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
+    //Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
 
-    try
-    {
-      Edjexx::Part &part = edjeObj->getPart(getName());
+   // //try
+    //{
+      //Edjexx::Part &part = edjeObj->getPart(getName());
+      efl::Object part = layout->part_get(getName());
 
       // get value back from default renderer
       Variable *var = mWidgetRenderer->getRenderedValue(&part, mActiveGetPropertyName);
@@ -116,12 +120,12 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
         mProperties[mActiveGetPropertyName] = var;
       }
 
-    }
+    /*}
     catch (Edjexx::ExternalNotExistingException ene)
     {
       LOG4CXX_ERROR(mLogger, ene.what());
-    }
-  }*/
+    }*/
+  }
 
   mGetProperty = true;
 

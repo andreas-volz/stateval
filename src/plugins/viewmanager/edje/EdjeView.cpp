@@ -107,11 +107,10 @@ void EdjeView::realizeDispatched(int missedEvents)
   mWindow = mEdjeContext->window;
   mLayout = new efl::ui::Layout(instantiate, *mWindow);
   
-  //mLayout->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  mLayout->hint_weight_set(EFL_GFX_HINT_EXPAND, EFL_GFX_HINT_EXPAND);
   //mWindow->addResizeObject(*mLayout);
   //mLayout->show();
 
-  //mLayout->setFile(mFilename, mGroupname);
   mLayout->file_set(mFilename);
   mLayout->key_set(mGroupname);
 
@@ -141,19 +140,21 @@ void EdjeView::realizeDispatched(int missedEvents)
   updateDispatched(0);
 
   groupState = Realizing;
-  //edjeObj->emit("visible", "stateval");
+
+  mLayout->signal_emit("visible", "stateval");
+    
   //mEdjeContext->background->hide (); // make background "transparent"
 
   mMutexRealize.lock();
   mCondRealize.signal();
   mMutexRealize.unlock();
-
+  
   LOG4CXX_TRACE(mLogger, "-realizeDispatched()");
 }
 
 void EdjeView::unrealizeDispatched(int missedEvents)
 {
-  /*if (mLayout)
+  if (mLayout)
   {
     groupState = Unrealizing;
     //Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
@@ -163,16 +164,16 @@ void EdjeView::unrealizeDispatched(int missedEvents)
     //mEdjeContext->background->show ();
     
     //edjeObj->emit("invisible", "stateval");
-  }*/
+  }
 
   for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
        ++wl_it)
   {
-    //Widget *w = wl_it->second;
+    Widget *w = wl_it->second;
 
 
-    //w->freeContent();
+    w->freeContent();
   }
 }
 
@@ -189,7 +190,7 @@ void EdjeView::updateDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "updateDispatched()");
   
-  /*for (WidgetIterator wl_it = beginOfWidgets();
+  for (WidgetIterator wl_it = beginOfWidgets();
        wl_it != endOfWidgets();
        ++wl_it)
   {
@@ -197,7 +198,7 @@ void EdjeView::updateDispatched(int missedEvents)
 
 
     w->updateContent();
-  }*/
+  }
 }
 
 void EdjeView::invisibleFunc(const std::string emmision, const std::string source)
@@ -266,16 +267,16 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     LOG4CXX_DEBUG(mLogger, "EdjeView::smEvents: " << mEvent << " / " << eventString);
 
-    /*if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
+    if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
     {
-      Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
-      edjeObj->emit(eventString, "stateval");
+      //Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
+      //edjeObj->emit(eventString, "stateval");
     }
 
     if (mEvent == VIEW_UPDATE_EVENT)
     {
       update();
-    }*/
+    }
   }
 
   mMutexPushEvent.lock();
@@ -296,8 +297,8 @@ void EdjeView::pushEvent(int event)
 
 Widget *EdjeView::createWidget(const std::string &name)
 {
-  Widget *widget;// = new EdjeWidget(*this, defaultWidgetRenderer, name);
-  //mWidgetMap[name] = widget;
+  Widget *widget = new EdjeWidget(*this, defaultWidgetRenderer, name);
+  mWidgetMap[name] = widget;
   return widget;
 }
 

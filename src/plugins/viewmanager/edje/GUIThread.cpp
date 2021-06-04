@@ -142,20 +142,21 @@ void GUIThread::run()
   mViewFactoryDispatcher->signalDispatch.connect(sigc::mem_fun(this, &GUIThread::viewFactoryDispatched));
   
   mWindow->text_set(mTitle);
-  //mWindow->setBorderless(mBorderless);
-    
-  //mBackground->setSizeHintWeight(EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  //mBackground->setColor (Eflxx::Color (0, 0, 0)); // show block background while view switching
+  mWindow->borderless_set(mBorderless);
+
+  mBackground->hint_weight_set(EFL_GFX_HINT_EXPAND, EFL_GFX_HINT_EXPAND);
+  mBackground->color_set(0, 0, 0, 1);
+  
   //mWindow->addResizeObject(*mBackground);
   //mBackground->hide();
 
   mWindow->size_set(mWindowSize);
   //mWindow->setAutoDel(false);
-  //mWindow->setAlpha(mAlpha);
+  mWindow->alpha_set(mAlpha);
 
   //mWindow->setShaped(mShaped);
 
-  //mWindow->setFullscreen(mFullscreen);
+  mWindow->fullscreen_set(mFullscreen);
   
   //mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
 
