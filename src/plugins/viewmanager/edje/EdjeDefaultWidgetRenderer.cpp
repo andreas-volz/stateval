@@ -23,8 +23,9 @@ EdjeDefaultWidgetRenderer::~EdjeDefaultWidgetRenderer()
 
 void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &varName, Variable *var)
 {
-  /*Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
-
+  //Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
+  void *part = renderObject; //TMP
+  
   if(part)
   {
     switch(var->getType ())
@@ -33,8 +34,8 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
       {
         Integer *intObj = dynamic_cast<Integer*>(var);
         LOG4CXX_TRACE(mLogger, "TYPE_INTEGER: " << intObj->getData());
-        Edjexx::ExternalParam param (varName, intObj->getData());
-        bool validParam = part->setParam (&param);        
+        //Edjexx::ExternalParam param (varName, intObj->getData());
+        //bool validParam = part->setParam (&param);        
         break;
       }
       case Variable::TYPE_STRING:
@@ -42,7 +43,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
         String *strObj = dynamic_cast<String*>(var);
         LOG4CXX_TRACE(mLogger, "TYPE_STRING: " << strObj->getData());
         //TODO: edje simple TEXT types doesn't work as isExternalObject() crash on non external objects!!
-        if(part->isExternalObject())
+        /*if(part->isExternalObject())
         {
           Edjexx::ExternalParam param (varName, strObj->getData());
           bool validParam = part->setParam (&param);
@@ -51,7 +52,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
         else
         { 
           part->setText(strObj->getData());
-        }
+        }*/
         break;
       }
       default:
@@ -61,7 +62,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
   else
   {
     assert(false);
-  }*/
+  }
 }
 
 Variable *EdjeDefaultWidgetRenderer::getRenderedValue(void *renderObject, const std::string &varName)

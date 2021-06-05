@@ -108,14 +108,18 @@ void EdjeView::realizeDispatched(int missedEvents)
   mLayout = new efl::ui::Layout(instantiate, *mWindow);
   
   mLayout->hint_weight_set(EFL_GFX_HINT_EXPAND, EFL_GFX_HINT_EXPAND);
-  //mWindow->addResizeObject(*mLayout);
+  mWindow->content_set(*mLayout);
   //mLayout->show();
 
+  //mLayout->file_set("/home/andreas/src/efl/edje/effects/glowing/glowing.edj");
+  
   mLayout->file_set(mFilename);
   mLayout->key_set(mGroupname);
 
   LOG4CXX_INFO(mLogger, "Layer: " << getLayer());
   mLayout->layer_set(getLayer());
+
+  mLayout->load();
 
   //Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
 
@@ -163,7 +167,7 @@ void EdjeView::unrealizeDispatched(int missedEvents)
     // below composite layer
     //mEdjeContext->background->show ();
     
-    //edjeObj->emit("invisible", "stateval");
+    mLayout->signal_emit("invisible", "stateval");
   }
 
   for (WidgetIterator wl_it = beginOfWidgets();
@@ -269,8 +273,7 @@ void EdjeView::pushEventDispatched(int missedEvents)
 
     if ((eventString.length() >= 4) && (eventString.substr(4) != "edje"))
     {
-      //Eflxx::CountedPtr <Edjexx::Object> edjeObj = mLayout->getEdje();
-      //edjeObj->emit(eventString, "stateval");
+      mLayout->signal_emit(eventString, "stateval");
     }
 
     if (mEvent == VIEW_UPDATE_EVENT)

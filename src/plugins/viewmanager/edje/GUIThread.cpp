@@ -146,8 +146,9 @@ void GUIThread::run()
 
   mBackground->hint_weight_set(EFL_GFX_HINT_EXPAND, EFL_GFX_HINT_EXPAND);
   mBackground->color_set(0, 0, 0, 1);
-  
-  //mWindow->addResizeObject(*mBackground);
+
+  mWindow->content_set(*mBackground);
+    
   //mBackground->hide();
 
   mWindow->size_set(mWindowSize);
@@ -165,6 +166,9 @@ void GUIThread::run()
   startupJob.start();
 
   //mWindow->show();
+
+  efl::ui::Layout *layout = new efl::ui::Layout(instantiate, *mWindow);
+  layout->file_set("/home/andreas/src/efl/edje/effects/glowing/glowing.edj");
   
     
   // Enter the application main loop

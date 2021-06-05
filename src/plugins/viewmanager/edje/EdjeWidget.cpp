@@ -102,8 +102,6 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
 
   efl::ui::Layout *layout = mView->getLayout();
   
-  //Elmxx::Layout *layout = mView->getLayout();
-
   if(layout)
   {
     //Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
