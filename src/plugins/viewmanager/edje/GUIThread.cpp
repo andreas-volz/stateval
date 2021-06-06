@@ -168,8 +168,6 @@ void GUIThread::run()
   //mWindow->show();
 
   efl::ui::Layout *layout = new efl::ui::Layout(instantiate, *mWindow);
-  layout->file_set("/home/andreas/src/efl/edje/effects/glowing/glowing.edj");
-  
     
   // Enter the application main loop
   LOG4CXX_INFO(mLogger, "enter GUI mainloop");

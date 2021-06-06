@@ -55,7 +55,9 @@ private:
   void edjeFunc(const std::string emmision, const std::string source);
   void allFunc(const std::string emmision, const std::string source);
   void viewUpdateFunc(const std::string emmision, const std::string source);
-  
+
+  //void allFunc2(Efl_Layout_Signal *s, const std::string emmision, const std::string source);
+    
   /** Variables **/
   Logger mLogger;
 

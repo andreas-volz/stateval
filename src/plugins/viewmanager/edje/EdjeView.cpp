@@ -98,6 +98,11 @@ void EdjeView::unrealize()
   LOG4CXX_TRACE(mLogger, "-unrealize ()");
 }
 
+void allFunc2(efl::layout::Signal s, efl::eina::basic_string_view<char> emmision, efl::eina::basic_string_view<char>  source)
+{
+  cout << "allFunc2(): " << emmision << " / " << source << endl;
+}
+
 void EdjeView::realizeDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "+realizeDispatched()");
@@ -110,8 +115,6 @@ void EdjeView::realizeDispatched(int missedEvents)
   mLayout->hint_weight_set(EFL_GFX_HINT_EXPAND, EFL_GFX_HINT_EXPAND);
   mWindow->content_set(*mLayout);
   //mLayout->show();
-
-  //mLayout->file_set("/home/andreas/src/efl/edje/effects/glowing/glowing.edj");
   
   mLayout->file_set(mFilename);
   mLayout->key_set(mGroupname);
@@ -138,6 +141,9 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   //edjeObj->connect("*", "*", sigc::mem_fun(this, &EdjeView::allFunc));
 
+  // -> FIXME: this has a crash as result, maybe bug in the bindings
+  //mLayout->signal_callback_add("", "*", &allFunc2);
+  
   mLayout->size_set(mEdjeContext->resolution);
   
   // initial screen widget update after realizing a screen
@@ -235,6 +241,8 @@ void EdjeView::edjeFunc(const std::string emmision, const std::string source)
   LOG4CXX_TRACE(mLogger, "edjeFunc: " << emmision << ", " << source);
 }
 
+
+
 void EdjeView::allFunc(const std::string emmision, const std::string source)
 {
   if (source != "stateval")
@@ -244,7 +252,7 @@ void EdjeView::allFunc(const std::string emmision, const std::string source)
     string event("edje," + source + "," + emmision);
 
     // => activate next line to get all events logged, but be warned as mouse events spam event queue much!
-    //LOG4CXX_DEBUG(mLogger, "allFunc: " << event << " (" << mGroupname << ")");
+    LOG4CXX_DEBUG(mLogger, "allFunc: " << event << " (" << mGroupname << ")");
 
     // only push new events for realized screens
     // FIXME: when I do this it leads into freezes as the invisible signal doesn't come
