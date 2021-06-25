@@ -98,9 +98,11 @@ void EdjeView::unrealize()
   LOG4CXX_TRACE(mLogger, "-unrealize ()");
 }
 
-void allFunc2(efl::layout::Signal s, efl::eina::basic_string_view<char> emmision, efl::eina::basic_string_view<char>  source)
+void EdjeView::allFunc2(efl::layout::Signal s, efl::eina::basic_string_view<char> emission, efl::eina::basic_string_view<char>  source)
 {
-  cout << "allFunc2(): " << emmision << " / " << source << endl;
+  cout << "allFunc2(): " << emission << " / " << source << endl;
+
+ 
 }
 
 void EdjeView::realizeDispatched(int missedEvents)
@@ -128,21 +130,43 @@ void EdjeView::realizeDispatched(int missedEvents)
 
   // connect visible/invisible handler
   // --> TODO: while changing names connect both -> remove later deprecated names!
-  //edjeObj->connect("invisible_signal", "edje", sigc::mem_fun(this, &EdjeView::invisibleFunc));
-  //edjeObj->connect("visible_signal", "edje", sigc::mem_fun(this, &EdjeView::visibleFunc));
+   mLayout->signal_callback_add("invisible_signal", "edje", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->invisibleFunc(signal, emission.c_str(), source.c_str()); 
+  });
+
+  mLayout->signal_callback_add("visible_signal", "edje", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->visibleFunc(signal, emission.c_str(), source.c_str()); 
+  });
   //// <--
 
   // this is the new name of the spec!
-  //edjeObj->connect("animation,end", "invisible", sigc::mem_fun(this, &EdjeView::invisibleFunc));
-  //edjeObj->connect("animation,end", "visible", sigc::mem_fun(this, &EdjeView::visibleFunc));
+   mLayout->signal_callback_add("animation,end", "invisible", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->invisibleFunc(signal, emission.c_str(), source.c_str()); 
+  });
 
-  //edjeObj->connect("*", "edje", sigc::mem_fun(this, &EdjeView::edjeFunc));
-  //edjeObj->connect("*", "stateval", sigc::mem_fun(this, &EdjeView::statevalFunc));
-
-  //edjeObj->connect("*", "*", sigc::mem_fun(this, &EdjeView::allFunc));
-
-  // -> FIXME: this has a crash as result, maybe bug in the bindings
-  //mLayout->signal_callback_add("", "*", &allFunc2);
+  mLayout->signal_callback_add("animation,end", "visible", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->visibleFunc(signal, emission.c_str(), source.c_str()); 
+  });
+  // <-
+ 
+  mLayout->signal_callback_add("*", "edje", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->edjeFunc(signal, emission.c_str(), source.c_str()); 
+  });
+  
+  mLayout->signal_callback_add("*", "stateval", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->statevalFunc(signal, emission.c_str(), source.c_str()); 
+  });
+  
+  mLayout->signal_callback_add("*", "*", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->allFunc(signal, emission.c_str(), source.c_str()); 
+  });
   
   mLayout->size_set(mEdjeContext->resolution);
   
@@ -211,7 +235,7 @@ void EdjeView::updateDispatched(int missedEvents)
   }
 }
 
-void EdjeView::invisibleFunc(const std::string emmision, const std::string source)
+void EdjeView::invisibleFunc(efl::layout::Signal s, const std::string emission, const std::string source)
 {
   LOG4CXX_TRACE(mLogger, "invisibleFunc");
 
@@ -224,32 +248,31 @@ void EdjeView::invisibleFunc(const std::string emmision, const std::string sourc
   mCondUnrealize.signal();
 }
 
-void EdjeView::visibleFunc(const std::string emmision, const std::string source)
+void EdjeView::visibleFunc(efl::layout::Signal s, const std::string emission, const std::string source)
 {
   LOG4CXX_TRACE(mLogger, "visibleFunc");
 
   groupState = Realized;
 }
 
-void EdjeView::statevalFunc(const std::string emmision, const std::string source)
+void EdjeView::statevalFunc(efl::layout::Signal s, const std::string emission, const std::string source)
 {
-  LOG4CXX_TRACE(mLogger, "statevalFunc: " << emmision << ", " << source);
+  LOG4CXX_TRACE(mLogger, "statevalFunc: " << emission << ", " << source);
 }
 
-void EdjeView::edjeFunc(const std::string emmision, const std::string source)
+void EdjeView::edjeFunc(efl::layout::Signal s, const std::string emission, const std::string source)
 {
-  LOG4CXX_TRACE(mLogger, "edjeFunc: " << emmision << ", " << source);
+  LOG4CXX_TRACE(mLogger, "edjeFunc: " << emission << ", " << source);
 }
 
 
-
-void EdjeView::allFunc(const std::string emmision, const std::string source)
-{
+void EdjeView::allFunc(efl::layout::Signal s, const std::string &emission, const std::string &source)
+{  
   if (source != "stateval")
   {
     StateMachineAccessor &StateMachineAccessor(StateMachineAccessor::getInstance());
 
-    string event("edje," + source + "," + emmision);
+    string event("edje," + source + "," + emission);
 
     // => activate next line to get all events logged, but be warned as mouse events spam event queue much!
     LOG4CXX_DEBUG(mLogger, "allFunc: " << event << " (" << mGroupname << ")");

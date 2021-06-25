@@ -49,14 +49,14 @@ private:
   void unrealizeDispatched(int missedEvents);
   void pushEventDispatched(int missedEvents);
 
-  void invisibleFunc(const std::string emmision, const std::string source);
-  void visibleFunc(const std::string emmision, const std::string source);
-  void statevalFunc(const std::string emmision, const std::string source);
-  void edjeFunc(const std::string emmision, const std::string source);
-  void allFunc(const std::string emmision, const std::string source);
-  void viewUpdateFunc(const std::string emmision, const std::string source);
+  void invisibleFunc(efl::layout::Signal s, const std::string emission, const std::string source);
+  void visibleFunc(efl::layout::Signal s, const std::string emission, const std::string source);
+  void statevalFunc(efl::layout::Signal s, const std::string emission, const std::string source);
+  void edjeFunc(efl::layout::Signal s, const std::string emission, const std::string source);
+  void allFunc(efl::layout::Signal s, const std::string &emission, const std::string &source);
+  void viewUpdateFunc(const std::string emission, const std::string source);
 
-  //void allFunc2(Efl_Layout_Signal *s, const std::string emmision, const std::string source);
+  void allFunc2(efl::layout::Signal s, efl::eina::basic_string_view<char> emission, efl::eina::basic_string_view<char>  source);
     
   /** Variables **/
   Logger mLogger;
