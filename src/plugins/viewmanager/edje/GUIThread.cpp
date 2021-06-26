@@ -129,6 +129,7 @@ Threading::Thread::EError GUIThread::start()
 
 void GUIThread::run()
 {
+  // FIXME: use a better EFL C++ way for init handling
   elm_init(0, NULL);
 
   mWindow = new efl::ui::Win(instantiate);
@@ -148,24 +149,26 @@ void GUIThread::run()
   mBackground->color_set(0, 0, 0, 1);
 
   mWindow->content_set(*mBackground);
-    
+
+  //FIXME: background handling broken since new EFL API
   //mBackground->hide();
 
   mWindow->size_set(mWindowSize);
   //mWindow->setAutoDel(false);
   mWindow->alpha_set(mAlpha);
 
+  // FIXME: find out how to set shaped window mode => create an example for this
   //mWindow->setShaped(mShaped);
 
   mWindow->fullscreen_set(mFullscreen);
-  
+
+  // FIXME: the window delete handling just works with the new EFL API without this => need to find out why
   //mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
 
   Job startupJob;
   startupJob.signalCall.connect(sigc::mem_fun(this, &GUIThread::startupDispatched));
   startupJob.start();
 
-  //mWindow->show();
 
   efl::ui::Layout *layout = new efl::ui::Layout(instantiate, *mWindow);
     
@@ -173,6 +176,7 @@ void GUIThread::run()
   LOG4CXX_INFO(mLogger, "enter GUI mainloop");
   
   //mApp->run();
+  // FIXME: use a better EFL C++ way for init handling
   elm_run();
 }
 

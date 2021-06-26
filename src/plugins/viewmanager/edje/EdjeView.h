@@ -56,8 +56,6 @@ private:
   void allFunc(efl::layout::Signal s, const std::string &emission, const std::string &source);
   void viewUpdateFunc(const std::string emission, const std::string source);
 
-  void allFunc2(efl::layout::Signal s, efl::eina::basic_string_view<char> emission, efl::eina::basic_string_view<char>  source);
-    
   /** Variables **/
   Logger mLogger;
 

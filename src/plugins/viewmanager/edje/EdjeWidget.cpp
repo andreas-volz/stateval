@@ -17,6 +17,7 @@ EdjeWidget::EdjeWidget(View &view, WidgetRenderer &widgetRenderer, const std::st
   mView(dynamic_cast<EdjeView*>(&view)),
   mGetProperty(false)
 {
+  // FIXME: this was yet deactivated before new EFL API => need to decide if needed
   //mUpdateDataDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::updateDataDispatched));
   mSetPropertyDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::setPropertyDispatched));
   mGetPropertyDispatcher.signalDispatch.connect(sigc::mem_fun(this, &EdjeWidget::getPropertyDispatched));
@@ -46,6 +47,9 @@ void EdjeWidget::setPropertyDispatched(int missedEvents)
 
   if(layout)
   {
+    // FIXME: deactivated error handling while porting to new EFL API, need to check 
+    // if functinality is still working in error cases
+    
     //Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
 
     //try
@@ -104,6 +108,9 @@ void EdjeWidget::getPropertyDispatched(int missedEvents)
   
   if(layout)
   {
+    // FIXME: deactivated error handling while porting to new EFL API, need to check 
+    // if functinality is still working in error cases
+    
     //Eflxx::CountedPtr <Edjexx::Object> edjeObj(layout->getEdje());
 
    // //try
@@ -139,7 +146,8 @@ void EdjeWidget::updateContent()
 
 void EdjeWidget::freeContent()
 {
-   // TMP: deactivated to free content renderer => was an idea to clear lists
+   // FIXME: deactivated to free content renderer => was an idea to clear lists
+   // was yet deactivated before new EFL API => need to decide if this is still needed
   /*Elmxx::Layout *layout = mView->getLayout();
 
   if(layout)

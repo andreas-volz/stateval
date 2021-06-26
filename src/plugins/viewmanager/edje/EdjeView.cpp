@@ -98,13 +98,6 @@ void EdjeView::unrealize()
   LOG4CXX_TRACE(mLogger, "-unrealize ()");
 }
 
-void EdjeView::allFunc2(efl::layout::Signal s, efl::eina::basic_string_view<char> emission, efl::eina::basic_string_view<char>  source)
-{
-  cout << "allFunc2(): " << emission << " / " << source << endl;
-
- 
-}
-
 void EdjeView::realizeDispatched(int missedEvents)
 {
   LOG4CXX_TRACE(mLogger, "+realizeDispatched()");
@@ -116,7 +109,6 @@ void EdjeView::realizeDispatched(int missedEvents)
   
   mLayout->hint_weight_set(EFL_GFX_HINT_EXPAND, EFL_GFX_HINT_EXPAND);
   mWindow->content_set(*mLayout);
-  //mLayout->show();
   
   mLayout->file_set(mFilename);
   mLayout->key_set(mGroupname);
@@ -125,8 +117,6 @@ void EdjeView::realizeDispatched(int missedEvents)
   mLayout->layer_set(getLayer());
 
   mLayout->load();
-
-  //Eflxx::CountedPtr <Edjexx::Object> edjeObj(mLayout->getEdje());
 
   // connect visible/invisible handler
   // --> TODO: while changing names connect both -> remove later deprecated names!
@@ -176,7 +166,8 @@ void EdjeView::realizeDispatched(int missedEvents)
   groupState = Realizing;
 
   mLayout->signal_emit("visible", "stateval");
-    
+
+  //FIXME: background handling broken since new EFL API
   //mEdjeContext->background->hide (); // make background "transparent"
 
   mMutexRealize.lock();
@@ -195,6 +186,7 @@ void EdjeView::unrealizeDispatched(int missedEvents)
 
     // show background while view switch to prevent flickering of 
     // below composite layer
+    //FIXME: background handling broken since new EFL API
     //mEdjeContext->background->show ();
     
     mLayout->signal_emit("invisible", "stateval");
@@ -240,9 +232,10 @@ void EdjeView::invisibleFunc(efl::layout::Signal s, const std::string emission, 
   LOG4CXX_TRACE(mLogger, "invisibleFunc");
 
   groupState = Unrealized;
-  //mWindow->delResizeObject(*mLayout);
-  //mLayout->destroy();
-  //mLayout = NULL;
+  mWindow->content_unset();
+  mLayout->unload();
+  delete mLayout;
+  mLayout = NULL;
   
   // signal the edje statemachine thread that the animation is finished
   mCondUnrealize.signal();
