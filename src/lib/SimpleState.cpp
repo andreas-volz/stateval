@@ -47,7 +47,7 @@ void SimpleState::addExitAction(Action *action)
 
 void SimpleState::runEntryActions()
 {
-  LOG4CXX_TRACE(mLogger, "runEntryActions()")
+  LOG4CXX_TRACE(mLogger, "runEntryActions()");
   runActions(mEntryActionList);
 }
 

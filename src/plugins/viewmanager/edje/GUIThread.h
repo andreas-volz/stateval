@@ -3,6 +3,7 @@
 
 /* EFL */
 #include <Efl_Ui.hh>
+#include <Ecore.hh>
 
 /* stateval */
 #include "stateval/private/Thread.h"
@@ -36,7 +37,8 @@ private:
   Logger mLogger; // first private variable
   
   bool mRunning;
-  //Elmxx::Application *mApp;
+  //efl::App *mApp;
+  
   EcoreDispatcher *mViewFactoryDispatcher;
 
   Threading::Condition mCondViewCreated;

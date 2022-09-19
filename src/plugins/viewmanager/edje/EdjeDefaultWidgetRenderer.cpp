@@ -24,7 +24,7 @@ EdjeDefaultWidgetRenderer::~EdjeDefaultWidgetRenderer()
 void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &varName, Variable *var)
 {
   //Edjexx::Part *part = static_cast<Edjexx::Part*>(renderObject);
-  void *part = renderObject; //TMP
+  efl::ui::Widget_Part *part = static_cast<efl::ui::Widget_Part*>(renderObject);
   
   if(part)
   {
@@ -35,7 +35,7 @@ void EdjeDefaultWidgetRenderer::render(void *renderObject, const std::string &va
         Integer *intObj = dynamic_cast<Integer*>(var);
         LOG4CXX_TRACE(mLogger, "TYPE_INTEGER: " << intObj->getData());
         //Edjexx::ExternalParam param (varName, intObj->getData());
-        //bool validParam = part->setParam (&param);        
+        //bool validParam = part->setParam (&param);
         break;
       }
       case Variable::TYPE_STRING:

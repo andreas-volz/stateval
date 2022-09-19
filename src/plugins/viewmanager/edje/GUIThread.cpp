@@ -127,10 +127,22 @@ Threading::Thread::EError GUIThread::start()
   return error;
 }
 
+static void
+on_efl_ui_win_event_delete_request(void *data, const Efl_Event *event)
+{
+    //void info = event->info;
+    //Eo *obj = event->object;
+    //Data *d = data;
+ 
+    /* event hander code */
+  cout << "on_efl_ui_win_event_delete_request" << endl;
+}
+
 void GUIThread::run()
 {
   // FIXME: use a better EFL C++ way for init handling
   elm_init(0, NULL);
+  //mApp  = efl::App::app_main_get();
 
   mWindow = new efl::ui::Win(instantiate);
   assert (mWindow);
@@ -162,8 +174,18 @@ void GUIThread::run()
 
   mWindow->fullscreen_set(mFullscreen);
 
+
+  // FIXME
+  //efl_event_callback_add((Eo*)mWindow, EFL_UI_WIN_EVENT_DELETE_REQUEST, on_efl_ui_win_event_delete_request, NULL);
+  
   // FIXME: the window delete handling just works with the new EFL API without this => need to find out why
   //mWindow->getEventSignal("delete,request")->connect(sigc::mem_fun(*this, &GUIThread::elm_quit));
+
+  // FIXME
+  /*mWindow->signal_callback_add("*", "*", [this] (auto&& signal, auto&&
+    emission, auto&& source) {
+    this->allFunc(signal, emission.c_str(), source.c_str()); 
+  });*/
 
   Job startupJob;
   startupJob.signalCall.connect(sigc::mem_fun(this, &GUIThread::startupDispatched));
